@@ -1,0 +1,209 @@
+.for-the-planet {
+    overflow: hidden;
+    background: var(--color-ivory);
+}
+
+.for-the-planet__hero {
+    position: relative;
+    min-height: calc(100svh - 72px);
+    overflow: hidden;
+    background: var(--color-ivory);
+}
+
+.for-the-planet__scene {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1920 / 970;
+    overflow: hidden;
+}
+
+.for-the-planet__foliage,
+.for-the-planet__mark img,
+.planet-arch img {
+    display: block;
+    user-select: none;
+}
+
+.for-the-planet__foliage {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.15;
+}
+
+.for-the-planet__foliage--left {
+    top: -3.2%;
+    left: -6.45%;
+    width: 25.95%;
+    transform: rotate(90deg);
+}
+
+.for-the-planet__foliage--right {
+    top: 7.42%;
+    left: 42.9%;
+    width: 65.32%;
+}
+
+.for-the-planet__mark {
+    position: absolute;
+    z-index: 3;
+    top: -1.03%;
+    left: 50%;
+    width: 10.94%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.for-the-planet__emblem {
+    width: 25.72%;
+    margin-inline: auto;
+    opacity: 0.7;
+}
+
+.for-the-planet__divider {
+    width: 100%;
+    margin-top: -1.5%;
+}
+
+.planet-arch {
+    position: absolute;
+    z-index: 2;
+    overflow: hidden;
+    border: 1px solid var(--color-black);
+    border-radius: 999px 999px var(--radius-md) var(--radius-md);
+    background: #cecece;
+}
+
+.planet-arch__background,
+.planet-arch__product {
+    position: absolute;
+    max-width: none;
+    pointer-events: none;
+}
+
+.planet-arch--left {
+    top: 27.11%;
+    left: 4.17%;
+    width: 22.34%;
+    height: 62.99%;
+}
+
+.planet-arch--left .planet-arch__background {
+    top: -26.2%;
+    left: -8.16%;
+    width: 276.23%;
+    height: 154.9%;
+    object-fit: cover;
+}
+
+.planet-arch--left .planet-arch__product {
+    top: 23.4%;
+    left: 17.72%;
+    width: 64.8%;
+    height: 60.56%;
+    object-fit: contain;
+}
+
+.planet-arch--center {
+    top: 13.81%;
+    left: 37.45%;
+    width: 25.05%;
+    height: 70.62%;
+    background: transparent;
+}
+
+.planet-arch--center .planet-arch__background {
+    top: -13%;
+    left: -77.96%;
+    width: 319.34%;
+    height: 113%;
+    object-fit: cover;
+}
+
+.planet-arch--center .planet-arch__product {
+    top: 47.74%;
+    left: 26.82%;
+    width: 46.36%;
+    height: 43.5%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 8px rgb(0 0 0 / 0.5));
+}
+
+.planet-arch--right {
+    top: 27.11%;
+    left: 73.44%;
+    width: 22.34%;
+    height: 62.99%;
+}
+
+.planet-arch--right .planet-arch__background {
+    top: -52.05%;
+    left: -319.58%;
+    width: 447.55%;
+    height: 176.76%;
+    object-fit: cover;
+}
+
+@media (min-width: 1180px) {
+    .for-the-planet__hero {
+        min-height: calc(100svh - 110px);
+    }
+}
+
+@media (min-width: 700px) and (max-width: 1179px) {
+    .for-the-planet__scene {
+        left: 50%;
+        width: 140%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 699px) {
+    .for-the-planet__hero {
+        min-height: max(640px, calc(100svh - 72px));
+    }
+
+    .for-the-planet__scene {
+        height: max(640px, calc(100svh - 72px));
+        aspect-ratio: auto;
+    }
+
+    .for-the-planet__foliage--left {
+        top: 22%;
+        left: -31%;
+        width: 76%;
+    }
+
+    .for-the-planet__foliage--right {
+        top: 19%;
+        left: 35%;
+        width: 96%;
+    }
+
+    .for-the-planet__mark {
+        top: 2%;
+        width: 32%;
+    }
+
+    .planet-arch--center {
+        top: 17%;
+        left: 25%;
+        width: 50%;
+        height: 53%;
+    }
+
+    .planet-arch--left,
+    .planet-arch--right {
+        top: 48%;
+        width: 43%;
+        height: 45%;
+    }
+
+    .planet-arch--left {
+        left: -7%;
+    }
+
+    .planet-arch--right {
+        left: 64%;
+    }
+}
