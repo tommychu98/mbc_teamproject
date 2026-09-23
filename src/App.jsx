@@ -11,6 +11,10 @@ import SeasonRecommendPage from './pages/shop/new-season/season-recommend';
 import LesRituelsDeSoinPage from './pages/shop/new-season/les-rituels-de-soin';
 import GiftPage from './pages/shop/gift';
 import GiftSetsPage from './pages/shop/gift/gift-sets';
+import FragrancesPage from './pages/shop/fragrances';
+import CandlesHomePage from './pages/shop/product-line/candles-home';
+import BathBodyPage from './pages/shop/product-line/bath-body';
+import HomeDecorPage from './pages/shop/product-line/home-decor';
 import ProductDetailPage from './pages/shop/product-detail';
 import SearchPage from './pages/shop/search';
 import CartPage from './pages/shop/cart';
@@ -74,6 +78,10 @@ export default function App() {
                     />
                     <Route path="/shop/gifts" element={<GiftPage />} />
                     <Route path="/shop/gifts/gift-sets" element={<GiftSetsPage />} />
+                    <Route path="/shop/fragrances" element={<FragrancesPage />} />
+                    <Route path="/shop/candles-home" element={<CandlesHomePage />} />
+                    <Route path="/shop/bath-body" element={<BathBodyPage />} />
+                    <Route path="/shop/home-decor" element={<HomeDecorPage />} />
                     <Route path="/shop/:lineSlug" element={<ShopPage />} />
                     <Route path="/shop/:lineSlug/:categorySlug" element={<ShopPage />} />
                     <Route path="/collections" element={<Navigate to="/shop" replace />} />

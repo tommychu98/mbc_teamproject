@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import ProductGrid from '../../components/shop/ProductLine/Fragrances/ProductGrid';
+import ProductGrid from '../shop/product-line/fragrances/ProductGrid';
 import { getProductById } from '../../services/productService';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useCartStore } from '../../store/useCartStore';

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
-import ProductGrid from '../../components/shop/ProductLine/Fragrances/ProductGrid';
+import ProductGrid from '../shop/product-line/fragrances/ProductGrid';
 import { getProducts } from '../../services/productService';
 import './HomePage.css';
 
