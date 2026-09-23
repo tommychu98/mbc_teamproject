@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
-import './AuthPage.css';
+import '../../components/auth/AuthPage.css';
 
 export default function LoginPage() {
   const [form, setForm] = useState({ username: '', password: '' });

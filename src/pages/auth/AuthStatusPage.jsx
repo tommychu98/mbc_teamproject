@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import '../content/StatusPage.css';
+import '../_system/StatusPage.css';
 
 export default function AuthStatusPage({ mode }) {
   const error = mode === 'error';

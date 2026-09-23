@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
-import './AuthPage.css';
+import '../../components/auth/AuthPage.css';
 
 export default function SignUpPage() {
   const [form, setForm] = useState({ username: '', password: '', name: '' });
