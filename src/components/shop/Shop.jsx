@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react';
-import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react';
-import ProductGrid from './ProductGrid';
-import { getProducts } from '../../../../services/productService';
-import './Fragrances.css';
+import ProductGrid from './product-line/fragrances/ProductGrid';
+import { getProducts } from '../../services/productService';
+import './Shop.css';
 
-const labels = { fragrances: 'Fragrances', 'candles-home': 'Candles & Home', 'bath-body': 'Bath & Body', 'home-decor': 'Home Décor', 'best-sellers': 'Best sellers', 'new-season': 'New / Season', gifts: 'Gifts', 'eaux-de-parfum': 'Eaux de parfum', 'eaux-de-toilette': 'Eaux de toilette', 'exclusive-perfumes': 'Exclusive perfumes', 'scented-candles': 'Scented candles', 'room-sprays': 'Room sprays', 'body-care': 'Body care', 'hand-care': 'Hand care' };
-const allowed = { fragrances: ['eaux-de-parfum', 'eaux-de-toilette', 'exclusive-perfumes'], 'candles-home': ['scented-candles', 'room-sprays', 'diffusers'], 'bath-body': ['body-care', 'hand-care', 'refillable-care'], 'home-decor': ['candle-holders-lids', 'stands', 'others'] };
+const labels = { 'best-sellers': 'Best sellers', 'new-season': 'New / Season', gifts: 'Gifts' };
 
 const CATEGORIES = [
   { value: 'fragrances', label: 'Fragrances' },
@@ -31,8 +30,10 @@ const FRAGRANCE_FILTERS = [
 
 const PAGE_SIZE = 16;
 
-function CatalogShopPage({ initialCategory = 'all' }) {
-  const [category, setCategory] = useState(initialCategory);
+function CatalogShopPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryParam = searchParams.get('category');
+  const category = CATEGORIES.some((item) => item.value === categoryParam) ? categoryParam : 'all';
   const [sort, setSort] = useState('recommended');
   const [fragranceFilter, setFragranceFilter] = useState('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -57,6 +58,13 @@ function CatalogShopPage({ initialCategory = 'all' }) {
 
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
   const visibleProducts = products.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  const setCategory = (value) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (value === 'all') nextParams.delete('category');
+    else nextParams.set('category', value);
+    setSearchParams(nextParams);
+  };
 
   const selectCategory = (value) => {
     const nextCategory = category === value ? 'all' : value;
@@ -187,22 +195,16 @@ function CatalogShopPage({ initialCategory = 'all' }) {
 }
 
 export default function ShopPage() {
-  const { lineSlug, categorySlug } = useParams();
   const location = useLocation();
   const isCatalogRoot = location.pathname === '/shop';
-  const isFragrancesCatalog = lineSlug === 'fragrances' && !categorySlug;
 
   if (isCatalogRoot) return <CatalogShopPage />;
-  if (isFragrancesCatalog) return <CatalogShopPage initialCategory="fragrances" />;
 
   const last = location.pathname.split('/').filter(Boolean).at(-1);
-  if (lineSlug && !allowed[lineSlug]) return <Navigate to="/shop" replace />;
-  if (categorySlug && !allowed[lineSlug]?.includes(categorySlug)) return <Navigate to="/shop" replace />;
-  const line = ['fragrances', 'candles-home', 'bath-body', 'home-decor'].includes(lineSlug) ? lineSlug : undefined;
-  let products = getProducts({ line, category: categorySlug });
+  let products = getProducts();
   if (last === 'best-sellers') products = getProducts().filter((item) => item.badge === 'Best-seller');
   if (last === 'new-season' || location.pathname.includes('season-recommend')) products = getProducts().filter((item) => item.badge === 'New');
   if (last === 'gifts' || last === 'gift-sets') products = getProducts().slice(0, 6);
-  const title = labels[categorySlug] || labels[lineSlug] || labels[last] || 'Shop';
-  return <main className="shop-page container section"><header className="shop-page__header"><p className="eyebrow">The collection</p><h1 className="page-title">{title}</h1><p>예술적 감성과 장인 정신으로 완성된 메종의 향을 탐색해 보세요.</p></header><nav className="shop-page__filters" aria-label="상품 분류"><Link to="/shop/fragrances">Fragrances</Link><Link to="/shop/candles-home">Candles & Home</Link><Link to="/shop/bath-body">Bath & Body</Link><Link to="/shop/home-decor">Home Décor</Link></nav><ProductGrid products={products} /></main>;
+  const title = labels[last] || 'Shop';
+  return <main className="shop-page container section"><header className="shop-page__header"><p className="eyebrow">The collection</p><h1 className="page-title">{title}</h1><p>예술적 감성과 장인 정신으로 완성된 메종의 향을 탐색해 보세요.</p></header><nav className="shop-page__filters" aria-label="상품 분류"><Link to="/shop?category=fragrances">Fragrances</Link><Link to="/shop?category=candles-home">Candles & Home</Link><Link to="/shop?category=bath-body">Bath & Body</Link><Link to="/shop?category=home-decor">Home Décor</Link></nav><ProductGrid products={products} /></main>;
 }

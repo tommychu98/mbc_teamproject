@@ -1,1 +1,1 @@
-export { default } from '../../components/shop/product-line/fragrances';
+export { default } from '../../components/shop/Shop';

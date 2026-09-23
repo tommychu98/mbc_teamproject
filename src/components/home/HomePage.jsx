@@ -36,7 +36,7 @@ export default function HomePage() {
                         보이지 않는 향이 공간과 기억을 바꾸는 순간. 메종의 아이코닉한 향을 새로운
                         시선으로 만나보세요.
                     </p>
-                    <Link className="button" to="/shop/fragrances">
+                    <Link className="button" to="/shop?category=fragrances">
                         Fragrances
                     </Link>
                 </div>
@@ -83,7 +83,7 @@ export default function HomePage() {
                     <p>
                         1963년부터 이어진 캔들 메이킹의 전문성과 시적인 향의 세계를 경험해 보세요.
                     </p>
-                    <Link className="button button--secondary" to="/shop/candles-home">
+                    <Link className="button button--secondary" to="/shop?category=candles-home">
                         Discover
                     </Link>
                 </div>

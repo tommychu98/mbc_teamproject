@@ -1,1 +1,1 @@
-export { default } from '../product-line/fragrances';
+export { default } from '../Shop';

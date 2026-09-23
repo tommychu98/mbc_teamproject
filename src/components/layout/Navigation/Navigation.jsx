@@ -10,19 +10,19 @@ const navItems = [
   {
     label: 'SHOP', to: '/shop', variant: 'shop', groups: [
       { label: 'Best seller', to: '/shop/best-sellers' },
-      { label: 'New / Season', to: '/shop/new-season', isNew: true, items: [
+      { label: 'New / Season', to: '/shop/new-season', items: [
         { label: 'Season recommend', to: '/shop/new-season/season-recommend' },
         { label: 'Les Rituels de Soin', to: '/shop/new-season/les-rituels-de-soin' },
       ] },
-      { label: 'GIFT', to: '/shop/gifts', isNew: true, items: [
+      { label: 'GIFT', to: '/shop/gifts', items: [
         { label: 'Gift Sets', to: '/shop/gifts/gift-sets' },
       ] },
-      { label: 'Product Line', to: '/shop', isNew: true, items: [
-        { label: 'Fragrances', to: '/shop/fragrances' },
-        { label: 'Exclusive', to: '/shop/fragrances/exclusive-perfumes' },
-        { label: 'Candles & Home', to: '/shop/candles-home' },
-        { label: 'Bath & Body', to: '/shop/bath-body' },
-        { label: 'Home Décor', to: '/shop/home-decor' },
+      { label: 'Product Line', to: '/shop', items: [
+        { label: 'Fragrances', to: '/shop?category=fragrances' },
+        { label: 'Exclusive', to: '/shop?category=exclusive' },
+        { label: 'Candles & Home', to: '/shop?category=candles-home' },
+        { label: 'Bath & Body', to: '/shop?category=bath-body' },
+        { label: 'Home Décor', to: '/shop?category=home-decor' },
       ] },
     ],
   },
@@ -61,18 +61,49 @@ const navItems = [
 ];
 
 const HEADER_HIDE_DELAY = 240;
+const DROPDOWN_CLOSE_DELAY = 140;
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [desktopOpenMenu, setDesktopOpenMenu] = useState(null);
   const lastScrollYRef = useRef(0);
   const animationFrameRef = useRef(null);
   const hideTimeoutRef = useRef(null);
+  const dropdownCloseTimeoutRef = useRef(null);
   const isHeaderHoveredRef = useRef(false);
   const { user, isAuthenticated, logout } = useAuthStore();
   const cartCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
   const navigate = useNavigate();
-  const closeMenu = () => setOpen(false);
+
+  const clearDropdownCloseTimeout = () => {
+    if (dropdownCloseTimeoutRef.current) {
+      window.clearTimeout(dropdownCloseTimeoutRef.current);
+      dropdownCloseTimeoutRef.current = null;
+    }
+  };
+
+  const openDesktopMenu = (label) => {
+    if (window.innerWidth < 1180) return;
+    clearDropdownCloseTimeout();
+    setDesktopOpenMenu(label);
+  };
+
+  const scheduleDesktopMenuClose = () => {
+    if (window.innerWidth < 1180) return;
+    clearDropdownCloseTimeout();
+    dropdownCloseTimeoutRef.current = window.setTimeout(() => {
+      setDesktopOpenMenu(null);
+      dropdownCloseTimeoutRef.current = null;
+    }, DROPDOWN_CLOSE_DELAY);
+  };
+
+  const closeMenu = () => {
+    clearDropdownCloseTimeout();
+    setOpen(false);
+    setDesktopOpenMenu(null);
+    window.requestAnimationFrame(() => document.activeElement?.blur());
+  };
   const handleLogout = () => { logout(); closeMenu(); navigate('/'); };
 
   const clearHideTimeout = () => {
@@ -125,6 +156,25 @@ export default function Header() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key !== 'Escape') return;
+      if (dropdownCloseTimeoutRef.current) {
+        window.clearTimeout(dropdownCloseTimeoutRef.current);
+        dropdownCloseTimeoutRef.current = null;
+      }
+      setOpen(false);
+      setDesktopOpenMenu(null);
+      document.activeElement?.blur();
+    };
+
+    window.addEventListener('keydown', handleEscape);
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+      if (dropdownCloseTimeoutRef.current) window.clearTimeout(dropdownCloseTimeoutRef.current);
+    };
+  }, []);
+
   const renderMenuItem = (item) => {
     if (item.authOnly && !isAuthenticated) return null;
     if (item.action === 'logout') return <button className="header__submenu-action" type="button" onClick={handleLogout}>{item.label}</button>;
@@ -147,11 +197,18 @@ export default function Header() {
       <button className="header__menu-button" type="button" aria-label={open ? '메뉴 닫기' : '메뉴 열기'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>{open ? <X /> : <Menu />}</button>
       <Link className="header__logo" to="/" aria-label="DIPTYQUE 홈" onClick={closeMenu}><img src="/images/common/diptyque-nav-logo.png" alt="DIPTYQUE PARIS" /></Link>
       <nav className={`header__nav ${open ? 'header__nav--open' : ''}`} aria-label="주 메뉴">
-        {navItems.map((item) => <div className={`header__nav-item header__nav-item--${item.variant || 'standard'}`} key={item.label}>
+        {navItems.map((item) => <div
+          className={`header__nav-item header__nav-item--${item.variant || 'standard'} ${desktopOpenMenu === item.label ? 'header__nav-item--open' : ''}`}
+          key={item.label}
+          onMouseEnter={() => openDesktopMenu(item.label)}
+          onMouseLeave={scheduleDesktopMenuClose}
+          onFocus={() => openDesktopMenu(item.label)}
+          onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) scheduleDesktopMenuClose(); }}
+        >
           <NavLink to={item.to} end={item.to === '/'} onClick={closeMenu}>{item.label}</NavLink>
           {item.groups && <div className={`header__submenu header__submenu--${item.variant || 'standard'}`}>
             {item.groups.map((group) => <section className="header__submenu-group" key={group.label}>
-              <Link className="header__submenu-title" to={group.to} onClick={closeMenu}>{group.label}{group.isNew && <span>NEW</span>}</Link>
+              <Link className="header__submenu-title" to={group.to} onClick={closeMenu}>{group.label}</Link>
               {group.items && <div className="header__submenu-links">{group.items.map((child) => <span key={child.label}>{renderMenuItem(child)}</span>)}</div>}
             </section>)}
           </div>}
