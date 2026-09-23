@@ -1,0 +1,7 @@
+.footer { padding: 64px 0 28px; background: var(--color-bg-secondary); color: var(--color-text-inverse); }
+.footer__inner { display: grid; width: min(100%, 1440px); margin: auto; padding-inline: var(--page-padding); gap: 38px; }
+.footer__brand { display: grid; gap: 8px; }
+.footer__brand strong { font-family: var(--font-family-display); font-size: 28px; }
+.footer__brand span, .footer__note { color: #bfbdb7; font-size: 11px; letter-spacing: .1em; }
+.footer__links { display: flex; flex-wrap: wrap; gap: 24px; font-size: 13px; }
+@media (min-width: 768px) { .footer__inner { grid-template-columns: 1fr auto; }.footer__note { grid-column: 1 / -1; } }

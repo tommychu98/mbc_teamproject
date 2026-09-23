@@ -1,0 +1,27 @@
+.board-page { padding-block: 72px 120px; }
+.board-page__head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 40px; }
+.board-page__head p:last-child { max-width: 560px; margin-top: 12px; color: var(--color-text-secondary); }
+.board-toolbar { display: grid; grid-template-columns: minmax(180px, 1fr) 180px 180px; gap: 10px; margin-bottom: 20px; }
+.board-list { border-top: 1px solid var(--color-border-strong); }
+.board-row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 130px 90px 110px; align-items: center; gap: 16px; padding: 20px 14px; border-bottom: 1px solid var(--color-border-default); }
+.board-row--head { color: var(--color-text-muted); font-size: 12px; font-weight: 700; }
+.board-row__title strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.board-row__title small { display: none; }
+.board-form { display: grid; max-width: 800px; gap: 22px; padding: 32px; background: var(--color-surface); }
+.board-form textarea { min-height: 280px; resize: vertical; }
+.board-detail { max-width: 900px; }
+.board-detail__meta { display: flex; flex-wrap: wrap; gap: 16px; margin-block: 20px 32px; color: var(--color-text-muted); font-size: 13px; }
+.board-detail__content { min-height: 300px; padding-block: 32px; border-block: 1px solid var(--color-border-default); white-space: pre-wrap; }
+.board-detail__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+@media (max-width: 760px) {
+  .board-page { padding-block: 48px 80px; }
+  .board-page__head { align-items: flex-start; flex-direction: column; }
+  .board-toolbar { grid-template-columns: 1fr; }
+  .board-row--head { display: none; }
+  .board-list { display: grid; gap: 12px; border: 0; }
+  .board-row { display: block; padding: 20px; border: 0; background: var(--color-surface); }
+  .board-row > span:not(:first-child) { display: none; }
+  .board-row__title { margin-top: 10px; }
+  .board-row__title small { display: block; margin-top: 8px; color: var(--color-text-muted); white-space: normal; }
+  .board-form { padding: 22px 16px; }
+}

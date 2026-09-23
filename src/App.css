@@ -1,0 +1,3 @@
+.app__main > main { animation: page-in 480ms var(--ease-standard) both; }
+@keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .app__main > main { animation: none; } }

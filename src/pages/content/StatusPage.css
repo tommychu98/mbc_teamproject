@@ -1,0 +1,2 @@
+.status-page { display: grid; min-height: 65vh; align-content: center; justify-items: start; gap: 20px; padding-block: 80px; }
+.status-page > p:not(.eyebrow) { color: var(--color-text-secondary); }

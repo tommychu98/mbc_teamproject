@@ -1,0 +1,10 @@
+.orders-page .page-title { margin: 12px 0 40px; }
+.orders-page__layout { display: grid; gap: 40px; }
+.orders-page__layout nav { display: grid; align-content: start; border-top: 1px solid var(--color-border-default); }
+.orders-page__layout nav a { padding: 16px 4px; border-bottom: 1px solid var(--color-border-default); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.orders-page__layout nav a.active { color: var(--color-scent-amber); }
+.orders-page__layout section { min-height: 280px; padding: 30px; background: var(--color-paper-ivory); }
+.orders-page__layout h2 { margin-bottom: 16px; font-family: var(--font-family-display); font-size: 36px; font-weight: 400; }
+.orders-page__layout section > p { max-width: 620px; color: var(--color-text-secondary); }
+.orders-page .field { max-width: 460px; margin-top: 30px; }
+@media (min-width: 768px) { .orders-page__layout { grid-template-columns: 260px 1fr; }.orders-page__layout section { padding: 48px; } }

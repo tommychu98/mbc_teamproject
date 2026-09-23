@@ -1,0 +1,17 @@
+.mypage__profile { display: grid; padding: 28px 0 42px; gap: 22px; border-bottom: 1px solid var(--color-border-default); }
+.mypage__profile > img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; }
+.mypage__profile h1 { font-family: var(--font-family-display); font-size: 42px; font-weight: 400; }
+.mypage__profile p:not(.eyebrow) { color: var(--color-text-secondary); font-size: 13px; }
+.mypage__profile-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.mypage__ia { display: grid; margin: 34px 0; gap: 12px; }
+.mypage__ia a { display: grid; padding: 24px; gap: 4px; background: var(--color-paper-ivory); }
+.mypage__ia strong { font-family: var(--font-family-display); font-size: 26px; }
+.mypage__ia span { color: var(--color-text-secondary); font-size: 12px; }
+.mypage__summary { display: grid; margin-bottom: 70px; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--color-border-default); border-left: 1px solid var(--color-border-default); }
+.mypage__summary a { display: grid; min-height: 110px; place-items: center; align-content: center; border-right: 1px solid var(--color-border-default); border-bottom: 1px solid var(--color-border-default); }
+.mypage__summary strong { font-family: var(--font-family-display); font-size: 30px; }
+.mypage__summary span { color: var(--color-text-secondary); font-size: 11px; }
+.mypage__products { padding: 42px 0; scroll-margin-top: 100px; }
+.mypage__section-head { display: flex; margin-bottom: 24px; align-items: center; justify-content: space-between; }
+.mypage__section-head h2 { font-family: var(--font-family-display); font-size: 36px; font-weight: 400; }
+@media (min-width: 768px) { .mypage__profile { grid-template-columns: auto 1fr auto; align-items: center; }.mypage__ia { grid-template-columns: repeat(2, 1fr); }.mypage__summary { grid-template-columns: repeat(5, 1fr); } }
