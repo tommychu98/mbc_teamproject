@@ -1,1 +1,55 @@
-/* FragrancesStory 전용 스타일 */
+/* The artboard scales as one composition; object geometry comes from Figma. */
+.fragrances-story {
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+}
+
+.fragrances-story__scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fragrances-story__layer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.fragrances-story__object { position: relative; flex: none; overflow: hidden; }
+.fragrances-story__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+}
+.fragrances-story__layer--main-book .fragrances-story__image,
+.fragrances-story__layer--smaller-pen .fragrances-story__image,
+.fragrances-story__layer--ink .fragrances-story__image,
+.fragrances-story__layer--lighter-ink .fragrances-story__image,
+.fragrances-story__layer--bowl .fragrances-story__image,
+.fragrances-story__layer--books-piled-up .fragrances-story__image { object-fit: fill; }
+
+/* Reuse App's Navigation, scoped to this mounted page only. */
+.app:has(.fragrances-story) .app__main { padding-top: 0; }
+.app:has(.fragrances-story) .header {
+  border-bottom: 0;
+  background: transparent;
+  color: var(--color-text-inverse);
+}
+.app:has(.fragrances-story) .header__logo img,
+.app:has(.fragrances-story) .header__utilities a > img:not(.header__profile-image) {
+  filter: brightness(0) invert(1);
+}
+
+@media (min-width: 1180px) {
+  .app:has(.fragrances-story) .header__nav-item > a { color: var(--color-text-inverse); }
+}
