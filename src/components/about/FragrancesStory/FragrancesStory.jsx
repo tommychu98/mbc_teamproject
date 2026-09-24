@@ -1,5 +1,6 @@
 import './style.css';
 import { heroLayers } from './heroLayers';
+import Con1 from './Con1';
 
 export default function FragrancesStory() {
   return (
@@ -18,6 +19,7 @@ export default function FragrancesStory() {
           </div>
         ))}
       </div>
+      <Con1 />
     </section>
   );
 }
