@@ -2,6 +2,7 @@ import './style.css';
 import { heroLayers } from './heroLayers';
 import Con1 from './Con1';
 import Con2 from './Con2';
+import Con3 from './Con3';
 
 export default function FragrancesStory() {
   return (
@@ -22,6 +23,7 @@ export default function FragrancesStory() {
       </div>
       <Con1 />
       <Con2 />
+      <Con3 />
     </section>
   );
 }
