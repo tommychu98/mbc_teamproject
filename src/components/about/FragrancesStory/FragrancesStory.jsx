@@ -6,6 +6,7 @@ import Con3 from './Con3';
 import Con4 from './Con4';
 import Con5 from './Con5';
 import Con6 from './Con6';
+import Con7 from './Con7';
 
 export default function FragrancesStory() {
   return (
@@ -30,6 +31,7 @@ export default function FragrancesStory() {
       <Con4 />
       <Con5 />
       <Con6 />
+      <Con7 />
     </section>
   );
 }
