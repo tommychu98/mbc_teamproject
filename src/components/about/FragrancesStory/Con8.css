@@ -1,0 +1,123 @@
+/* Figma Con8 2778:1728 — 1920 × 1080, clipsContent: false.
+   Instrument extends 344px upward over Con7 without changing its layout. */
+.fragrances-con8 {
+  position: relative;
+  container-type: inline-size;
+  background: var(--color-bg-primary);
+  color: var(--color-black);
+}
+
+.fragrances-con8__scene {
+  --con8-scale: calc(100cqw / 1920px);
+  position: relative;
+  aspect-ratio: 1920 / 1080;
+  isolation: isolate;
+}
+
+.fragrances-con8__scene img {
+  display: block;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fragrances-con8__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: rotate(180deg);
+}
+
+/* Figma heading (634, 224), 651 × 52; card row (230, 321). */
+.fragrances-con8__title {
+  position: absolute;
+  left: calc(634 / 1920 * 100%);
+  top: calc(224 / 1080 * 100%);
+  width: calc(651 / 1920 * 100%);
+  height: calc(52 / 1080 * 100%);
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-mobile-title-r2-size) * var(--con8-scale));
+  font-weight: var(--font-weight-medium);
+  line-height: normal;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.fragrances-con8__cards {
+  position: absolute;
+  top: calc(321 / 1080 * 100%);
+  left: calc(230 / 1920 * 100%);
+  width: calc(1460 / 1920 * 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(220px * var(--con8-scale));
+}
+
+.fragrances-con8__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fragrances-con8__card-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 340 / 360;
+  object-fit: cover;
+}
+
+.fragrances-con8__card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(14px * var(--con8-scale));
+  width: calc(207 / 340 * 100%);
+  text-align: center;
+}
+
+.fragrances-con8__card-heading {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-2) * 1.25 * var(--con8-scale));
+  width: 100%;
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-web-body-m1-do-size) * var(--con8-scale));
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.fragrances-con8__card-description {
+  width: 100%;
+  font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
+  font-size: calc(var(--text-web-body-l2-do-size) * var(--con8-scale));
+  font-weight: var(--font-weight-medium);
+  line-height: var(--text-web-body-l2-do-line-height);
+  letter-spacing: 0;
+}
+
+.fragrances-con8__card-description span {
+  display: block;
+}
+
+.fragrances-con8__instrument {
+  position: absolute;
+  left: calc(71.0006103515625 / 1920 * 100%);
+  top: calc(-344 / 1080 * 100%);
+  width: calc(693.6671752929688 / 1920 * 100%);
+  height: calc(471.08685302734375 / 1080 * 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.fragrances-con8__instrument-image {
+  flex: none;
+  width: calc(683.4737548828125 / 693.6671752929688 * 100%);
+  height: calc(455.649169921875 / 471.08685302734375 * 100%);
+  object-fit: cover;
+  transform: rotate(1.3041528224381587deg);
+}
