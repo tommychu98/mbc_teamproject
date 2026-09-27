@@ -1,0 +1,42 @@
+/* Figma Con12 2892:5486 — 1920 × 1080, clipsContent: true. */
+.fragrances-con12 {
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+.fragrances-con12__scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fragrances-con12__layer {
+  position: absolute;
+  pointer-events: none;
+}
+
+.fragrances-con12__object {
+  position: absolute;
+  overflow: hidden;
+  transform-origin: 0 0;
+}
+
+.fragrances-con12__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+}
+
+/* Inverse of Figma's CROP transform, preserving the right-hand slice. */
+.fragrances-con12__layer--books .fragrances-con12__image {
+  left: calc(-0.3645744025707245 / 0.6354256272315979 * 100%);
+  width: calc(100% / 0.6354256272315979);
+  object-fit: fill;
+}
