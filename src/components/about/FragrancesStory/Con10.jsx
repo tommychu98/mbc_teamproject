@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import useCon10Motion from './useCon10Motion';
 import background from './assets/background.png';
 import stationery from './assets/con10-stationery.png';
 import books from './assets/books-piled-up.png';
@@ -69,9 +71,11 @@ const layers = [
 ];
 
 export default function Con10() {
+  const sceneRef = useRef(null);
+  useCon10Motion(sceneRef);
   return (
     <section className="fragrances-con10" aria-label="Orphéon 이야기의 마지막 장">
-      <div className="fragrances-con10__scene" role="img" aria-label="나무 책상 위 Orphéon의 춤추는 연인과 향 이야기가 담긴 펼쳐진 책. 아이리스 꽃, 향수, 편지와 문구류가 책을 둘러싸고 있습니다.">
+      <div ref={sceneRef} className="fragrances-con10__scene" role="img" aria-label="나무 책상 위 Orphéon의 춤추는 연인과 향 이야기가 담긴 펼쳐진 책. 아이리스 꽃, 향수, 편지와 문구류가 책을 둘러싸고 있습니다.">
         {layers.map(({ name, src, x, y, width, height, imageWidth, imageHeight, transform }) => (
           <div
             key={name}
