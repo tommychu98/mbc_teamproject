@@ -139,7 +139,7 @@ export default function App() {
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </div>
-            {!isShopPage && <Footer />}
+            {!isShopPage && pathname !== '/about/fragrances-story' && <Footer />}
         </div>
     );
 }

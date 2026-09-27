@@ -1,0 +1,59 @@
+/* Figma 2934:10203 — 1920 × 1200. Scale with the existing story artboards.
+   Canvas x/y are intentionally excluded from document flow. */
+.fragrances-footer { container-type: inline-size; background: var(--color-bg-secondary); }
+.fragrances-footer__scene {
+  --footer-scale: calc(100cqw / 1920px);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1200;
+  overflow: hidden;
+  isolation: isolate;
+  color: #adadad;
+  font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
+  font-size: calc(14px * var(--footer-scale));
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  text-align: left;
+}
+.fragrances-footer__scene p, .fragrances-footer__scene ul { margin: 0; padding: 0; }
+.fragrances-footer__scene > img, .fragrances-footer__brand > img { position: absolute; display: block; max-width: none; pointer-events: none; }
+.fragrances-footer__wordmark {
+  position: absolute; left: calc(35px * var(--footer-scale)); top: calc(-105px * var(--footer-scale));
+  font-family: var(--font-family-display); font-size: calc(370px * var(--footer-scale)); font-weight: 400;
+  line-height: normal; letter-spacing: 0; white-space: pre; color: #faf7f0;
+}
+.fragrances-footer__logo-q { left: calc(1087px * var(--footer-scale)); top: 0; width: calc(393px * var(--footer-scale)); height: calc(393px * var(--footer-scale)); }
+.fragrances-footer__logo-d { left: calc(18px * var(--footer-scale)); top: calc(-8px * var(--footer-scale)); width: calc(325px * var(--footer-scale)); height: calc(325px * var(--footer-scale)); }
+.fragrances-footer__botanical-left { left: calc(-18.155517578125px * var(--footer-scale)); top: calc(363px * var(--footer-scale)); width: calc(403.014px * var(--footer-scale)); height: calc(584.666px * var(--footer-scale)); transform-origin: 0 0; transform: rotate(11.3279900778deg); }
+.fragrances-footer__botanical-right { left: calc(1719.61328125px * var(--footer-scale)); top: calc(751.0390625px * var(--footer-scale)); width: calc(266.97px * var(--footer-scale)); height: calc(422.702px * var(--footer-scale)); transform-origin: 0 0; transform: rotate(12.1669471308deg); }
+.fragrances-footer__contact, .fragrances-footer__menu {
+  position: absolute; left: calc(536px * var(--footer-scale)); display: flex; align-items: center; gap: calc(30px * var(--footer-scale));
+  color: #faf7f0; font-size: calc(16px * var(--footer-scale)); white-space: nowrap; list-style: none;
+}
+.fragrances-footer__contact { top: calc(551px * var(--footer-scale)); height: calc(29px * var(--footer-scale)); }
+.fragrances-footer__contact strong { font-family: 'Fragrances Con6 Dotum', var(--font-family-sans); font-size: calc(18px * var(--footer-scale)); font-weight: 700; }
+.fragrances-footer__menu { top: calc(600px * var(--footer-scale)); }
+.fragrances-footer__company, .fragrances-footer__privacy, .fragrances-footer__verification, .fragrances-footer__disclaimer, .fragrances-footer__copyright { position: absolute; }
+.fragrances-footer__company { left: calc(536px * var(--footer-scale)); top: calc(722px * var(--footer-scale)); width: calc(624px * var(--footer-scale)); color: #aeaeae; }
+.fragrances-footer__privacy { left: calc(536px * var(--footer-scale)); top: calc(780px * var(--footer-scale)); width: calc(507px * var(--footer-scale)); }
+.fragrances-footer__verification { left: calc(1129px * var(--footer-scale)); top: calc(722px * var(--footer-scale)); width: calc(498px * var(--footer-scale)); }
+.fragrances-footer__disclaimer { left: calc(1129px * var(--footer-scale)); top: calc(750px * var(--footer-scale)); width: calc(502px * var(--footer-scale)); word-break: normal; overflow-wrap: break-word; }
+.fragrances-footer__divider { left: calc(1058.5px * var(--footer-scale)); top: calc(726px * var(--footer-scale)); width: calc(98px * var(--footer-scale)); height: calc(1px * var(--footer-scale)); transform-origin: 0 0; transform: rotate(90deg); }
+.fragrances-footer__certification { position: absolute; left: calc(80px * var(--footer-scale)); top: calc(1111px * var(--footer-scale)); display: flex; align-items: center; gap: calc(13px * var(--footer-scale)); height: calc(44px * var(--footer-scale)); white-space: nowrap; }
+.fragrances-footer__isms { position: relative; width: calc(37px * var(--footer-scale)); height: calc(27px * var(--footer-scale)); color: #5d7786; }
+.fragrances-footer__isms img { position: absolute; left: calc(-1px * var(--footer-scale)); top: calc(-1px * var(--footer-scale)); width: calc(32px * var(--footer-scale)); height: calc(24px * var(--footer-scale)); max-width: none; }
+.fragrances-footer__isms span { position: absolute; left: calc(3px * var(--footer-scale)); top: calc(5px * var(--footer-scale)); }
+.fragrances-footer__certification-text { width: calc(261px * var(--footer-scale)); }
+.fragrances-footer__certification-text p { height: calc(22px * var(--footer-scale)); }
+.fragrances-footer__copyright { left: calc(1269px * var(--footer-scale)); top: calc(1133px * var(--footer-scale)); white-space: nowrap; }
+
+/* Figma text boxes use integer widths; retain them to prevent cumulative drift. */
+.fragrances-footer__contact > *, .fragrances-footer__menu > * { flex: none; height: calc(26px * var(--footer-scale)); }
+.fragrances-footer__contact strong { width: calc(144px * var(--footer-scale)); height: calc(29px * var(--footer-scale)); }
+.fragrances-footer__contact span { width: calc(57px * var(--footer-scale)); }
+.fragrances-footer__contact span:nth-child(3) { width: calc(128px * var(--footer-scale)); }
+.fragrances-footer__contact span:last-child { width: calc(32px * var(--footer-scale)); }
+.fragrances-footer__menu li { width: calc(57px * var(--footer-scale)); }
+.fragrances-footer__menu li:first-child { width: calc(55px * var(--footer-scale)); }
+.fragrances-footer__menu li:nth-child(4) { width: calc(114px * var(--footer-scale)); }
