@@ -1,0 +1,48 @@
+/* Figma Con13 2892:5515 — 1920 × 1080, clipsContent: true. */
+.fragrances-con13 {
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+.fragrances-con13__scene {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fragrances-con13__layer {
+  position: absolute;
+  pointer-events: none;
+}
+
+.fragrances-con13__object {
+  position: absolute;
+  overflow: hidden;
+  transform-origin: 0 0;
+}
+
+.fragrances-con13__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+}
+
+/* Inverse of Figma's CROP transform, preserving the right-hand slice. */
+.fragrances-con13__layer--books .fragrances-con13__image {
+  left: calc(-0.3645744025707245 / 0.6354256272315979 * 100%);
+  width: calc(100% / 0.6354256272315979);
+  object-fit: fill;
+}
+
+/* Figma iris uses a unit CROP transform, without cover cropping. */
+.fragrances-con13__layer--iris .fragrances-con13__image {
+  top: calc(-6.268766838957163e-9 * 100%);
+  object-fit: fill;
+}
