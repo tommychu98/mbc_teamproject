@@ -1,0 +1,275 @@
+.history-maison {
+  position: relative;
+  width: 100vw;
+  max-width: 1920px;
+  aspect-ratio: 1920 / 8637;
+  margin-inline: auto;
+  overflow: hidden;
+  color: #222;
+}
+
+.history-maison__main,
+.history-maison__outro {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.history-maison__main {
+  top: 0;
+  height: 64.281579%;
+  background: #fff;
+}
+
+.history-maison__outro {
+  top: 64.281579%;
+  height: 35.718421%;
+}
+
+.history-maison__image,
+.history-maison__hero,
+.history-maison__story,
+.history-maison__story-03-foreground {
+  position: absolute;
+}
+
+.history-maison__image img {
+  display: block;
+  pointer-events: none;
+}
+
+.history-maison__cover img,
+.history-maison__image.history-maison__cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.history-maison__hero {
+  top: 17.182997%;
+  left: 19.635417%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: min(20.833333vw, 400px);
+}
+
+.history-maison__hero h2 {
+  width: 100%;
+  font-family: var(--font-family-display);
+  font-size: min(8.333333vw, var(--text-web-title-m1-size));
+  font-weight: var(--text-web-title-m1-weight);
+  line-height: var(--text-web-title-m1-line-height);
+  letter-spacing: var(--text-web-title-m1-letter-spacing);
+}
+
+.history-maison__hero p {
+  width: 100%;
+  font-family: var(--font-family-display);
+  font-size: min(3.333333vw, var(--text-sub-title-r1-size));
+  font-weight: var(--text-sub-title-r1-weight);
+  line-height: var(--text-sub-title-r1-line-height);
+  letter-spacing: var(--text-sub-title-r1-letter-spacing);
+  white-space: nowrap;
+}
+
+.history-maison__story {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: min(1.041667vw, 20px);
+  width: 20.052083%;
+  word-break: break-word;
+}
+
+.history-maison__story--one {
+  top: 47.87464%;
+  left: 46.71875%;
+}
+
+.history-maison__story--two {
+  top: 84.600144%;
+  left: 19.84375%;
+  color: #000;
+}
+
+.history-maison__story--three {
+  top: 50.016207%;
+  left: 73.28125%;
+  color: #000;
+}
+
+.history-maison__story h3 {
+  width: 100%;
+  font-family: var(--font-family-display);
+  font-size: min(3.333333vw, var(--text-sub-title-r1-size));
+  font-weight: var(--text-sub-title-r1-weight);
+  line-height: var(--text-sub-title-r1-line-height);
+  letter-spacing: var(--text-sub-title-r1-letter-spacing);
+}
+
+.history-maison__story--three h3 {
+  width: 104.675325%;
+}
+
+.history-maison__story-body {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: min(2.083333vw, 40px);
+  font-family: var(--font-family-sans);
+  font-size: min(.833333vw, var(--text-web-body-l2-do-size));
+  font-weight: var(--text-web-body-l2-do-weight);
+  line-height: var(--text-web-body-l2-do-line-height);
+  letter-spacing: var(--text-web-body-l2-do-letter-spacing);
+}
+
+.history-maison__story-body p {
+  width: 100%;
+}
+
+.history-maison__floating-01,
+.history-maison__floating-02,
+.history-maison__floating-03,
+.history-maison__floating-07,
+.history-maison__floating-09,
+.history-maison__floating-10,
+.history-maison__story-02-visual-01 {
+  overflow: hidden;
+}
+
+.history-maison__floating-01 { top: 6.231988%; left: 83.333333%; width: 23.072917%; height: 7.961095%; }
+.history-maison__floating-02 { top: 38.09438%; left: 37.34375%; width: 11.822917%; height: 4.070605%; }
+.history-maison__floating-03 { top: 4.971182%; left: 6.09375%; width: 13.541667%; height: 4.502882%; }
+.history-maison__floating-07 { top: 25.666427%; left: 79.739583%; width: 18.385417%; height: 8.969741%; }
+.history-maison__floating-09 { top: 36.113112%; left: -11.770833%; width: 29.739583%; height: 9.852305%; }
+.history-maison__floating-10 { top: 48.919308%; left: 79.739583%; width: 14.0625%; height: 6.394092%; }
+
+.history-maison__floating-01 img,
+.history-maison__floating-02 img {
+  position: absolute;
+  top: -535.14%;
+  left: -246.94%;
+  width: 918.51%;
+  height: 1075.16%;
+  max-width: none;
+}
+
+.history-maison__floating-03 img,
+.history-maison__floating-04-inner img {
+  position: absolute;
+  top: -596.77%;
+  left: -334.08%;
+  width: 900.94%;
+  height: 1092.48%;
+  max-width: none;
+}
+
+.history-maison__nested {
+  display: grid;
+  place-items: center;
+}
+
+.history-maison__nested > div {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+}
+
+.history-maison__floating-04 { top: 60.392651%; left: 46.614583%; width: 16.48599%; height: 5.574712%; }
+.history-maison__floating-04-inner { width: 82.140204%; height: 80.77309%; transform: rotate(15.23deg); }
+
+.history-maison__floating-05 { top: 19.392291%; left: -2.164063%; width: 16.567656%; height: 7.23469%; }
+.history-maison__floating-05-inner { width: 73.876372%; height: 87.881096%; transform: rotate(-14.95deg); }
+.history-maison__floating-05-inner img {
+  position: absolute;
+  top: -199.56%;
+  left: -534.16%;
+  width: 1219.15%;
+  height: 947.03%;
+  max-width: none;
+}
+
+.history-maison__floating-06 { top: .957673%; left: 58.122917%; width: 17.347552%; height: 7.414643%; }
+.history-maison__floating-06-inner { width: 86.167304%; height: 91.822823%; transform: rotate(7.36deg); }
+.history-maison__floating-06-inner img,
+.history-maison__floating-10 img {
+  position: absolute;
+  top: -621.43%;
+  left: -439.02%;
+  width: 998.26%;
+  height: 884.39%;
+  max-width: none;
+}
+
+.history-maison__floating-07 img {
+  position: absolute;
+  top: -370.5%;
+  left: -406.59%;
+  width: 1069.03%;
+  height: 884.39%;
+  max-width: none;
+}
+
+.history-maison__floating-08 { top: 8.60951%; left: 33.072917%; width: 20.3125%; height: 5.223343%; }
+.history-maison__floating-08-inner { width: 100%; height: 100%; transform: scaleY(-1); }
+.history-maison__floating-08-inner img {
+  position: absolute;
+  top: -513.24%;
+  left: -369.56%;
+  width: 734.62%;
+  height: 1152.76%;
+  max-width: none;
+  transform: scaleY(-1);
+}
+
+.history-maison__story-02-visual-01 { top: 52.12536%; left: 14.635417%; width: 13.177083%; height: 4.12464%; }
+.history-maison__story-02-visual-01 img {
+  position: absolute;
+  top: -413.81%;
+  left: -446.49%;
+  width: 784.93%;
+  height: 1013.03%;
+  max-width: none;
+}
+
+.history-maison__story-02-visual-02 { top: 59.492075%; left: -13.854167%; width: 80.625%; height: 9.293948%; }
+.history-maison__story-02-visual-03 { top: 50.450288%; left: 64.84375%; width: 29.791667%; height: 7.726945%; }
+.history-maison__story-02-visual-03-inner { width: 100%; height: 100%; transform: rotate(180deg) scaleY(-1); }
+.history-maison__story-02-visual-04 { top: 56.7183%; left: 67.03125%; width: 35.109167%; height: 14.832511%; }
+.history-maison__story-02-visual-04-inner { width: 93.918076%; height: 96.06424%; transform: rotate(176.96deg) scaleY(-1); }
+.history-maison__story-02-visual-05 { top: 62.481988%; left: 63.125%; width: 60.9375%; height: 15.79611%; }
+.history-maison__story-02-visual-06 { top: 83.285303%; left: 55.052083%; width: 39.010417%; height: 12.319885%; }
+.history-maison__story-02-visual-06-inner { width: 100%; height: 100%; transform: rotate(180deg) scaleY(-1); }
+.history-maison__story-02-visual-07 { top: 70.893372%; left: -40.15625%; width: 103.28125%; height: 14.283141%; }
+.history-maison__story-02-visual-08 { top: 68.551873%; left: 10.208333%; width: 29.6875%; height: 12.824207%; }
+
+.history-maison__story-03-background {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 102.171799%;
+  overflow: hidden;
+}
+
+.history-maison__story-03-background img {
+  position: absolute;
+  top: 0;
+  left: -.02%;
+  width: 100.01%;
+  height: 108.25%;
+  max-width: none;
+}
+
+.history-maison__story-03-foreground { top: 79.513776%; left: 38.802083%; width: 22.395833%; height: 20.940032%; }
+.history-maison__story-03-feature { top: 57.795786%; left: 30.15625%; width: 53.125%; height: 33.063209%; }
+.history-maison__story-03-accent-02 { top: 69.821718%; left: 55.9375%; width: 1.614583%; height: 1.004862%; }
+.history-maison__story-03-visual-01 { top: 21.685575%; left: 6.145833%; width: 19.895833%; height: 8.265802%; }
+.history-maison__story-03-visual-02 { top: 24.505673%; left: -8.541667%; width: 62.447917%; height: 38.865478%; }
+.history-maison__story-03-visual-02-inner { width: 100%; height: 100%; transform: rotate(180deg) scaleY(-1); }
+.history-maison__story-03-visual-03 { top: 21.685575%; left: 62.5%; width: 57.34375%; height: 26.774716%; }
+.history-maison__story-03-visual-03-inner { width: 100%; height: 100%; transform: rotate(180deg) scaleY(-1); }
+.history-maison__story-03-visual-04 { top: 13.646677%; left: 16.09375%; width: 40.260417%; height: 18.800648%; }
+.history-maison__story-03-accent-01 { top: 68.298217%; left: 55.104167%; width: 3.28125%; height: 2.042139%; }

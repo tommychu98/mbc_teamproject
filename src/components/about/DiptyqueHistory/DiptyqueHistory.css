@@ -1,0 +1,41 @@
+.diptyque-history {
+  --history-background: #faf7f0;
+
+  width: 100%;
+  overflow-x: clip;
+  background: var(--history-background);
+}
+
+.app__main > .diptyque-history {
+  animation: none;
+}
+
+.app--history {
+  overflow-x: clip;
+}
+
+.app--history .header__inner {
+  box-sizing: border-box;
+}
+
+.diptyque-history__opening {
+  display: grid;
+  box-sizing: border-box;
+  width: 100vw;
+  min-height: 100vh;
+  padding-inline: clamp(20px, 4vw, 77px);
+  place-items: center;
+  background: var(--history-background);
+}
+
+.diptyque-history__title {
+  max-width: 100%;
+  color: var(--color-ink-black);
+  font-family: var(--font-family-display);
+  font-size: clamp(2rem, 3.333333vw, var(--text-sub-title-r1-size));
+  font-weight: var(--font-weight-regular);
+  line-height: var(--text-sub-title-r1-line-height);
+  letter-spacing: var(--text-sub-title-r1-letter-spacing);
+  text-align: center;
+  text-wrap: balance;
+}

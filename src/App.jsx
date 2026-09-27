@@ -53,9 +53,10 @@ const protectedPage = (element) => <ProtectedRoute>{element}</ProtectedRoute>;
 export default function App() {
     const { pathname } = useLocation();
     const isShopPage = pathname === '/shop';
+    const isHistoryPage = pathname === '/history' || pathname === '/about/history';
 
     return (
-        <div className="app">
+        <div className={`app${isHistoryPage ? ' app--history' : ''}`}>
             <ScrollToTop />
             <Header />
             <div className="app__main">
@@ -93,6 +94,7 @@ export default function App() {
                     />
                     <Route path="/auth/error" element={<AuthStatusPage mode="error" />} />
                     <Route path="/about/history" element={<HistoryPage />} />
+                    <Route path="/history" element={<HistoryPage />} />
                     <Route path="/about/fragrances-story" element={<FragrancesStoryPage />} />
                     <Route path="/about/for-the-planet" element={<ForThePlanetPage />} />
                     <Route path="/galerie" element={<GaleriePage />} />
