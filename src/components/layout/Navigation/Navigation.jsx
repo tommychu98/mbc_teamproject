@@ -17,7 +17,7 @@ const navItems = [
       { label: 'GIFT', to: '/shop/gifts', items: [
         { label: 'Gift Sets', to: '/shop/gifts/gift-sets' },
       ] },
-      { label: 'Product Line', to: '/shop', items: [
+      { label: 'Product Line', to: '/shop/product-line', items: [
         { label: 'Fragrances', to: '/shop?category=fragrances' },
         { label: 'Exclusive', to: '/shop?category=exclusive' },
         { label: 'Candles & Home', to: '/shop?category=candles-home' },
