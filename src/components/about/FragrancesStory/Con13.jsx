@@ -77,7 +77,7 @@ export default function Con13() {
       const selectLayer = (name) => root.querySelector(`.fragrances-con13__layer--${name}`);
       const bookData = layers.find(({ name }) => name === 'main-book');
       const book = selectLayer(bookData.name);
-      const flowerData = ['iris', 'white-flower'].map((name) => layers.find((layer) => layer.name === name));
+      const flowerData = ['iris'].map((name) => layers.find((layer) => layer.name === name));
       const flowers = flowerData.map(({ name }) => selectLayer(name));
 
       // Animate outer wrappers only; the original inner matrices/crops stay intact.
@@ -107,7 +107,8 @@ export default function Con13() {
           duration: 1.4, stagger: 0.15, ease: 'power2.out',
         }, '+=0.4')
         // Leave the ending scene at its original CSS pose, with no exit or depth.
-        .set(flowers, { clearProps: 'transform,opacity' }, '+=0.5');
+        // Preserve the original ending time after excluding the static white flower.
+        .set(flowers, { clearProps: 'transform,opacity' }, 3.45);
     });
 
     // Restore the static scene on reduced-motion changes and clean up only Con13.
