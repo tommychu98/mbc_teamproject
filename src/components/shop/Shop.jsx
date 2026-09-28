@@ -33,7 +33,7 @@ const PAGE_SIZE = 16;
 function CatalogShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get('category');
-  const category = CATEGORIES.some((item) => item.value === categoryParam) ? categoryParam : 'all';
+  const category = CATEGORIES.some((item) => item.value === categoryParam) ? categoryParam : 'fragrances';
   const [sort, setSort] = useState('recommended');
   const [fragranceFilter, setFragranceFilter] = useState('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -41,7 +41,7 @@ function CatalogShopPage() {
 
   const products = useMemo(() => {
     const filtered = getProducts().filter((product) => {
-      const matchesCategory = category === 'all' || product.catalogCategory === category;
+      const matchesCategory = product.catalogCategory === category;
       const matchesFragranceType = product.catalogCategory !== 'fragrances'
         || fragranceFilter === 'all'
         || product.category === fragranceFilter;
@@ -61,15 +61,13 @@ function CatalogShopPage() {
 
   const setCategory = (value) => {
     const nextParams = new URLSearchParams(searchParams);
-    if (value === 'all') nextParams.delete('category');
-    else nextParams.set('category', value);
+    nextParams.set('category', value);
     setSearchParams(nextParams);
   };
 
   const selectCategory = (value) => {
-    const nextCategory = category === value ? 'all' : value;
-    setCategory(nextCategory);
-    if (nextCategory !== 'fragrances') setFragranceFilter('all');
+    setCategory(value);
+    if (value !== 'fragrances') setFragranceFilter('all');
     setIsFilterOpen(false);
     setPage(1);
   };

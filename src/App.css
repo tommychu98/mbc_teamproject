@@ -1,3 +1,13 @@
 .app__main > main { animation: page-in 480ms var(--ease-standard) both; }
 @keyframes page-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .app__main > main { animation: none; } }
+
+.page-transition-overlay {
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: #f7f6f4;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+}
