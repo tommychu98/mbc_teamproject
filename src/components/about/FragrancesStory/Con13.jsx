@@ -1,3 +1,6 @@
+import { useLayoutEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import background from './assets/background.png';
 import stationery from './assets/con10-stationery.png';
 import books from './assets/books-piled-up.png';
@@ -7,6 +10,8 @@ import perfumeDrawing from './assets/con10-perfume-drawing.png';
 import mainBook from './assets/con13-main-book.png';
 import iris from './assets/flower-iris.png';
 import './Con13.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Figma 2892:5515: exact layer geometry and back-to-front order.
 // Figma image adjustments are baked into the local PNGs.
@@ -62,8 +67,55 @@ const layers = [
 ];
 
 export default function Con13() {
+  const rootRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const media = gsap.matchMedia(root);
+
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const selectLayer = (name) => root.querySelector(`.fragrances-con13__layer--${name}`);
+      const bookData = layers.find(({ name }) => name === 'main-book');
+      const book = selectLayer(bookData.name);
+      const flowerData = ['iris', 'white-flower'].map((name) => layers.find((layer) => layer.name === name));
+      const flowers = flowerData.map(({ name }) => selectLayer(name));
+
+      // Animate outer wrappers only; the original inner matrices/crops stay intact.
+      // Percentage offsets scale with the existing Figma layer dimensions.
+      gsap.timeline({
+        scrollTrigger: {
+          id: 'fragrances-con13-ending',
+          trigger: root,
+          start: 'center 85%',
+          end: 'bottom top',
+          toggleActions: 'play complete none none',
+          once: true,
+        },
+      })
+        // Keep the book visible so it reads as a continuation of Con12.
+        .fromTo(book,
+          { opacity: 0.85, yPercent: 4 / bookData.height * 100 },
+          { opacity: 1, yPercent: 0, duration: 1, ease: 'power3.out' })
+        .set(book, { clearProps: 'transform,opacity' })
+        .fromTo(flowers, {
+          opacity: 0,
+          yPercent: (index) => -60 / flowerData[index].height * 100,
+          xPercent: (index) => (index === 0 ? -3 : 4) / flowerData[index].width * 100,
+          rotation: (index) => index === 0 ? -1.5 : 1,
+        }, {
+          opacity: 1, yPercent: 0, xPercent: 0, rotation: 0,
+          duration: 1.4, stagger: 0.15, ease: 'power2.out',
+        }, '+=0.4')
+        // Leave the ending scene at its original CSS pose, with no exit or depth.
+        .set(flowers, { clearProps: 'transform,opacity' }, '+=0.5');
+    });
+
+    // Restore the static scene on reduced-motion changes and clean up only Con13.
+    return () => media.revert();
+  }, []);
+
   return (
-    <section className="fragrances-con13" aria-label="Scent Stories — Diptyque Paris">
+    <section ref={rootRef} className="fragrances-con13" aria-label="Scent Stories — Diptyque Paris">
       <div className="fragrances-con13__scene">
         {layers.map(({ name, src, x, y, width, height, imageWidth, imageHeight, transform }, order) => (
           <div
