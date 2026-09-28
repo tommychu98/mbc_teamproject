@@ -14,7 +14,6 @@ const orderSteps = [
 const menuGroups = [
   { title: 'Profile', label: '회원 정보', links: [
     { label: 'Information', to: '/mypage/profile' },
-    { label: 'LOG OUT', action: 'logout' },
   ] },
   { title: 'My Orders', label: '주문 정보', links: [
     { label: '주문·배송', to: '/mypage/orders/history' },
@@ -97,24 +96,23 @@ export default function MyPage() {
           </section>
         </div>
 
-        <aside className="mypage__menu" aria-label="마이페이지 전체 메뉴">
-          {menuGroups.map((group) => (
-            <section className="mypage__menu-group" key={group.title}>
-              <h2>{group.title}<span>{group.label}</span></h2>
-              <ul>
-                {group.links.map(({ label, to, action }) => <li key={label}>
-                  {action === 'logout'
-                    ? <button className="mypage__menu-action" type="button" onClick={handleLogout}>{label}</button>
-                    : to ? <Link to={to}>{label}</Link> : <span className="mypage__menu-placeholder" aria-disabled="true">{label}</span>}
-                </li>)}
-              </ul>
-            </section>
-          ))}
-        </aside>
-      </div>
-
-      <div className="mypage__session">
-        <button className="mypage__text-link" type="button" onClick={handleLogout}>로그아웃</button>
+        <div className="mypage__account">
+          <aside className="mypage__menu" aria-label="마이페이지 전체 메뉴">
+            {menuGroups.map((group) => (
+              <section className="mypage__menu-group" key={group.title}>
+                <h2>{group.title}<span>{group.label}</span></h2>
+                <ul>
+                  {group.links.map(({ label, to }) => <li key={label}>
+                    {to ? <Link to={to}>{label}</Link> : <span className="mypage__menu-placeholder" aria-disabled="true">{label}</span>}
+                  </li>)}
+                </ul>
+              </section>
+            ))}
+          </aside>
+          <div className="mypage__session">
+            <button className="mypage__text-link" type="button" onClick={handleLogout}>로그아웃</button>
+          </div>
+        </div>
       </div>
     </main>
   );
