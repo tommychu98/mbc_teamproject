@@ -16,15 +16,15 @@ const menuGroups = [
     { label: 'Information', to: '/mypage/profile' },
   ] },
   { title: 'My Orders', label: '주문 정보', links: [
-    { label: '주문·배송', to: '/mypage/orders/history' },
-    { label: '취소·반품·교환', to: '/mypage/orders/track' },
-    { label: '환불·입금', to: '/mypage/orders/returns-refunds' },
     { label: '결제수단', to: '/mypage/orders/payment-methods' },
+    { label: '주문 내역', to: '/mypage/orders/history' },
+    { label: '취소·반품·교환', to: '/mypage/orders/returns-refunds' },
+    { label: '배송 조회', to: '/mypage/orders/track' },
   ] },
   { title: 'Community', label: '나의 활동', links: [
     { label: '1:1 문의', to: '/inquiries' },
     { label: 'FAQ', to: '/contact/faq' },
-    { label: '상품문의' },
+    { label: '상품문의', to: '/inquiries' },
   ] },
 ];
 
