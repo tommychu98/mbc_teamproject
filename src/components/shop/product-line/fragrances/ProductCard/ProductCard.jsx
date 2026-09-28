@@ -19,6 +19,7 @@ export default function ProductCard({ product, onRemove, variant = 'default' }) 
   const location = useLocation();
   const liked = ids.includes(product.id);
   const isCatalog = variant === 'catalog';
+  const productHref = `/products/${product.id}`;
   const hasHoverImage = Boolean(
     !hoverImageFailed
     && product.hoverImage
@@ -39,7 +40,7 @@ export default function ProductCard({ product, onRemove, variant = 'default' }) 
   return (
     <article className={`product-card ${isCatalog ? 'product-card--catalog' : ''} ${hasHoverImage ? 'product-card--has-hover' : ''}`}>
       <div className="product-card__media">
-        <Link className="product-card__image-link" to={`/products/${product.id}`}>
+        <Link className="product-card__image-link" to={productHref}>
           <img
             className="product-card__image product-card__image--primary"
             src={product.image}
@@ -64,7 +65,7 @@ export default function ProductCard({ product, onRemove, variant = 'default' }) 
         {onRemove && <button className="product-card__remove" type="button" onClick={() => onRemove(product.id)}>기록 삭제</button>}
       </div>
       <div className="product-card__body">
-        <Link to={`/products/${product.id}`}><h3>{product.name}</h3>{!isCatalog && <p>{product.subtitle}</p>}<span className="product-card__price">{formatPrice(product.price, product.currency)}</span></Link>
+        <Link to={productHref}><h3>{product.name}</h3>{!isCatalog && <p>{product.subtitle}</p>}<span className="product-card__price">{formatPrice(product.price, product.currency)}</span></Link>
         {!isCatalog && <button type="button" aria-label={`${product.name} 장바구니 담기`} onClick={() => addItem(product)}><ShoppingBag /></button>}
       </div>
     </article>

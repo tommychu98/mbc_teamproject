@@ -11,6 +11,7 @@ import SeasonRecommendPage from './pages/shop/new-season/season-recommend';
 import LesRituelsDeSoinPage from './pages/shop/new-season/les-rituels-de-soin';
 import GiftPage from './pages/shop/gift';
 import GiftSetsPage from './pages/shop/gift/gift-sets';
+import ProductLinePage from './pages/shop/product-line';
 import ProductDetailPage from './pages/shop/product-detail';
 import SearchPage from './pages/shop/search';
 import CartPage from './pages/shop/cart';
@@ -51,9 +52,6 @@ function ScrollToTop() {
 const protectedPage = (element) => <ProtectedRoute>{element}</ProtectedRoute>;
 
 export default function App() {
-    const { pathname } = useLocation();
-    const isShopPage = pathname === '/shop';
-
     return (
         <div className="app">
             <ScrollToTop />
@@ -74,6 +72,7 @@ export default function App() {
                     />
                     <Route path="/shop/gifts" element={<GiftPage />} />
                     <Route path="/shop/gifts/gift-sets" element={<GiftSetsPage />} />
+                    <Route path="/shop/product-line" element={<ProductLinePage />} />
                     <Route path="/shop/fragrances" element={<Navigate to="/shop?category=fragrances" replace />} />
                     <Route path="/shop/fragrances/exclusive-perfumes" element={<Navigate to="/shop?category=exclusive" replace />} />
                     <Route path="/shop/candles-home" element={<Navigate to="/shop?category=candles-home" replace />} />
@@ -139,7 +138,8 @@ export default function App() {
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </div>
-            {!isShopPage && <Footer />}
+            <Footer />
+            <div className="page-transition-overlay" aria-hidden="true" />
         </div>
     );
 }
