@@ -17,7 +17,6 @@ import GalerieEauRose from './GalerieEauRose';
 import GalerieEauDesSens from './GalerieEauDesSens';
 import GaleriePhilosykos from './GaleriePhilosykos';
 import GalerieAnother from './GalerieAnother';
-import GalerieFooter from './GalerieFooter';
 import './GalerieContent.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -181,7 +180,6 @@ export default function GalerieContent() {
             </section>
             <GaleriePhilosykos />
             <GalerieAnother />
-            <GalerieFooter />
         </main>
     );
 }

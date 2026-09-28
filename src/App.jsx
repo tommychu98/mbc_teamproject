@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Header from './components/layout/Navigation';
-import Footer from './components/layout/Footer';
+import GalerieFooter from './components/galerie/GalerieFooter';
 import HomePage from './pages/home';
 import ShopPage from './pages/shop';
 import BestSellerPage from './pages/shop/best-seller';
@@ -142,7 +142,7 @@ export default function App() {
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </div>
-            <Footer />
+            <GalerieFooter />
             <div className="page-transition-overlay" aria-hidden="true" />
         </div>
     );
