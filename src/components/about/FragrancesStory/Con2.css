@@ -1,0 +1,108 @@
+/* Figma 2778:1770, 1920 × 1080. Scale with Con1 to preserve the seam. */
+.fragrances-con2 {
+  container-type: inline-size;
+  overflow-x: clip;
+  overflow-y: visible;
+  /* The rotated PNG's top edge is translucent; prevent the dark page showing through. */
+  background: var(--color-bg-primary);
+  color: var(--color-black);
+}
+.fragrances-con2__scene {
+  --con2-scale: calc(100cqw / 1920px);
+  position: relative;
+  aspect-ratio: 1920 / 1080;
+  isolation: isolate;
+}
+.fragrances-con2__content { position: absolute; inset: 0; overflow: hidden; }
+.fragrances-con2__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: rotate(180deg);
+}
+.fragrances-con2__scene img { display: block; max-width: none; pointer-events: none; user-select: none; }
+.fragrances-con2__title {
+  position: absolute;
+  left: 50%;
+  top: calc(228 / 1080 * 100%);
+  width: calc(582 / 1920 * 100%);
+  height: calc(52 / 1080 * 100%);
+  transform: translateX(-50%);
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-mobile-title-r2-size) * var(--con2-scale));
+  font-weight: var(--font-weight-medium);
+  line-height: normal;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.fragrances-con2__cards {
+  position: absolute;
+  top: calc(325 / 1080 * 100%);
+  left: calc(230 / 1920 * 100%);
+  width: calc(1460 / 1920 * 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(220px * var(--con2-scale));
+}
+.fragrances-con2__card { display: flex; flex-direction: column; align-items: center; }
+.fragrances-con2__card-artwork { position: relative; width: 100%; aspect-ratio: 340 / 360; overflow: hidden; }
+.fragrances-con2__card-image { position: absolute; top: 0; width: 300.49%; height: 100%; }
+.fragrances-con2__card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(14px * var(--con2-scale));
+  width: calc(207 / 340 * 100%);
+  text-align: center;
+}
+.fragrances-con2__card-heading {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-2) * 1.25 * var(--con2-scale));
+  width: 100%;
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-web-body-m1-do-size) * var(--con2-scale));
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  letter-spacing: 0;
+}
+.fragrances-con2__card--encounter .fragrances-con2__card-title { font-weight: var(--font-weight-semibold); }
+.fragrances-con2__card-description {
+  width: 100%;
+  font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
+  font-size: calc(var(--text-web-body-l2-do-size) * var(--con2-scale));
+  font-weight: var(--font-weight-medium);
+  line-height: var(--text-web-body-l2-do-line-height);
+  letter-spacing: 0;
+}
+.fragrances-con2__card-description span { display: block; }
+
+/* The outer bounds and inner rotated bounds are distinct in Figma.
+   Keep this layer unclipped vertically; Con1 itself remains unchanged. */
+.fragrances-con2__cloth {
+  position: absolute;
+  left: calc(336 / 1920 * 100%);
+  top: calc(-526 / 1080 * 100%);
+  width: calc(857.747 / 1920 * 100%);
+  height: calc(764.035 / 1080 * 100%);
+  pointer-events: none;
+}
+.fragrances-con2__cloth-placement {
+  position: absolute;
+  left: calc(-14 / 857.747 * 100%);
+  top: 0;
+  width: calc(885.027 / 857.747 * 100%);
+  height: calc(788.335 / 764.035 * 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fragrances-con2__cloth-image {
+  flex: none;
+  width: calc(492.656 / 885.027 * 100%);
+  height: calc(738.984 / 788.335 * 100%);
+  object-fit: cover;
+  transform: rotate(118.89deg) scaleY(-1);
+}

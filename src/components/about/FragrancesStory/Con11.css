@@ -1,0 +1,93 @@
+/* Figma Con11 3449:5913 — 1920 × 1080, clipsContent: true. */
+.fragrances-con11 {
+  container-type: inline-size;
+  overflow: hidden;
+}
+
+.fragrances-con11__scene {
+  --con11-scale: calc(100cqw / 1920px);
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fragrances-con11__layer {
+  position: absolute;
+  pointer-events: none;
+}
+
+.fragrances-con11__object {
+  position: absolute;
+  overflow: hidden;
+  transform-origin: 0 0;
+}
+
+.fragrances-con11__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+}
+
+/* Exact inverse of Figma's CROP transform, preserving the right-hand slice. */
+.fragrances-con11__layer--books .fragrances-con11__image {
+  left: calc(-0.3645744025707245 / 0.6354256272315979 * 100%);
+  width: calc(100% / 0.6354256272315979);
+  object-fit: fill;
+}
+
+.fragrances-con11__layer--iris .fragrances-con11__image {
+  top: calc(-6.268766838957163e-9 * 100%);
+  object-fit: fill;
+}
+
+/* This frame sits above the book and below the iris in Figma. */
+.fragrances-con11__text {
+  position: absolute;
+  left: calc(1167 / 1920 * 100%);
+  top: calc(540 / 1080 * 100%);
+  width: calc(167.2250518798828 / 1920 * 100%);
+  height: calc(158.58349609375 / 1080 * 100%);
+  z-index: 8;
+}
+
+/* Con11's custom Figma text: EB Garamond Regular, 20px / 130%, tracking 6%. */
+.fragrances-con11__passage {
+  position: absolute;
+  height: calc(52 / 158.58349609375 * 100%);
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-web-body-m1-do-size) * var(--con11-scale));
+  font-weight: var(--font-weight-regular);
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  text-align: center;
+  transform-origin: 0 0;
+}
+
+.fragrances-con11__passage span {
+  display: block;
+  white-space: pre;
+}
+
+.fragrances-con11__passage--first {
+  left: calc(31.935474395751953 / 167.2250518798828 * 100%);
+  top: calc(9 / 158.58349609375 * 100%);
+  width: calc(139 / 167.2250518798828 * 100%);
+  transform: matrix(0.9733019471168518, 0.22952835261821747, -0.22952835261821747, 0.9733019471168518, 0, 0);
+  z-index: 1;
+}
+
+.fragrances-con11__passage--second {
+  left: calc(11.936087608337402 / 167.2250518798828 * 100%);
+  top: calc(83 / 158.58349609375 * 100%);
+  width: calc(148 / 167.2250518798828 * 100%);
+  transform: matrix(0.9732991456985474, 0.2295401394367218, -0.2295401394367218, 0.9732991456985474, 0, 0);
+}

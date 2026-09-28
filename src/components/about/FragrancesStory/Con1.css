@@ -1,0 +1,159 @@
+/* Figma Con1 2934:9877 — 1920 × 2050. Preserve the composition at every width.
+   Each positioned element is an independent future animation target. */
+@font-face {
+  font-family: 'Fragrances Con1 Dotum';
+  src: url('./assets/con1-kopub-dotum-medium.otf') format('opentype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+.fragrances-con1 {
+  container-type: inline-size;
+  overflow: hidden;
+  overflow: clip;
+  background: var(--color-bg-primary);
+  color: var(--color-black);
+}
+.fragrances-con1__scene {
+  position: relative;
+  aspect-ratio: 1920 / 2050;
+  isolation: isolate;
+  /* Unitless scale keeps typography and artwork on the same artboard grid. */
+  --con1-scale: calc(100cqw / 1920px);
+}
+.fragrances-con1__scene img {
+  display: block;
+  max-width: none;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+/* Figma exports already include cloud/pillar 10% and butterfly 20% alpha. */
+.fragrances-con1__title {
+  color: var(--color-title-black);
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-web-title-m1-size) * var(--con1-scale));
+  font-weight: var(--text-web-title-m1-weight);
+  line-height: var(--text-web-title-m1-line-height);
+  letter-spacing: var(--text-web-title-m1-letter-spacing);
+}
+.fragrances-con1__title span { white-space: pre; }
+.fragrances-con1__chapter {
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-point-title-m1-size) * var(--con1-scale));
+  font-weight: var(--text-point-title-m1-weight);
+  line-height: var(--text-point-title-m1-line-height);
+  letter-spacing: var(--text-point-title-m1-letter-spacing);
+  text-align: center;
+  white-space: nowrap;
+}
+.fragrances-con1__subtitle {
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-web-body-m1-eb-size) * var(--con1-scale));
+  font-weight: var(--text-web-body-m1-eb-weight);
+  line-height: var(--text-web-body-m1-eb-line-height);
+  letter-spacing: var(--text-web-body-m1-eb-letter-spacing);
+}
+.fragrances-con1__text {
+  font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
+  font-size: calc(var(--text-web-body-m1-do-size) * var(--con1-scale));
+  font-weight: var(--text-web-body-m1-do-weight);
+  line-height: var(--text-web-body-m1-do-line-height);
+  letter-spacing: var(--text-web-body-m1-do-letter-spacing);
+}
+.fragrances-con1__intro {
+  display: flex;
+  flex-direction: column;
+  gap: calc(14px * var(--con1-scale));
+}
+.fragrances-con1__butterfly-left { display: grid; place-items: center; }
+.fragrances-con1__butterfly--left {
+  width: 77.11294811046612%;
+  height: 64.31709895783274%;
+  transform: rotate(-136.26deg) scaleY(-1);
+}
+.fragrances-con1__couple { overflow: hidden; }
+.fragrances-con1__couple-image { width: 100%; height: 118.4873949579832%; }
+
+/* Source bounding boxes, in Figma layer order. */
+.fragrances-con1__cloud--left {
+  position: absolute;
+  left: -15.052083333333332%;
+  top: 27.60975609756098%;
+  width: 48.385416666666664%;
+  height: 22.634146341463417%;
+}
+.fragrances-con1__cloud--small {
+  position: absolute;
+  left: 35.15625%;
+  top: 58.58536585365853%;
+  width: 24.21875%;
+  height: 11.317073170731708%;
+}
+.fragrances-con1__title-fleur {
+  position: absolute;
+  left: 47.291666666666664%;
+  top: 32.24390243902439%;
+  width: 28.072916666666664%;
+  height: 7.804878048780488%;
+}
+.fragrances-con1__title-peau {
+  position: absolute;
+  left: 53.43750000000001%;
+  top: 40.04878048780488%;
+  width: 27.8125%;
+  height: 7.804878048780488%;
+}
+.fragrances-con1__chapter {
+  position: absolute;
+  left: 47.291666666666664%;
+  top: 28.4390243902439%;
+  width: 12.083333333333334%;
+  height: 3.073170731707317%;
+}
+.fragrances-con1__intro {
+  position: absolute;
+  left: 58.385416666666664%;
+  top: 51.07317073170732%;
+  width: 29.583333333333332%;
+}
+.fragrances-con1__text--body1 {
+  position: absolute;
+  left: 60.98958333333333%;
+  top: 58.58536585365853%;
+  width: 29.583333333333332%;
+}
+.fragrances-con1__text--body2 {
+  position: absolute;
+  left: 65.98958333333333%;
+  top: 65.17073170731707%;
+  width: 21.979166666666668%;
+}
+.fragrances-con1__pillar {
+  position: absolute;
+  left: 63.74999999999999%;
+  top: 7.7073170731707314%;
+  width: 67.86458333333333%;
+  height: 95.36585365853658%;
+}
+.fragrances-con1__butterfly--right {
+  position: absolute;
+  left: 56.97916666666667%;
+  top: 76.29268292682927%;
+  width: 7.656250000000001%;
+  height: 5.951219512195122%;
+}
+.fragrances-con1__butterfly-left {
+  position: absolute;
+  left: -2.083333333333333%;
+  top: 12%;
+  width: 7.61734375%;
+  height: 7.105268292682926%;
+}
+.fragrances-con1__couple {
+  position: absolute;
+  left: 0%;
+  top: 36.146341463414636%;
+  width: 47.8125%;
+  height: 63.853658536585364%;
+}

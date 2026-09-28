@@ -1,0 +1,101 @@
+/* Figma Con9 2839:3799 — 1920 × 1080. Preserve the source layer geometry. */
+.fragrances-con9 {
+  container-type: inline-size;
+  overflow: hidden;
+  background: var(--color-bg-primary);
+  color: var(--color-text-inverse);
+}
+
+.fragrances-con9__scene {
+  --con9-scale: calc(100cqw / 1920px);
+  position: relative;
+  aspect-ratio: 1920 / 1080;
+  isolation: isolate;
+}
+
+.fragrances-con9__scene img {
+  display: block;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fragrances-con9__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.fragrances-con9__table {
+  position: absolute;
+  left: calc(165 / 1920 * 100%);
+  top: calc(629 / 1080 * 100%);
+  width: calc(1591 / 1920 * 100%);
+  height: calc(468 / 1080 * 100%);
+  overflow: hidden;
+}
+
+/* Figma crops the upper 468px of the tall source, then the section clips 17px. */
+.fragrances-con9__table-image {
+  width: 100%;
+  height: calc(100% / 0.23537804186344147);
+}
+
+.fragrances-con9__perfume {
+  position: absolute;
+  left: calc(395 / 1920 * 100%);
+  top: calc(382 / 1080 * 100%);
+  width: calc(1130 / 1920 * 100%);
+  height: calc(600 / 1080 * 100%);
+  overflow: hidden;
+}
+
+.fragrances-con9__perfume-image {
+  position: absolute;
+  left: 0;
+  top: calc(-0.0000314693788823206 / 0.999937117099762 * 100%);
+  width: 100%;
+  height: calc(100% / 0.999937117099762);
+}
+
+/* Note centers: x = 497, 967, 1437. Source label/name slots are 20/32px. */
+.fragrances-con9__notes {
+  position: absolute;
+  top: calc(264 / 1080 * 100%);
+  left: calc(383 / 1920 * 100%);
+  width: calc(1168 / 1920 * 100%);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(242px * var(--con9-scale));
+  text-align: center;
+}
+
+.fragrances-con9__note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--space-1) * var(--con9-scale));
+}
+
+.fragrances-con9__note-label {
+  height: calc(20px * var(--con9-scale));
+  font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
+  font-size: calc(var(--text-web-body-m1-do-size) * var(--con9-scale));
+  font-weight: var(--text-web-body-m1-do-weight);
+  line-height: var(--text-web-body-m1-do-line-height);
+  letter-spacing: var(--text-web-body-m1-do-letter-spacing);
+  white-space: nowrap;
+}
+
+.fragrances-con9__note-name {
+  height: calc(32px * var(--con9-scale));
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-point-title-m1-size) * var(--con9-scale));
+  font-weight: var(--text-point-title-m1-weight);
+  line-height: var(--text-point-title-m1-line-height);
+  letter-spacing: var(--text-point-title-m1-letter-spacing);
+  white-space: nowrap;
+}

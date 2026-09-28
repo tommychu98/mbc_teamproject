@@ -1,0 +1,130 @@
+/* Figma 2778:1714 — 1920 × 2050, clipsContent: true.
+   Below Con6 in the existing page stack so its 3px table overhang survives. */
+.fragrances-con7 {
+  position: relative;
+  z-index: -2;
+  container-type: inline-size;
+  background: var(--color-bg-primary);
+  color: var(--color-black);
+}
+
+.fragrances-con7__scene {
+  --con7-scale: calc(100cqw / 1920px);
+  position: relative;
+  aspect-ratio: 1920 / 2050;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fragrances-con7__scene img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.fragrances-con7__title {
+  position: absolute;
+  left: calc(230 / 1920 * 100%);
+  top: calc(452 / 2050 * 100%);
+  width: calc(596 / 1920 * 100%);
+  height: calc(160 / 2050 * 100%);
+  color: var(--color-title-black);
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-web-title-m1-size) * var(--con7-scale));
+  font-weight: var(--text-web-title-m1-weight);
+  line-height: var(--text-web-title-m1-line-height);
+  letter-spacing: var(--text-web-title-m1-letter-spacing);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.fragrances-con7__chapter {
+  position: absolute;
+  left: calc(231 / 1920 * 100%);
+  top: calc(366 / 2050 * 100%);
+  width: calc(279 / 1920 * 100%);
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-point-title-m1-size) * var(--con7-scale));
+  font-weight: var(--text-point-title-m1-weight);
+  line-height: var(--text-point-title-m1-line-height);
+  letter-spacing: var(--text-point-title-m1-letter-spacing);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.fragrances-con7__intro {
+  position: absolute;
+  left: calc(824 / 1920 * 100%);
+  top: calc(734 / 2050 * 100%);
+  width: calc(421 / 1920 * 100%);
+  display: flex;
+  flex-direction: column;
+  gap: calc(14px * var(--con7-scale));
+}
+
+.fragrances-con7__subtitle {
+  height: calc(36px * var(--con7-scale));
+  font-family: var(--font-family-display);
+  font-size: calc(var(--text-web-body-m1-eb-size) * var(--con7-scale));
+  font-weight: var(--text-web-body-m1-eb-weight);
+  line-height: var(--text-web-body-m1-eb-line-height);
+  letter-spacing: var(--text-web-body-m1-eb-letter-spacing);
+}
+
+.fragrances-con7__text {
+  font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
+  font-size: calc(var(--text-web-body-m1-do-size) * var(--con7-scale));
+  font-weight: var(--text-web-body-m1-do-weight);
+  line-height: var(--text-web-body-m1-do-line-height);
+  letter-spacing: var(--text-web-body-m1-do-letter-spacing);
+  word-break: break-all;
+}
+
+.fragrances-con7__text--body {
+  position: absolute;
+  left: calc(1269 / 1920 * 100%);
+  top: calc(811 / 2050 * 100%);
+  width: calc(438 / 1920 * 100%);
+}
+
+.fragrances-con7__musicians {
+  left: calc(313 / 1920 * 100%);
+  top: calc(1095 / 2050 * 100%);
+  width: calc(787 / 1920 * 100%);
+  height: calc(452 / 2050 * 100%);
+  opacity: 0.1;
+}
+
+.fragrances-con7__dancers {
+  left: calc(844 / 1920 * 100%);
+  top: calc(812 / 2050 * 100%);
+  width: calc(966 / 1920 * 100%);
+  height: calc(1286 / 2050 * 100%);
+}
+
+.fragrances-con7__furniture {
+  left: calc(-542 / 1920 * 100%);
+  top: calc(1152 / 2050 * 100%);
+  width: calc(1255 / 1920 * 100%);
+  height: calc(1115 / 2050 * 100%);
+}
+
+.fragrances-con7__chandelier {
+  left: calc(826 / 1920 * 100%);
+  top: calc(-113 / 2050 * 100%);
+  width: calc(970 / 1920 * 100%);
+  height: calc(647 / 2050 * 100%);
+  /* Figma export already includes the 10% fill alpha (maximum alpha 26/255). */
+}
+
+.fragrances-con7__plant {
+  left: calc(1664 / 1920 * 100%);
+  top: calc(862 / 2050 * 100%);
+  width: calc(425 / 1920 * 100%);
+  height: calc(638 / 2050 * 100%);
+  transform: scaleX(-1);
+  opacity: 0.1;
+}
