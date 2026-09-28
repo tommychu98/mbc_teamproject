@@ -1,0 +1,59 @@
+﻿/* The shared footer remains unchanged on every other route. */
+.galerie-footer {
+    position: relative;
+    container-type: inline-size;
+    overflow: hidden;
+    aspect-ratio: 8 / 5;
+    background: #222;
+    color: #faf7f0;
+    font-family: var(--font-family-sans);
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    text-align: left;
+}
+.galerie-footer p { margin: 0; }
+.galerie-footer a { color: inherit; text-decoration: none; }
+.galerie-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.galerie-footer a:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
+.galerie-footer__wordmark { position: relative; height: 20.47cqw; }
+.galerie-footer__wordmark > span { position: absolute; top: -5.46875cqw; left: 1.82292cqw; font-family: var(--font-family-display); font-size: 19.27083cqw; font-weight: 400; line-height: normal; letter-spacing: normal; white-space: pre; }
+.galerie-footer__letter-d { position: absolute; left: 0.9375%; top: -0.41667cqw; width: 16.92708%; }
+.galerie-footer__letter-q { position: absolute; left: 56.61458%; top: 0; width: 20.46875%; }
+.galerie-footer__letter-d, .galerie-footer__letter-q { aspect-ratio: 1; pointer-events: none; }
+.galerie-footer__letter-base { display: block; width: 100%; height: 100%; }
+.galerie-footer__flowers { position: absolute; inset: 0; display: block; width: 100%; height: 100%; transform-origin: 32% 85%; }
+.galerie-footer__letter-q .galerie-footer__flowers { transform-origin: 38% 83%; }
+.galerie-footer__sprite { position: absolute; inset: 0; overflow: hidden; }
+.galerie-footer__sprite > img { position: absolute; inset: 0 auto auto 0; width: 200%; max-width: none; height: 100%; }
+.galerie-footer__sprite--flowers > img { left: -100%; }
+.galerie-footer__botanical-left { position: absolute; left: -6.93%; top: 18.90625cqw; width: 26.57%; height: 33.98cqw; object-fit: contain; transform: rotate(11.33deg); pointer-events: none; }
+.galerie-footer__botanical-right { position: absolute; left: 84.92%; top: 39.12cqw; width: 13.90469%; height: 22.01573cqw; transform: rotate(12.17deg); pointer-events: none; }
+.galerie-footer__content { position: relative; margin: 8.23cqw 15.05% 0 27.91667%; }
+.galerie-footer__service, .galerie-footer__links { display: flex; align-items: center; gap: 1.5625cqw; font-size: 0.83333cqw; white-space: nowrap; }
+.galerie-footer__phone { font-size: 0.9375cqw; font-weight: 700; }
+.galerie-footer__links { margin-top: 1.09375cqw; }
+.galerie-footer__details { position: relative; display: grid; grid-template-columns: 1fr 1fr; column-gap: 3.54cqw; margin-top: 5cqw; color: #adadad; font-size: 0.72917cqw; }
+.galerie-footer__details p + p { margin-top: 0.625cqw; }
+.galerie-footer__divider { position: absolute; left: 51.3%; top: 0.20833cqw; width: 5.10417cqw; height: 1px; transform: rotate(90deg); transform-origin: left center; }
+.galerie-footer__bottom { position: relative; display: flex; align-items: flex-end; justify-content: space-between; margin: 14.6cqw 12.81% 2.34cqw 4.16667%; color: #adadad; font-size: 0.72917cqw; }
+.galerie-footer__certification { display: flex; align-items: center; gap: 0.67708cqw; }
+.galerie-footer__isms { position: relative; display: grid; place-items: center; width: 1.66667cqw; color: #5d7786; }
+.galerie-footer__isms img { width: 100%; }
+.galerie-footer__isms > span { position: absolute; font-size: 0.72917cqw; }
+@media (max-width: 767px) {
+    .galerie-footer { aspect-ratio: auto; padding-bottom: 28px; }
+    .galerie-footer__content { margin: 48px 24px 0; }
+    .galerie-footer__service, .galerie-footer__links { flex-wrap: wrap; gap: 12px 18px; font-size: 12px; white-space: normal; }
+    .galerie-footer__phone { font-size: 14px; }
+    .galerie-footer__links { margin-top: 24px; }
+    .galerie-footer__details { grid-template-columns: 1fr; gap: 20px; margin-top: 36px; font-size: 11px; }
+    .galerie-footer__details p + p { margin-top: 10px; }
+    .galerie-footer__divider { display: none; }
+    .galerie-footer__botanical-left { opacity: 0.12; top: 22%; }
+    .galerie-footer__botanical-right { opacity: 0.15; top: auto; bottom: 16%; }
+    .galerie-footer__bottom { align-items: flex-start; flex-direction: column; gap: 24px; margin: 48px 24px 0; font-size: 10px; }
+    .galerie-footer__certification { gap: 10px; }
+    .galerie-footer__isms { width: 30px; }
+    .galerie-footer__isms > span { font-size: 12px; }
+}
