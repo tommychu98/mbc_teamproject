@@ -1,3 +1,6 @@
+import { useLayoutEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import background from './assets/background.png';
 import stationery from './assets/con10-stationery.png';
 import books from './assets/books-piled-up.png';
@@ -7,6 +10,8 @@ import mainBook from './assets/con12-main-book.png';
 import hands from './assets/con12-hands.png';
 import whiteFlower from './assets/con10-white-flower.png';
 import './Con12.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Figma 2892:5486: image adjustments are baked into the local PNGs.
 // Layers follow the latest Figma back-to-front order, with the flower below the book.
@@ -63,8 +68,40 @@ const layers = [
 ];
 
 export default function Con12() {
+  const rootRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const media = gsap.matchMedia(root);
+
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const handLayer = root.querySelector('.fragrances-con12__layer--hands');
+
+      // Both hands share one PNG. Move only its existing outer wrapper.
+      // 50px at the original 1254px layer height scales with the existing layout.
+      gsap.timeline({
+        scrollTrigger: {
+          id: 'fragrances-con12-hands',
+          trigger: root,
+          start: 'center 85%',
+          end: 'bottom top',
+          toggleActions: 'play complete none none',
+          once: true,
+        },
+      })
+        .fromTo(handLayer,
+          { yPercent: 50 / 1254 * 100, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 1, ease: 'power3.out' })
+        // Hold the contact pose, then leave the original CSS fully in charge.
+        .set(handLayer, { clearProps: 'transform,opacity' }, '+=0.5');
+    });
+
+    // Scoped cleanup also restores the final pose when reduced motion is enabled.
+    return () => media.revert();
+  }, []);
+
   return (
-    <section className="fragrances-con12" aria-label="Scent Stories — Diptyque Paris">
+    <section ref={rootRef} className="fragrances-con12" aria-label="Scent Stories — Diptyque Paris">
       <div className="fragrances-con12__scene">
         {layers.map(({ name, src, x, y, width, height, imageWidth, imageHeight, transform }, order) => (
           <div
