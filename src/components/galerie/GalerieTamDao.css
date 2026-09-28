@@ -1,0 +1,97 @@
+.galerie-tamdao-chapter {
+    overflow: clip;
+    isolation: isolate;
+}
+.galerie-tamdao {
+    container-type: inline-size;
+    overflow: hidden;
+    background: var(--color-ivory);
+    color: var(--color-ink-black);
+}
+.galerie-tamdao__scene { position: relative; aspect-ratio: 1920 / 1500; }
+.galerie-tamdao__background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.1;
+    pointer-events: none;
+}
+.galerie-tamdao__middle {
+    position: absolute;
+    top: 13.0667%;
+    left: 31.7708%;
+    width: 36.4583%;
+    text-align: center;
+}
+.galerie-tamdao__oval {
+    position: relative;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border-radius: 15.625cqw;
+    background: var(--color-ivory);
+}
+.galerie-tamdao__oval::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 5px 8px rgb(0 0 0 / 25%);
+    pointer-events: none;
+}
+.galerie-tamdao__forest { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+.galerie-tamdao__bottle {
+    position: absolute;
+    left: 50%;
+    top: 50.38%;
+    width: 74.2857%;
+    height: auto;
+    transform: translate(-50%, -50%);
+}
+.galerie-tamdao__title { font-family: var(--font-family-display); font-size: 5.7292cqw; font-weight: 500; line-height: 1; }
+.galerie-tamdao__description { margin-top: 1.71875cqw; font-size: 1.25cqw; font-weight: 300; letter-spacing: 0.06em; color: var(--color-text-secondary); white-space: nowrap; }
+.galerie-tamdao__ingredient { position: absolute; pointer-events: none; }
+.galerie-tamdao__float, .galerie-tamdao__crop { width: 100%; height: 100%; }
+.galerie-tamdao__crop { position: relative; overflow: hidden; }
+.galerie-tamdao__crop img { position: absolute; width: 100%; height: 100%; object-fit: cover; }
+.galerie-tamdao__ingredient--cypress { left: 59.036%; top: 11.568%; width: 11.4245%; aspect-ratio: 1; }
+.galerie-tamdao__ingredient--cypress .galerie-tamdao__crop { transform: rotate(109.67deg); }
+.galerie-tamdao__ingredient--cedar { left: 71.3021%; top: 35.0667%; width: 21.875%; aspect-ratio: 420 / 490; }
+.galerie-tamdao__ingredient--cedar img { width: 161.67%; height: 138.57%; left: -33.81%; top: -21.02%; }
+.galerie-tamdao__ingredient--coriander { left: 25.529%; top: 60.898%; width: 14.5485%; aspect-ratio: 279.332 / 263.225; }
+.galerie-tamdao__ingredient--coriander .galerie-tamdao__crop { transform: rotate(4.43deg); }
+.galerie-tamdao__ingredient--coriander img { width: 123.72%; height: 131.29%; left: -16.56%; top: -15.05%; }
+.galerie-tamdao__notes { position: absolute; left: 5.9375%; top: 45.3333%; width: 16.5104%; text-align: right; font-size: 1.25cqw; font-weight: 300; letter-spacing: 0.06em; }
+.galerie-tamdao__concentration { margin-bottom: 1.04167cqw; font-size: 1.5625cqw; font-weight: 700; }
+
+@media (max-width: 767px) {
+    .galerie-tamdao__scene { aspect-ratio: auto; min-height: 900px; height: 220cqw; }
+    .galerie-tamdao__background { object-fit: cover; }
+    .galerie-tamdao__middle { top: 12%; left: 20%; width: 60%; }
+    .galerie-tamdao__oval { border-radius: 30cqw; }
+    .galerie-tamdao__title { margin-top: 12px; font-size: 10cqw; }
+    .galerie-tamdao__description { margin-top: 16px; font-size: 14px; white-space: normal; word-break: keep-all; }
+    .galerie-tamdao__ingredient--cypress { left: 64%; top: 7%; width: 21%; }
+    .galerie-tamdao__ingredient--cedar { left: 77%; top: 33%; width: 27%; }
+    .galerie-tamdao__ingredient--coriander { left: 5%; top: 42%; width: 26%; }
+    .galerie-tamdao__notes { left: 42%; top: 80%; width: 50%; font-size: 12px; }
+    .galerie-tamdao__concentration { margin-bottom: 12px; font-size: 18px; }
+}
+
+/* Chapter 1 mobile composition; keep the rose chapter's layout independent. */
+@media (max-width: 767px) {
+    .galerie-tamdao-chapter .galerie-tamdao__scene { height: max(100svh, 217.442cqw); min-height: 780px; }
+    .galerie-tamdao-chapter .galerie-tamdao__background { inset: 2.14% auto auto -91.91%; width: 266.26%; height: 95.61%; object-fit: fill; }
+    .galerie-tamdao-chapter .galerie-tamdao__middle { width: min(73.4884%, 400px); top: calc(50% - 37.5px); left: 50%; transform: translate(-50%, -50%); }
+    .galerie-tamdao-chapter .galerie-tamdao__oval { aspect-ratio: 316 / 484; border-radius: 300px; }
+    .galerie-tamdao-chapter .galerie-tamdao__bottle { width: 92.7215%; top: 50.8264%; }
+    .galerie-tamdao-chapter .galerie-tamdao__title { margin-top: 0; font-size: clamp(42px, 13.4884cqw, 68px); line-height: 1.1; }
+    .galerie-tamdao-chapter .galerie-tamdao__description { position: relative; left: 50%; transform: translateX(-50%); width: 94cqw; margin-top: 0; font-size: clamp(11px, 3.2558cqw, 14px); line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-tamdao-chapter .galerie-tamdao__ingredient--cypress { left: 61.457%; top: 14.14%; width: 17.154%; }
+    .galerie-tamdao-chapter .galerie-tamdao__ingredient--cedar { left: 71.628%; top: calc(40% + 72px); width: 26.0465%; }
+    .galerie-tamdao-chapter .galerie-tamdao__ingredient--coriander { left: 6.857%; top: calc(40% + 167px); width: 23.258%; }
+    .galerie-tamdao-chapter .galerie-tamdao__notes { left: 50%; transform: translateX(-50%); top: 80%; width: 115px; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; text-align: center; }
+    .galerie-tamdao-chapter .galerie-tamdao__concentration { margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
+    .galerie-tamdao-chapter .galerie-lineup__wood-shavings { width: 227px; left: -55px; top: -154px; }
+}

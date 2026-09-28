@@ -1,0 +1,71 @@
+.galerie-lineup {
+    position: relative;
+    container-type: inline-size;
+    aspect-ratio: 1920 / 1080;
+    overflow: visible;
+    z-index: 1;
+    background: var(--color-ivory);
+    color: var(--color-ink-black);
+}
+/* One continuous image crosses the con1/con2 boundary, with one animation. */
+.galerie-lineup__wood-shavings { position: absolute; left: -7.65625%; top: -23.229167cqw; width: 33.6458%; aspect-ratio: 1; pointer-events: none; }
+.galerie-lineup__wood { position: absolute; left: 50%; top: 0; width: 12.3958%; aspect-ratio: 1; pointer-events: none; }
+.galerie-lineup__wood-shavings img, .galerie-lineup__wood img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.galerie-lineup__collection { position: absolute; left: 4.1667%; top: 21.18%; width: 54.7396%; }
+.galerie-lineup__collection > h2 { font-family: var(--font-family-display); font-size: 2.1875cqw; font-weight: 500; line-height: 1.3; margin-bottom: 2.6042cqw; }
+.galerie-lineup__products { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.6042cqw; }
+.galerie-lineup__product { text-align: center; }
+.galerie-lineup__picture { position: relative; width: 94.6372%; margin-inline: auto; aspect-ratio: 2 / 3; overflow: hidden; border: 1px solid #e4e3e3; border-radius: 2.6042cqw; }
+.galerie-lineup__picture > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.galerie-lineup__product-image { position: absolute; inset: 0; }
+.galerie-lineup__product-image > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.galerie-lineup__picture--soap .galerie-lineup__product-image > img { inset: -27% auto auto -23.75%; width: 147.75%; height: 131.33%; }
+.galerie-lineup__mobile-break, .galerie-lineup__top { display: none; }
+.galerie-lineup__picture--soap > img { inset: -27% auto auto -23.75%; width: 147.75%; height: 131.33%; }
+.galerie-lineup__product h3 { margin-top: 0.78125cqw; font-size: 1.04167cqw; font-weight: 700; line-height: 1.5; }
+.galerie-lineup__product p { font-size: 0.9375cqw; font-weight: 300; letter-spacing: 0.06em; }
+.galerie-lineup__favorite { position: absolute; right: 7%; top: 6%; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 50%; }
+.galerie-lineup__favorite img { max-width: 32px; height: auto; }
+.galerie-lineup__favorite:focus-visible { outline: 2px solid var(--color-ink-black); outline-offset: -2px; }
+.galerie-lineup__scent { position: absolute; right: 4.1667%; top: 18.5185%; width: 20.3125%; text-align: right; }
+.galerie-lineup__scent > img { display: block; width: 70.7692%; aspect-ratio: 276 / 330; object-fit: cover; margin-left: auto; }
+.galerie-lineup__scent h3 { margin-top: 1.25cqw; font-family: var(--font-family-display); font-size: 1.4583cqw; font-weight: 500; }
+.galerie-lineup__scent p { margin-top: 1.04167cqw; font-size: 0.9375cqw; letter-spacing: 0.06em; font-weight: 300; }
+@media (max-width: 767px) {
+    .galerie-lineup { aspect-ratio: auto; padding: 150px 20px 60px; box-sizing: border-box; }
+    .galerie-lineup__wood-shavings { top: -190px; left: -65px; width: 280px; }
+    .galerie-lineup__wood { left: auto; right: 8%; width: 110px; top: 15px; }
+    .galerie-lineup__collection { position: relative; inset: auto; width: 100%; }
+    .galerie-lineup__collection > h2 { font-size: 26px; margin-bottom: 28px; }
+    .galerie-lineup__products { grid-template-columns: 1fr; gap: 32px; }
+    .galerie-lineup__product { width: min(100%, 300px); margin-inline: auto; }
+    .galerie-lineup__picture { border-radius: 40px; }
+    .galerie-lineup__product h3 { font-size: 18px; margin-top: 12px; }
+    .galerie-lineup__product p { font-size: 15px; }
+    .galerie-lineup__scent { position: relative; inset: auto; width: min(100%, 340px); margin: 50px 0 0 auto; }
+    .galerie-lineup__scent > img { width: 180px; }
+    .galerie-lineup__scent h3 { margin-top: 20px; font-size: 22px; }
+    .galerie-lineup__scent p { margin-top: 14px; font-size: 14px; }
+}
+
+@media (max-width: 767px) {
+    .galerie-tamdao-chapter .galerie-lineup { padding: 153px 0 0; min-height: 935px; }
+    .galerie-tamdao-chapter .galerie-lineup__wood { top: 73px; right: 7%; width: 119px; }
+    .galerie-tamdao-chapter .galerie-lineup__collection > h2 { margin: 0 22px 20px; font-size: 26px; font-weight: 400; line-height: 1.3; }
+    .galerie-tamdao-chapter .galerie-lineup__mobile-break { display: block; }
+    .galerie-tamdao-chapter .galerie-lineup__products { display: flex; gap: 25px; overflow-x: auto; padding: 0 22px 8px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .galerie-tamdao-chapter .galerie-lineup__products::-webkit-scrollbar { display: none; }
+    .galerie-tamdao-chapter .galerie-lineup__product { flex: 0 0 160px; width: 160px; margin: 0; scroll-snap-align: start; }
+    .galerie-tamdao-chapter .galerie-lineup__picture { box-sizing: border-box; width: 160px; height: 230px; aspect-ratio: auto; border-radius: 30px; }
+    .galerie-tamdao-chapter .galerie-lineup__picture--soap .galerie-lineup__product-image > img { inset: -25.36% auto auto -20.16%; width: 140.78%; height: 130.58%; }
+    .galerie-tamdao-chapter .galerie-lineup__product h3 { margin-top: 20px; font-size: 13px; line-height: 1.4; }
+    .galerie-tamdao-chapter .galerie-lineup__product p { font-size: 14px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-tamdao-chapter .galerie-lineup__favorite { width: 44px; height: 44px; top: 17px; right: 11px; }
+    .galerie-tamdao-chapter .galerie-lineup__favorite img { display: block; width: 24px; height: 24px; object-fit: contain; }
+    .galerie-tamdao-chapter .galerie-lineup__scent { position: relative; width: auto; max-width: none; margin: 72px 22px 0; height: 272px; }
+    .galerie-tamdao-chapter .galerie-lineup__scent > img { position: absolute; left: 24px; top: 42px; width: 159px; height: 190px; }
+    .galerie-tamdao-chapter .galerie-lineup__scent h3 { margin: 0; font-size: 16px; line-height: 1.4; font-weight: 400; }
+    .galerie-tamdao-chapter .galerie-lineup__scent p { margin-top: 20px; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-lineup__top { display: flex; flex-direction: column; align-items: center; gap: 5px; position: absolute; bottom: 52px; right: 36px; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--color-ink-black); font: inherit; font-size: 11px; cursor: pointer; }
+    .galerie-lineup__top img { width: 12px; height: 16px; object-fit: contain; }
+}

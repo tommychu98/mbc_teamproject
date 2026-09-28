@@ -1,0 +1,30 @@
+.galerie-sens { overflow: clip; isolation: isolate; }
+.galerie-sens__intro .galerie-tamdao__background { opacity: 0.07; }
+.galerie-sens__intro .galerie-tamdao__title { white-space: nowrap; width: max-content; position: relative; left: 50%; transform: translateX(-50%); }
+.galerie-sens__intro .galerie-tamdao__description { width: max-content; max-width: 145%; position: relative; left: 50%; transform: translateX(-50%); }
+.galerie-sens__intro .galerie-tamdao__notes { left: 6.7708%; top: 45.2%; }
+.galerie-sens__decoration { position: absolute; aspect-ratio: 1; pointer-events: none; }
+.galerie-sens__decoration > div { width: 100%; height: 100%; }
+.galerie-sens__decoration img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.galerie-sens__decoration--artichoke { left: 26.256%; top: 17.341%; width: 9.5473%; }
+.galerie-sens__decoration--artichoke img { transform: rotate(-9.69deg); }
+.galerie-sens__decoration--upper { left: 8.9625%; top: 31.072%; width: 12.4378%; }
+.galerie-sens__decoration--upper img { transform: rotate(-24.81deg); }
+.galerie-sens__decoration--litchi { left: 22.9667%; top: 57.291%; width: 16.1101%; aspect-ratio: 309.313 / 330.206; }
+.galerie-sens__decoration--litchi img { transform: rotate(12.9deg); }
+.galerie-sens__decoration--left { left: 58.6776%; top: 47.7739%; width: 30.7019%; }
+.galerie-sens__decoration--left img { transform: rotate(-14.55deg); }
+.galerie-sens__lineup .galerie-lineup__scent { width: 23.28125%; top: 18.7037%; }
+.galerie-sens__collage { width: 66.6667%; aspect-ratio: 1; margin-left: auto; }
+.galerie-sens__collage img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.galerie-sens__lineup .galerie-lineup__scent h3 { margin-top: 2.6042cqw; }
+@media (max-width: 767px) {
+    .galerie-sens__intro .galerie-tamdao__title { font-size: 9cqw; }
+    .galerie-sens__intro .galerie-tamdao__description { width: 100%; max-width: 100%; }
+    .galerie-sens__intro .galerie-tamdao__notes { top: 79%; left: 20%; width: 60%; text-align: center; }
+    .galerie-sens__decoration--artichoke { top: 10%; left: 13%; width: 20%; }
+    .galerie-sens__decoration--upper { top: 26%; left: 2%; width: 23%; }
+    .galerie-sens__decoration--litchi { top: 46%; left: 3%; width: 27%; }
+    .galerie-sens__decoration--left { top: 38%; left: 67%; width: 33%; }
+    .galerie-sens__lineup .galerie-lineup__scent { width: min(100%, 340px); top: auto; }
+}

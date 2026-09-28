@@ -1,0 +1,34 @@
+.galerie-rose { overflow: clip; isolation: isolate; }
+.galerie-rose__intro .galerie-tamdao__background { opacity: 0.07; }
+.galerie-rose__intro .galerie-tamdao__forest { opacity: 0.5; }
+.galerie-rose__intro .galerie-tamdao__notes { left: 76.71875%; top: 44.1333%; width: 19.1146%; text-align: left; }
+.galerie-rose__intro .galerie-tamdao__description { width: max-content; max-width: 145%; position: relative; left: 50%; transform: translateX(-50%); }
+.galerie-rose__decoration { position: absolute; aspect-ratio: 1; pointer-events: none; }
+.galerie-rose__decoration > div, .galerie-rose__boundary > div { width: 100%; height: 100%; }
+.galerie-rose__decoration img, .galerie-rose__boundary img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.galerie-rose__decoration--artichoke { left: 31.7708%; top: 8.8667%; width: 10.15625%; }
+.galerie-rose__decoration--upper { left: 58.814%; top: 26.548%; width: 16.854%; }
+.galerie-rose__decoration--upper img { transform: rotate(-91.88deg); }
+.galerie-rose__decoration--litchi { left: 78.995%; top: 62.378%; width: 9.739%; }
+.galerie-rose__decoration--litchi img { transform: rotate(-52.24deg); }
+.galerie-rose__decoration--left { left: 15.837%; top: 52.337%; width: 20.857%; }
+.galerie-rose__decoration--left img { transform: rotate(1.47deg); }
+.galerie-rose__boundary { position: absolute; top: -18.9375cqw; left: 66.6353%; width: 26.58375%; aspect-ratio: 1; pointer-events: none; }
+.galerie-rose__boundary img { transform: rotate(-90.77deg); }
+.galerie-rose__lineup .galerie-lineup__collection { left: 41.09375%; }
+.galerie-rose__lineup .galerie-lineup__collection > h2 { text-align: right; }
+.galerie-rose__lineup .galerie-lineup__scent { left: 4.1667%; right: auto; text-align: left; width: 20.5208%; }
+.galerie-rose__collage { position: relative; width: 77.157%; aspect-ratio: 304 / 328; overflow: hidden; }
+.galerie-rose__collage img { position: absolute; top: 0; left: -3.53%; width: 107.94%; height: 100%; object-fit: cover; }
+@media (max-width: 767px) {
+    .galerie-rose__intro .galerie-tamdao__description { width: 100%; max-width: 100%; }
+    .galerie-rose__intro .galerie-tamdao__notes { left: 8%; top: 77%; width: 65%; }
+    .galerie-rose__decoration--artichoke { left: 14%; top: 8%; width: 20%; }
+    .galerie-rose__decoration--upper { left: 65%; top: 23%; width: 28%; }
+    .galerie-rose__decoration--litchi { left: 79%; top: 64%; width: 17%; }
+    .galerie-rose__decoration--left { left: 2%; top: 40%; width: 32%; }
+    .galerie-rose__boundary { top: -125px; left: auto; right: 0; width: 185px; }
+    .galerie-rose__lineup .galerie-lineup__collection { left: auto; }
+    .galerie-rose__lineup .galerie-lineup__scent { left: auto; width: min(100%, 340px); margin-left: 0; }
+    .galerie-rose__collage { width: 180px; }
+}
