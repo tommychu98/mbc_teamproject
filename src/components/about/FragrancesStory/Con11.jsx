@@ -1,3 +1,6 @@
+import { useLayoutEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import background from './assets/background.png';
 import stationery from './assets/con10-stationery.png';
 import books from './assets/books-piled-up.png';
@@ -8,6 +11,8 @@ import perfumeDrawing from './assets/con10-perfume-drawing.png';
 import mainBook from './assets/con11-main-book.png';
 import iris from './assets/flower-iris.png';
 import './Con11.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 // Figma 3449:5913: exact frame positions, image transforms and back-to-front order.
 // Figma image adjustments are already baked into the local PNGs.
@@ -69,8 +74,44 @@ const layers = [
 ];
 
 export default function Con11() {
+  const rootRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const root = rootRef.current;
+    const media = gsap.matchMedia(root);
+
+    media.add('(prefers-reduced-motion: no-preference)', () => {
+      const first = root.querySelectorAll('.fragrances-con11__passage--first > span');
+      const second = root.querySelectorAll('.fragrances-con11__passage--second > span');
+      const lines = [...first, ...second];
+
+      // Reveal the existing lines in place; CSS retains all typography and matrices.
+      gsap.set(lines, { clipPath: 'inset(0 100% 0 0)' });
+      gsap.timeline({
+        defaults: { clipPath: 'inset(0 0% 0 0)', ease: 'power1.inOut' },
+        scrollTrigger: {
+          id: 'fragrances-con11-typography',
+          trigger: root,
+          start: 'center 85%',
+          end: 'bottom top',
+          // Fast scrolling still leaves both passages fully written on return.
+          toggleActions: 'play complete none none',
+          once: true,
+        },
+      })
+        .to(first[0], { duration: 0.8 }, 0.12)
+        .to(first[1], { duration: 0.8 }, '-=0.15')
+        .to(second[0], { duration: 0.9 }, '+=0.4')
+        .to(second[1], { duration: 0.9 }, '-=0.15')
+        .set(lines, { clearProps: 'clipPath' });
+    });
+
+    // Revert only Con11's animations and trigger, also on reduced-motion changes.
+    return () => media.revert();
+  }, []);
+
   return (
-    <section className="fragrances-con11" aria-label="Orphéon — 우리의 이야기가 시작되는 페이지">
+    <section ref={rootRef} className="fragrances-con11" aria-label="Orphéon — 우리의 이야기가 시작되는 페이지">
       <div className="fragrances-con11__scene">
         {layers.map(({ name, src, order, x, y, width, height, imageWidth, imageHeight, transform }) => (
           <div
