@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import BackToTop from "./BackToTop";
 import MobileAmbition from "./MobileAmbition";
 import MobileImpact from "./MobileImpact";
 import MobileRenewal from "./MobileRenewal";
@@ -1369,6 +1370,7 @@ export default function ForThePlanet() {
       <ArchScene variant="forest" />
       <HorizontalStory data={impact} />
       <RenewalReveal />
+      <BackToTop />
     </main>
   );
 }

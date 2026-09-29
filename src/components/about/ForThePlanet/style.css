@@ -37,6 +37,32 @@ body.ftp-route.ftp-header-hidden .header {
   font-display: swap;
 }
 
+/* Portal keeps blending outside the scenes' isolated stacking contexts. */
+.ftp-back-to-top {
+  position: fixed;
+  z-index: 90;
+  right: max(20px, calc(74 / 1920 * 100vw));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  width: 80px;
+  height: 76px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  mix-blend-mode: difference;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.ftp-back-to-top picture { position: absolute; top: 11.3235px; left: 27.3256px; }
+.ftp-back-to-top img { display: block; max-width: none; filter: brightness(0) invert(1); }
+.ftp-back-to-top span { position: absolute; top: 55px; left: 26px; font: 300 16px/1.5 PlanetKoPub, sans-serif; letter-spacing: .32px; }
+.ftp-back-to-top:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
+@media (max-width: 899px) {
+  .ftp-back-to-top { right: 20px; width: 40px; height: 43px; }
+  .ftp-back-to-top picture { top: 7.5px; left: 13.5px; }
+  .ftp-back-to-top span { top: 29px; left: 9px; font-size: 11px; line-height: 1.3; letter-spacing: .22px; }
+}
+
 .for-the-planet {
   --ftp-ivory: #f7f6f4;
   --ftp-ink: #222;
