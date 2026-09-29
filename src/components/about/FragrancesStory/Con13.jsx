@@ -98,14 +98,28 @@ export default function Con13() {
           { opacity: 1, yPercent: 0, duration: 1, ease: 'power3.out' })
         .set(book, { clearProps: 'transform,opacity' })
         .fromTo(flowers, {
-          opacity: 0,
           yPercent: (index) => -60 / flowerData[index].height * 100,
+        }, {
+          yPercent: 0,
+          duration: 1, stagger: 0.15, ease: 'power2.out',
+        }, '+=0.4')
+        // Keep the existing fade timing independent of the slightly faster fall.
+        .fromTo(flowers, { opacity: 0 }, {
+          opacity: 1, duration: 1.19, stagger: 0.15, ease: 'power2.out',
+        }, '<')
+        // One small breath of lateral motion; no repeat, bounce or upward travel.
+        // Percentages keep the 6px / 4px drift proportional to the artboard.
+        .fromTo(flowers, {
           xPercent: (index) => (index === 0 ? -3 : 4) / flowerData[index].width * 100,
           rotation: (index) => index === 0 ? -1.5 : 1,
         }, {
-          opacity: 1, yPercent: 0, xPercent: 0, rotation: 0,
-          duration: 1.4, stagger: 0.15, ease: 'power2.out',
-        }, '+=0.4')
+          duration: 1, stagger: 0.15, ease: 'none',
+          keyframes: [
+            { xPercent: (index) => -6 / flowerData[index].width * 100, rotation: -1.8, duration: 0.28, ease: 'sine.inOut' },
+            { xPercent: (index) => 4 / flowerData[index].width * 100, rotation: 0.65, duration: 0.44, ease: 'sine.inOut' },
+            { xPercent: 0, rotation: 0, duration: 0.28, ease: 'sine.inOut' },
+          ],
+        }, '<')
         // Leave the ending scene at its original CSS pose, with no exit or depth.
         // Preserve the original ending time after excluding the static white flower.
         .set(flowers, { clearProps: 'transform,opacity' }, 3.45);
