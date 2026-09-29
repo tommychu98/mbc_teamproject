@@ -20,15 +20,41 @@
 .galerie-rose__lineup .galerie-lineup__scent { left: 4.1667%; right: auto; text-align: left; width: 20.5208%; }
 .galerie-rose__collage { position: relative; width: 77.157%; aspect-ratio: 304 / 328; overflow: hidden; }
 .galerie-rose__collage img { position: absolute; top: 0; left: -3.53%; width: 107.94%; height: 100%; object-fit: cover; }
+.galerie-rose__mobile-break { display: none; }
 @media (max-width: 767px) {
-    .galerie-rose__intro .galerie-tamdao__description { width: 100%; max-width: 100%; }
-    .galerie-rose__intro .galerie-tamdao__notes { left: 8%; top: 77%; width: 65%; }
-    .galerie-rose__decoration--artichoke { left: 14%; top: 8%; width: 20%; }
-    .galerie-rose__decoration--upper { left: 65%; top: 23%; width: 28%; }
-    .galerie-rose__decoration--litchi { left: 79%; top: 64%; width: 17%; }
-    .galerie-rose__decoration--left { left: 2%; top: 40%; width: 32%; }
-    .galerie-rose__boundary { top: -125px; left: auto; right: 0; width: 185px; }
+    .galerie-rose__intro .galerie-tamdao__scene { height: max(100svh, 217.442cqw); min-height: 780px; }
+    .galerie-rose__intro .galerie-tamdao__background { inset: 2.14% auto auto -78.19%; width: 266.26%; height: 95.61%; object-fit: fill; }
+    .galerie-rose__intro .galerie-tamdao__middle { top: calc(50% - 37.5px); left: 50%; transform: translate(-50%, -50%); width: min(73.4884%, 400px); }
+    .galerie-rose__intro .galerie-tamdao__oval { aspect-ratio: 316 / 484; border-radius: 300px; }
+    .galerie-rose__intro .galerie-tamdao__forest { opacity: 0.6; }
+    .galerie-rose__intro .galerie-tamdao__bottle { width: 92.7215%; height: auto; left: calc(50% + 0.5px); top: calc(50% + 4px); }
+    .galerie-rose__intro .galerie-tamdao__title { margin-top: 0; font-size: clamp(42px, 13.4884cqw, 68px); line-height: 1.1; }
+    .galerie-rose__intro .galerie-tamdao__description { width: 94cqw; max-width: none; margin-top: 0; font-size: clamp(11px, 3.2558cqw, 14px); line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-rose__intro .galerie-tamdao__notes { left: 50%; top: calc(80% - 15px); transform: translateX(-50%); width: 125px; text-align: center; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-rose__intro .galerie-tamdao__concentration { margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
+    .galerie-rose__decoration--artichoke { display: none; }
+    .galerie-rose__decoration--upper { left: calc(50% + 82.63px); top: calc(20% + 51.14px); width: 117px; aspect-ratio: 117 / 121; }
+    .galerie-rose__decoration--upper img { transform: rotate(-54.92deg); }
+    .galerie-rose__decoration--litchi { left: 79.164px; top: 143.164px; width: 65.338px; }
+    .galerie-rose__decoration--left { left: 14.368px; top: calc(40% + 114.368px); width: 127.86px; }
+    .galerie-rose__decoration--left img { transform: rotate(15deg); }
+    /* One rose spans the con3/con4 boundary, matching both design frames. */
+    .galerie-rose__boundary { top: -137.43px; left: calc(50% + 22.57px); right: auto; width: 235.896px; }
+    .galerie-rose__lineup { min-height: 935px; padding: 142px 0 0; }
+    .galerie-rose__mobile-break { display: block; }
     .galerie-rose__lineup .galerie-lineup__collection { left: auto; }
-    .galerie-rose__lineup .galerie-lineup__scent { left: auto; width: min(100%, 340px); margin-left: 0; }
-    .galerie-rose__collage { width: 180px; }
+    .galerie-rose__lineup .galerie-lineup__collection > h2 { margin: 0 20px 31.4px; font-size: 26px; font-weight: 400; line-height: 1.3; }
+    .galerie-rose__lineup .galerie-lineup__products { display: flex; gap: 25px; padding: 0 22px 8px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 22px; overscroll-behavior-x: contain; scrollbar-width: none; }
+    .galerie-rose__lineup .galerie-lineup__products::-webkit-scrollbar { display: none; }
+    .galerie-rose__lineup .galerie-lineup__products:focus-visible { outline: 2px solid var(--color-ink-black); outline-offset: -2px; }
+    .galerie-rose__lineup .galerie-lineup__product { flex: 0 0 160px; width: 160px; margin: 0; scroll-snap-align: start; }
+    .galerie-rose__lineup .galerie-lineup__picture { width: 160px; height: 230px; box-sizing: border-box; aspect-ratio: auto; border-radius: 30px; }
+    .galerie-rose__lineup .galerie-lineup__product h3 { margin-top: 20px; font-size: 13px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-rose__lineup .galerie-lineup__product p { font-size: 14px; line-height: 1.4; letter-spacing: 0.02em; white-space: nowrap; }
+    .galerie-rose__lineup .galerie-lineup__favorite { width: 44px; height: 44px; top: 17px; right: 11px; }
+    .galerie-rose__lineup .galerie-lineup__favorite img { display: block; width: 24px; height: 24px; object-fit: contain; }
+    .galerie-rose__lineup .galerie-lineup__scent { position: relative; left: auto; width: auto; max-width: none; height: 272px; margin: 70.2px 22px 0; }
+    .galerie-rose__lineup .galerie-lineup__scent h3 { margin: 0; font-size: 16px; line-height: 1.4; font-weight: 400; }
+    .galerie-rose__lineup .galerie-lineup__scent p { margin-top: 20px; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-rose__collage { position: absolute; left: calc(50% + 3px); top: 33px; width: min(176px, 45.6%); aspect-ratio: 176 / 190; }
 }

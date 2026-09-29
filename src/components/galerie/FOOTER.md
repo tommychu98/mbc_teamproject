@@ -14,10 +14,15 @@ typography tokens and existing customer-service routes. Replace the existing
 layout footer at the callsite when using it on other pages. The component itself
 does not hide or modify another page's footer.
 
-Flowers sway when the footer enters the viewport. Motion pauses outside the
+Desktop flowers sway when the footer enters the viewport. Motion pauses outside the
 viewport or in a hidden browser tab. Reduced-motion users receive a still image.
 GSAP, observers and listeners are disposed on unmount. Animation targets are
 scoped to each footer instance.
+
+At 767px and below, the same component shows the compact mobile layout and the
+original static D/Q images. Hidden desktop flower layers do not animate on mobile.
+The mobile inquiry link uses the existing protected `/inquiries` route; signing
+in is handled by the application's existing route guard.
 
 ## Generated layers
 
@@ -47,9 +52,27 @@ Policy/store/chat labels without implemented destinations remain plain text.
 `GalerieContent` currently renders this footer, while `App.jsx` also renders the
 shared layout footer on `/galerie`. Both are visible. The team lead should decide
 which footer the route uses and update the layout integration outside this folder.
-Galerie CSS must not hide the shared footer or restyle the shared header.
+Galerie CSS does not hide the shared footer. The requested hero navigation theme
+is in `GalerieNavigation.css`, gated by `.app:has(.galerie-page)` and hero visibility;
+it reuses the shared header's existing interactions without modifying its source.
 
-Browser checks at 320, 390, 768 and 1440px found horizontal overflow in the shared
-header/footer. Temporarily excluding those elements in the browser removed the
-overflow at every tested width; no shared source files were changed. The team lead
-should check the width and box-sizing of `.header__inner` and `.footer__inner`.
+The latest Edge checks at 320, 430, 768 and 1440px confirmed horizontal overflow
+from the shared footer. Temporarily hiding only `.app > .footer` in the browser
+removed the overflow at every tested width; no shared source files were changed.
+The team lead should review `.footer__inner` width/padding/box-sizing and decide
+which footer is rendered on `/galerie`. Mobile viewport widths were inflated by
+32px while the shared footer remained visible, affecting the hero/menu alignment.
+
+## Submission checks
+
+- Existing `/galerie` route and exports/props are retained; no route wiring changed.
+- `node node_modules/eslint/bin/eslint.js src/components/galerie`: passed.
+- `npm run build`: passed, with the whole-app JavaScript chunk-size warning.
+- `npm run dev -- --host 127.0.0.1 --port 5173`: `/galerie` available.
+- Edge: desktop hero scroll, all four favorite toggles, mobile menu opening,
+  chapter navigation/focus, TOP, and cancellation of navigation after a simulated
+  mobile card drag passed. All 87 Galerie DOM images decoded successfully.
+- Source assets: 69 PNG files decoded and 24 SVG files parsed successfully.
+- Native phone touch gestures, iOS/Safari, authenticated inquiry submission, and
+  the visual quality of WebGL paper curl were not verified in this audit.
+- Footer policy/store labels remain text because no matching route exists.

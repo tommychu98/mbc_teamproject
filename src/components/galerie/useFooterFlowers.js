@@ -6,15 +6,15 @@ export default function useFooterFlowers(rootRef, enabled) {
         if (!enabled) return;
         const root = rootRef.current;
         const media = gsap.matchMedia();
-        media.add('(prefers-reduced-motion: no-preference)', () => {
+        media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
             const flowers = [...root.querySelectorAll('[data-footer-flowers]')];
             const animations = flowers.map((flower, index) => gsap.fromTo(flower,
                 { rotation: 0, xPercent: 0, yPercent: 0 },
                 {
-                    rotation: index === 0 ? 1.8 : -1.5,
-                    xPercent: index === 0 ? 0.35 : -0.3,
-                    yPercent: -0.35,
-                    duration: index === 0 ? 3.8 : 4.6,
+                    rotation: index === 0 ? 2.4 : -2.1,
+                    xPercent: index === 0 ? 0.55 : -0.48,
+                    yPercent: -0.7,
+                    duration: index === 0 ? 3.5 : 4.2,
                     ease: 'sine.inOut', repeat: -1, yoyo: true, paused: true,
                 },
             ));

@@ -18,13 +18,40 @@
 .galerie-sens__collage { width: 66.6667%; aspect-ratio: 1; margin-left: auto; }
 .galerie-sens__collage img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .galerie-sens__lineup .galerie-lineup__scent h3 { margin-top: 2.6042cqw; }
+.galerie-sens__boundary, .galerie-sens__mobile-break { display: none; }
 @media (max-width: 767px) {
-    .galerie-sens__intro .galerie-tamdao__title { font-size: 9cqw; }
-    .galerie-sens__intro .galerie-tamdao__description { width: 100%; max-width: 100%; }
-    .galerie-sens__intro .galerie-tamdao__notes { top: 79%; left: 20%; width: 60%; text-align: center; }
-    .galerie-sens__decoration--artichoke { top: 10%; left: 13%; width: 20%; }
-    .galerie-sens__decoration--upper { top: 26%; left: 2%; width: 23%; }
-    .galerie-sens__decoration--litchi { top: 46%; left: 3%; width: 27%; }
-    .galerie-sens__decoration--left { top: 38%; left: 67%; width: 33%; }
-    .galerie-sens__lineup .galerie-lineup__scent { width: min(100%, 340px); top: auto; }
+    .galerie-sens__intro .galerie-tamdao__scene { height: max(100svh, 217.442cqw); min-height: 780px; }
+    .galerie-sens__intro .galerie-tamdao__background { inset: 2.99% auto auto -36.79%; width: 266.26%; height: 95.61%; object-fit: fill; }
+    .galerie-sens__intro .galerie-tamdao__middle { top: calc(50% - 37.5px); left: 50%; transform: translate(-50%, -50%); width: min(73.4884%, 400px); }
+    .galerie-sens__intro .galerie-tamdao__oval { aspect-ratio: 316 / 484; border-radius: 300px; }
+    .galerie-sens__intro .galerie-tamdao__bottle { width: 92.7215%; height: auto; left: calc(50% + 0.5px); top: calc(50% + 4px); }
+    .galerie-sens__intro .galerie-tamdao__title { margin-top: 0; font-size: clamp(40px, 13.4884cqw, 68px); line-height: 1.1; }
+    .galerie-sens__intro .galerie-tamdao__description { width: 94cqw; max-width: none; margin-top: 0; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-sens__intro .galerie-tamdao__notes { top: calc(80% - 15px); left: 50%; transform: translateX(-50%); width: 125px; text-align: center; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-sens__intro .galerie-tamdao__concentration { margin-bottom: 10px; font-size: 13px; line-height: 1.4; }
+    .galerie-sens__decoration--artichoke { top: 121px; left: calc(50% + 48.01px); width: 85.119px; }
+    .galerie-sens__decoration--artichoke img { transform: rotate(-11.38deg); }
+    .galerie-sens__decoration--upper { top: calc(20% + 70.273px); left: 13.273px; width: 81.102px; }
+    .galerie-sens__decoration--litchi { display: none; }
+    .galerie-sens__decoration--left { top: calc(40% + 74.64px); left: calc(50% + 52.64px); width: 212.622px; }
+    .galerie-sens__decoration--left img { transform: rotate(-14.06deg); }
+    /* A single patchouli image bridges con5 and con6. */
+    .galerie-sens__boundary { display: block; position: absolute; left: 29.53px; top: -101.693px; width: 145.74px; height: 155.584px; pointer-events: none; }
+    .galerie-sens__boundary > div { width: 100%; height: 100%; }
+    .galerie-sens__boundary img { display: block; width: 100%; height: 100%; object-fit: contain; transform: rotate(12.9deg); }
+    .galerie-sens__lineup { min-height: 935px; padding: 153px 0 0; }
+    .galerie-sens__mobile-break { display: block; }
+    .galerie-sens__lineup .galerie-lineup__collection > h2 { margin: 0 22px 20.4px; font-size: 26px; font-weight: 400; line-height: 1.3; }
+    .galerie-sens__lineup .galerie-lineup__products { display: flex; gap: 25px; padding: 0 22px 8px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 22px; overscroll-behavior-x: contain; scrollbar-width: none; }
+    .galerie-sens__lineup .galerie-lineup__products::-webkit-scrollbar { display: none; }
+    .galerie-sens__lineup .galerie-lineup__products:focus-visible { outline: 2px solid var(--color-ink-black); outline-offset: -2px; }
+    .galerie-sens__lineup .galerie-lineup__product { flex: 0 0 160px; width: 160px; margin: 0; scroll-snap-align: start; }
+    .galerie-sens__lineup .galerie-lineup__picture { width: 160px; height: 230px; box-sizing: border-box; aspect-ratio: auto; border-radius: 30px; }
+    .galerie-sens__lineup .galerie-lineup__product h3 { margin-top: 20px; font-size: 13px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-sens__lineup .galerie-lineup__product p { font-size: 14px; line-height: 1.4; letter-spacing: 0.02em; white-space: nowrap; }
+    .galerie-sens__lineup .galerie-lineup__favorite { width: 44px; height: 44px; top: 17px; right: 11px; }
+    .galerie-sens__lineup .galerie-lineup__scent { position: relative; inset: auto; width: auto; max-width: none; height: 272px; margin: 63.2px 22px 0; }
+    .galerie-sens__lineup .galerie-lineup__scent h3 { margin: 0; font-size: 16px; line-height: 1.4; font-weight: 400; }
+    .galerie-sens__lineup .galerie-lineup__scent p { margin-top: 20px; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
+    .galerie-sens__collage { position: absolute; left: 3px; top: 42px; width: min(190px, 49.2%); margin: 0; }
 }
