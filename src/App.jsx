@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import ProtectedRoute from './components/common/ProtectedRoute';
+import IntroVideo from './components/intro';
 import Header from './components/layout/Navigation';
 import GalerieFooter from './components/galerie/GalerieFooter';
 import HomePage from './pages/home';
@@ -64,6 +65,7 @@ export default function App() {
 
     return (
         <div className={`app${isHistoryPage ? ' app--history' : ''}`}>
+            <IntroVideo />
             <ScrollToTop />
             <Header />
             <div className="app__main">
