@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import loadingVideo from './assets/Loading.mp4';
-import useIntroSession from './useIntroSession';
 import './IntroVideo.css';
 
 const DEFAULT_FALLBACK_MS = 3000;
@@ -14,8 +13,7 @@ export default function IntroVideo({
   fadeDuration = DEFAULT_FADE_MS,
   className = '',
 }) {
-  const { shouldPlay, markPlayed } = useIntroSession();
-  const [rendered, setRendered] = useState(shouldPlay);
+  const [rendered, setRendered] = useState(true);
   const [exiting, setExiting] = useState(false);
   const videoRef = useRef(null);
   const exitStartedRef = useRef(false);
@@ -65,9 +63,6 @@ export default function IntroVideo({
   }, []);
 
   useEffect(() => {
-    if (!shouldPlay) return undefined;
-
-    markPlayed();
     const fallbackTimer = window.setTimeout(finish, fallbackMs);
     const playPromise = videoRef.current?.play();
     playPromise?.catch(finish);
@@ -76,7 +71,7 @@ export default function IntroVideo({
       window.clearTimeout(fallbackTimer);
       window.clearTimeout(completionTimerRef.current);
     };
-  }, [fallbackMs, finish, markPlayed, shouldPlay]);
+  }, [fallbackMs, finish]);
 
   if (!rendered) return null;
 
