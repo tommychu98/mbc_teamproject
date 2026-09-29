@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
+import OrdersNav from './OrdersNav/OrdersNav';
 import './Orders.css';
 
 const sections = {
@@ -12,5 +13,6 @@ const sections = {
 export default function OrdersPage() {
   const { pathname } = useLocation();
   const [title, text] = sections[pathname] || sections['/mypage/orders'];
-  return <main className="orders-page container section"><p className="eyebrow">My page</p><h1 className="page-title">{title}</h1><div className="orders-page__layout"><nav aria-label="주문 메뉴"><NavLink to="/mypage/orders/payment-methods">Payment methods</NavLink><NavLink to="/mypage/orders/history">Order history</NavLink><NavLink to="/mypage/orders/returns-refunds">Returns & refunds</NavLink><NavLink to="/mypage/orders/track">Track order</NavLink></nav><section><h2>{title}</h2><p>{text}</p>{pathname.endsWith('/track') && <label className="field"><span className="field__label">주문번호</span><input className="field__input" placeholder="DP-20260917-001" /><button className="button" type="button">조회</button></label>}</section></div></main>;
+  const active = { '/mypage/orders/returns-refunds': 'returns', '/mypage/orders/track': 'tracking', '/mypage/orders/payment-methods': 'payment' }[pathname];
+  return <main className="orders-page container section"><p className="eyebrow">My page</p><h1 className="page-title">{title}</h1><div className={active ? "orders-page__layout orders-page__layout--subpage" : "orders-page__layout"}>{active ? <OrdersNav active={active} /> : <nav aria-label="주문 메뉴"><NavLink to="/mypage/orders/payment-methods">Payment methods</NavLink><NavLink to="/mypage/orders/history">Order history</NavLink><NavLink to="/mypage/orders/returns-refunds">Returns & refunds</NavLink><NavLink to="/mypage/orders/track">Track order</NavLink></nav>}<section><h2>{title}</h2><p>{text}</p>{pathname.endsWith('/track') && <label className="field"><span className="field__label">주문번호</span><input className="field__input" placeholder="DP-20260917-001" /><button className="button" type="button">조회</button></label>}</section></div></main>;
 }
