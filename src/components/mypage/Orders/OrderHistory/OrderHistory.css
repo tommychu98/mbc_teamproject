@@ -18,6 +18,9 @@
 }
 
 .order-history__header { text-align: center; }
+/* The shared MyPageHeader supplies top spacing when the navigation comes first. */
+.order-history:has(> .orders-nav:first-child) { padding-top: 0; }
+
 .order-history__title {
   margin: var(--space-3) 0 var(--space-4);
   font-family: var(--font-family-display);
