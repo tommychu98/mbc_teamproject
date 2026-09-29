@@ -1,0 +1,95 @@
+.ftp-mobile-ambition { display: none; }
+
+@media (max-width: 899px) {
+  #our-ambition > .ftp-story-stage { display: none; }
+  .ftp-mobile-ambition { position: relative; display: block; width: 100%; min-width: 0; }
+  .ftp-mobile-story__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; touch-action: pan-y; cursor: grab; background: var(--ftp-ivory); }
+  .ftp-mobile-story__stage:active { cursor: grabbing; }
+  .ftp-mobile-story__stage:focus-visible { outline: 2px solid var(--ftp-ink); outline-offset: -2px; }
+  .ftp-mobile-story__track { display: flex; width: 100%; height: 100%; will-change: transform; }
+  .ftp-mobile-story__slide { position: relative; flex: 0 0 100%; width: 100%; min-width: 0; height: 100%; overflow: hidden; }
+  /* Use one Figma canvas for every panel so text wrapping cannot shift collages. */
+  .ftp-mobile-story__slide > .ftp-mobile-ambition__panel { position: absolute; top: 50%; left: 50%; width: 430px; height: 935px; min-height: 0; transform: translate(-50%, -50%) scale(var(--story-scale, 1)); transform-origin: center; }
+  .ftp-mobile-ambition img { -webkit-user-drag: none; user-select: none; }
+  .ftp-mobile-ambition__intro-content > h2,
+  .ftp-mobile-ambition__intro-content > .ftp-mobile-ambition__copy,
+  .ftp-mobile-ambition__story > h2,
+  .ftp-mobile-ambition__story > .ftp-mobile-ambition__copy {
+    opacity: 0;
+    translate: 0 22px;
+    transition: opacity 800ms ease, translate 800ms ease;
+  }
+  .ftp-mobile-ambition__intro-content > .ftp-mobile-ambition__copy,
+  .ftp-mobile-ambition__story > .ftp-mobile-ambition__copy { transition-delay: 160ms; }
+  .ftp-mobile-ambition__card {
+    opacity: 0;
+    translate: 130px 0;
+    transition: opacity 800ms ease, translate 800ms ease;
+  }
+  .ftp-mobile-ambition__card:nth-child(2) { transition-delay: 160ms; }
+  .ftp-mobile-ambition__card:nth-child(3) { transition-delay: 320ms; }
+  .ftp-mobile-ambition__collage > * {
+    opacity: 0;
+    translate: -80px 60px;
+    scale: .72;
+    transition: opacity 900ms ease, translate 900ms ease, scale 900ms ease;
+  }
+  .ftp-mobile-ambition__collage > :nth-child(2) { translate: 80px -60px; transition-delay: 120ms; }
+  .ftp-mobile-ambition__collage > :nth-child(3) { translate: -30px -80px; transition-delay: 240ms; }
+  .ftp-slide-visible .ftp-mobile-ambition__intro-content > h2,
+  .ftp-slide-visible .ftp-mobile-ambition__intro-content > .ftp-mobile-ambition__copy,
+  .ftp-slide-visible .ftp-mobile-ambition__story > h2,
+  .ftp-slide-visible .ftp-mobile-ambition__story > .ftp-mobile-ambition__copy,
+  .ftp-slide-visible .ftp-mobile-ambition__card,
+  .ftp-slide-visible .ftp-mobile-ambition__collage > * { opacity: 1; translate: 0 0; scale: 1; }
+  .ftp-mobile-ambition__panel {
+    position: relative;
+    container-type: inline-size;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 935px;
+    background: var(--ftp-ivory);
+  }
+  .ftp-mobile-ambition h2 { margin: 0; font: 400 32px/1.1 'EB Garamond', var(--font-family-display); }
+  .ftp-mobile-ambition__decorations { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .ftp-mobile-ambition__decorations img { position: absolute; object-fit: cover; }
+  .ftp-mobile-ambition__intro-content { position: absolute; top: 467px; left: 20px; width: 390px; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 25px; padding: 0; text-align: center; }
+  .ftp-mobile-ambition__portrait { width: 238px; max-width: 72% !important; aspect-ratio: 238 / 361; object-fit: cover; border-radius: 600px; }
+  .ftp-mobile-ambition__copy { color: var(--ftp-copy); font-size: 16px; font-weight: 300; line-height: 1.4; letter-spacing: .06em; overflow-wrap: break-word; }
+  .ftp-mobile-ambition__copy p { margin: 0; }
+  .ftp-mobile-ambition__copy p + p { margin-top: 22.4px; }
+  .ftp-mobile-ambition__intro .ftp-mobile-ambition__copy { width: min(100%, 340px); }
+  .ftp-mobile-ambition__cards { position: absolute; top: 110px; left: 40px; width: 350px; margin: 0; }
+  .ftp-mobile-ambition__cards > :nth-child(2) { position: absolute; top: 150px; width: 100%; height: 130px; }
+  .ftp-mobile-ambition__cards > :nth-child(3) { position: absolute; top: 301px; width: 100%; }
+  .ftp-mobile-ambition__card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 128px; padding: 10px; border-radius: 20px; background: var(--ftp-ivory); box-shadow: 4px 4px 8px rgb(0 0 0 / .25); text-align: center; }
+  .ftp-mobile-ambition__card h3 { margin: 0; font: 400 26px/1.3 'EB Garamond', var(--font-family-display); }
+  .ftp-mobile-ambition__card p { margin: 0; font-size: 12px; font-weight: 300; line-height: 1.4; letter-spacing: .02em; color: var(--ftp-copy); }
+  .ftp-mobile-ambition__card .ftp-mobile-ambition__card-title { font-size: 14px; color: var(--ftp-ink); white-space: nowrap; }
+  .ftp-mobile-ambition__collage { position: absolute; left: 0; width: 100%; }
+  .ftp-mobile-ambition__collage > img, .ftp-mobile-ambition__crop { position: absolute; object-fit: cover; }
+  .ftp-mobile-ambition__collage--products { top: 591px; height: 318px; margin: 0; }
+  .ftp-mobile-ambition__crop { overflow: hidden; }
+  .ftp-mobile-ambition__crop img { position: absolute; top: 0; height: 100%; }
+  .ftp-mobile-ambition__crop--candle img { left: 0; width: 134.53%; }
+  .ftp-mobile-ambition__crop--painting img { left: -14.49%; top: .06%; width: 114.46%; }
+  .ftp-mobile-ambition__story { position: absolute; top: 72px; left: 36px; width: 374px; padding: 0; }
+  .ftp-mobile-ambition__story-image { width: 359px; height: 202px; object-fit: cover; border-radius: 10px; }
+  .ftp-mobile-ambition__story h2 { margin-top: 19px; color: var(--ftp-copy); }
+  .ftp-mobile-ambition__story .ftp-mobile-ambition__copy { margin-top: 19px; }
+  .ftp-mobile-ambition__balance .ftp-mobile-ambition__copy { width: min(100%, 269px); }
+  .ftp-mobile-ambition__balance .ftp-mobile-ambition__story { top: 283.5px; transform: translateY(-50%); }
+  .ftp-mobile-ambition__balance .ftp-mobile-ambition__story h2 { white-space: nowrap; }
+  .ftp-mobile-ambition__collage--balance { top: 550px; height: 314px; margin: 0; }
+  .ftp-mobile-ambition__design .ftp-mobile-ambition__story h2 { margin-top: 25px; height: 83px; color: var(--ftp-ink); }
+  .ftp-mobile-ambition__design .ftp-mobile-ambition__copy { width: 354px; margin-top: 12px; line-height: 1.5; letter-spacing: .02em; padding: 0; }
+  .ftp-mobile-ambition__design .ftp-mobile-ambition__copy p + p { margin-top: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ftp-mobile-story__stage { position: relative; height: auto; }
+  .ftp-mobile-story__track { display: block; height: auto; transform: none !important; }
+  .ftp-mobile-story__slide { height: calc(935 / 430 * 100vw); }
+  .ftp-mobile-story__slide > .ftp-mobile-ambition__panel { transform: translate(-50%, -50%) scale(var(--story-scale, 1)); }
+  .ftp-mobile-ambition .ftp-mobile-ambition__panel * { opacity: 1; translate: none; scale: none; transition: none; }
+}
