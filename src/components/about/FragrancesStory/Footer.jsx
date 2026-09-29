@@ -1,14 +1,44 @@
+import { Link } from 'react-router-dom';
 import logoD from './assets/footer-logo-d.png';
 import logoQ from './assets/footer-logo-q.png';
 import botanicalLeft from './assets/footer-botanical-left.svg';
 import botanicalRight from './assets/footer-botanical-right.svg';
 import isms from './assets/footer-isms.svg';
 import divider from './assets/footer-divider.svg';
+import mobileBotanical from './assets/mobile-footer-botanical.svg';
 import './Footer.css';
 
 export default function Footer() {
   return (
     <footer className="fragrances-footer" aria-label="Diptyque 회사 정보">
+      <div className="fragrances-footer__mobile">
+        <div className="fragrances-footer__mobile-brand" role="img" aria-label="DIPTYQUE">
+          <p className="fragrances-footer__mobile-wordmark" aria-hidden="true">{'    IPTY    UE'}</p>
+          <img className="fragrances-footer__mobile-logo-q" src={logoQ} alt="" width="83.508" height="83.508" />
+          <img className="fragrances-footer__mobile-logo-d" src={logoD} alt="" width="68.829" height="68.829" />
+        </div>
+        <div className="fragrances-footer__mobile-content">
+          <nav aria-label="회사 안내">
+            <ul className="fragrances-footer__mobile-menu">
+              <li><Link to="/contact/faq">고객센터</Link></li>
+              <li><Link to="/contact/notices">공지사항</Link></li>
+              <li><span>개인정보처리방침</span></li>
+              <li><span>매장안내</span></li>
+              <li><Link to="/inquiries/write">문의하기</Link></li>
+            </ul>
+          </nav>
+          <a className="fragrances-footer__mobile-phone" href="tel:1644-4490">(유료) 1644-4490</a>
+          <div className="fragrances-footer__mobile-company">
+            <p>주소: 서울특별시 강남구 도산대로 449 (청담동)  대표이사 : 김덕주,서민희,이승민</p>
+            <p>사업자등록번호 : 201-81-53657</p>
+            <p>통신판매업 신고번호 : 강남-13797</p>
+          </div>
+          <p className="fragrances-footer__mobile-copyright">©2022 SHINSEGAE INTERNATIONAL ALL RIGHTS RESERVED</p>
+        </div>
+        <div className="fragrances-footer__mobile-botanical" aria-hidden="true">
+          <img src={mobileBotanical} alt="" />
+        </div>
+      </div>
       <div className="fragrances-footer__scene">
         <div className="fragrances-footer__brand" role="img" aria-label="DIPTYQUE">
           <p className="fragrances-footer__wordmark" aria-hidden="true">{'    IPTY    UE'}</p>

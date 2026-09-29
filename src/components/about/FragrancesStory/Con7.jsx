@@ -1,3 +1,5 @@
+import StoryImage from './StoryImage';
+import mobilefurniture from './assets/mobile-chair.png';
 import musicians from './assets/con7-musicians.png';
 import dancers from './assets/con7-dancers.png';
 import furniture from './assets/con7-furniture.png';
@@ -15,17 +17,17 @@ export default function Con7() {
         <div className="fragrances-con7__intro">
           <h3 className="fragrances-con7__subtitle">PARIS AS NIGHT FALLS</h3>
           <p className="fragrances-con7__text">
-            파리 재즈 클럽의 기억에서 태어난 오르페옹은<br />
+            파리 재즈 클럽의 기억에서 태어난 오르페옹은<br /><span className="fragrances-story__mobile-copy">{' '}</span>
             음악과 웃음, 사람들의 온기로 가득했던 밤을 담아내며, 화려했던 그 시절의 풍경과 설렘을 다시 불러옵니다.
           </p>
         </div>
         <p className="fragrances-con7__text fragrances-con7__text--body">
-          주니퍼베리와 시더, 통카빈의 깊고 따스한 향은<br />
-          음악이 멈춘 뒤에도 잔잔한 선율처럼 공간에 머물며,<br />
+          주니퍼베리와 시더, 통카빈의 깊고 따스한 향은<br /><span className="fragrances-story__mobile-copy">{' '}</span>
+          음악이 멈춘 뒤에도 잔잔한 선율처럼 공간에 머물며,<br /><span className="fragrances-story__mobile-copy">{' '}</span>
           지나간 밤의 기억과 그날의 여운을 오래도록 남깁니다.
         </p>
         <img className="fragrances-con7__dancers" src={dancers} alt="파리 재즈 클럽에서 서로 마주 보며 춤추는 세 쌍의 남녀" width="966" height="1286" draggable="false" />
-        <img className="fragrances-con7__furniture" src={furniture} alt="" width="1255" height="1115" draggable="false" />
+        <StoryImage mobileSrc={mobilefurniture} className="fragrances-con7__furniture" src={furniture} alt="" width="1255" height="1115" draggable="false" />
         <img className="fragrances-con7__chandelier" src={chandelier} alt="" width="970" height="647" draggable="false" />
         <img className="fragrances-con7__plant" src={plant} alt="" width="425" height="638" draggable="false" />
       </div>

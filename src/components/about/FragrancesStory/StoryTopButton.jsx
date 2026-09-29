@@ -3,6 +3,8 @@ import { gsap } from 'gsap';
 import { createBackdropSampler } from './topButtonBackdrop';
 import topWh from './assets/top-wh.svg';
 import topBk from './assets/top-bk.svg';
+import mobileTopWh from './assets/mobile-top-wh.svg';
+import mobileTopBk from './assets/mobile-top-bk.svg';
 import './StoryTopButton.css';
 
 export default function StoryTopButton() {
@@ -50,7 +52,10 @@ export default function StoryTopButton() {
       data-variant={variant}
       onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })}
     >
-      <img className="fragrances-story__top-icon" src={variant === 'wh' ? topWh : topBk} alt="" aria-hidden="true" />
+      <picture>
+        <source media="(width < 768px)" srcSet={variant === 'wh' ? mobileTopWh : mobileTopBk} />
+        <img className="fragrances-story__top-icon" src={variant === 'wh' ? topWh : topBk} alt="" aria-hidden="true" />
+      </picture>
       <span className="fragrances-story__top-label" aria-hidden="true">TOP</span>
     </button>
   );

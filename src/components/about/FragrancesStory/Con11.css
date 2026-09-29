@@ -1,4 +1,5 @@
 /* Figma Con11 3449:5913 — 1920 × 1080, clipsContent: true. */
+.fragrances-con11__mobile-text { display: none; }
 .fragrances-con11 {
   container-type: inline-size;
   overflow: hidden;

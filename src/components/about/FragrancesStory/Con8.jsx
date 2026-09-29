@@ -1,4 +1,11 @@
+import StoryImage from './StoryImage';
+import mobileCard0 from './assets/mobile-jazz-night.png';
+import mobileCard1 from './assets/mobile-essence.png';
+import mobileCard2 from './assets/mobile-night-echo.png';
+const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
+import useMobileCards from './useMobileCards';
 import background from './assets/con2-background.png';
+import mobileBackground from './assets/con5-background.png';
 import jazzNight from './assets/con8-jazz-night.png';
 import essence from './assets/con8-essence.png';
 import nightEcho from './assets/con8-night-echo.png';
@@ -30,15 +37,16 @@ const cards = [
 ];
 
 export default function Con8() {
+  const { railRef, active } = useMobileCards();
   return (
     <section className="fragrances-con8" aria-labelledby="fragrances-con8-title">
       <div className="fragrances-con8__scene">
-        <img className="fragrances-con8__background" src={background} alt="" width="1920" height="1080" draggable="false" />
+        <StoryImage mobileSrc={mobileBackground} className="fragrances-con8__background" src={background} alt="" width="1920" height="1080" draggable="false" />
         <h2 className="fragrances-con8__title" id="fragrances-con8-title">A MEMORY OF PARIS AFTER DARK</h2>
-        <div className="fragrances-con8__cards">
-          {cards.map(({ number, title, image, alt, lines }) => (
+        <div ref={railRef} className="fragrances-con8__cards">
+          {cards.map(({ number, title, image, alt, lines }, index) => (
             <article className="fragrances-con8__card" key={number}>
-              <img className="fragrances-con8__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+              <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con8__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
               <div className="fragrances-con8__card-content">
                 <h3 className="fragrances-con8__card-heading">
                   <span>{number}</span>
@@ -51,6 +59,7 @@ export default function Con8() {
             </article>
           ))}
         </div>
+        <p className="fragrances-story__pagination" aria-live="polite" aria-atomic="true">{active}/3</p>
         <div className="fragrances-con8__instrument" aria-hidden="true">
           <img className="fragrances-con8__instrument-image" src={instrument} alt="" width="683.474" height="455.649" draggable="false" />
         </div>

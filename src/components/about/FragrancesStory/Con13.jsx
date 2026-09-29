@@ -1,3 +1,6 @@
+import mobileBook from './assets/mobile-ending-closed-book.png';
+import StoryImage from './StoryImage';
+import mobileBackground from './assets/mobile-ending-background.png';
 import { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -148,7 +151,7 @@ export default function Con13() {
                 transform: `matrix(${transform[0][0]}, ${transform[1][0]}, ${transform[0][1]}, ${transform[1][1]}, 0, 0)`,
               }}
             >
-              <img className="fragrances-con13__image" src={src} alt={name === 'main-book' ? 'Scent Stories — Diptyque Paris 문구가 새겨진 닫힌 책.' : ''} width={imageWidth} height={imageHeight} draggable="false" />
+              <StoryImage mobileSrc={name === 'main-book' ? mobileBook : name === 'background' ? mobileBackground : src} className="fragrances-con13__image" src={src} alt={name === 'main-book' ? 'Scent Stories — Diptyque Paris 문구가 새겨진 닫힌 책.' : ''} width={imageWidth} height={imageHeight} draggable="false" />
             </div>
           </div>
         ))}
