@@ -1,13 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import OrdersNav from '../OrdersNav/OrdersNav';
 import './OrderHistory.css';
 
-const orderLinks = [
-  ['주문 내역', '/mypage/orders/history'],
-  ['취소·반품·교환', '/mypage/orders/returns-refunds'],
-  ['배송조회', '/mypage/orders/track'],
-  ['결제수단', '/mypage/orders/payment-methods'],
-];
 const periods = ['오늘', '7일', '15일', '1개월', '3개월', '1년'];
 
 function formatDate(date) {
@@ -75,11 +70,7 @@ export default function OrderHistory() {
         </nav>
       </header>
 
-      <nav className="order-history__tabs" aria-label="주문 메뉴">
-        {orderLinks.map(([label, to], index) => (
-          <Link key={to} className="order-history__tab" to={to} aria-current={index === 0 ? 'page' : undefined}>{label}</Link>
-        ))}
-      </nav>
+      <OrdersNav active="history" />
 
       <section className="order-history__content" aria-label="주문 내역">
         <form className="order-history__filter" onSubmit={handleSearch}>
