@@ -1,0 +1,61 @@
+.mypage-header__heading { text-align: center; }
+.mypage-header__title {
+  margin-block: var(--space-3) var(--space-4);
+  font-family: var(--font-family-display);
+  font-size: var(--text-mobile-title-r1-size);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--text-mobile-title-r1-line-height);
+}
+.mypage-header__nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--space-5);
+  margin-block: var(--space-8) var(--space-10);
+  border-bottom: 1px solid var(--color-border-default);
+}
+.mypage-header__nav > .mypage-header__nav-item {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  min-height: var(--size-touch-min);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid transparent;
+  color: inherit;
+  font-size: var(--text-mobile-body-l1-size);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: .06em;
+  text-decoration: none;
+}
+.mypage-header__nav-sizer, .mypage-header__nav-label { grid-area: 1 / 1; white-space: nowrap; }
+.mypage-header__nav-sizer { visibility: hidden; font-weight: var(--font-weight-medium); }
+.mypage-header__nav-label {
+  position: relative;
+  transition: font-weight var(--duration-normal) var(--ease-standard);
+}
+.mypage-header__nav-label::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(-1 * var(--space-2));
+  height: var(--border-width-thin, 1px);
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-normal) var(--ease-standard);
+}
+.mypage-header__nav-item:is(:hover, :focus-visible) .mypage-header__nav-label { font-weight: var(--font-weight-medium); }
+.mypage-header__nav-item:is(:hover, :focus-visible) .mypage-header__nav-label::after { transform: scaleX(1); }
+.mypage-header__nav-item:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) {
+  .mypage-header__nav-label, .mypage-header__nav-label::after { transition: none; }
+}
+
+@media (min-width: 768px) {
+  .mypage-header__title { font-size: var(--text-sub-title-r1-size); line-height: var(--text-sub-title-r1-line-height); }
+  .mypage-header__nav { gap: var(--space-10); margin-bottom: var(--space-12); }
+}
+
+@media (min-width: 1024px) {
+  .mypage-header__nav { margin-bottom: var(--space-10); }
+}

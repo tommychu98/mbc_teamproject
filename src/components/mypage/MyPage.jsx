@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Clock3, CreditCard, Package, Truck, PackageCheck, BadgeCheck } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
+import MyPageHeader from './MyPageHeader/MyPageHeader';
 import './MyPage.css';
 
 const orderSteps = [
@@ -36,25 +37,7 @@ export default function MyPage() {
 
   return (
     <main className="mypage container">
-      <header className="mypage__heading">
-        <h1>My Page</h1>
-      </header>
-
-      <nav className="mypage__nav" aria-label="마이페이지 메뉴">
-        {['MY PAGE', 'PROFILE', 'MY ORDERS', 'COMMUNITY'].map((label, index) => {
-          const Item = index === 0 ? Link : 'span';
-          const itemProps = index === 0
-            ? { to: '/mypage', 'aria-current': 'page' }
-            : { role: 'link', tabIndex: 0, 'aria-disabled': true };
-
-          return (
-            <Item className="mypage__nav-item" key={label} {...itemProps}>
-              <span className="mypage__nav-sizer" aria-hidden="true">{label}</span>
-              <span className="mypage__nav-label">{label}</span>
-            </Item>
-          );
-        })}
-      </nav>
+      <MyPageHeader active="mypage" />
 
       <div className="mypage__dashboard">
         <div className="mypage__overview">
