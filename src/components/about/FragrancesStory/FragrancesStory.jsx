@@ -16,6 +16,7 @@ import Con11 from './Con11';
 import Con12 from './Con12';
 import Con13 from './Con13';
 import Footer from './Footer';
+import StoryTopButton from './StoryTopButton';
 
 export default function FragrancesStory() {
   const heroRef = useRef(null);
@@ -51,6 +52,7 @@ export default function FragrancesStory() {
       <Con12 />
       <Con13 />
       <Footer />
+      <StoryTopButton />
     </section>
   );
 }

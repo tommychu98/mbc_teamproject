@@ -1,0 +1,56 @@
+/* Figma web_top 2580:2046; Hero 2778:2093: x 1738, y 927, 80 × 76. */
+.fragrances-story__top {
+  position: fixed;
+  right: max(var(--page-padding), env(safe-area-inset-right));
+  bottom: max(var(--space-4), env(safe-area-inset-bottom));
+  z-index: var(--z-sticky, 100);
+  width: var(--space-20);
+  height: 76px;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--color-text-inverse);
+  cursor: pointer;
+}
+
+.fragrances-story__top-icon {
+  position: absolute;
+  left: 27.325px;
+  top: 12.325px;
+  max-width: none;
+}
+
+.fragrances-story__top-label {
+  position: absolute;
+  left: 26px;
+  top: 53px;
+  width: 31px;
+  height: 24px;
+  font-family: var(--font-family-sans);
+  font-size: var(--text-web-body-l2-do-size);
+  font-weight: var(--text-web-body-l2-do-weight);
+  line-height: var(--text-web-body-l2-do-line-height);
+  letter-spacing: var(--text-web-body-l2-do-letter-spacing);
+  text-align: center;
+}
+
+/* Figma bk text is a presentation variable, distinct from the ink icon. */
+.fragrances-story__top--bk { color: #171714; }
+.fragrances-story__top--bk .fragrances-story__top-icon { top: 11.325px; }
+.fragrances-story__top--bk .fragrances-story__top-label { top: 55px; }
+.fragrances-story__top:focus-visible {
+  outline: var(--border-width-medium, 2px) solid var(--color-focus);
+  outline-offset: var(--space-1);
+}
+
+/* No hover variant is defined in Figma; preserve both original appearances. */
+@media (min-width: 768px) {
+  .fragrances-story__top { bottom: var(--space-6); }
+}
+@media (min-width: 1024px) {
+  .fragrances-story__top {
+    right: calc(102 / 1920 * 100vw);
+    bottom: calc(77 / 1080 * 100vh);
+  }
+}
