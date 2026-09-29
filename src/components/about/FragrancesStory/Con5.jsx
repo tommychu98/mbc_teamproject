@@ -1,3 +1,9 @@
+import StoryImage from './StoryImage';
+import mobileCard0 from './assets/mobile-boutique.png';
+import mobileCard1 from './assets/mobile-velvet-woods.png';
+import mobileCard2 from './assets/mobile-afterglow.png';
+const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
+import useMobileCards from './useMobileCards';
 import background from './assets/con5-background.png';
 import boutique from './assets/con5-boutique.png';
 import velvetWoods from './assets/con5-velvet-woods.png';
@@ -29,15 +35,16 @@ const cards = [
 ];
 
 export default function Con5() {
+  const { railRef, active } = useMobileCards();
   return (
     <section className="fragrances-con5" aria-labelledby="fragrances-con5-title">
       <div className="fragrances-con5__scene">
         <img className="fragrances-con5__background" src={background} alt="" width="1920" height="1080" draggable="false" />
         <h2 className="fragrances-con5__title" id="fragrances-con5-title">A BOUTIQUE CAPTURED IN SCENT</h2>
-        <div className="fragrances-con5__cards">
-          {cards.map(({ number, title, image, alt, lines }) => (
+        <div ref={railRef} className="fragrances-con5__cards">
+          {cards.map(({ number, title, image, alt, lines }, index) => (
             <article className="fragrances-con5__card" key={number}>
-              <img className="fragrances-con5__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+              <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con5__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
               <div className="fragrances-con5__card-content">
                 <h3 className="fragrances-con5__card-heading">
                   <span>{number}</span>
@@ -50,6 +57,7 @@ export default function Con5() {
             </article>
           ))}
         </div>
+        <p className="fragrances-story__pagination" aria-live="polite" aria-atomic="true">{active}/3</p>
       </div>
     </section>
   );

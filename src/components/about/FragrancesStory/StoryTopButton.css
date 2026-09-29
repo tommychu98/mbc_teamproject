@@ -45,6 +45,47 @@
 }
 
 /* No hover variant is defined in Figma; preserve both original appearances. */
+@media (width < 768px) {
+  /* Figma 2778:2213: (369, 791), 40 × 43 on the 430 × 935 frame.
+     Inner starts at y=52; its bottom gap is 49px, full viewport gap 101px. */
+  .fragrances-story__top {
+    right: max(21px, env(safe-area-inset-right));
+    bottom: max(101px, env(safe-area-inset-bottom));
+    width: var(--size-button-sm, 40px);
+    height: 43px;
+  }
+
+  /* Preserve the 40 × 43 visual while providing the guide's 44px touch area. */
+  .fragrances-story__top::before {
+    content: '';
+    position: absolute;
+    width: var(--size-touch-min, 44px);
+    height: var(--size-touch-min, 44px);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .fragrances-story__top .fragrances-story__top-icon {
+    left: 13.5px;
+    top: 7.5px;
+    /* Original SVG is 13 × 17 including the 1px stroke; do not scale it. */
+  }
+
+  .fragrances-story__top .fragrances-story__top-label {
+    left: 9px;
+    top: 29px;
+    width: 22px;
+    height: 14px;
+    font-family: 'Fragrances Mobile Dotum', var(--font-family-sans);
+    font-size: 11px; /* Figma m_top label; no matching 11px type token. */
+    font-weight: var(--font-weight-light);
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+}
+
 @media (min-width: 768px) {
   .fragrances-story__top { bottom: var(--space-6); }
 }

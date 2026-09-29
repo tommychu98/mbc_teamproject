@@ -11,18 +11,18 @@ export default function Con4() {
     <section className="fragrances-con4" aria-labelledby="fragrances-con4-title">
       <div className="fragrances-con4__scene">
         <p className="fragrances-con4__text fragrances-con4__text--body1">
-          오 드 퍼퓸은 34번가의 기억을 더욱 깊이 담아냅니다.<br />
-          바닐라와 앰버 우드가 풍성한 온기를 더하며,<br />
+          오 드 퍼퓸은 34번가의 기억을 더욱 깊이 담아냅니다.<br /><span className="fragrances-story__mobile-copy">{' '}</span>
+          바닐라와 앰버 우드가 풍성한 온기를 더하며,<br /><span className="fragrances-story__mobile-copy">{' '}</span>
           오래된 부티크의 따스한 분위기를 그립니다.
         </p>
         <p className="fragrances-con4__text fragrances-con4__text--body2">
-          문이 닫힌 뒤에도 향은 그 자리에 남아,<br />
+          문이 닫힌 뒤에도 향은 그 자리에 남아,<br /><span className="fragrances-story__mobile-copy">{' '}</span>
           당신의 향취와 함께 34번가의 기억을 불러옵니다.
         </p>
         <div className="fragrances-con4__intro">
-          <h3 className="fragrances-con4__subtitle">BEFORE FRAGRANCE, THERE WAS A PLACE</h3>
+          <h3 className="fragrances-con4__subtitle"><span className="fragrances-story__desktop-copy">BEFORE FRAGRANCE, THERE WAS A PLACE</span><span className="fragrances-story__mobile-copy">BEFORE FRAGRANCE,<br />THERE WAS A PLACE</span></h3>
           <p className="fragrances-con4__text">
-            34번가의 문이 처음 열리던 날,<br />
+            34번가의 문이 처음 열리던 날,<br /><span className="fragrances-story__mobile-copy">{' '}</span>
             그 공간을 가득 채운 향에서 이야기는 시작됩니다.
           </p>
         </div>

@@ -1,0 +1,432 @@
+/* Figma Stories_Mobile 2857:3106. Its screens are 430 × 935;
+   the 636px parent also includes the overflowing card rail on the design canvas.
+   Desktop styles and GSAP targets remain the source of truth from 768px up. */
+@font-face {
+  font-family: 'Fragrances Mobile Dotum';
+  src: url('./assets/mobile-kopub-dotum-light.otf') format('opentype');
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+.fragrances-story__picture { display: contents; }
+.fragrances-story__mobile-copy,
+.fragrances-story__mobile-break,
+.fragrances-story__pagination { display: none; }
+
+@media (width < 768px) {
+  .fragrances-story {
+    background: var(--color-bg-primary);
+    /* The guide defines these complete type sets; variables.css currently only
+       exports the abbreviated mobile sizes. Bridge them locally, read-only guides. */
+    --text-mobile-body-r1-eb-size: var(--text-mobile-body-r1-size, 16px);
+    --text-mobile-body-r1-eb-weight: 400;
+    --text-mobile-body-r1-eb-line-height: 1.4;
+    --text-mobile-body-r1-eb-letter-spacing: 0;
+    --text-mobile-body-r2-do-size: var(--text-mobile-body-r2-size, 14px);
+    --text-mobile-body-r2-do-weight: 300;
+    --text-mobile-body-r2-do-line-height: 1.4;
+    --text-mobile-body-r2-do-letter-spacing: 0.02em;
+    --text-mobile-body-l1-do-size: var(--text-mobile-body-l1-size, 12px);
+    --text-mobile-body-l1-do-weight: 300;
+    --text-mobile-body-l1-do-line-height: 1.4;
+    --text-mobile-body-l1-do-letter-spacing: 0.02em;
+    --text-mobile-sub-title-r1-weight: 400;
+    --text-mobile-sub-title-r1-letter-spacing: 0;
+  }
+  .fragrances-story__desktop-copy { display: none; }
+  .fragrances-story__mobile-copy { display: inline; }
+  .fragrances-story__mobile-break { display: block; }
+
+  /* Artwork follows the mobile composition. Keep the vertical text slots at
+     least their Figma height on narrow phones so 14px body copy can reflow. */
+  .fragrances-story > section {
+    position: relative;
+    overflow: clip;
+    z-index: auto;
+    background: var(--color-bg-primary);
+  }
+  .fragrances-story > section > [class$='__scene'] {
+    --mobile-scale: calc(100cqw / 430px);
+    --mobile-flow-scale: max(1, var(--mobile-scale));
+    aspect-ratio: auto;
+    height: calc(935px * var(--mobile-flow-scale));
+    overflow: clip;
+  }
+  .fragrances-story__scene {
+    container-type: inline-size;
+    aspect-ratio: 430 / 935;
+    margin-block: 0;
+  }
+
+  /* No top-button slot is present in this mobile Figma. Preserve the existing
+     adaptive button, its hit area and background sampling without a new variant. */
+
+  :is(.fragrances-con1__title, .fragrances-con4__title, .fragrances-con7__title) {
+    position: absolute;
+    left: calc(16 / 430 * 100%);
+    top: calc(162px * var(--mobile-flow-scale));
+    width: calc(398 / 430 * 100%);
+    height: auto;
+    font-family: var(--font-family-display);
+    font-size: clamp(var(--text-mobile-title-r2-size), 14.8837cqw, var(--text-mobile-title-b1-size));
+    font-weight: var(--text-mobile-title-b1-weight);
+    line-height: var(--text-mobile-title-b1-line-height);
+    letter-spacing: var(--text-mobile-title-b1-letter-spacing);
+    text-align: left;
+    white-space: nowrap;
+  }
+  :is(.fragrances-con1__title, .fragrances-con4__title) span {
+    position: static;
+    width: auto;
+    height: auto;
+    white-space: normal;
+  }
+  :is(.fragrances-con1__chapter, .fragrances-con4__chapter, .fragrances-con7__chapter) {
+    left: calc(16 / 430 * 100%);
+    top: calc(140px * var(--mobile-flow-scale));
+    width: auto;
+    height: auto;
+    font-size: var(--text-mobile-body-r1-eb-size);
+    font-weight: var(--text-mobile-body-r1-eb-weight);
+    line-height: var(--text-mobile-body-r1-eb-line-height);
+    letter-spacing: var(--text-mobile-body-r1-eb-letter-spacing);
+    text-align: left;
+  }
+  :is(.fragrances-con1__intro, .fragrances-con4__intro, .fragrances-con7__intro) { gap: 14px; }
+  :is(.fragrances-con1__subtitle, .fragrances-con4__subtitle, .fragrances-con7__subtitle) {
+    width: max-content;
+    height: auto;
+    font-size: var(--text-mobile-body-r1-eb-size);
+    font-weight: var(--text-mobile-body-r1-eb-weight);
+    line-height: var(--text-mobile-body-r1-eb-line-height);
+    letter-spacing: var(--text-mobile-body-r1-eb-letter-spacing);
+    white-space: normal;
+  }
+  :is(.fragrances-con1__text, .fragrances-con4__text, .fragrances-con7__text) {
+    font-family: 'Fragrances Mobile Dotum', var(--font-family-sans);
+    font-size: var(--text-mobile-body-r2-do-size);
+    font-weight: var(--text-mobile-body-r2-do-weight);
+    line-height: var(--text-mobile-body-r2-do-line-height);
+    letter-spacing: var(--text-mobile-body-r2-do-letter-spacing);
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+  :is(.fragrances-con1__text--body1, .fragrances-con1__text--body2, .fragrances-con4__text, .fragrances-con7__text) br { display: none; }
+  .fragrances-con4__text--body1 br:first-child,
+  .fragrances-con1__text--body1 br:first-child,
+  .fragrances-con1__text--body2 .fragrances-con1__paragraph-break { display: block; }
+  .fragrances-story .fragrances-con1__cloud--small,
+  .fragrances-story .fragrances-con2__cloth,
+  .fragrances-story .fragrances-con4__cloth,
+  .fragrances-story .fragrances-con7__plant,
+  .fragrances-story .fragrances-con8__instrument { display: none; }
+  .fragrances-con1__subtitle { max-width: calc(295 / 430 * 100cqw); }
+  .fragrances-con1__couple-image { width: 100%; height: 100%; object-fit: cover; }
+  /* Override the desktop scene's image selector so the mobile crop is preserved. */
+  .fragrances-con1__scene .fragrances-con1__pillar { object-fit: fill; }
+
+  /* Three-card rails: Figma first card starts at x=73, y=262 with an 11px gap.
+     Native overflow remains inside the screen; trailing space lets card 3 snap. */
+  :is(.fragrances-con2__title, .fragrances-con5__title, .fragrances-con8__title) {
+    left: calc(34 / 430 * 100%);
+    top: calc(99px * var(--mobile-flow-scale));
+    width: calc(334 / 430 * 100%);
+    height: auto;
+    transform: none;
+    font-size: var(--text-mobile-sub-title-r1-size);
+    font-weight: var(--text-mobile-sub-title-r1-weight);
+    line-height: var(--text-mobile-sub-title-r1-line-height);
+    letter-spacing: var(--text-mobile-sub-title-r1-letter-spacing);
+    white-space: normal;
+  }
+  .fragrances-con5__title { width: calc(380 / 430 * 100%); }
+  .fragrances-con8__title { width: calc(313 / 430 * 100%); }
+  :is(.fragrances-con2__cards, .fragrances-con5__cards, .fragrances-con8__cards) {
+    box-sizing: border-box;
+    top: calc(262px * var(--mobile-flow-scale));
+    left: 0;
+    width: 100%;
+    display: flex;
+    gap: 11px;
+    padding-inline: calc(73 / 430 * 100%) calc(38 / 430 * 100%);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: calc(73 / 430 * 100%);
+    scrollbar-width: none;
+  }
+  :is(.fragrances-con2__cards, .fragrances-con5__cards, .fragrances-con8__cards)::-webkit-scrollbar { display: none; }
+  :is(.fragrances-con2__cards, .fragrances-con5__cards, .fragrances-con8__cards):focus-visible { outline: 2px solid var(--color-focus); outline-offset: -2px; }
+  :is(.fragrances-con2__card, .fragrances-con5__card, .fragrances-con8__card) {
+    box-sizing: border-box;
+    flex: 0 0 calc(319 / 430 * 100cqw);
+    min-height: 509px;
+    padding-inline: calc(11 / 430 * 100cqw) calc(10 / 430 * 100cqw);
+    padding-bottom: 20px;
+    border-top-left-radius: 20px;
+    background: color-mix(in srgb, var(--color-bg-primary) 60%, var(--color-surface));
+    color: var(--color-text-secondary);
+    scroll-snap-align: start;
+  }
+  .fragrances-con2__card-artwork {
+    flex: none;
+    width: 100%;
+    height: calc(360px * var(--mobile-scale));
+    aspect-ratio: auto;
+  }
+  .fragrances-con2__card-image { inset: 0 !important; width: 100%; height: 100%; object-fit: cover; }
+  :is(.fragrances-con5__card-image, .fragrances-con8__card-image) { width: 100%; height: calc(360px * var(--mobile-scale)); aspect-ratio: auto; object-fit: cover; }
+  :is(.fragrances-con2__card-content, .fragrances-con5__card-content, .fragrances-con8__card-content) { width: min(207px, 100%); gap: 14px; }
+  :is(.fragrances-con2__card-heading, .fragrances-con5__card-heading, .fragrances-con8__card-heading) {
+    gap: 10px;
+    font-size: var(--text-mobile-body-r1-eb-size);
+    font-weight: var(--text-mobile-body-r1-eb-weight);
+    line-height: var(--text-mobile-body-r1-eb-line-height);
+  }
+  .fragrances-con2__card--encounter .fragrances-con2__card-title { font-weight: var(--font-weight-regular); }
+  :is(.fragrances-con2__card-description, .fragrances-con5__card-description, .fragrances-con8__card-description) {
+    font-family: 'Fragrances Mobile Dotum', var(--font-family-sans);
+    font-size: var(--text-mobile-body-r2-do-size);
+    font-weight: var(--text-mobile-body-r2-do-weight);
+    line-height: var(--text-mobile-body-r2-do-line-height);
+    letter-spacing: var(--text-mobile-body-r2-do-letter-spacing);
+  }
+  .fragrances-story__pagination {
+    position: absolute;
+    display: block;
+    left: 50%;
+    top: calc(817px * var(--mobile-flow-scale));
+    transform: translateX(-50%);
+    font-family: var(--font-family-display);
+    font-size: var(--text-mobile-body-r1-eb-size);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+    color: #6b665f; /* Figma presentation text-secondary, no matching semantic token. */
+  }
+
+  :is(.fragrances-con3__notes, .fragrances-con6__notes, .fragrances-con9__notes) {
+    left: calc(22 / 430 * 100%);
+    top: calc(442px * var(--mobile-flow-scale));
+    width: calc(386 / 430 * 100%);
+    display: flex;
+    gap: 0;
+    color: var(--color-black);
+  }
+  :is(.fragrances-con3__note, .fragrances-con6__note, .fragrances-con9__note) {
+    flex: 0 0 calc(140px * var(--mobile-scale));
+    margin-right: calc(-17px * var(--mobile-scale));
+    gap: 0;
+  }
+  :is(.fragrances-con3__note-label, .fragrances-con6__note-label, .fragrances-con9__note-label) {
+    height: 20px;
+    font-family: 'Fragrances Mobile Dotum', var(--font-family-sans);
+    font-size: var(--text-mobile-body-l1-do-size);
+    font-weight: var(--text-mobile-body-l1-do-weight);
+    line-height: var(--text-mobile-body-l1-do-line-height);
+    letter-spacing: var(--text-mobile-body-l1-do-letter-spacing);
+  }
+  :is(.fragrances-con3__note-name, .fragrances-con6__note-name, .fragrances-con9__note-name) {
+    height: auto;
+    font-size: var(--text-mobile-body-r1-eb-size);
+    font-weight: var(--text-mobile-body-r1-eb-weight);
+    line-height: var(--text-mobile-body-r1-eb-line-height);
+    letter-spacing: var(--text-mobile-body-r1-eb-letter-spacing);
+    white-space: normal;
+  }
+  .fragrances-con6__notes { top: calc(416px * var(--mobile-flow-scale)); }
+  .fragrances-con9__notes { top: calc(414px * var(--mobile-flow-scale)); }
+  .fragrances-con6__note-name { font-size: var(--text-mobile-body-r2-size); letter-spacing: 0.06em; }
+  .fragrances-con6__note:last-child .fragrances-con6__note-name { letter-spacing: 0.02em; }
+  .fragrances-con9__note { gap: 4px; }
+  .fragrances-con9__note-name { font-size: 13px; letter-spacing: 0.02em; }
+  .fragrances-con9__note:first-child .fragrances-con9__note-name { letter-spacing: 0.06em; }
+  :is(.fragrances-con3__table-image, .fragrances-con6__table-image, .fragrances-con9__table-image) { width: 100%; height: 100%; object-fit: cover; }
+  /* Keep the room behind the table in the latest mobile composition. */
+  :is(.fragrances-con3__background, .fragrances-con9__background) { z-index: 0; }
+  :is(.fragrances-con3__table, .fragrances-con9__table) { z-index: 1; }
+  :is(.fragrances-con3__perfume, .fragrances-con9__perfume) { z-index: 2; }
+  :is(.fragrances-con3__notes, .fragrances-con9__notes) { z-index: 3; }
+
+  /* Keep the desktop text frame separate from the latest mobile composition. */
+  .fragrances-con11__text { display: none; }
+  /* Figma 2907:7659: live text over the new, text-free mobile book image. */
+  .fragrances-con11__mobile-text {
+    display: block;
+    position: absolute;
+    left: calc(237 / 430 * 100%);
+    top: calc(313px * var(--mobile-flow-scale) + 76px * var(--mobile-scale));
+    width: calc(167.225 / 430 * 100%);
+    height: calc(158.583px * var(--mobile-scale));
+    z-index: 8;
+  }
+  .fragrances-con11__mobile-lines {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fragrances-con11__mobile-lines--first {
+    left: calc(22.995px * var(--mobile-scale));
+    top: calc(31px * var(--mobile-scale));
+    width: calc(104.51px * var(--mobile-scale));
+    height: calc(65.09px * var(--mobile-scale));
+  }
+  .fragrances-con11__mobile-lines--second {
+    left: calc(6.995px * var(--mobile-scale));
+    top: calc(74px * var(--mobile-scale));
+    width: calc(110.35px * var(--mobile-scale));
+    height: calc(66.468px * var(--mobile-scale));
+  }
+  .fragrances-con11__mobile-passage {
+    flex: none;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-family: var(--font-family-display);
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+    font-weight: var(--text-mobile-body-r1-eb-weight);
+    line-height: var(--text-mobile-body-r1-eb-line-height);
+    letter-spacing: var(--text-mobile-body-r1-eb-letter-spacing);
+    text-align: center;
+    transform: rotate(13.27deg);
+  }
+  .fragrances-con11__mobile-passage > span { display: block; white-space: pre; }
+}
+
+/* Independent mobile object geometry, measured from the Figma child screens. */
+@media (width < 768px) {
+  .fragrances-con1__intro { left: calc(119 / 430 * 100%); top: calc(323px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con1__text--body1 { left: calc(222 / 430 * 100%); top: calc(499px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con1__text--body2 { left: calc(222 / 430 * 100%); top: calc(669px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con1__cloud--left { left: calc(16 / 430 * 100%); top: calc(478px * var(--mobile-flow-scale)); width: calc(150 / 430 * 100%); height: calc(75px * var(--mobile-scale)); }
+  .fragrances-con1__pillar { left: calc(182 / 430 * 100%); top: calc(334px * var(--mobile-flow-scale)); width: calc(232 / 430 * 100%); height: calc(618px * var(--mobile-scale)); }
+  .fragrances-con1__butterfly--right { left: calc(257 / 430 * 100%); top: calc(814px * var(--mobile-flow-scale)); width: calc(38 / 430 * 100%); height: calc(32px * var(--mobile-scale)); }
+  .fragrances-con1__butterfly-left { left: calc(16 / 430 * 100%); top: calc(235px * var(--mobile-flow-scale)); width: calc(88.685 / 430 * 100%); height: calc(88.324px * var(--mobile-scale)); }
+  .fragrances-con1__couple { left: calc(16 / 430 * 100%); top: calc(623px * var(--mobile-flow-scale)); width: calc(208 / 430 * 100%); height: calc(312px * var(--mobile-scale)); }
+  .fragrances-con4__intro { left: calc(16 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con4__text--body1 { left: calc(223 / 430 * 100%); top: calc(402px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con4__text--body2 { left: calc(16 / 430 * 100%); top: calc(526px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con4__man { left: calc(16 / 430 * 100%); top: calc(613px * var(--mobile-flow-scale)); width: calc(399.536 / 430 * 100%); height: calc(321px * var(--mobile-scale)); }
+  .fragrances-con4__cabinet { left: calc(16 / 430 * 100%); top: calc(597px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(303px * var(--mobile-scale)); }
+  .fragrances-con4__clock { left: calc(271 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(143 / 430 * 100%); height: calc(218px * var(--mobile-scale)); }
+  .fragrances-con4__drawing--second { left: calc(283 / 430 * 100%); top: calc(560px * var(--mobile-flow-scale)); width: calc(45 / 430 * 100%); height: calc(59px * var(--mobile-scale)); }
+  .fragrances-con4__drawing--first { left: calc(223 / 430 * 100%); top: calc(580px * var(--mobile-flow-scale)); width: calc(44 / 430 * 100%); height: calc(55px * var(--mobile-scale)); }
+  .fragrances-con7__intro { left: calc(16 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con7__text--body { left: calc(223 / 430 * 100%); top: calc(510px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con7__musicians { left: calc(127 / 430 * 100%); top: calc(658px * var(--mobile-flow-scale)); width: calc(213 / 430 * 100%); height: calc(122px * var(--mobile-scale)); }
+  .fragrances-con7__dancers { left: calc(223 / 430 * 100%); top: calc(658px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(256px * var(--mobile-scale)); }
+  .fragrances-con7__chandelier { left: calc(120 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(294 / 430 * 100%); height: calc(196px * var(--mobile-scale)); }
+  .fragrances-con7__furniture { left: calc(16 / 430 * 100%); top: calc(667px * var(--mobile-flow-scale)); width: calc(185 / 430 * 100%); height: calc(280px * var(--mobile-scale)); }
+  .fragrances-con1__chapter { top: calc(139px * var(--mobile-flow-scale)); }
+  .fragrances-con1__title { top: calc(161px * var(--mobile-flow-scale)); }
+  .fragrances-con2__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con2__background { height: calc(935px * var(--mobile-flow-scale)); bottom: auto; }
+  .fragrances-con5__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con5__background { height: calc(938px * var(--mobile-flow-scale)); bottom: auto; }
+  .fragrances-con8__background { left: calc(0 / 430 * 100%); top: calc(52px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con8__background { height: calc(883px * var(--mobile-flow-scale)); bottom: auto; }
+  .fragrances-con3__background { left: calc(-12 / 430 * 100%); top: calc(1px * var(--mobile-flow-scale)); width: calc(455 / 430 * 100%); }
+  .fragrances-con3__background { height: calc(935px * var(--mobile-flow-scale)); bottom: auto; }
+  .fragrances-con3__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
+  .fragrances-con3__perfume { left: calc(28 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(374 / 430 * 100%); height: calc(201px * var(--mobile-scale)); }
+  .fragrances-con3__scene { clip-path: inset(0); }
+  /* Paint only the uncovered top edge; keep the image's Figma y=1 and crop. */
+  .fragrances-con3__scene::before {
+    content: '';
+    position: absolute;
+    left: calc(-12 / 430 * 100%);
+    top: 0;
+    width: calc(455 / 430 * 100%);
+    height: 100%;
+    background: url('./assets/mobile-notes-background.png') center / cover no-repeat;
+    opacity: 0.5;
+    clip-path: inset(0 0 calc(100% - 1px * var(--mobile-flow-scale)));
+    pointer-events: none;
+  }
+  .fragrances-con6__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con6__background { height: calc(935px * var(--mobile-flow-scale)); bottom: auto; }
+  .fragrances-con6__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
+  .fragrances-con6__perfume { left: calc(28 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(374 / 430 * 100%); height: calc(201px * var(--mobile-scale)); }
+  .fragrances-con6__scene { clip-path: inset(0); }
+  .fragrances-con9__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con9__background { height: calc(884px * var(--mobile-flow-scale)); bottom: auto; }
+  .fragrances-con9__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
+  .fragrances-con9__perfume { left: calc(28 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(374.816 / 430 * 100%); height: calc(201px * var(--mobile-scale)); }
+  .fragrances-con9__scene { clip-path: inset(0); }
+  .fragrances-story__layer { display: none; }
+  .fragrances-story__layer--background { display: flex; left: -13.25581395348837% !important; top: 0% !important; width: 459.7674418604651% !important; height: 125.3475935828877% !important; z-index: 0; }
+  .fragrances-story__layer--background .fragrances-story__object { width: 100% !important; height: 100% !important; transform: rotate(0deg) !important; }
+  .fragrances-story__layer--flower-at-corner { display: flex; left: -88.13953488372093% !important; top: -33.475935828877006% !important; width: 163.21488372093023% !important; height: 67.01144385026738% !important; z-index: 1; }
+  .fragrances-story__layer--flower-at-corner .fragrances-story__object { width: 88.6048354003283% !important; height: 84.5694805101531% !important; transform: rotate(-9.64deg) !important; }
+  .fragrances-story__layer--book-and-perfume { display: flex; left: -37.44186046511628% !important; top: 47.16577540106952% !important; width: 108.47232558139535% !important; height: 46.429625668449205% !important; z-index: 2; }
+  .fragrances-story__layer--book-and-perfume .fragrances-story__object { width: 80.61342406486705% !important; height: 64.35039401820246% !important; transform: rotate(31.32deg) !important; }
+  .fragrances-story__layer--stationery { display: flex; left: 27.802325581395348% !important; top: 6.951871657754011% !important; width: 87.26906976744186% !important; height: 42.80149732620321% !important; z-index: 3; }
+  .fragrances-story__layer--stationery .fragrances-story__object { width: 81.7652968498922% !important; height: 84.97453734938554% !important; transform: rotate(12.95deg) !important; }
+  .fragrances-story__layer--books-piled-up { display: flex; left: 68.65186046511627% !important; top: 41.22513368983957% !important; width: 36.43511627906977% !important; height: 30.65561497326203% !important; z-index: 4; }
+  .fragrances-story__layer--books-piled-up .fragrances-story__object { width: 100% !important; height: 100% !important; transform: rotate(0deg) !important; }
+  .fragrances-story__layer--main-book { display: flex; left: -23.212697674418603% !important; top: 21.116577540106952% !important; width: 126.91558139534882% !important; height: 48.9503743315508% !important; z-index: 5; }
+  .fragrances-story__layer--main-book .fragrances-story__object { width: 95.67007551256374% !important; height: 93.63624843233134% !important; transform: rotate(-3.27deg) !important; }
+  .fragrances-story__layer--flower-iris { display: flex; left: 73.95348837209302% !important; top: 19.46524064171123% !important; width: 39.009069767441865% !important; height: 17.82139037433155% !important; z-index: 6; }
+  .fragrances-story__layer--flower-iris .fragrances-story__object { width: 69.2116919738403% !important; height: 73.37814319150213% !important; transform: rotate(-127.7deg) !important; }
+  .fragrances-story__layer--small-flower { display: flex; left: 39.36976744186047% !important; top: 62.30085561497326% !important; width: 27.663255813953487% !important; height: 11.69657754010695% !important; z-index: 7; }
+  .fragrances-story__layer--small-flower .fragrances-story__object { width: 80.6442934965364% !important; height: 66.99340727668408% !important; transform: rotate(-27.59deg) !important; }
+  .fragrances-story__layer--hand { display: flex; left: 57.906976744186046% !important; top: 44.49197860962567% !important; width: 66.54116279069767% !important; height: 25.61433155080214% !important; z-index: 8; }
+  .fragrances-story__layer--hand .fragrances-story__object { width: 90.99560684591108% !important; height: 85.89609760578554% !important; transform: rotate(7.89deg) !important; }
+  .fragrances-story__layer--main-book .fragrances-story__image { inset: auto; left: 2.1605341433844023%; top: 15.532807541534444%; width: 94.32127897155182%; height: 82.52403397423932%; object-fit: fill; }
+  .fragrances-con10__layer { display: none; }
+  /* The moving background can expose its lower edge. Underpaint the same crop
+     without changing its GSAP translate, dimensions or the section geometry. */
+  .fragrances-con10__scene::before {
+    content: '';
+    position: absolute;
+    left: calc(-11 / 430 * 100%);
+    top: 0;
+    width: calc(454 / 430 * 100%);
+    height: 100%;
+    background: url('./assets/mobile-ending-background.png') center / cover no-repeat;
+    pointer-events: none;
+  }
+  .fragrances-con10__layer--background { left: calc(-11 / 430 * 100%) !important; top: calc(0px * var(--mobile-flow-scale)) !important; width: calc(454 / 430 * 100%) !important; height: calc(935px * var(--mobile-scale)) !important; }
+  .fragrances-con10__layer--background { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con10__layer--background .fragrances-con10__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 100% !important; height: 100% !important; transform-origin: center; transform: rotate(0deg) !important; }
+  .fragrances-con10__layer--background { height: calc(935px * var(--mobile-flow-scale)) !important; }
+  .fragrances-con10__layer--main-book { left: calc(1.003 / 430 * 100%) !important; top: calc(305px * var(--mobile-flow-scale)) !important; width: calc(429 / 430 * 100%) !important; height: calc(325.067px * var(--mobile-scale)) !important; }
+  .fragrances-con10__layer--main-book { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con10__layer--main-book .fragrances-con10__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 90.56853146853146% !important; height: 79.68449581163269% !important; transform-origin: center; transform: rotate(10.426deg) !important; }
+  .fragrances-con10__layer--iris { left: calc(67 / 430 * 100%) !important; top: calc(305px * var(--mobile-flow-scale)) !important; width: calc(125.339 / 430 * 100%) !important; height: calc(121.207px * var(--mobile-scale)) !important; }
+  .fragrances-con10__layer--iris { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con10__layer--iris .fragrances-con10__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 80.68996880460192% !important; height: 87.8777628354798% !important; transform-origin: center; transform: rotate(77.907deg) !important; }
+  .fragrances-con11__layer { display: none; }
+  .fragrances-con11__layer--background { left: calc(-25 / 430 * 100%) !important; top: calc(0px * var(--mobile-flow-scale)) !important; width: calc(483.861 / 430 * 100%) !important; height: calc(935px * var(--mobile-scale)) !important; }
+  .fragrances-con11__layer--background { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con11__layer--background .fragrances-con11__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 100% !important; height: 100% !important; transform-origin: center; transform: rotate(0deg) !important; }
+  .fragrances-con11__layer--background { height: calc(935px * var(--mobile-flow-scale)) !important; }
+  .fragrances-con11__layer--main-book { left: calc(0 / 430 * 100%) !important; top: calc(313px * var(--mobile-flow-scale)) !important; width: calc(430.539 / 430 * 100%) !important; height: calc(309.86px * var(--mobile-scale)) !important; }
+  .fragrances-con11__layer--main-book { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con11__layer--main-book .fragrances-con11__object { position: absolute; left: 0 !important; top: calc(1px * var(--mobile-scale)) !important; width: calc(430 / 430.539 * 100%) !important; height: calc(307.143 / 309.86 * 100%) !important; transform: none !important; }
+  .fragrances-con11__layer--iris { left: calc(75 / 430 * 100%) !important; top: calc(293px * var(--mobile-flow-scale)) !important; width: calc(131.69 / 430 * 100%) !important; height: calc(127.347px * var(--mobile-scale)) !important; }
+  .fragrances-con11__layer--iris { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con11__layer--iris .fragrances-con11__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 80.68873870453338% !important; height: 87.87878787878788% !important; transform-origin: center; transform: rotate(77.907deg) !important; }
+  .fragrances-con12__layer { display: none; }
+  .fragrances-con12__layer--background { left: calc(-25 / 430 * 100%) !important; top: calc(0px * var(--mobile-flow-scale)) !important; width: calc(483 / 430 * 100%) !important; height: calc(935px * var(--mobile-scale)) !important; }
+  .fragrances-con12__layer--background { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con12__layer--background .fragrances-con12__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 100% !important; height: 100% !important; transform-origin: center; transform: rotate(0deg) !important; }
+  .fragrances-con12__layer--background { height: calc(935px * var(--mobile-flow-scale)) !important; }
+  .fragrances-con12__layer--main-book { left: calc(-4 / 430 * 100%) !important; top: calc(240px * var(--mobile-flow-scale)) !important; width: calc(437.49 / 430 * 100%) !important; height: calc(455.28px * var(--mobile-scale)) !important; }
+  .fragrances-con12__layer--main-book { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con12__layer--main-book .fragrances-con12__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 89.78445221605065% !important; height: 90.7213143560007% !important; transform-origin: center; transform: rotate(6.572deg) !important; }
+  .fragrances-con12__layer--hands { left: calc(-103 / 430 * 100%) !important; top: calc(377px * var(--mobile-flow-scale)) !important; width: calc(660 / 430 * 100%) !important; height: calc(440.003px * var(--mobile-scale)) !important; }
+  .fragrances-con12__layer--hands { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con12__layer--hands .fragrances-con12__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 100% !important; height: 100% !important; transform-origin: center; transform: rotate(0deg) !important; }
+  .fragrances-con13__layer { display: none; }
+  .fragrances-con13__layer--background { left: calc(-26 / 430 * 100%) !important; top: calc(0px * var(--mobile-flow-scale)) !important; width: calc(484 / 430 * 100%) !important; height: calc(935px * var(--mobile-scale)) !important; }
+  .fragrances-con13__layer--background { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con13__layer--background .fragrances-con13__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 100% !important; height: 100% !important; transform-origin: center; transform: rotate(0deg) !important; }
+  .fragrances-con13__layer--background { height: calc(935px * var(--mobile-flow-scale)) !important; }
+  .fragrances-con13__layer--main-book { left: calc(7 / 430 * 100%) !important; top: calc(249px * var(--mobile-flow-scale)) !important; width: calc(416.414 / 430 * 100%) !important; height: calc(436.332px * var(--mobile-scale)) !important; }
+  .fragrances-con13__layer--main-book { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con13__layer--main-book .fragrances-con13__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 96.39997694602008% !important; height: 96.7387218906704% !important; transform-origin: center; transform: rotate(2.071deg) !important; }
+  .fragrances-con13__layer--iris { left: calc(113 / 430 * 100%) !important; top: calc(293px * var(--mobile-flow-scale)) !important; width: calc(120.424 / 430 * 100%) !important; height: calc(116.453px * var(--mobile-scale)) !important; }
+  .fragrances-con13__layer--iris { display: flex; align-items: center; justify-content: center; }
+  .fragrances-con13__layer--iris .fragrances-con13__object { position: relative; flex: none; left: auto !important; top: auto !important; width: 80.68906530259748% !important; height: 87.87923024739594% !important; transform-origin: center; transform: rotate(77.907deg) !important; }
+}

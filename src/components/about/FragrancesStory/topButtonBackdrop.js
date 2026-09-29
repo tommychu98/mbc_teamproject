@@ -10,7 +10,10 @@ export function createBackdropSampler(page, button) {
   return () => {
     if (!ctx) return 0;
     const buttonBox = button.getBoundingClientRect();
-    const area = { left: buttonBox.left + 24, top: buttonBox.top + 10, right: buttonBox.left + 58, bottom: buttonBox.top + 76 };
+    // Only the mobile sampling bounds change with the smaller Figma icon/label.
+    const area = window.matchMedia('(width < 768px)').matches
+      ? { left: buttonBox.left + 9, top: buttonBox.top + 7.5, right: buttonBox.left + 31, bottom: buttonBox.top + 43 }
+      : { left: buttonBox.left + 24, top: buttonBox.top + 10, right: buttonBox.left + 58, bottom: buttonBox.top + 76 };
     const sx = canvas.width / (area.right - area.left);
     const sy = canvas.height / (area.bottom - area.top);
     ctx.resetTransform();

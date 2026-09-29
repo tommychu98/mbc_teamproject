@@ -1,3 +1,6 @@
+import StoryImage from './StoryImage';
+import mobilebackground from './assets/mobile-notes-background.png';
+import mobiletable from './assets/mobile-notes-table.png';
 import background from './assets/con3-background.png';
 import table from './assets/con3-table.png';
 import perfume from './assets/con9-perfume.png';
@@ -13,15 +16,15 @@ export default function Con9() {
   return (
     <section className="fragrances-con9" aria-label="Orphéon 향 노트">
       <div className="fragrances-con9__scene">
-        <img className="fragrances-con9__background" src={background} alt="" width="1920" height="1080" draggable="false" />
+        <StoryImage mobileSrc={mobilebackground} className="fragrances-con9__background" src={background} alt="" width="1920" height="1080" draggable="false" />
         <div className="fragrances-con9__table">
-          <img className="fragrances-con9__table-image" src={table} alt="" width="1122" height="1402" draggable="false" />
+          <StoryImage mobileSrc={mobiletable} className="fragrances-con9__table-image" src={table} alt="" width="1122" height="1402" draggable="false" />
         </div>
         <dl className="fragrances-con9__notes">
           {notes.map(({ label, name }) => (
             <div className="fragrances-con9__note" key={label}>
-              <dt className="fragrances-con9__note-label">{label}</dt>
-              <dd className="fragrances-con9__note-name">{name}</dd>
+              <dt className="fragrances-con9__note-label"><span className="fragrances-story__desktop-copy">{label}</span><span className="fragrances-story__mobile-copy">{label === 'TOP NOTE' ? 'FIRST NOTE' : label}</span></dt>
+              <dd className="fragrances-con9__note-name"><span className="fragrances-story__desktop-copy">{name}</span><span className="fragrances-story__mobile-copy">{name === 'TONKA BEAN' ? <>TONKA<br />BEAN</> : name}</span></dd>
             </div>
           ))}
         </dl>

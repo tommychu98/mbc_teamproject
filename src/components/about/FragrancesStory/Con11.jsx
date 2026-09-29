@@ -1,3 +1,6 @@
+import mobileBook from './assets/mobile-con11-main-book.png';
+import StoryImage from './StoryImage';
+import mobileBackground from './assets/mobile-ending-background.png';
 import { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -80,9 +83,11 @@ export default function Con11() {
     const root = rootRef.current;
     const media = gsap.matchMedia(root);
 
-    media.add('(prefers-reduced-motion: no-preference)', () => {
-      const first = root.querySelectorAll('.fragrances-con11__passage--first > span');
-      const second = root.querySelectorAll('.fragrances-con11__passage--second > span');
+    media.add({ motion: '(prefers-reduced-motion: no-preference)', mobile: '(width < 768px)' }, ({ conditions }) => {
+      if (!conditions.motion) return;
+      const passage = conditions.mobile ? 'mobile-passage' : 'passage';
+      const first = root.querySelectorAll(`.fragrances-con11__${passage}--first > span`);
+      const second = root.querySelectorAll(`.fragrances-con11__${passage}--second > span`);
       const lines = [...first, ...second];
 
       // Reveal the existing lines in place; CSS retains all typography and matrices.
@@ -129,10 +134,24 @@ export default function Con11() {
                 transform: `matrix(${transform[0][0]}, ${transform[1][0]}, ${transform[0][1]}, ${transform[1][1]}, 0, 0)`,
               }}
             >
-              <img className="fragrances-con11__image" src={src} alt={name === 'main-book' ? '춤추는 연인과 파리의 풍경이 담긴 책의 한 페이지가 펼쳐져 있습니다.' : ''} width={imageWidth} height={imageHeight} draggable="false" />
+              <StoryImage mobileSrc={name === 'main-book' ? mobileBook : name === 'background' ? mobileBackground : src} className="fragrances-con11__image" src={src} alt={name === 'main-book' ? '춤추는 연인과 파리의 풍경이 담긴 책의 한 페이지가 펼쳐져 있습니다.' : ''} width={imageWidth} height={imageHeight} draggable="false" />
             </div>
           </div>
         ))}
+        <div className="fragrances-con11__mobile-text">
+          <div className="fragrances-con11__mobile-lines fragrances-con11__mobile-lines--first">
+            <p className="fragrances-con11__mobile-passage fragrances-con11__mobile-passage--first">
+              <span>{'Our tales begin '}</span>
+              <span>right here,</span>
+            </p>
+          </div>
+          <div className="fragrances-con11__mobile-lines fragrances-con11__mobile-lines--second">
+            <p className="fragrances-con11__mobile-passage fragrances-con11__mobile-passage--second">
+              <span>and the pages are</span>
+              <span>ours to write.</span>
+            </p>
+          </div>
+        </div>
         <div className="fragrances-con11__text">
           <p className="fragrances-con11__passage fragrances-con11__passage--first">
             <span>{'Our tales begin '}</span>

@@ -1,3 +1,5 @@
+import StoryImage from './StoryImage';
+import mobileBackground from './assets/mobile-ending-background.png';
 import { useRef } from 'react';
 import useCon10Motion from './useCon10Motion';
 import background from './assets/background.png';
@@ -92,7 +94,7 @@ export default function Con10() {
                 transform: `matrix(${transform[0][0]}, ${transform[1][0]}, ${transform[0][1]}, ${transform[1][1]}, 0, 0)`,
               }}
             >
-              <img className="fragrances-con10__image" src={src} alt="" aria-hidden="true" width={imageWidth} height={imageHeight} draggable="false" />
+              <StoryImage mobileSrc={name === 'background' ? mobileBackground : src} className="fragrances-con10__image" src={src} alt="" aria-hidden="true" width={imageWidth} height={imageHeight} draggable="false" />
             </div>
           </div>
         ))}
