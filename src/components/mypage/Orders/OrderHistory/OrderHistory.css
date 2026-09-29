@@ -171,6 +171,19 @@
   .order-history__filter { padding-block: var(--space-10); }
 }
 @media (min-width: 1024px) {
+  .order-history__tabs { margin-top: var(--space-10); }
+  .order-history__tab[aria-current]::after { bottom: calc(var(--space-3) / 2); }
+  .order-history__tabs { position: relative; border-bottom-color: transparent; }
+  /* Keep the border's layout space; paint it 5px higher with a 1px gap below the active line. */
+  .order-history__tabs::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: var(--space-1);
+    height: var(--border-width-thin, 1px);
+    background: var(--color-border-default);
+    pointer-events: none;
+  }
   .order-history {
     font-size: var(--text-web-body-l2-do-size);
     font-weight: var(--text-web-body-l2-do-weight);
