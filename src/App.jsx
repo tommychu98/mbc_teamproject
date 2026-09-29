@@ -27,6 +27,7 @@ import FaqPage from './pages/contact/faq';
 import NotFoundPage from './pages/_system/NotFoundPage';
 import AuthStatusPage from './pages/auth/AuthStatusPage';
 import MyPage from './pages/mypage';
+import MyPageHeader from './components/mypage/MyPageHeader/MyPageHeader';
 import OrdersPage from './pages/mypage/orders';
 import PaymentMethodsPage from './pages/mypage/orders/payment-methods';
 import OrderHistoryPage from './pages/mypage/orders/order-history';
@@ -50,6 +51,12 @@ function ScrollToTop() {
 }
 
 const protectedPage = (element) => <ProtectedRoute>{element}</ProtectedRoute>;
+const protectedMyPage = (element, active) => protectedPage(
+    <>
+        <div className="container"><MyPageHeader active={active} /></div>
+        {element}
+    </>,
+);
 
 export default function App() {
     const { pathname } = useLocation();
@@ -113,27 +120,27 @@ export default function App() {
                         element={protectedPage(<InquiryDetailPage />)}
                     />
                     <Route path="/mypage" element={protectedPage(<MyPage />)} />
-                    <Route path="/mypage/orders" element={protectedPage(<OrdersPage />)} />
+                    <Route path="/mypage/orders" element={protectedMyPage(<OrdersPage />, 'orders')} />
                     <Route
                         path="/mypage/orders/payment-methods"
-                        element={protectedPage(<PaymentMethodsPage />)}
+                        element={protectedMyPage(<PaymentMethodsPage />, 'orders')}
                     />
                     <Route
                         path="/mypage/orders/history"
-                        element={protectedPage(<OrderHistoryPage />)}
+                        element={protectedMyPage(<OrderHistoryPage />, 'orders')}
                     />
                     <Route
                         path="/mypage/orders/returns-refunds"
-                        element={protectedPage(<ReturnsRefundsPage />)}
+                        element={protectedMyPage(<ReturnsRefundsPage />, 'orders')}
                     />
                     <Route
                         path="/mypage/orders/track"
-                        element={protectedPage(<TrackOrderPage />)}
+                        element={protectedMyPage(<TrackOrderPage />, 'orders')}
                     />
-                    <Route path="/mypage/profile" element={protectedPage(<ProfileEditPage />)} />
+                    <Route path="/mypage/profile" element={protectedMyPage(<ProfileEditPage />, 'profile')} />
                     <Route
                         path="/mypage/posts"
-                        element={protectedPage(<BoardListPage onlyMine />)}
+                        element={protectedMyPage(<BoardListPage onlyMine />, 'community')}
                     />
                     <Route path="/board" element={<BoardListPage />} />
                     <Route path="/board/write" element={protectedPage(<BoardFormPage />)} />
