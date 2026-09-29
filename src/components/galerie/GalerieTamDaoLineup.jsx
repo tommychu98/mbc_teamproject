@@ -12,6 +12,7 @@ import './GalerieTamDaoLineup.css';
 import mobileEdp from './assets/images/mobile/tam-dao-edp.png';
 import mobileEdt from './assets/images/mobile/tam-dao-edt.png';
 import mobileHeart from './assets/images/mobile/heart-outline.svg';
+import mobileHeartFilled from './assets/images/mobile/heart-filled.svg';
 import mobileTop from './assets/images/mobile/top-arrow.svg';
 
 const products = [
@@ -30,10 +31,10 @@ export default function GalerieTamDaoLineup() {
         media.add('(prefers-reduced-motion: no-preference)', () => {
             const animations = [...root.querySelectorAll('[data-lineup-float]')].map((element, index) => (
                 gsap.to(element, {
-                    y: index ? -18 : 14,
-                    x: index ? 6 : -5,
-                    rotation: index ? 2 : -2,
-                    duration: index ? 4 : 5.2,
+                    y: index ? -25 : 20,
+                    x: index ? 9 : -7,
+                    rotation: index ? 2.8 : -2.8,
+                    duration: index ? 3.6 : 4.5,
                     ease: 'sine.inOut',
                     repeat: -1,
                     yoyo: true,
@@ -77,7 +78,7 @@ export default function GalerieTamDaoLineup() {
                                         : [...current, product.type])}
                                 >
                                     <picture>
-                                        <source media="(max-width: 767px)" srcSet={favorites.includes(product.type) ? heartFilled : mobileHeart} />
+                                        <source media="(max-width: 767px)" srcSet={favorites.includes(product.type) ? mobileHeartFilled : mobileHeart} />
                                         <img src={favorites.includes(product.type) ? heartFilled : heart} alt="" />
                                     </picture>
                                 </button>

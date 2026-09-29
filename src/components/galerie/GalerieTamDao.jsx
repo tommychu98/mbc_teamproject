@@ -24,10 +24,10 @@ export default function GalerieTamDao() {
         media.add('(prefers-reduced-motion: no-preference)', () => {
             const floats = [...section.querySelectorAll('.galerie-tamdao__float')].map((element, index) => (
                 gsap.to(element, {
-                    y: index % 2 ? 14 : -18,
-                    x: index % 2 ? -5 : 6,
-                    rotation: index % 2 ? -2 : 2,
-                    duration: 3.4 + index * 0.6,
+                    y: index % 2 ? 20 : -25,
+                    x: index % 2 ? -7 : 9,
+                    rotation: index % 2 ? -2.8 : 2.8,
+                    duration: 3.2 + index * 0.45,
                     delay: index * 0.4,
                     ease: 'sine.inOut',
                     repeat: -1,

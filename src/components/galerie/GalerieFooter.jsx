@@ -8,6 +8,9 @@ import botanicalLeft from './assets/footer/botanical-left.svg';
 import botanicalRight from './assets/footer/botanical-right.svg';
 import isms from './assets/footer/isms.svg';
 import divider from './assets/footer/divider.svg';
+import mobileLetterD from './assets/footer/letter-d.png';
+import mobileLetterQ from './assets/footer/letter-q.png';
+import mobileBotanical from './assets/footer/mobile-botanical.svg';
 import './GalerieFooter.css';
 
 export default function GalerieFooter({ animateFlowers = true, className = '', id }) {
@@ -18,19 +21,31 @@ export default function GalerieFooter({ animateFlowers = true, className = '', i
             <div className="galerie-footer__wordmark" role="img" aria-label="DIPTYQUE">
                 <span aria-hidden="true">{'    IPTY    UE'}</span>
                 <div className="galerie-footer__letter-d" aria-hidden="true">
+                    <img className="galerie-footer__mobile-letter" src={mobileLetterD} alt="" loading="lazy" />
                     <div className="galerie-footer__sprite"><img src={letterDLayers} alt="" /></div>
                     <div className="galerie-footer__flowers" data-footer-flowers>
                         <div className="galerie-footer__sprite galerie-footer__sprite--flowers"><img src={letterDLayers} alt="" /></div>
                     </div>
                 </div>
                 <div className="galerie-footer__letter-q" aria-hidden="true">
+                    <img className="galerie-footer__mobile-letter" src={mobileLetterQ} alt="" loading="lazy" />
                     <img className="galerie-footer__letter-base" src={letterQBase} alt="" />
                     <img className="galerie-footer__flowers" data-footer-flowers src={letterQFlowers} alt="" />
                 </div>
             </div>
             <img className="galerie-footer__botanical-left" src={botanicalLeft} alt="" loading="lazy" />
-            <img className="galerie-footer__botanical-right" src={botanicalRight} alt="" loading="lazy" />
+            <picture>
+                <source media="(max-width: 767px)" srcSet={mobileBotanical} />
+                <img className="galerie-footer__botanical-right" src={botanicalRight} alt="" loading="lazy" />
+            </picture>
             <div className="galerie-footer__content">
+                <nav className="galerie-footer__mobile-links" aria-label="고객 안내">
+                    <Link to="/contact/faq">고객센터</Link>
+                    <Link to="/contact/notices">공지사항</Link>
+                    <span>개인정보처리방침</span>
+                    <span>매장안내</span>
+                    <Link to="/inquiries">문의하기</Link>
+                </nav>
                 <div className="galerie-footer__service">
                     <a className="galerie-footer__phone" href="tel:16444490">(유료) 1644-4490</a>
                     <Link to="/contact/faq">고객센터</Link>
@@ -45,7 +60,7 @@ export default function GalerieFooter({ animateFlowers = true, className = '', i
                 </nav>
                 <div className="galerie-footer__details">
                     <div>
-                        <p>주소: 서울특별시 강남구 도산대로 449 (청담동) | 대표이사 : 김덕주,서민희,이승민<br />사업자등록번호 : 201-81-53657 | 통신판매업 신고번호 : 강남-13797</p>
+                        <p className="galerie-footer__company"><span>주소: 서울특별시 강남구 도산대로 449 (청담동)</span><span className="galerie-footer__separator"> | </span><span>대표이사 : 김덕주,서민희,이승민</span><br /><span>사업자등록번호 : 201-81-53657</span><span className="galerie-footer__separator"> | </span><span>통신판매업 신고번호 : 강남-13797</span></p>
                         <p>개인정보보호책임자 : 장승환 | 호스팅사업자 : (주)신세계아이앤씨<br />고객센터(유료) : <a href="tel:16444490">1644-4490</a> | 이메일 : <a href="mailto:si_cs@sikorea.co.kr">si_cs@sikorea.co.kr</a></p>
                     </div>
                     <img className="galerie-footer__divider" src={divider} alt="" />
