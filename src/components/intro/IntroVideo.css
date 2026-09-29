@@ -1,0 +1,48 @@
+.intro-video {
+  --intro-background: #f7f6f4;
+
+  position: fixed;
+  z-index: 20000;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+  background: var(--intro-background);
+  opacity: 1;
+  overscroll-behavior: none;
+  pointer-events: auto;
+  touch-action: none;
+  transition: opacity var(--intro-fade-duration, 320ms) ease-in-out;
+}
+
+.intro-video--exiting {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-video__media {
+  display: block;
+  width: min(46vw, 720px);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: var(--intro-background);
+  object-fit: contain;
+  object-position: center center;
+  transform: translate(1.1%, -4.2%);
+}
+
+/*
+ * Keep the flower small on phones without cropping or stretching it. The
+ * corrected video background continues seamlessly into the overlay space.
+ */
+@media (max-width: 767px),
+  (max-height: 767px) and (orientation: landscape) {
+  .intro-video__media {
+    width: min(72vw, 420px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-video { display: none; }
+}
