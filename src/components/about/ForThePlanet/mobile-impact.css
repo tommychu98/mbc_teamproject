@@ -1,0 +1,14 @@
+@media (max-width: 899px) {
+  #environmental-impact > .ftp-story-stage { display: none; }
+  .ftp-mobile-impact .ftp-mobile-ambition__intro-content { left: 45px; width: 340px; }
+  .ftp-mobile-impact .ftp-mobile-ambition__intro-content h2 { width: min(100%, 298px); min-height: 83px; }
+  .ftp-mobile-impact .ftp-mobile-ambition__card { min-height: 117px; }
+  .ftp-mobile-impact .ftp-mobile-ambition__card:nth-child(2) { height: 117px; }
+  .ftp-mobile-impact__harvest { top: 591px; height: 318px; margin: 0; }
+  .ftp-mobile-impact .ftp-mobile-ambition__story h2 { min-height: 83px; }
+  .ftp-mobile-impact__origin .ftp-mobile-ambition__story { top: 455.5px; transform: translateY(-50%); }
+  .ftp-mobile-impact__origin .ftp-mobile-ambition__copy { width: min(100%, 269px); }
+  .ftp-mobile-impact__community .ftp-mobile-ambition__copy { width: min(100%, 354px); }
+  .ftp-mobile-impact__products { top: 665px; height: 222px; margin: 0; }
+  .ftp-mobile-impact__product-crop img { top: .15%; left: 0; width: 99.99%; height: 116.47%; }
+}

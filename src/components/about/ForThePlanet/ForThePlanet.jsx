@@ -1,70 +1,82 @@
 import { useEffect, useRef, useState } from 'react';
-import coast from './assets/coast-base.png';
-import vessel from './assets/crystal-vessel.png';
-import candle from './assets/candle.png';
-import forest from './assets/95360.png';
-import forestPerfume from './assets/3370f.png';
-import hamster from './assets/69fd2.png';
-import designingBackground from './assets/8eb2a.png';
-import closingBackground from './assets/25fb5.png';
-import emblem from './assets/emblem.png';
-import ambitionPortrait from './assets/3228d.png';
-import impactPortrait from './assets/81c67.png';
-import ambitionDecoration from './assets/d1e91.png';
-import impactDecoration from './assets/fbca1.png';
-import impactCollage from './assets/3a37a.png';
-import ambitionCollage from './assets/ea8c4.png';
-import productLandscape from './assets/c4a07.png';
-import productCollage from './assets/58a08.png';
-import productDetail from './assets/61e53.png';
-import ecoPainting from './assets/2736c.png';
-import ecoCollage from './assets/5e0fa.png';
-import ecoFrame from './assets/d8288.png';
-import sustainableImage from './assets/d3fe2.png';
-import ecoDesignImage from './assets/0b724.png';
-import originImage from './assets/cc410.png';
-import communityImage from './assets/0d2f8.png';
-import ylangHarvest from './assets/2786b.png';
-import ylangCollage from './assets/cd92d.png';
-import ylangBottle from './assets/97c36.png';
-import fragranceStill from './assets/f86d1.png';
-import fragranceCollage from './assets/16a3b.png';
-import fragranceProducts from './assets/cadcc.png';
-import archFoliageLeft from './assets/596d1.png';
-import archFoliageRight from './assets/a4d5f.png';
-import decor01 from './assets/9ba2e.png';
-import decor02 from './assets/b12b4.png';
-import decor03 from './assets/33772.png';
-import decor04 from './assets/4b050.png';
-import decor05 from './assets/1cc56.png';
-import decor06 from './assets/2fe33.png';
-import decor07 from './assets/09970.png';
-import decor08 from './assets/d910f.png';
-import decor09 from './assets/65f92.png';
-import decor10 from './assets/decc9.png';
-import decor11 from './assets/95dd9.png';
-import decor12 from './assets/4cd74.png';
-import decor13 from './assets/de641.png';
-import decor14 from './assets/d49c5.png';
-import decor15 from './assets/7ef64.png';
-import decor16 from './assets/6df44.png';
-import decor17 from './assets/9ea37.png';
-import decor18 from './assets/e8fc7.png';
-import decor19 from './assets/927d6.png';
-import decor20 from './assets/e2d7e.png';
-import decor21 from './assets/c85a7.png';
-import decor22 from './assets/7107d.png';
-import decor23 from './assets/eeda9.png';
-import decor24 from './assets/c50e1.png';
-import decor25 from './assets/98e2c.png';
-import decor26 from './assets/aa36e.png';
+import MobileAmbition from './MobileAmbition';
+import MobileImpact from './MobileImpact';
+import MobileRenewal from './MobileRenewal';
+import mobileEmblem from './assets/mobile/7c05d.png';
+import mobileFoliage from './assets/mobile/7ba69.png';
+import mobileCoast from './assets/mobile/b0bb6.png';
+import mobileCandle from './assets/mobile/57b38.png';
+import mobileArch from './assets/mobile/d0f59.svg';
+import mobileCoastExpanded from './assets/mobile/fd028.png';
+import mobileProducts from './assets/mobile/9c5d0.png';
+import mobileDesigningBackground from './assets/mobile/d45b0.png';
+import mobileForestExpanded from './assets/mobile/0bcc6.png';
+import mobileHamster from './assets/mobile/601f8.png';
+const coast = mobileCoast;
+const vessel = '/ForThePlanet/8c8df.png';
+const candle = mobileCandle;
+const forest = '/ForThePlanet/95360.png';
+const forestPerfume = '/ForThePlanet/3370f.png';
+const hamster = '/ForThePlanet/69fd2.png';
+const designingBackground = '/ForThePlanet/8eb2a.png';
+const closingBackground = '/ForThePlanet/25fb5.png';
+const ambitionPortrait = '/ForThePlanet/3228d.png';
+const impactPortrait = '/ForThePlanet/81c67.png';
+const ambitionDecoration = '/ForThePlanet/d1e91.png';
+const impactDecoration = '/ForThePlanet/fbca1.png';
+const impactCollage = '/ForThePlanet/3a37a.png';
+const ambitionCollage = '/ForThePlanet/ea8c4.png';
+const productLandscape = '/ForThePlanet/c4a07.png';
+const productCollage = '/ForThePlanet/58a08.png';
+const productDetail = '/ForThePlanet/61e53.png';
+const ecoPainting = '/ForThePlanet/2736c.png';
+const ecoCollage = '/ForThePlanet/5e0fa.png';
+const ecoFrame = '/ForThePlanet/d8288.png';
+const sustainableImage = '/ForThePlanet/d3fe2.png';
+const ecoDesignImage = '/ForThePlanet/0b724.png';
+const originImage = '/ForThePlanet/cc410.png';
+const communityImage = '/ForThePlanet/0d2f8.png';
+const ylangHarvest = '/ForThePlanet/2786b.png';
+const ylangCollage = '/ForThePlanet/cd92d.png';
+const ylangBottle = '/ForThePlanet/97c36.png';
+const fragranceStill = '/ForThePlanet/f86d1.png';
+const fragranceCollage = '/ForThePlanet/16a3b.png';
+const fragranceProducts = '/ForThePlanet/cadcc.png';
+const archFoliageLeft = '/ForThePlanet/596d1.png';
+const archFoliageRight = '/ForThePlanet/a4d5f.png';
+const decor01 = '/ForThePlanet/9ba2e.png';
+const decor02 = '/ForThePlanet/b12b4.png';
+const decor03 = '/ForThePlanet/33772.png';
+const decor04 = '/ForThePlanet/4b050.png';
+const decor05 = '/ForThePlanet/1cc56.png';
+const decor06 = '/ForThePlanet/2fe33.png';
+const decor07 = '/ForThePlanet/09970.png';
+const decor08 = '/ForThePlanet/d910f.png';
+const decor09 = '/ForThePlanet/65f92.png';
+const decor10 = '/ForThePlanet/decc9.png';
+const decor11 = '/ForThePlanet/95dd9.png';
+const decor12 = '/ForThePlanet/4cd74.png';
+const decor13 = '/ForThePlanet/de641.png';
+const decor14 = '/ForThePlanet/d49c5.png';
+const decor15 = '/ForThePlanet/7ef64.png';
+const decor16 = '/ForThePlanet/6df44.png';
+const decor17 = '/ForThePlanet/9ea37.png';
+const decor18 = '/ForThePlanet/e8fc7.png';
+const decor19 = '/ForThePlanet/927d6.png';
+const decor20 = '/ForThePlanet/e2d7e.png';
+const decor21 = '/ForThePlanet/c85a7.png';
+const decor22 = '/ForThePlanet/7107d.png';
+const decor23 = '/ForThePlanet/eeda9.png';
+const decor24 = '/ForThePlanet/c50e1.png';
+const decor25 = '/ForThePlanet/98e2c.png';
+const decor26 = '/ForThePlanet/aa36e.png';
 import './style.css';
 
 const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const range = (value, start, end) => clamp((value - start) / (end - start));
 const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
 
-function useScrollProgress() {
+function useScrollProgress(adjustForHeader = false, enableMobile = false) {
   const ref = useRef(null);
   const [progress, setProgress] = useState(0);
 
@@ -75,13 +87,16 @@ function useScrollProgress() {
       frame = 0;
       const element = ref.current;
       if (!element) return;
-      if (window.innerWidth < 900 || reducedMotion.matches) {
+      if ((window.innerWidth < 900 && !enableMobile) || reducedMotion.matches) {
         setProgress(1);
         return;
       }
       const rect = element.getBoundingClientRect();
-      const distance = Math.max(1, element.offsetHeight - window.innerHeight);
-      setProgress(clamp(-rect.top / distance));
+      const headerOverlap = adjustForHeader && window.innerWidth >= 900 ? (window.innerWidth >= 1180 ? 110 : 72) : 0;
+      const stage = [...element.children].find(child => getComputedStyle(child).position === 'sticky');
+      const stageHeight = stage?.clientHeight || window.innerHeight;
+      const distance = Math.max(1, element.offsetHeight - stageHeight - headerOverlap);
+      setProgress(clamp((-rect.top - headerOverlap) / distance));
     };
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(update);
@@ -96,7 +111,7 @@ function useScrollProgress() {
       window.removeEventListener('resize', schedule);
       reducedMotion.removeEventListener('change', schedule);
     };
-  }, []);
+  }, [adjustForHeader, enableMobile]);
 
   return [ref, progress];
 }
@@ -107,7 +122,7 @@ const canvasPosition = (x, y, width, height) => ({
 });
 
 function ArchScene({ variant, first = false }) {
-  const [ref, rawProgress] = useScrollProgress();
+  const [ref, rawProgress] = useScrollProgress(first, true);
   const progress = ease(rawProgress);
   const isCoast = variant === 'coast';
   const background = isCoast ? coast : forest;
@@ -123,25 +138,66 @@ function ArchScene({ variant, first = false }) {
   const insetLeft = 37.45 * (1 - progress);
   const insetRight = 37.5 * (1 - progress);
   const insetBottom = 13.98 * (1 - progress);
+  const backgroundStart = isCoast ? [344, 155, 1536, 774] : [351, 244, 1218, 685];
+  const backgroundPosition = canvasPosition(
+    backgroundStart[0] * (1 - progress), backgroundStart[1] * (1 - progress),
+    backgroundStart[2] + (1920 - backgroundStart[2]) * progress,
+    backgroundStart[3] + (1080 - backgroundStart[3]) * progress,
+  );
+  const sideCrop = (x, y, w, h) => ({ left: `${x / 429 * 100}%`, top: `${y / 611 * 100}%`, width: `${w / 429 * 100}%`, height: `${h / 611 * 100}%` });
 
   return (
-    <section ref={ref} className={`ftp-arch-scroll ${first ? 'ftp-arch-scroll--first' : ''}`} aria-label={isCoast ? '지중해 환경' : '숲의 환경'}>
-      <div className="ftp-sticky-stage"><div className="ftp-arch-canvas">
-        <div className="ftp-arch-decoration" aria-hidden="true">
-          <img className="ftp-arch-decoration__left" src={archFoliageLeft} alt="" />
-          <img className="ftp-arch-decoration__right" src={archFoliageRight} alt="" />
+    <section ref={ref} className={`ftp-arch-scroll ${first ? 'ftp-arch-scroll--first' : ''} ${!isCoast ? 'ftp-arch-scroll--forest' : ''}`} aria-label={isCoast ? '지중해 환경' : '숲의 환경'}>
+      {first && <div className="ftp-mobile-intro" style={{ '--ftp-mobile-expand': ease(range(rawProgress, 0.05, 0.85)) }}>
+        <img className="ftp-mobile-intro__emblem" src={mobileEmblem} alt="" />
+        <img className="ftp-mobile-intro__foliage" src={mobileFoliage} alt="" />
+        <div className="ftp-mobile-intro__arch">
+          <img className="ftp-mobile-intro__outline" src={mobileArch} alt="" />
+          <img className="ftp-mobile-intro__coast" src={mobileCoast} alt="" />
+          <img className="ftp-mobile-intro__candle" src={mobileCandle} alt="지중해의 자연 속 딥티크 캔들" />
         </div>
-        <div className="ftp-crest" style={{ opacity: (first ? 1 : range(rawProgress, 0, 0.1)) * (1 - range(rawProgress, 0.18, 0.4)) }} aria-hidden="true"><img src={emblem} alt="" /><span>FOR THE PLANET</span></div>
+        <div className="ftp-mobile-intro__expanded" style={{ opacity: range(rawProgress, 0.05, 0.18) }}>
+          <div className="ftp-mobile-intro__landscape">
+            <img className="ftp-mobile-intro__background" src={mobileCoastExpanded} alt="" />
+            <img className="ftp-mobile-intro__products" src={mobileProducts} alt="지중해 해안에 놓인 딥티크 크리스털 용기와 캔들" />
+          </div>
+        </div>
+      </div>}
+      {!isCoast && <div className="ftp-mobile-intro ftp-mobile-intro--forest" style={{ '--ftp-mobile-expand': ease(range(rawProgress, 0.05, 0.85)) }}>
+        <img className="ftp-mobile-intro__emblem" src={mobileEmblem} alt="" />
+        <img className="ftp-mobile-intro__foliage" src={mobileFoliage} alt="" />
+        <div className="ftp-mobile-intro__arch ftp-mobile-intro__arch--forest">
+          <img className="ftp-mobile-intro__forest" src={forest} alt="" />
+          <img className="ftp-mobile-intro__perfume" src={forestPerfume} alt="햇살이 비치는 숲속의 딥티크 향수" />
+        </div>
+        <div className="ftp-mobile-intro__expanded" style={{ opacity: range(rawProgress, 0.05, 0.18) }}>
+          <div className="ftp-mobile-intro__landscape">
+            <img className="ftp-mobile-intro__background ftp-mobile-intro__background--forest" src={mobileForestExpanded} alt="" />
+            <img className="ftp-mobile-intro__hamster" src={mobileHamster} alt="" />
+            <img className="ftp-mobile-intro__perfume-expanded" src={forestPerfume} alt="숲속에 놓인 딥티크 탐다오 향수" />
+          </div>
+        </div>
+      </div>}
+      <div className="ftp-sticky-stage"><div className="ftp-arch-canvas" style={{ '--arch-expand': progress }}>
+        <div className="ftp-arch-decoration" aria-hidden="true" style={{ opacity: 1 - progress }}>
+          <img className="ftp-arch-decoration__left" src={isCoast ? '/ForThePlanet/ff671.png' : archFoliageLeft} alt="" />
+          <img className="ftp-arch-decoration__right" src={isCoast ? '/ForThePlanet/dbb93.png' : archFoliageRight} alt="" />
+        </div>
+        <div className="ftp-crest" style={{ opacity: 1 - range(rawProgress, 0.18, 0.4) }} aria-hidden="true"><img className="ftp-crest__emblem" src={mobileEmblem} alt="" /><img className="ftp-crest__foliage" src={mobileFoliage} alt="" /></div>
         <div className="ftp-side-arch" style={{ ...canvasPosition(side.leftX, side.y, 429, 611), opacity: 1 - range(rawProgress, 0.08, 0.34) }}>
-          <img className="ftp-side-arch__background" src={background} alt="" />
+          <div className="ftp-side-arch__crop" style={isCoast ? sideCrop(-34, -14, 1185, 625) : sideCrop(-23, -93, 1417, 797)}>
+            <img className="ftp-side-arch__background" src={isCoast ? coast : '/ForThePlanet/96f38.png'} alt="" style={isCoast ? { position: 'absolute', top: '-25.71%', height: '151.42%' } : undefined} />
+          </div>
           {isCoast && <img className="ftp-side-arch__object" src={vessel} alt="딥티크 크리스털 오브제" style={{ left: '17.48%', top: '23.24%', width: '64.8%', height: '60.56%' }} />}
         </div>
         <div className="ftp-side-arch" style={{ ...canvasPosition(side.rightX, side.y, 429, 611), opacity: 1 - range(rawProgress, 0.08, 0.34) }}>
-          <img className="ftp-side-arch__background" src={background} alt="" />
-          {!isCoast && <img className="ftp-side-arch__object" src={hamster} alt="숲속 햄스터" style={{ left: '45.22%', top: '76.92%', width: '23.78%', height: '16.69%' }} />}
+          <div className="ftp-side-arch__crop" style={isCoast ? sideCrop(-1370, -318, 1920, 1080) : sideCrop(-1516, -457, 2147, 1208)}>
+            <img className="ftp-side-arch__background" src={isCoast ? '/ForThePlanet/10bdf.png' : '/ForThePlanet/96f38.png'} alt="" />
+          </div>
+          {!isCoast && <img className="ftp-side-arch__object" src="/ForThePlanet/1f7c0.png" alt="숲속 햄스터" style={{ left: '45.22%', top: '76.92%', width: '23.78%', height: '16.69%', filter: 'none', opacity: .92 }} />}
         </div>
         <div className="ftp-expanding-arch" style={{ clipPath: `inset(${insetTop}% ${insetRight}% ${insetBottom}% ${insetLeft}% round ${250 * (1 - progress)}px ${250 * (1 - progress)}px ${4 * (1 - progress)}px ${4 * (1 - progress)}px)` }}>
-          <img className="ftp-expanding-arch__background" src={background} alt="" />
+          <img className="ftp-expanding-arch__background" src={background} alt="" style={backgroundPosition} />
           {isCoast ? <>
             <img className="ftp-expanding-object" src={vessel} alt="딥티크 크리스털 오브제" style={canvasPosition(object.vessel.x, object.vessel.y, object.vessel.w, object.vessel.h)} />
             <img className="ftp-expanding-object" src={candle} alt="딥티크 캔들" style={canvasPosition(object.candle.x, object.candle.y, object.candle.w, object.candle.h)} />
@@ -150,8 +206,7 @@ function ArchScene({ variant, first = false }) {
             <img className="ftp-expanding-object ftp-expanding-object--no-shadow" src={hamster} alt="숲속 햄스터" style={canvasPosition(object.hamster.x, object.hamster.y, object.hamster.w, object.hamster.h)} />
           </>}
         </div>
-        <div className="ftp-center-arch-outline" style={{ ...canvasPosition(719, 244, 481, 685), opacity: 1 - range(rawProgress, 0.12, 0.46) }} aria-hidden="true" />
-        <p className="ftp-scroll-cue" style={{ opacity: 1 - range(rawProgress, 0.04, 0.2) }}>SCROLL TO EXPAND</p>
+        <div className="ftp-center-arch-outline" style={{ ...canvasPosition(719, 244, 481, 685), opacity: rawProgress === 0 ? 1 : 0 }} aria-hidden="true" />
       </div></div>
     </section>
   );
@@ -163,8 +218,8 @@ const ambition = {
     '딥티크는 투명한 공급망을 바탕으로 파트너와 함께 환경과 사회에 미치는 영향을 줄이고, 생물다양성을 보호하며 더욱 지속가능한 생산 방식을 만들어가고 있습니다.',
     '딥티크는 공급업체와의 협력을 바탕으로 공급망의 투명성과 추적 가능성을 높이고, 원료가 어디에서 어떻게 조달되는지 보다 명확하게 관리하고 있습니다. 또한 책임 있는 기준을 적용해 천연 원료 조달 과정에서 환경과 사회에 미치는 영향을 줄이고, 보다 지속가능한 생산 방식을 만들어가고 있습니다.',
   ],
-  introDecoration: { src: ambitionDecoration, x: 1218, y: 106, w: 533, h: 533, opacity: 0.45 },
-  extraDecoration: { src: ambitionCollage, x: 2633.5, y: 469, w: 389, h: 389, rotate: 30 },
+  introDecoration: { src: ambitionDecoration, x: 1218, y: 106, w: 533, h: 533, opacity: 1 },
+  extraDecoration: { src: ambitionCollage, x: 2510.192, y: 469.192, w: 389, h: 389, rotate: 30 },
   stats: [
     { x: 1580, y: 269, number: '2025', title: 'SUPPLIER CODE · COMMITMENT · STANDARDS', body: <>2025년까지 생산 관련<br />모든 공급업체가 행동강령에 서명합니다.</> },
     { x: 1910, y: 477, number: '2026', title: 'TRANSPARENCY · TRACEABILITY · PLATFORM', body: <>2026년까지 모든 제품 정보를<br />투명성 및 추적 플랫폼에 공개할 예정입니다.</> },
@@ -173,13 +228,13 @@ const ambition = {
   clusters: [
     [
       { src: productLandscape, x: 3067, y: 625, w: 651.24, h: 366.87, fromX: -650, fromY: 360 },
-      { src: productCollage, x: 3553, y: 431, w: 599, h: 599, fromX: 620, fromY: -410, opacity: 0.86 },
-      { src: productDetail, x: 3356, y: 159, w: 497.15, h: 445.87, fromX: -240, fromY: -540 },
+      { src: productCollage, x: 3553, y: 431, w: 599, h: 599, fromX: 620, fromY: -410 },
+      { src: productDetail, x: 3356, y: 159, w: 497.15, h: 445.87, fromX: -240, fromY: -540, crop: { width: '134.53%' } },
     ],
     [
-      { src: ecoPainting, x: 6575, y: 173, w: 490, h: 569, fromX: -600, fromY: 420 },
       { src: ecoCollage, x: 6842.89, y: 375.05, w: 531, h: 531, fromX: 520, fromY: 350 },
       { src: ecoFrame, x: 6987.83, y: 37, w: 598.71, h: 598.71, fromX: 280, fromY: -520, opacity: 0.8 },
+      { src: ecoPainting, x: 6636, y: 173, w: 490, h: 569, fromX: -600, fromY: 420, crop: { left: '-14.49%', top: '.06%', width: '114.46%' } },
     ],
   ],
   stories: [
@@ -203,13 +258,13 @@ const impact = {
   ],
   clusters: [
     [
-      { src: ylangHarvest, x: 3149, y: 96, w: 611.18, h: 611.18, fromX: -640, fromY: -430, rotate: 8.62 },
-      { src: ylangCollage, x: 3677.01, y: 209.78, w: 467.61, h: 467.61, fromX: 570, fromY: -180, rotate: -12.38 },
+      { src: ylangHarvest, x: 3191.335, y: 138.335, w: 611.18, h: 611.18, fromX: -640, fromY: -430, rotate: 8.62 },
+      { src: ylangCollage, x: 3721.686, y: 254.466, w: 467.61, h: 467.61, fromX: 570, fromY: -180, rotate: -12.38 },
       { src: ylangBottle, x: 3520.58, y: 609.24, w: 286.21, h: 357.76, fromX: -210, fromY: 430 },
     ],
     [
       { src: fragranceStill, x: 6626, y: 152, w: 506.91, h: 506.91, fromX: -600, fromY: -390 },
-      { src: fragranceCollage, x: 6626, y: 442.22, w: 906.45, h: 518.78, fromX: -520, fromY: 430 },
+      { src: fragranceCollage, x: 6626, y: 442.22, w: 906.45, h: 518.78, fromX: -520, fromY: 430, crop: { width: '99.99%', height: '116.47%', top: '.15%' } },
       { src: fragranceProducts, x: 7153, y: 252, w: 450.33, h: 450.33, fromX: 620, fromY: -260 },
     ],
   ],
@@ -261,10 +316,10 @@ function StoryBackground({ kind }) {
 
 function StoryCluster({ images, progress, start, end }) {
   const reveal = ease(range(progress, start, end));
-  return images.map((item) => <img key={item.src} className="ftp-world-cluster-image" src={item.src} alt="" style={{
+  return images.map((item) => <div key={item.src} className="ftp-world-cluster-image" style={{
     ...worldPosition(item.x, item.y, item.w, item.h), opacity: (item.opacity ?? 1) * reveal,
     transform: `translate(${item.fromX * (1 - reveal)}px, ${item.fromY * (1 - reveal)}px) rotate(${(item.rotate || 0) + (1 - reveal) * 18}deg) scale(${0.72 + reveal * 0.28})`,
-  }} />);
+  }}><img src={item.src} alt="" style={item.crop} /></div>);
 }
 
 function HorizontalStory({ data }) {
@@ -281,7 +336,7 @@ function HorizontalStory({ data }) {
     }, { threshold: 0.05 });
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [ref]);
   useEffect(() => {
     const measure = () => {
       if (!stageRef.current) return;
@@ -294,9 +349,11 @@ function HorizontalStory({ data }) {
   }, []);
   return (
     <section id={data.id} ref={ref} className="ftp-story-scroll" aria-label={typeof data.title === 'string' ? data.title : 'Environmental and Social Impact'}>
+      {data.id === 'our-ambition' && <MobileAmbition data={data} />}
+      {data.id === 'environmental-impact' && <MobileImpact data={data} />}
       <div ref={stageRef} className={`ftp-sticky-stage ftp-story-stage ${introVisible ? 'ftp-story-stage--visible' : ''}`}>
         <div className="ftp-story-viewport" style={{ transform: `translate(-50%, -50%) scale(${stageScale})` }}>
-        <div className="ftp-story-track" style={{ transform: `translate3d(${-progress * 5760}px, 0, 0)` }}>
+        <div className="ftp-story-track" style={{ transform: `translate3d(${-range(progress, 0.025, 0.95) * 5763}px, 0, 0)` }}>
           <StoryBackground kind={data.id} />
           <div className="ftp-world-intro" style={worldPosition(80, 28, 1002, 737)}>
             <img src={data.portrait} alt="" />
@@ -312,9 +369,9 @@ function HorizontalStory({ data }) {
             return <article className="ftp-world-stat" key={item.number} style={{ ...worldPosition(item.x, item.y, 449, 168), opacity: cardIn, transform: `translateX(${(1 - cardIn) * 130}px)` }}><strong>{item.number}</strong><h3>{item.title}</h3><p>{item.body}</p></article>;
           })}
           <StoryCluster images={data.clusters[0]} progress={progress} start={0.23} end={0.48} />
-          {data.stories.map((story) => <article className="ftp-world-story" key={story.x} style={worldPosition(story.x, story.y, story.w, story.h)}>
+          {data.stories.map((story, index) => <article className="ftp-world-story" key={story.x} style={worldPosition(story.x, story.y, story.w, story.h)}>
             <img src={story.image} alt="" style={{ left: `${(story.imageX / story.w) * 100}%`, top: `${(story.imageY / story.h) * 100}%`, width: `${(640 / story.w) * 100}%`, height: `${(360 / story.h) * 100}%` }} />
-            <div style={{ left: `${(story.textX / story.w) * 100}%`, top: `${(story.textY / story.h) * 100}%`, width: `${((story.w - story.textX - 12) / story.w) * 100}%`, '--story-copy-width': `${story.textW}px` }}><h2>{story.title}</h2><div className="ftp-copy-block">{story.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></div>
+            <div style={{ left: `${(story.textX / story.w) * 100}%`, top: `${(story.textY / story.h) * 100}%`, width: `${((story.w - story.textX - 12) / story.w) * 100}%`, '--story-copy-width': `${data.id === 'our-ambition' && index === 0 ? 353 : data.id === 'environmental-impact' && index === 1 ? 333 : story.textW}px` }}><h2>{data.id === 'our-ambition' && index === 0 ? 'Striking a sustainable balance' : story.title}</h2><div className="ftp-copy-block">{story.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></div>
           </article>)}
           <StoryCluster images={data.clusters[1]} progress={progress} start={0.73} end={0.96} />
         </div>
@@ -326,23 +383,36 @@ function HorizontalStory({ data }) {
 }
 
 function DesigningWithLess() {
-  const ref = useRef(null);
+  const copyRef = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
         setVisible(true);
-        observer.disconnect();
+      } else if (!entry.isIntersecting) {
+        setVisible(false);
       }
-    }, { threshold: 0.3 });
-    if (ref.current) observer.observe(ref.current);
+    }, { threshold: [0, 0.15], rootMargin: '0px 0px -10% 0px' });
+    if (copyRef.current) observer.observe(copyRef.current);
     return () => observer.disconnect();
   }, []);
-  return <section ref={ref} className={`ftp-designing ${visible ? 'ftp-designing--visible' : ''}`} aria-labelledby="designing-title"><img src={designingBackground} alt="" /><div className="ftp-designing__copy"><h2 id="designing-title">DESIGNING WITH LESS</h2><p>더 적은 자원으로, 더 오래 사용할 수 있도록<br />딥티크는 제품의 소재와 패키지, 사용 이후의 과정까지 고려하며<br />창의성과 품질을 지킨 채 지속 가능한 방식을 만들어갑니다.</p></div></section>;
+  return <section className={`ftp-designing ${visible ? 'ftp-designing--visible' : ''}`} aria-labelledby="designing-title">
+    <div className="ftp-designing__canvas">
+    <picture className="ftp-designing__background">
+      <source media="(max-width: 899px)" srcSet={mobileDesigningBackground} />
+      <img src={designingBackground} alt="" />
+    </picture>
+    <div ref={copyRef} className="ftp-designing__copy">
+      <h2 id="designing-title">DESIGNING WITH LESS</h2>
+      <p className="ftp-designing__desktop-copy">더 적은 자원으로, 더 오래 사용할 수 있도록.<br />딥티크는 제품의 소재와 패키지, 사용 이후의 과정까지 고려하며<br />창의성과 품질을 유지한 채 더 지속 가능한 방식을 만들어갑니다.</p>
+      <p className="ftp-designing__mobile-copy">더 적은 자원으로, 더 오래 사용할 수 있도록 딥티크는 제품의 소재와 패키지,<br />사용 이후의 과정까지 고려하며<br />창의성과 품질을 유지한 채 더 지속<br />가능한 방식을 만들어갑니다.</p>
+    </div>
+    </div>
+  </section>;
 }
 
 function RenewalReveal() {
-  const [ref, progress] = useScrollProgress();
+  const [ref, progress] = useScrollProgress(false, true);
   const stageRef = useRef(null);
   const [scale, setScale] = useState(1);
 
@@ -351,7 +421,7 @@ function RenewalReveal() {
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
-    const measure = () => setScale(Math.max(stage.clientWidth / 1920, stage.clientHeight / 1080));
+    const measure = () => setScale(Math.min(stage.clientWidth / 1920, stage.clientHeight / 1080));
     const observer = new ResizeObserver(measure);
     observer.observe(stage);
     measure();
@@ -367,28 +437,33 @@ function RenewalReveal() {
 
   return (
     <section ref={ref} className="ftp-renewal-scroll" aria-label="What We Keep, What We Renew">
+      <MobileRenewal separate={separate} textOut={textOut} expand={expand} imageIn={imageIn} finalIn={finalIn} />
       <div ref={stageRef} className="ftp-sticky-stage ftp-renewal-stage">
-        <div className="ftp-renewal-canvas" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
+        <div className="ftp-renewal-canvas">
+          <div className="ftp-renewal-layout" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
           <div className="ftp-renewal-intro" style={{ opacity: 1 - textOut }}>
-            <p className="ftp-renewal-side ftp-renewal-side--left">For The<br />Planet</p>
+            <p className="ftp-renewal-side ftp-renewal-side--left" style={{ transform: `translateY(${-24.5 * separate}px)` }}>For The<br />Planet</p>
             <h2 className="ftp-renewal-heading">
-              {/* At Con6-2 the 49px gap opens between two 96px text lines. */}
-              <span className="ftp-renewal-heading__top" style={{ transform: `translateY(${-7 * separate}px)` }}>What We Keep,</span>
-              <span className="ftp-renewal-heading__bottom" style={{ transform: `translateY(${49 * separate}px)` }}>What We Renew.</span>
+              {/* Open the 49px image gap equally above and below the centre. */}
+              <span className="ftp-renewal-heading__top" style={{ transform: `translateY(${-24.5 * separate}px)` }}>What We Keep,</span>
+              <span className="ftp-renewal-heading__bottom" style={{ transform: `translateY(${24.5 * separate}px)` }}>What We Renew.</span>
             </h2>
-            <p className="ftp-renewal-side ftp-renewal-side--right">Eco-designing<br />our creations</p>
+            <p className="ftp-renewal-side ftp-renewal-side--right" style={{ transform: `translateY(${-24.5 * separate}px)` }}>Eco-designing<br />our creations</p>
+          </div>
           </div>
           {/* Con6-2 crops the centre of the same image that fills Con6-3. */}
           <div className="ftp-renewal-image" style={{
             opacity: imageIn * (0.5 + 0.5 * expand),
-            clipPath: `inset(${50 * (1 - expand)}% ${47.2917 * (1 - expand)}% ${45.463 * (1 - expand)}% ${47.3958 * (1 - expand)}%)`,
+            clipPath: `inset(calc((50% - ${24 * scale}px) * ${1 - expand}) calc((50% - ${51 * scale}px) * ${1 - expand}) calc((50% - ${25 * scale}px) * ${1 - expand}) calc((50% - ${51 * scale}px) * ${1 - expand}) round ${4 * scale * (1 - expand)}px)`,
           }}>
             <img src={closingBackground} alt="딥티크의 지속 가능한 소재와 캔들" />
             <div className="ftp-renewal-image__shade" style={{ opacity: expand }} />
           </div>
+          <div className="ftp-renewal-layout ftp-renewal-layout--final" style={{ transform: `translate(-50%, -50%) scale(${scale})` }}>
           <div className="ftp-renewal-final" style={{ opacity: finalIn, transform: `translateY(${(1 - finalIn) * 28}px)` }}>
             <h2>What We Keep,<br />What We Renew</h2>
             <p>자연에서 받은 영감은 지키고,<br />환경에 남기는 흔적은 줄여갑니다.<br />딥디크는 더 오래 쓰고, 더 책임 있게 만들며,<br />다음 세대를 위한 새로운 방식을 계속 고민합니다.</p>
+          </div>
           </div>
         </div>
       </div>
@@ -396,6 +471,55 @@ function RenewalReveal() {
   );
 }
 
+function usePageNavigation() {
+  useEffect(() => {
+    const body = document.body;
+    const header = document.querySelector('.header');
+    let lastY = window.scrollY;
+    let frame = 0;
+    body.classList.add('ftp-route', 'ftp-header-shown');
+
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      const headerHeight = window.innerWidth >= 1180 ? 110 : 72;
+      const menuOpen = Boolean(document.querySelector('.header__nav--open'));
+
+      if (y <= headerHeight || menuOpen || y < lastY - 3) {
+        body.classList.add('ftp-header-shown');
+        body.classList.remove('ftp-header-hidden');
+      } else if (y > lastY + 3) {
+        body.classList.add('ftp-header-hidden');
+        body.classList.remove('ftp-header-shown');
+      }
+      if (Math.abs(y - lastY) > 3) lastY = y;
+    };
+    const onScroll = () => {
+      body.classList.add('ftp-submenu-suppressed');
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    const enableSubmenu = () => body.classList.remove('ftp-submenu-suppressed');
+    const onPointerMove = (event) => {
+      if (event.movementX || event.movementY) enableSubmenu();
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    header?.addEventListener('pointermove', onPointerMove);
+    header?.addEventListener('keydown', enableSubmenu);
+    header?.addEventListener('focusin', enableSubmenu);
+    update();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      header?.removeEventListener('pointermove', onPointerMove);
+      header?.removeEventListener('keydown', enableSubmenu);
+      header?.removeEventListener('focusin', enableSubmenu);
+      if (frame) window.cancelAnimationFrame(frame);
+      body.classList.remove('ftp-route', 'ftp-header-shown', 'ftp-header-hidden', 'ftp-submenu-suppressed');
+    };
+  }, []);
+}
+
 export default function ForThePlanet() {
+  usePageNavigation();
   return <main className="for-the-planet"><h1 className="sr-only">For the Planet, 지속 가능한 미래를 위한 딥티크의 약속</h1><ArchScene variant="coast" first /><HorizontalStory data={ambition} /><DesigningWithLess /><ArchScene variant="forest" /><HorizontalStory data={impact} /><RenewalReveal /></main>;
 }

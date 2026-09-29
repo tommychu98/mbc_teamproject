@@ -1,0 +1,65 @@
+.ftp-mobile-renewal { display: none; }
+
+@media (max-width: 899px) {
+  .ftp-renewal-scroll > .ftp-renewal-stage { display: none; }
+  .for-the-planet .ftp-renewal-scroll { height: 340svh; }
+  .ftp-mobile-renewal {
+    position: sticky;
+    top: 0;
+    display: grid;
+    place-items: center;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--ftp-ivory);
+  }
+  .ftp-mobile-renewal__card {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: min(334px, calc(100% - 32px));
+    text-align: center;
+  }
+  .ftp-mobile-renewal p {
+    margin: 0;
+    color: var(--ftp-copy);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: .06em;
+  }
+  .ftp-mobile-renewal h2 {
+    margin: 0;
+    font: 400 clamp(36px, 11.627907vw, 50px)/1.1 'EB Garamond', var(--font-family-display);
+    letter-spacing: 0;
+  }
+  .ftp-mobile-renewal__card h2 { display: flex; flex-direction: column; align-items: center; }
+  .ftp-mobile-renewal__card h2 span { white-space: nowrap; }
+  .ftp-mobile-renewal__closing {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(calc((50% - 24.5px) * (1 - var(--renewal-expand))) calc((50% - 51px) * (1 - var(--renewal-expand))) round calc(4px * (1 - var(--renewal-expand))));
+  }
+  .ftp-mobile-renewal__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .ftp-mobile-renewal__closing::after { content: ''; position: absolute; inset: 0; background: rgb(0 0 0 / .2); opacity: var(--renewal-expand); }
+  .ftp-mobile-renewal__copy {
+    position: absolute;
+    z-index: 1;
+    top: calc(112 / 935 * 100%);
+    right: calc(20 / 430 * 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 40px;
+    width: min(272px, calc(100% - 40px));
+    color: var(--ftp-ivory);
+  }
+  .ftp-mobile-renewal__copy h2 { width: min(264px, 100%); min-height: 83px; font-size: 40px; }
+  .ftp-mobile-renewal__copy p { color: inherit; }
+}
+
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .for-the-planet .ftp-renewal-scroll { height: 100svh; }
+}
