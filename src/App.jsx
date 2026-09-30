@@ -38,6 +38,7 @@ import InquiryDetailPage from './pages/contact/inquiry/detail';
 import BoardListPage from './pages/mypage/community';
 import BoardDetailPage from './pages/mypage/community/detail';
 import BoardFormPage from './pages/mypage/community/form';
+import MyPageFaqPage from './pages/mypage/community/faq';
 import './App.css';
 
 function ScrollToTop() {
@@ -128,6 +129,10 @@ export default function App() {
                         element={protectedPage(<TrackOrderPage />)}
                     />
                     <Route path="/mypage/profile" element={protectedPage(<ProfileEditPage />)} />
+                    <Route
+                        path="/mypage/community/faq"
+                        element={protectedPage(<MyPageFaqPage />)}
+                    />
                     <Route
                         path="/mypage/posts"
                         element={protectedPage(<BoardListPage onlyMine />)}
