@@ -4,7 +4,7 @@ import './CommunityNav.css';
 const items = [
   ['inquiry', '1:1 문의', '/mypage/community/inquiry'],
   ['faq', 'FAQ', '/mypage/community/faq'],
-  ['product', '상품문의'],
+  ['product', '상품문의', '/mypage/community/product-inquiry'],
 ];
 
 export default function CommunityNav({ active = 'faq' }) {
