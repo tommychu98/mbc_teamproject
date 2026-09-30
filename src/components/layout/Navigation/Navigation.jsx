@@ -53,7 +53,7 @@ const navItems = [
       ] },
       { label: 'COMMUNITY', to: '/inquiries', items: [
         { label: '1:1 문의', to: '/inquiries' },
-        { label: 'FAQ', to: '/contact/faq' },
+        { label: 'FAQ', to: '/mypage/community/faq' },
         { label: '상품문의', to: '/inquiries/write?category=PRODUCT' },
       ] },
     ],

@@ -24,7 +24,7 @@ const menuGroups = [
   ] },
   { title: 'Community', label: '나의 활동', links: [
     { label: '1:1 문의', to: '/inquiries' },
-    { label: 'FAQ', to: '/contact/faq' },
+    { label: 'FAQ', to: '/mypage/community/faq' },
     { label: '상품문의', to: '/inquiries' },
   ] },
 ];
