@@ -37,7 +37,11 @@ function NewSeasonRituals() {
                     </div>
                     <ViewMoreLink to="/shop/new-season/les-rituels-de-soin" label="Les Rituels de Soin" />
                 </div>
-                <div className="new-season__ritual-media"><img src={`${ASSET_PATH}/ritual-video-frame.png`} alt="" /></div>
+                <div className="new-season__ritual-media">
+                    <video autoPlay muted playsInline loop>
+                        <source src={`${ASSET_PATH}/4k-new-season.mp4`} type="video/mp4" />
+                    </video>
+                </div>
             </div>
         </section>
     );

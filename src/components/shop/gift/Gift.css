@@ -17,7 +17,8 @@
 .gift-page__hero-copy h1 { width: 100%; font-family: var(--font-family-display); font-size: 90px; font-weight: 400; line-height: 1; }
 .gift-page__hero-copy > p:last-child { margin-top: 15px; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
 .gift-page__story-image { position: absolute; top: 0; left: 0; width: 960px; height: 1080px; overflow: hidden; }
-.gift-page__story-image img { width: 100%; height: 100%; object-fit: cover; }
+.gift-page__story-image video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.gift-page__story-video--seeking-start { visibility: hidden; }
 .gift-page__story-copy { position: absolute; top: 313px; left: 1221px; width: 538px; }
 .gift-page__story-copy h2, .gift-page__boutique-copy h2 { font-family: var(--font-family-display); font-size: 64px; font-weight: 400; line-height: 1.1; }
 .gift-page__story-copy > div { display: flex; margin-top: 50px; flex-direction: column; gap: 30px; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }

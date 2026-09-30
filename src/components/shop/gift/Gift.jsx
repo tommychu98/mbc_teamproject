@@ -10,6 +10,7 @@ import './Gift.css';
 
 const ASSET_PATH = '/images/gift';
 const GIFT_SET_ROUTE = '/shop/gifts/gift-sets';
+const GIFT_VIDEO_START = 1;
 
 const heroImages = [
     { file: 'hero-01.png', className: 'gift-page__hero-image--one' },
@@ -52,10 +53,46 @@ function GiftHero() {
 }
 
 function GiftStory() {
+    const videoRef = useRef(null);
+
+    const handleLoadedMetadata = () => {
+        const video = videoRef.current;
+        if (!video) return;
+        video.pause();
+        video.currentTime = GIFT_VIDEO_START;
+    };
+
+    const handleSeeked = () => {
+        const video = videoRef.current;
+        if (!video) return;
+        video.classList.remove('gift-page__story-video--seeking-start');
+        video.play().catch(() => {});
+    };
+
+    const handleEnded = () => {
+        const video = videoRef.current;
+        if (!video) return;
+        video.currentTime = GIFT_VIDEO_START;
+        video.play().catch(() => {});
+    };
+
     return (
         <section className="gift-page__story">
             <div className="gift-page__canvas">
-                <div className="gift-page__story-image"><img src={`${ASSET_PATH}/gift-story.png`} alt="" /></div>
+                <div className="gift-page__story-image">
+                    <video
+                        ref={videoRef}
+                        className="gift-page__story-video gift-page__story-video--seeking-start"
+                        autoPlay
+                        muted
+                        playsInline
+                        onLoadedMetadata={handleLoadedMetadata}
+                        onSeeked={handleSeeked}
+                        onEnded={handleEnded}
+                    >
+                        <source src={`${ASSET_PATH}/4k-gift.mp4`} type="video/mp4" />
+                    </video>
+                </div>
                 <div className="gift-page__story-copy">
                     <h2>The Gift by Diptyque</h2>
                     <div>
