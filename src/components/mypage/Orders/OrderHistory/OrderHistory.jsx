@@ -73,6 +73,11 @@ export default function OrderHistory() {
       <OrdersNav active="history" />
 
       <section className="order-history__content" aria-label="주문 내역">
+        <div className="order-history__intro">
+          <p className="order-history__eyebrow">ORDER HISTORY</p>
+          <h2>주문 내역을 확인하세요.</h2>
+          <p className="order-history__description">기간을 설정하여 주문 내역을 조회할 수 있습니다.</p>
+        </div>
         <form className="order-history__filter" onSubmit={handleSearch}>
           <fieldset className="order-history__periods">
             <legend className="order-history__legend">조회기간</legend>
