@@ -13,15 +13,6 @@ function ImageAsset({ className, name }) {
 export default function HistoryObjects() {
   return (
     <section className="history-objects" aria-labelledby="history-objects-title">
-      <header className="history-objects__hero">
-        <h2 id="history-objects-title">OBJECTS</h2>
-        <p>
-          The shop became a world.
-          <br />
-          A collection became a language.
-        </p>
-      </header>
-
       <ImageAsset
         className="history-objects__asset history-objects__background-main"
         name="objects-background-main.png"
@@ -37,6 +28,10 @@ export default function HistoryObjects() {
       <ImageAsset
         className="history-objects__asset history-objects__outro-background"
         name="objects-outro-background.png"
+      />
+      <ImageAsset
+        className="history-objects__asset history-objects__walking-figure"
+        name="objects-walking-figure.png"
       />
       <div className="history-objects__copy-backplate" aria-hidden="true" />
       <ImageAsset
@@ -69,10 +64,14 @@ export default function HistoryObjects() {
         </div>
       </article>
 
-      <ImageAsset
-        className="history-objects__asset history-objects__walking-figure"
-        name="objects-walking-figure.png"
-      />
+      <header className="history-objects__hero">
+        <h2 id="history-objects-title">OBJECTS</h2>
+        <p>
+          The shop became a world.
+          <br />
+          A collection became a language.
+        </p>
+      </header>
 
       <div className="history-objects__mid-background" aria-hidden="true" />
       <ImageAsset

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import ProductGrid from '../shop/product-line/fragrances/ProductGrid';
 import { getProducts } from '../../services/productService';
+import HomeIntro from './HomeIntro';
 import './HomePage.css';
 
 export default function HomePage() {
@@ -24,6 +25,7 @@ export default function HomePage() {
     }, []);
     return (
         <div className="home" ref={root}>
+            <HomeIntro />
             <section className="home-hero">
                 <div className="home-hero__content">
                     <p className="eyebrow">A fragrance, a memory</p>

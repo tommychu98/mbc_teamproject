@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import IntroVideo from './components/intro';
@@ -63,10 +63,16 @@ const protectedMyPage = (element, active) => protectedPage(
 export default function App() {
     const { pathname } = useLocation();
     const isHistoryPage = pathname === '/history' || pathname === '/about/history';
+    const handleIntroComplete = useCallback(() => {
+        if (pathname !== '/') return;
+
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        window.requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    }, [pathname]);
 
     return (
         <div className={`app${isHistoryPage ? ' app--history' : ''}`}>
-            <IntroVideo />
+            <IntroVideo onComplete={handleIntroComplete} />
             <ScrollToTop />
             <Header />
             <div className="app__main">

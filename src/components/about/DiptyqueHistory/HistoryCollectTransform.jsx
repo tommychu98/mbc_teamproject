@@ -17,6 +17,15 @@ export default function HistoryCollectTransform() {
         />
       </div>
 
+      <div className="history-collect-transform__visual history-collect-transform__visual--transform">
+        <img
+          src={`${ASSET_ROOT}/transform-visual.png`}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
       <div className="history-collect-transform__panel history-collect-transform__panel--collect">
         <div className="history-collect-transform__copy history-collect-transform__copy--collect">
           <h2>TO COLLECT</h2>
@@ -28,7 +37,7 @@ export default function HistoryCollectTransform() {
           <p>
             중요한 것은 무엇을 보느냐보다
             <br />
-            그것을 어떤 시선으로 기억하느냐였습니다.
+            그것을 어떤 시선으로 기억하는가 였습니다.
           </p>
         </div>
       </div>
@@ -45,20 +54,12 @@ export default function HistoryCollectTransform() {
             <p>
               형태는 바뀌어도
               <br />
-              그날의 기억과 이야기는 지속됩니다.
+              그 날의 기억과 이야기는 지속됩니다.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="history-collect-transform__visual history-collect-transform__visual--transform">
-        <img
-          src={`${ASSET_ROOT}/transform-visual.png`}
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
     </section>
   );
 }

@@ -205,7 +205,7 @@
   gap: min(2.083333vw, 40px);
   font-family: var(--font-family-sans);
   font-size: min(.833333vw, var(--text-web-body-l2-do-size));
-  font-weight: var(--text-web-body-l2-do-weight);
+  font-weight: var(--font-weight-bold);
   line-height: var(--text-web-body-l2-do-line-height);
   letter-spacing: var(--text-web-body-l2-do-letter-spacing);
 }

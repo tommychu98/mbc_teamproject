@@ -18,15 +18,6 @@ function ScentAsset({ className, name }) {
 export default function HistoryScent() {
   return (
     <section className="history-scent" aria-labelledby="history-scent-title">
-      <header className="history-scent__hero">
-        <h2 id="history-scent-title">SCENT</h2>
-        <p>
-          Then, scent changed everything.
-          <br />
-          The invisible became a new material.
-        </p>
-      </header>
-
       <ScentAsset
         className="history-scent__background-long"
         name="background-long-composite.png"
@@ -135,6 +126,14 @@ export default function HistoryScent() {
         </div>
       </article>
 
+      <header className="history-scent__hero">
+        <h2 id="history-scent-title">SCENT</h2>
+        <p>
+          Then, scent changed everything.
+          <br />
+          The invisible became a new material.
+        </p>
+      </header>
     </section>
   );
 }

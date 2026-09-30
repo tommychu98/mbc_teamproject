@@ -14,6 +14,14 @@ export default function DiptyqueHistory() {
         </h1>
       </section>
       <HistoryFabric />
+      <div className="diptyque-history__fabric-transition" aria-hidden="true">
+        <img
+          src="/images/history/fabric/history-fabric-transition.png"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
       <HistoryObjects />
       <HistoryCollectTransform />
       <HistoryScent />

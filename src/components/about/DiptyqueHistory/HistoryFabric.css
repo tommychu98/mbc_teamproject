@@ -201,7 +201,7 @@
   gap: min(2.083333vw, 40px);
   font-family: var(--font-family-sans);
   font-size: min(.833333vw, var(--text-web-body-l2-do-size));
-  font-weight: var(--text-web-body-l2-do-weight);
+  font-weight: var(--font-weight-bold);
   line-height: var(--text-web-body-l2-do-line-height);
   letter-spacing: var(--text-web-body-l2-do-letter-spacing);
   white-space: nowrap;
@@ -262,8 +262,8 @@
 }
 
 .history-fabric__floating-object-03 {
-  top: 78.293011%;
-  left: 63.4375%;
+  top: 74.955197%;
+  left: 65.46875%;
   width: 44.449115%;
   aspect-ratio: 1;
 }
@@ -286,9 +286,9 @@
 .history-fabric__floating-botanical-01 img { object-fit: cover; }
 
 .history-fabric__floating-object-04 {
-  top: 42.092294%;
-  left: -8.802083%;
-  width: 40.48401%;
+  top: 39.426523%;
+  left: -15.78125%;
+  width: 52.167708%;
   aspect-ratio: 1;
 }
 
@@ -331,8 +331,8 @@
 }
 
 .history-fabric__floating-object-07 {
-  top: 66.71147%;
-  left: 30.625%;
+  top: 71.438172%;
+  left: 30.833333%;
   width: 41.25%;
   aspect-ratio: 1;
 }
@@ -420,8 +420,8 @@
 }
 
 .history-fabric__pick-up-fabric {
-  top: 12.97043%;
-  left: -28.072917%;
+  top: 13.59767%;
+  left: -18.59375%;
   width: 72.601354%;
   height: 46.529144%;
 }

@@ -151,14 +151,6 @@ export default function HistoryFabric() {
         name="floating-decorative-object-03.png"
       />
       <ImageAsset
-        className="history-fabric__asset history-fabric__floating-botanical-01"
-        name="floating-botanical-01.png"
-      />
-      <ImageAsset
-        className="history-fabric__centered-asset history-fabric__floating-object-04"
-        name="floating-decorative-object-04.png"
-      />
-      <ImageAsset
         className="history-fabric__centered-asset history-fabric__floating-object-05"
         name="floating-decorative-object-05.png"
       />
@@ -179,6 +171,10 @@ export default function HistoryFabric() {
         name="floating-decorative-object-08.png"
       />
       <ImageAsset
+        className="history-fabric__asset history-fabric__floating-botanical-01"
+        name="floating-botanical-01.png"
+      />
+      <ImageAsset
         className="history-fabric__centered-asset history-fabric__floating-collage-01"
         name="floating-fabric-collage-01.png"
       />
@@ -197,6 +193,10 @@ export default function HistoryFabric() {
       <ImageAsset
         className="history-fabric__centered-asset history-fabric__pick-up-fabric"
         name="fabric-pick-up.png"
+      />
+      <ImageAsset
+        className="history-fabric__centered-asset history-fabric__floating-object-04"
+        name="floating-decorative-object-04.png"
       />
     </section>
   );
