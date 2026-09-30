@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import OrdersNav from '../OrdersNav/OrdersNav';
 import './OrderHistory.css';
 
@@ -48,9 +49,35 @@ export default function OrderHistory() {
 
   return (
     <main className="order-history">
+      <header className="order-history__header">
+        <h1 className="order-history__title">My Page</h1>
+        <nav className="order-history__navigation" aria-label="마이페이지 메뉴">
+          {[
+            ['MY PAGE', '/mypage'],
+            ['PROFILE', '/mypage/profile'],
+            ['MY ORDERS', '/mypage/orders/history'],
+            ['COMMUNITY', null],
+          ].map(([label, to]) => {
+            const Item = to ? Link : 'span';
+            const itemProps = to ? { to } : { role: 'link', tabIndex: 0, 'aria-disabled': true };
+            return (
+              <Item className="order-history__nav-link" key={label} {...itemProps} aria-current={label === 'MY ORDERS' ? 'page' : undefined}>
+                <span className="order-history__nav-sizer" aria-hidden="true">{label}</span>
+                <span className="order-history__nav-label">{label}</span>
+              </Item>
+            );
+          })}
+        </nav>
+      </header>
+
       <OrdersNav active="history" />
 
       <section className="order-history__content" aria-label="주문 내역">
+        <div className="order-history__intro">
+          <p className="order-history__eyebrow">ORDER HISTORY</p>
+          <h2>주문 내역을 확인하세요.</h2>
+          <p className="order-history__description">기간을 설정하여 주문 내역을 조회할 수 있습니다.</p>
+        </div>
         <form className="order-history__filter" onSubmit={handleSearch}>
           <fieldset className="order-history__periods">
             <legend className="order-history__legend">조회기간</legend>
