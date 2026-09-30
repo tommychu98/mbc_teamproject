@@ -2,13 +2,6 @@ import { Link } from 'react-router-dom';
 import OrdersNav from '../OrdersNav/OrdersNav';
 import './ReturnsRefunds.css';
 
-const navigation = [
-  ['MY PAGE', '/mypage'],
-  ['PROFILE', '/mypage/profile'],
-  ['MY ORDERS', '/mypage/orders/history'],
-  ['COMMUNITY', '/mypage/posts'],
-];
-
 const steps = [
   ['신청', '신청 전 주문 상태와 취소·반품·교환 가능 여부를 확인합니다.'],
   ['확인', '신청 내용과 상품 상태를 확인하는 단계입니다.'],
@@ -18,18 +11,6 @@ const steps = [
 export default function ReturnsRefunds() {
   return (
     <main className="returns-refunds">
-      <header className="returns-refunds__header">
-        <h1 className="returns-refunds__title">My Page</h1>
-        <nav className="returns-refunds__navigation" aria-label="마이페이지 메뉴">
-          {navigation.map(([label, to]) => (
-            <Link className="returns-refunds__nav-link" key={label} to={to} aria-current={label === 'MY ORDERS' ? 'page' : undefined}>
-              <span className="returns-refunds__nav-sizer" aria-hidden="true">{label}</span>
-              <span className="returns-refunds__nav-label">{label}</span>
-            </Link>
-          ))}
-        </nav>
-      </header>
-
       <OrdersNav active="returns" />
 
       <section className="returns-refunds__intro" aria-labelledby="returns-intro">
