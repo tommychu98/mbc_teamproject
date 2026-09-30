@@ -21,8 +21,8 @@ import GalerieEauDesSens from './GalerieEauDesSens';
 import GaleriePhilosykos from './GaleriePhilosykos';
 import GalerieAnother from './GalerieAnother';
 import GalerieFooter from './GalerieFooter';
+import GalerieHeroPetals from './GalerieHeroPetals';
 import './GalerieContent.css';
-import './GalerieNavigation.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -119,6 +119,7 @@ export default function GalerieContent() {
             <section className="galerie-hero" ref={rootRef} aria-label="향의 풍경 갤러리">
             <h1 className="galerie-hero__sr-only" id="galerie-title">Galerie Diptyque — 향의 풍경</h1>
             <div className="galerie-hero__stage">
+                <GalerieHeroPetals />
                 <div className="galerie-hero__track">
                     {chapters.map((chapter) => (
                         <figure className="galerie-hero__card" key={chapter.number}>

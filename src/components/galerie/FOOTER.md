@@ -52,18 +52,19 @@ Policy/store/chat labels without implemented destinations remain plain text.
 `GalerieContent` currently renders this footer, while `App.jsx` also renders the
 shared layout footer on `/galerie`. Both are visible. The team lead should decide
 which footer the route uses and update the layout integration outside this folder.
-Galerie CSS does not hide the shared footer. The requested hero navigation theme
-is in `GalerieNavigation.css`, gated by `.app:has(.galerie-page)` and hero visibility;
-it reuses the shared header's existing interactions without modifying its source.
+Galerie CSS does not hide the shared footer. `GalerieNavigation.css` is retained
+as an integration reference but is no longer imported by `GalerieContent`:
+its selectors target the shared header and application layout outside this
+component's scope. The team lead owns any future integration of that theme.
 
-The latest Edge checks at 320, 430, 768 and 1440px confirmed horizontal overflow
+Earlier Edge checks at 320, 430, 768 and 1440px confirmed horizontal overflow
 from the shared footer. Temporarily hiding only `.app > .footer` in the browser
 removed the overflow at every tested width; no shared source files were changed.
 The team lead should review `.footer__inner` width/padding/box-sizing and decide
 which footer is rendered on `/galerie`. Mobile viewport widths were inflated by
 32px while the shared footer remained visible, affecting the hero/menu alignment.
 
-## Submission checks
+## Previous submission checks (before hero petals)
 
 - Existing `/galerie` route and exports/props are retained; no route wiring changed.
 - `node node_modules/eslint/bin/eslint.js src/components/galerie`: passed.
@@ -76,3 +77,22 @@ which footer is rendered on `/galerie`. Mobile viewport widths were inflated by
 - Native phone touch gestures, iOS/Safari, authenticated inquiry submission, and
   the visual quality of WebGL paper curl were not verified in this audit.
 - Footer policy/store labels remain text because no matching route exists.
+
+## Current review (2026-09-30, hero petals)
+
+- Read all Galerie code/styles/docs; 80 PNGs decoded and 24 SVGs parsed.
+  Local imports and asset references resolve. Installed direct dependencies
+  match the lockfile, so no dependency installation was necessary.
+- Existing hero petals are preserved. Shared navigation CSS is no longer
+  loaded; mobile Rose/Sens/Philosykos product labels now wrap inside each card.
+- Chrome: all 12 favorites toggle on/off on desktop and mobile emulation;
+  all four chapter and introduction targets receive focus; TOP returns to zero.
+  All 98 Galerie DOM images decode. No browser page errors were observed.
+- Petals animate, pause offscreen, and become static with reduced motion.
+  Desktop paper curl renders. At 320/390/768/1440px, excluding the shared
+  header/footer temporarily in the browser leaves no document overflow.
+- Team lead follow-up: shared header/footer overflow, duplicate route footer,
+  and the optional hero navigation theme. No shared source was edited.
+- No filter control exists in this gallery. Real phones, Safari/Firefox,
+  authenticated inquiry submission and production network performance remain
+  unverified. Favorites retain their existing page-local state behavior.

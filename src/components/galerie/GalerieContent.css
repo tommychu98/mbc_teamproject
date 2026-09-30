@@ -146,6 +146,8 @@ main.galerie-page { animation: none; }
 }
 
 .galerie-hero__track {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     gap: calc(43.24vw - var(--galerie-card-width));
