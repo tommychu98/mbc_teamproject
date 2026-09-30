@@ -7,7 +7,6 @@ import mobileEmblem from "./assets/mobile/7c05d.png";
 import mobileFoliage from "./assets/mobile/7ba69.png";
 import mobileCoast from "./assets/mobile/b0bb6.png";
 import mobileCandle from "./assets/mobile/57b38.png";
-import mobileArch from "./assets/mobile/d0f59.svg";
 import mobileCoastExpanded from "./assets/mobile/fd028.png";
 import mobileProducts from "./assets/mobile/9c5d0.png";
 import mobileDesigningBackground from "./assets/mobile/d45b0.png";
@@ -202,6 +201,7 @@ function ArchScene({ variant, first = false }) {
           className="ftp-mobile-intro"
           style={{
             "--ftp-mobile-expand": ease(range(rawProgress, 0.05, 0.85)),
+            "--ftp-mobile-arch-shadow": rawProgress <= 0.05 ? 1 : 0,
           }}
         >
           <img className="ftp-mobile-intro__emblem" src={mobileEmblem} alt="" />
@@ -211,11 +211,6 @@ function ArchScene({ variant, first = false }) {
             alt=""
           />
           <div className="ftp-mobile-intro__arch">
-            <img
-              className="ftp-mobile-intro__outline"
-              src={mobileArch}
-              alt=""
-            />
             <img className="ftp-mobile-intro__coast" src={mobileCoast} alt="" />
             <img
               className="ftp-mobile-intro__candle"
@@ -247,6 +242,7 @@ function ArchScene({ variant, first = false }) {
           className="ftp-mobile-intro ftp-mobile-intro--forest"
           style={{
             "--ftp-mobile-expand": ease(range(rawProgress, 0.05, 0.85)),
+            "--ftp-mobile-arch-shadow": rawProgress <= 0.05 ? 1 : 0,
           }}
         >
           <img className="ftp-mobile-intro__emblem" src={mobileEmblem} alt="" />
@@ -463,7 +459,7 @@ function ArchScene({ variant, first = false }) {
             )}
           </div>
           <div
-            className="ftp-center-arch-outline"
+            className="ftp-center-arch-shadow"
             style={{
               ...canvasPosition(719, 244, 481, 685),
               opacity: rawProgress === 0 ? 1 : 0,
@@ -917,8 +913,12 @@ function StoryBackground({ kind }) {
   );
 }
 
-function StoryCluster({ images, progress, start, end }) {
-  const reveal = ease(range(progress, start, end));
+function StoryCluster({ images, progress }) {
+  const left = Math.min(...images.map((item) => item.x));
+  const right = Math.max(...images.map((item) => item.x + item.w));
+  const scrollX = range(progress, 0.025, 0.95) * 5763;
+  // Start the whole image block together once 75% of its final layout is in view.
+  const reveal = scrollX + 1920 >= left + (right - left) * 0.75 ? 1 : 0;
   return images.map((item) => (
     <div
       key={item.src}
@@ -997,7 +997,7 @@ function HorizontalStory({ data }) {
             <StoryBackground kind={data.id} />
             <div
               className="ftp-world-intro"
-              style={worldPosition(80, 28, 1002, 737)}
+              style={worldPosition(80, 171, 1002, 737)}
             >
               <img src={data.portrait} alt="" />
               <h2>{data.title}</h2>
@@ -1065,14 +1065,22 @@ function HorizontalStory({ data }) {
             <StoryCluster
               images={data.clusters[0]}
               progress={progress}
-              start={0.23}
-              end={0.48}
             />
-            {data.stories.map((story, index) => (
+            {data.stories.map((story, index) => {
+              // Start the entrance as soon as most of the box is visible.
+              const scrollX = range(progress, 0.025, 0.95) * 5763;
+              const reveal = scrollX >= story.x - 1100 ? 1 : 0;
+              const direction = data.id === "environmental-impact" ? -1 : 1;
+              const offsetY = (index === 0 ? -180 : 180) * direction * (1 - reveal);
+              return (
               <article
                 className="ftp-world-story"
                 key={story.x}
-                style={worldPosition(story.x, story.y, story.w, story.h)}
+                style={{
+                  ...worldPosition(story.x, story.y, story.w, story.h),
+                  opacity: reveal,
+                  transform: `translateY(${offsetY}px)`,
+                }}
               >
                 <img
                   src={story.image}
@@ -1104,12 +1112,11 @@ function HorizontalStory({ data }) {
                   </div>
                 </div>
               </article>
-            ))}
+              );
+            })}
             <StoryCluster
               images={data.clusters[1]}
               progress={progress}
-              start={0.73}
-              end={0.96}
             />
           </div>
         </div>
