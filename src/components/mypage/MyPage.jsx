@@ -29,7 +29,7 @@ export default function MyPage() {
 
   return <main className="mypage container section">
     <section className="mypage__profile"><img src={user.profileImage} alt={`${user.name} 프로필`} /><div><p className="eyebrow">{user.grade}</p><h1>{user.name}</h1><p>{user.email}</p></div><div className="mypage__profile-actions"><Link className="button button--secondary" to="/mypage/profile">프로필 수정</Link><button className="button button--text" type="button" onClick={() => { logout(); navigate('/'); }}>로그아웃</button></div></section>
-    <nav className="mypage__ia"><Link to="/mypage/orders"><strong>MY ORDERS</strong><span>주문·배송·반품 관리</span></Link><Link to="/mypage/profile"><strong>INFORMATION</strong><span>회원정보 관리</span></Link></nav>
+    <nav className="mypage__ia"><Link to="/mypage/orders/history"><strong>MY ORDERS</strong><span>주문·배송·반품 관리</span></Link><Link to="/mypage/profile"><strong>INFORMATION</strong><span>회원정보 관리</span></Link></nav>
     <section className="mypage__summary"><a href="#likes"><strong>{likedProducts.length}</strong><span>좋아요 상품</span></a><a href="#recent"><strong>{recentProducts.length}</strong><span>최근 본 상품</span></a><Link to="/cart"><strong>{cartCount}</strong><span>장바구니</span></Link><Link to="/mypage/posts"><strong>{posts.length}</strong><span>작성 게시글</span></Link><Link to="/inquiries"><strong>{inquiries.length}</strong><span>고객문의</span></Link></section>
     <ProductSection id="recent" title="최근 본 상품" products={recentProducts} onRemove={(productId) => removeRecent(user.id, productId)} action={recentProducts.length ? <button className="button button--text" type="button" onClick={() => clearRecent(user.id)}>전체 삭제</button> : null} />
     <ProductSection id="likes" title="좋아요 상품" products={likedProducts} />
