@@ -35,10 +35,10 @@
 /* Figma 3120:11506: rounded image frame and centered product copy. */
 .product-card { position: relative; }
 .product-card .product-card__media { box-sizing: border-box; border: 1px solid #e4e3e3; border-radius: 50px; background: #f7f7f7; }
-.product-card .product-card__image { mix-blend-mode: normal; }
-.product-card .product-card__like { top: 32px; right: 32px; bottom: auto; left: auto; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--color-scent-amber); cursor: pointer; }
-.product-card .product-card__like img { display: block; width: 32.5px; height: 29.435px; }
-.product-card .product-card__like svg { width: 32.5px; height: 29.435px; }
+.product-card .product-card__image { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: normal; }
+.product-card .product-card__like { top: 27px; right: 28px; bottom: auto; left: auto; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--color-scent-amber); cursor: pointer; }
+.product-card .product-card__like img { display: block; width: 26px; height: 23.548px; }
+.product-card .product-card__like svg { width: 26px; height: 23.548px; }
 .product-card .product-card__body { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 20px; text-align: center; }
 .product-card .product-card__body > a { width: 100%; max-width: 246px; }
 .product-card .product-card__body h3 { display: block; min-height: 0; overflow: visible; color: #222; font-family: var(--font-family-sans); font-size: 20px; font-weight: 700; line-height: 1.5; letter-spacing: .02em; -webkit-line-clamp: unset; }
