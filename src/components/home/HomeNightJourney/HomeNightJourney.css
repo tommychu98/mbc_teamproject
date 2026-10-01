@@ -1,0 +1,200 @@
+.night-journey {
+    position: relative;
+    width: 100%;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-inverse);
+}
+
+.night-journey *, .night-journey *::before, .night-journey *::after { box-sizing: border-box; }
+.night-journey img { display: block; max-width: none; }
+
+.night-journey__stage {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+}
+
+.night-journey__track {
+    display: flex;
+    width: max-content;
+    height: 100%;
+    background: var(--color-bg-secondary);
+    will-change: transform;
+}
+
+.night-journey__panel {
+    position: relative;
+    flex: 0 0 100vw;
+    width: 100vw;
+    height: 100%;
+    background: transparent;
+}
+
+.night-journey__canvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1920px;
+    height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--night-journey-scale, 1));
+    transform-origin: center;
+}
+
+.night-journey__columns,
+.night-journey__foreground-flowers {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+}
+
+.night-journey__columns {
+    left: -437px;
+    top: -1316px;
+    width: 1396.883px;
+    height: 1753.62px;
+}
+
+.night-journey__columns img {
+    width: 1024px;
+    height: 1536px;
+    object-fit: cover;
+    opacity: .2;
+    transform: rotate(164.52deg);
+}
+
+.night-journey__foreground-flowers {
+    left: -225px;
+    top: -555px;
+    width: 1423.128px;
+    height: 992.048px;
+}
+
+.night-journey__foreground-flowers img {
+    width: 1373.385px;
+    height: 915.59px;
+    object-fit: cover;
+    transform: rotate(-3.25deg);
+}
+
+.night-journey__category {
+    position: absolute;
+    left: 132px;
+    top: 240px;
+    display: flex;
+    width: 919px;
+    height: 600px;
+    align-items: center;
+    gap: 100px;
+}
+
+.night-journey__window {
+    flex: none;
+    width: 400px;
+    height: 600px;
+    object-fit: cover;
+}
+
+.night-journey__category-copy {
+    display: flex;
+    flex: none;
+    width: 419px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.night-journey__category-heading { display: flex; width: 332px; flex-direction: column; gap: 10px; }
+.night-journey__category-number {
+    margin: 0;
+    font-family: 'HomeNight Dotum', var(--font-family-sans);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+    letter-spacing: .02em;
+}
+
+.night-journey__category-title {
+    margin: 0;
+    font-family: 'HomeNight Garamond', var(--font-family-display);
+    font-size: 50px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.night-journey__category-title--nowrap { white-space: nowrap; }
+.night-journey__category-description {
+    margin: 0;
+    font-family: 'HomeNight Dotum', var(--font-family-sans);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: .02em;
+    white-space: nowrap;
+}
+.night-journey__serif { font-family: 'HomeNight Garamond', var(--font-family-display); font-weight: 400; }
+
+.night-journey__view-more {
+    position: relative;
+    display: block;
+    width: 143px;
+    height: 24px;
+    color: rgb(247 246 244 / 50%);
+    font-family: 'HomeNight Dotum', var(--font-family-sans);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 20px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.night-journey__view-more img {
+    position: absolute;
+    left: 53px;
+    top: 17px;
+    width: 89.7px;
+    height: 7.2px;
+}
+
+.night-journey__view-more:is(:hover, :focus-visible) { color: var(--color-text-inverse); }
+.night-journey__view-more:focus-visible { outline: 2px solid var(--color-text-inverse); outline-offset: 5px; }
+
+.night-journey__particle {
+    position: absolute;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    will-change: transform, opacity;
+}
+
+.night-journey__particle img { flex: none; object-fit: cover; }
+.night-journey__mobile { display: none; }
+
+@media (max-width: 767px) {
+    .night-journey { height: auto !important; }
+    .night-journey__stage { display: none; }
+    .night-journey__mobile { display: block; }
+    .night-journey__mobile-con6 { position: relative; height: 260px; overflow: hidden; }
+    .night-journey__mobile-con6 img {
+        position: absolute;
+        top: -220px;
+        left: -80px;
+        width: 560px;
+        height: auto;
+        transform: rotate(-3.25deg);
+    }
+    .night-journey__mobile-panel { min-height: 590px; padding: 50px 24px 70px; }
+    .night-journey__mobile-panel + .night-journey__mobile-panel { padding-top: 0; }
+    .night-journey__category--mobile { position: relative; top: auto; left: auto; width: 100%; height: auto; flex-direction: column; align-items: flex-start; gap: 24px; }
+    .night-journey__category--mobile .night-journey__window { width: min(300px, 100%); height: auto; align-self: center; }
+    .night-journey__category--mobile .night-journey__category-copy { width: 100%; gap: 16px; }
+    .night-journey__category--mobile .night-journey__category-heading { width: 100%; gap: 0; }
+    .night-journey__category--mobile .night-journey__category-number { font-size: 13px; }
+    .night-journey__category--mobile .night-journey__category-title { font-size: clamp(35px, 10vw, 46px); line-height: 1.15; }
+    .night-journey__category--mobile .night-journey__category-description { font-size: 15px; white-space: normal; }
+    .night-journey__category--mobile .night-journey__view-more { font-size: 16px; }
+}

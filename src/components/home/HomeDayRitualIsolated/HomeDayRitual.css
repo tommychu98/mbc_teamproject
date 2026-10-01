@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'HomeDayRitual Garamond';
+    src: url('./assets/eb-garamond-regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HomeDayRitual Garamond';
+    src: url('./assets/eb-garamond-medium.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HomeDayRitual Dotum';
+    src: url('./assets/KoPubWorld-Dotum-Medium.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'HomeDayRitual Dotum';
+    src: url('./assets/KoPubWorld-Dotum-Light.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+}
+
+.home-day-ritual {
+    position: relative;
+    width: 100%;
+    height: calc(2550px * var(--home-day-scale));
+    overflow: hidden;
+    background: #f7f6f4;
+    isolation: isolate;
+}
+
+.home-day-ritual__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 2550px;
+    overflow: hidden;
+    background: #f7f6f4;
+    transform: scale(var(--home-day-scale));
+    transform-origin: top left;
+    color: #4b4b4b;
+}
+
+.home-day-ritual__canvas img { display: block; max-width: none; }
+.home-day-ritual__canvas > img,
+.home-day-ritual__canvas > div > img { pointer-events: none; user-select: none; }
+
+.home-day-ritual__background { position: absolute; left: -317px; top: 539px; width: 2462px; height: 1641px; opacity: .2; }
+.home-day-ritual__woman { position: absolute; left: 171px; top: 1367px; width: 1029px; height: 940px; object-fit: cover; opacity: .7; }
+.home-day-ritual__floral-overlay { position: absolute; left: 1584px; top: 479px; width: 608.009px; height: 576.709px; display: grid; place-items: center; }
+.home-day-ritual__floral-overlay img { width: 338px; height: 507px; object-fit: cover; opacity: .4; transform: rotate(-52.53deg); }
+.home-day-ritual__left-floral { position: absolute; left: -660px; top: 963px; width: 1515.799px; height: 1619.177px; display: grid; place-items: center; }
+.home-day-ritual__left-floral img { width: 1348.015px; height: 898.677px; object-fit: cover; opacity: .4; transform: rotate(54.36deg); }
+.home-day-ritual__right-floral { position: absolute; left: 1478px; top: 868px; width: 1213.144px; height: 1542.939px; display: grid; place-items: center; }
+.home-day-ritual__right-floral img { width: 1362.616px; height: 908.411px; object-fit: cover; opacity: .6; transform: rotate(104.11deg); }
+.home-day-ritual__foreground-leaf { position: absolute; left: -451px; top: 1215px; width: 1592.401px; height: 1082.211px; display: grid; place-items: center; }
+.home-day-ritual__foreground-leaf img { width: 1568.107px; height: 1045.405px; object-fit: cover; opacity: .9; transform: rotate(-1.36deg); }
+.home-day-ritual__top-lemon { position: absolute; left: -287px; top: -310px; width: 1404px; height: 936px; object-fit: cover; opacity: .7; }
+.home-day-ritual__bird { position: absolute; left: 1163px; top: 1523px; width: 560px; height: 373px; object-fit: cover; opacity: .7; }
+.home-day-ritual__bath-objects { position: absolute; left: 521px; top: 2218px; width: 354px; height: 236px; object-fit: cover; }
+
+.home-day-ritual__morning-copy,
+.home-day-ritual__sensorial-copy { position: absolute; font-family: 'HomeDayRitual Garamond', Georgia, serif; }
+.home-day-ritual__morning-copy { left: 685px; top: 767px; width: 478px; }
+.home-day-ritual__sensorial-copy { left: 1291px; top: 928px; width: 432px; height: 565px; }
+.home-day-ritual__morning-copy h2,
+.home-day-ritual__sensorial-copy h2 { margin: 0; font-size: 64px; font-weight: 400; line-height: 1.1; letter-spacing: 0; }
+.home-day-ritual__morning-copy h2 { width: 478px; height: 233px; }
+.home-day-ritual__sensorial-copy h2 { width: 402px; height: 155px; }
+.home-day-ritual__morning-rule { width: 478px; height: 2px; }
+.home-day-ritual__sensorial-rule { width: 402px; height: 2px; margin-top: 10px; }
+.home-day-ritual__body-copy { width: 342px; margin-top: 38px; color: #6b665f; font-family: 'HomeDayRitual Dotum', 'Noto Sans KR', sans-serif; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .4px; word-break: break-word; }
+.home-day-ritual__body-copy p { margin: 0 0 30px; }
+.home-day-ritual__body-copy p:last-child { margin-bottom: 0; }
+
+.home-day-ritual__title { position: absolute; left: 960px; top: 254px; width: 773px; height: 320px; margin: 0; font-family: 'HomeDayRitual Garamond', Georgia, serif; font-size: 160px; font-weight: 500; line-height: 1; letter-spacing: 3.2px; white-space: nowrap; }
+.home-day-ritual__byline { position: absolute; left: 960px; top: 601px; width: 114px; height: 35px; margin: 0; font-family: 'HomeDayRitual Garamond', Georgia, serif; font-size: 28px; font-weight: 500; line-height: 1.3; }
+
+.home-day-ritual__collection { position: absolute; left: 1490px; top: 1505px; width: 143px; height: 23.5px; color: rgb(75 75 75 / 50%); font-family: 'HomeDayRitual Dotum', sans-serif; font-size: 18px; font-weight: 300; line-height: 20px; text-decoration: none; }
+.home-day-ritual__collection span { display: block; white-space: nowrap; }
+.home-day-ritual__collection img { position: absolute; left: 53px; top: 17px; width: 89.7px; height: 7.20006px; }
+.home-day-ritual__collection:hover,
+.home-day-ritual__collection:focus-visible { color: #4b4b4b; }
+.home-day-ritual__collection:focus-visible { outline: 2px solid #4b4b4b; outline-offset: 8px; }

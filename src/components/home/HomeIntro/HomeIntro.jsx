@@ -1,7 +1,12 @@
 import { useId, useLayoutEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import logo from './assets/diptyque-sketch-logo-transparent.png';
+import storyObject from './assets/story-object.png';
+import storyLeafDrawing from './assets/story-leaf-drawing.png';
+import storyFoundersPhoto from './assets/story-founders-photo.png';
+import storyButtonLine from './assets/story-button-line.svg';
 import './HomeIntro.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,6 +20,8 @@ const INITIAL_HOLE_Y = (HERO_HEIGHT - INITIAL_HOLE_HEIGHT) / 2;
 const REVEAL_END_PROGRESS = 0.4;
 const SEQUENCE_DRIFT_START = REVEAL_END_PROGRESS;
 const SEQUENCE_MAIN_START = 0.58;
+const SEQUENCE_COMPLETE_PROGRESS = 0.94;
+const STORY_TRIGGER_PROGRESS = 0.8;
 const SEQUENCE_DRIFT_PROGRESS = 0.015;
 const SCROLL_DISTANCE = 3600;
 const SEEK_SMOOTHING = 0.12;
@@ -24,6 +31,7 @@ const CAMERA_MOVE_END_PROGRESS = CAMERA_MOVE_END / VIDEO_DURATION_FALLBACK;
 const LOGO_SEQUENCE_START = 0.012;
 const LOGO_EXIT_Y = -760;
 const CAMERA_EASE = gsap.parseEase('power1.inOut');
+const REVEAL_EASE = gsap.parseEase('power2.inOut');
 const FIRST_FRAME = 0;
 const LAST_FRAME = 892;
 const FRAME_COUNT = LAST_FRAME - FIRST_FRAME + 1;
@@ -49,7 +57,7 @@ const remapSequenceProgress = (progress) => {
     const mainProgress = gsap.utils.clamp(
         0,
         1,
-        (progress - SEQUENCE_MAIN_START) / (1 - SEQUENCE_MAIN_START)
+        (progress - SEQUENCE_MAIN_START) / (SEQUENCE_COMPLETE_PROGRESS - SEQUENCE_MAIN_START)
     );
     return SEQUENCE_DRIFT_PROGRESS + smoothstep(mainProgress) * (1 - SEQUENCE_DRIFT_PROGRESS);
 };
@@ -74,6 +82,8 @@ export default function HomeIntro() {
     const holeRef = useRef(null);
     const canvasRef = useRef(null);
     const logoRef = useRef(null);
+    const storyRef = useRef(null);
+    const storyTimelineRef = useRef(null);
 
     useLayoutEffect(() => {
         const canvas = canvasRef.current;
@@ -84,14 +94,46 @@ export default function HomeIntro() {
         let targetTime = 0;
         let currentTime = 0;
         let scrollProgress = 0;
+        let maxScrollProgress = 0;
         let requestedFrame = FIRST_FRAME;
         let disposed = false;
+
+        const updateStoryTimeline = (activeFrame) => {
+            const storyTimeline = storyTimelineRef.current;
+            if (!storyTimeline) return;
+
+            const hasReachedFinalFrame =
+                scrollProgress >= STORY_TRIGGER_PROGRESS || activeFrame >= LAST_FRAME - 1;
+
+            if (hasReachedFinalFrame) {
+                storyTimeline.play();
+            }
+        };
+
+        const updateReveal = () => {
+            const revealProgress = REVEAL_EASE(
+                gsap.utils.clamp(0, 1, scrollProgress / REVEAL_END_PROGRESS)
+            );
+
+            gsap.set(holeRef.current, {
+                attr: {
+                    x: INITIAL_HOLE_X * (1 - revealProgress),
+                    y: INITIAL_HOLE_Y * (1 - revealProgress),
+                    width: HERO_WIDTH * revealProgress,
+                    height: HERO_HEIGHT * revealProgress,
+                },
+            });
+        };
 
         const resizeCanvas = () => {
             const { width, height } = canvas.getBoundingClientRect();
             const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
             canvas.width = Math.max(1, Math.round(width * pixelRatio));
             canvas.height = Math.max(1, Math.round(height * pixelRatio));
+            rootRef.current?.style.setProperty(
+                '--story-scale',
+                Math.max(window.innerWidth / HERO_WIDTH, window.innerHeight / HERO_HEIGHT)
+            );
         };
 
         const drawFrame = (image) => {
@@ -173,6 +215,7 @@ export default function HomeIntro() {
                 gsap.utils.clamp(0, 1, currentTime / VIDEO_DURATION_FALLBACK)
             );
             const nextFrame = Math.round(FIRST_FRAME + sequenceProgress * (FRAME_COUNT - 1));
+            updateStoryTimeline(nextFrame);
             if (nextFrame !== requestedFrame) {
                 requestedFrame = nextFrame;
                 loadFrame(requestedFrame, true);
@@ -203,6 +246,59 @@ export default function HomeIntro() {
                 },
             });
             gsap.set(logoRef.current, { xPercent: -50, yPercent: -50, x: 0, y: 0 });
+            gsap.set(storyRef.current, { autoAlpha: 0 });
+            gsap.set('[data-story-plant]', { autoAlpha: 0, y: 42, rotate: -2.8 });
+            gsap.set('[data-story-paper]', { autoAlpha: 0, x: -34, y: 34, rotate: -24.5 });
+            gsap.set('[data-story-copy]', { autoAlpha: 0, y: 16 });
+            gsap.set('[data-story-title-line]', {
+                autoAlpha: 1,
+                clipPath: 'inset(0 100% 0 0)',
+                y: 10,
+            });
+            gsap.set('[data-story-button]', { autoAlpha: 0, y: 8 });
+
+            storyTimelineRef.current = gsap
+                .timeline({
+                    paused: true,
+                    defaults: { ease: 'power2.out' },
+                })
+                .to(storyRef.current, { autoAlpha: 1, duration: 0.01 }, 0)
+                .to(
+                    '[data-story-plant]',
+                    {
+                        autoAlpha: 1,
+                        opacity: (index) => (index === 0 ? 0.7 : 1),
+                        y: 0,
+                        rotate: (index) => (index === 0 ? 0 : -176.95),
+                        duration: 1.15,
+                        stagger: 0.16,
+                    },
+                    0.05
+                )
+                .to(
+                    '[data-story-paper]',
+                    {
+                        autoAlpha: 1,
+                        x: 0,
+                        y: 0,
+                        rotate: -17.01,
+                        duration: 0.95,
+                    },
+                    0.38
+                )
+                .to('[data-story-copy]', { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.14 }, 0.62)
+                .to(
+                    '[data-story-title-line]',
+                    {
+                        clipPath: 'inset(0 0% 0 0)',
+                        y: 0,
+                        duration: 1.05,
+                        stagger: 0.2,
+                        ease: 'power1.inOut',
+                    },
+                    0.82
+                )
+                .to('[data-story-button]', { autoAlpha: 1, y: 0, duration: 0.55 }, 1.75);
 
             const scrollState = { progress: 0 };
 
@@ -225,18 +321,11 @@ export default function HomeIntro() {
                         duration: 1,
                         ease: 'none',
                         onUpdate: () => {
-                            scrollProgress = scrollState.progress;
+                            maxScrollProgress = Math.max(maxScrollProgress, scrollState.progress);
+                            scrollProgress = maxScrollProgress;
                             updateTargetTime();
+                            updateReveal();
                         },
-                    },
-                    0
-                )
-                .to(
-                    holeRef.current,
-                    {
-                        attr: { x: 0, y: 0, width: HERO_WIDTH, height: HERO_HEIGHT },
-                        duration: REVEAL_END_PROGRESS,
-                        ease: 'power2.inOut',
                     },
                     0
                 );
@@ -303,6 +392,58 @@ export default function HomeIntro() {
                 width="618"
                 height="225"
             />
+            <div
+                ref={storyRef}
+                className="home-intro__story"
+                data-node-id="2863:8510"
+                aria-label="The story of Diptyque"
+            >
+                <div className="home-intro__story-inner">
+                    <img
+                        className="home-intro__story-object"
+                        data-story-plant
+                        data-node-id="2863:8515"
+                        src={storyObject}
+                        alt=""
+                    />
+                    <div className="home-intro__story-leaf" data-story-plant data-node-id="2863:8516">
+                        <img src={storyLeafDrawing} alt="" />
+                    </div>
+                    <p className="home-intro__story-year" data-story-copy data-node-id="2863:8514">
+                        1961
+                    </p>
+                    <figure className="home-intro__story-photo" data-story-paper data-node-id="2863:8517">
+                        <img src={storyFoundersPhoto} alt="The founders of Diptyque" />
+                        <figcaption className="home-intro__story-photo-caption">
+                            THE FOUNDERS OF DIPTYQUE
+                        </figcaption>
+                        <span className="home-intro__story-photo-code">3/61 PAR</span>
+                        <span className="home-intro__story-photo-number">34</span>
+                    </figure>
+                    <h2 className="home-intro__story-title" data-node-id="2863:8512">
+                        <span data-story-title-line>
+                            <span>THE </span>
+                            <strong>STORY</strong>
+                            <span> of</span>
+                        </span>
+                        <span data-story-title-line>
+                            <strong>Diptyque</strong>
+                        </span>
+                    </h2>
+                    <p className="home-intro__story-place" data-story-copy data-node-id="2863:8513">
+                        Saint-Germain , Paris
+                    </p>
+                    <Link
+                        className="home-intro__story-button"
+                        data-story-button
+                        data-node-id="2863:8522"
+                        to="/about/history"
+                    >
+                        <span>Our Story</span>
+                        <img src={storyButtonLine} alt="" />
+                    </Link>
+                </div>
+            </div>
         </section>
     );
 }

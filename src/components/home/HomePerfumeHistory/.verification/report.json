@@ -1,0 +1,102 @@
+{
+  "result": "passed",
+  "geometry": {
+    "width": 1920,
+    "height": 1080,
+    "photo": {
+      "x": 0,
+      "y": 0,
+      "width": 960,
+      "height": 1080
+    },
+    "logo": {
+      "x": 1249.984375,
+      "y": 299,
+      "width": 380,
+      "height": 510
+    },
+    "topText": {
+      "x": 1216.984375,
+      "y": 244,
+      "width": 445.484375,
+      "height": 283.75
+    },
+    "bottomText": {
+      "x": 1216.984375,
+      "y": 559,
+      "width": 444.96875,
+      "height": 277.484375
+    },
+    "prev": {
+      "x": 1042,
+      "y": 528,
+      "width": 67,
+      "height": 23.984375
+    },
+    "next": {
+      "x": 1771,
+      "y": 528,
+      "width": 67,
+      "height": 23.984375
+    },
+    "background": "rgb(247, 246, 244)",
+    "images": [
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/3-1.png"
+      },
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/3-2.png"
+      },
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/3-3.png"
+      },
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/3-logo1.png"
+      },
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/3-logo2.png"
+      },
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/3-logo3.png"
+      },
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/oval-text-top.svg"
+      },
+      {
+        "loaded": true,
+        "src": "/src/components/home/HomePerfumeHistory/assets/oval-text-bottom.svg"
+      }
+    ]
+  },
+  "midAnimation": [
+    {
+      "x": 635.265,
+      "y": 0,
+      "opacity": "1"
+    },
+    {
+      "x": -291.323,
+      "y": 0,
+      "opacity": "1"
+    }
+  ],
+  "checks": [
+    "Figma desktop geometry and all eight image assets",
+    "All three synchronized photo-logo pairs",
+    "Prev and Next in both directions",
+    "Wheel up/down on both panels",
+    "60px threshold and 720ms animation lock",
+    "Continuing momentum beyond animation duration",
+    "Native page scroll at both boundaries",
+    "Pixel, line, and page wheel delta modes",
+    "Opposite X-axis animation without fade",
+    "No browser runtime errors"
+  ]
+}

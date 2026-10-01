@@ -1,0 +1,152 @@
+{
+  "result": "passed",
+  "geometry": {
+    "stage": {
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1080
+    },
+    "lemon": {
+      "x": -287,
+      "y": 772,
+      "width": 1404,
+      "height": 936
+    },
+    "text": {
+      "x": 576,
+      "y": 435,
+      "width": 768,
+      "height": 211.171875
+    },
+    "background": "rgb(247, 246, 244)",
+    "fontSize": "64px",
+    "lineHeight": "70.4px",
+    "spaceWidth": 12.79998779296875,
+    "imageLoaded": true,
+    "imageOpacity": "0.7",
+    "scrollDistance": 1080
+  },
+  "initial": {
+    "progress": 0,
+    "inkOpacity": 1,
+    "washEdge": 1,
+    "gap": 0,
+    "stageY": 0,
+    "lemonOpacity": "0.7"
+  },
+  "forward": [
+    {
+      "progress": 0.1,
+      "inkOpacity": 0.9,
+      "washEdge": 0.830041,
+      "gap": 1.265625,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.25,
+      "inkOpacity": 0.75,
+      "washEdge": 0.611091,
+      "gap": 3.1875,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.5,
+      "inkOpacity": 0.5,
+      "washEdge": 0.45,
+      "gap": 6.390625,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.75,
+      "inkOpacity": 0.25,
+      "washEdge": 0.611091,
+      "gap": 9.59375,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.9,
+      "inkOpacity": 0.1,
+      "washEdge": 0.830041,
+      "gap": 11.515625,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 1,
+      "inkOpacity": 0,
+      "washEdge": 1,
+      "gap": 12.796875,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    }
+  ],
+  "backward": [
+    {
+      "progress": 0.9,
+      "inkOpacity": 0.1,
+      "washEdge": 0.830041,
+      "gap": 11.515625,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.75,
+      "inkOpacity": 0.25,
+      "washEdge": 0.611091,
+      "gap": 9.59375,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.5,
+      "inkOpacity": 0.5,
+      "washEdge": 0.45,
+      "gap": 6.390625,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.25,
+      "inkOpacity": 0.75,
+      "washEdge": 0.611091,
+      "gap": 3.1875,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0.1,
+      "inkOpacity": 0.9,
+      "washEdge": 0.830041,
+      "gap": 1.265625,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    },
+    {
+      "progress": 0,
+      "inkOpacity": 1,
+      "washEdge": 1,
+      "gap": 0,
+      "stageY": 0,
+      "lemonOpacity": "0.7"
+    }
+  ],
+  "earlyWheelProgress": 0.210883,
+  "checks": [
+    "Exact Desktop image geometry and typography",
+    "Fixed ivory background and 70% lemon drawing at every progress",
+    "Continuous progress at 0/10/25/50/75/90/100%",
+    "Sticky stage remains at y=0 throughout",
+    "Forward and reverse states are identical at each progress",
+    "Default returns pixel-for-pixel",
+    "Native wheel Default to Gray to Default",
+    "Gray ne xt spacing matches actual font metrics",
+    "Resize recalculates geometry and scroll distance",
+    "Reduced motion preserves scroll-driven states",
+    "No runtime errors"
+  ]
+}

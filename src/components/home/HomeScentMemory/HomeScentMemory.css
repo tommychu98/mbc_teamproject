@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'HomeScentMemory Garamond';
+    src: url('./assets/eb-garamond-regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+.home-scent-memory {
+    position: relative;
+    width: 100%;
+    height: calc(var(--memory-stage-height, 56.25vw) + var(--memory-scroll-distance, 100svh));
+    container-type: inline-size;
+    background: #f7f6f4;
+}
+
+.home-scent-memory__stage {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    aspect-ratio: 1920 / 1080;
+    overflow: hidden;
+    isolation: isolate;
+    background: #f7f6f4;
+}
+
+.home-scent-memory__lemon {
+    position: absolute;
+    top: 71.481481%;
+    left: -14.947917%;
+    display: block;
+    width: 73.125%;
+    height: 86.666667%;
+    max-width: none;
+    object-fit: cover;
+    opacity: 0.7;
+    pointer-events: none;
+    user-select: none;
+}
+
+.home-scent-memory__copy {
+    position: absolute;
+    top: 40.277778%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40cqw;
+    margin: 0;
+    padding: 0;
+    font-family: 'HomeScentMemory Garamond', 'EB Garamond', Georgia, serif;
+    font-size: 3.333333cqw;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 0;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.home-scent-memory__copy { color: rgb(34 34 34 / 50%); }
+
+.home-scent-memory__line { display: block; }
