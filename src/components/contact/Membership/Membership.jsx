@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import essential from './assets/이미지1.png';
-import signature from './assets/이미지2.png';
-import prestige from './assets/이미지3.png';
-import flowers from './assets/배경1.png';
-import arch from './assets/배경2.png';
-import bird from './assets/배경3.png';
+import essential from './assets/이미지1.png';
+import signature from './assets/이미지2.png';
+import prestige from './assets/이미지3.png';
+import flowers from './assets/배경1.png';
+import arch from './assets/배경2.png';
+import bird from './assets/배경3.png';
 import coins from './assets/coins.svg';
 import gift from './assets/gift.svg';
 import bag from './assets/bag.svg';
