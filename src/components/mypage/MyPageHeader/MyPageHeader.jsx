@@ -5,7 +5,7 @@ const navItems = [
   { id: 'mypage', label: 'MY PAGE', to: '/mypage' },
   { id: 'profile', label: 'PROFILE', to: '/mypage/profile' },
   { id: 'orders', label: 'MY ORDERS', to: '/mypage/orders/history' },
-  { id: 'community', label: 'COMMUNITY', to: '/mypage/community/faq' },
+  { id: 'community', label: 'COMMUNITY', to: '/mypage/community/inquiry' },
 ];
 
 export default function MyPageHeader({ active = 'mypage' }) {
