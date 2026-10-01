@@ -14,6 +14,7 @@ import chapterThreeMobile from './assets/images/mobile/chapter-three-mobile.png'
 import chapterFourMobile from './assets/images/mobile/chapter-four-mobile.png';
 import scrollDown from './assets/images/mobile/scroll-down-white.svg';
 import topArrow from './assets/images/shared/top-arrow-white.svg';
+import topArrowWeb from './assets/images/shared/top-arrow-web.svg';
 import GalerieTamDao from './GalerieTamDao';
 import GalerieTamDaoLineup from './GalerieTamDaoLineup';
 import GalerieEauRose from './GalerieEauRose';
@@ -147,7 +148,10 @@ export default function GalerieContent() {
                     ))}
                 </div>
                 {createPortal(<button className="galerie-hero__top" type="button" onClick={scrollToTop} aria-label="페이지 맨 위로 이동">
-                    <img className="galerie-hero__top-arrow" src={topArrow} alt="" />
+                    <picture>
+                        <source media="(min-width: 768px)" srcSet={topArrowWeb} />
+                        <img className="galerie-hero__top-arrow" src={topArrow} alt="" />
+                    </picture>
                     <span>TOP</span>
                 </button>, document.body)}
             </div>
