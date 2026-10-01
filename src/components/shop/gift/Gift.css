@@ -22,9 +22,9 @@
 .gift-page__story-video--seeking-start { visibility: hidden; }
 .gift-page__story-copy { position: absolute; top: 313px; left: 1221px; width: 538px; }
 .gift-page__story-copy h2, .gift-page__boutique-copy h2 { font-family: var(--font-family-display); font-size: 64px; font-weight: 400; line-height: 1.1; }
-.gift-page__story-copy > div { display: flex; margin-top: 50px; flex-direction: column; gap: 30px; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
+.gift-page__story-copy > div { display: flex; margin-top: 50px; flex-direction: column; gap: 30px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
 .gift-page__boutique-copy { position: absolute; top: 89px; left: 211px; display: flex; width: 538px; flex-direction: column; align-items: flex-start; gap: 70px; }
-.gift-page__boutique-copy > div { display: flex; height: 600px; flex-direction: column; gap: 30px; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
+.gift-page__boutique-copy > div { display: flex; height: 600px; flex-direction: column; gap: 30px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
 .gift-page__boutique-image { position: absolute; top: 0; right: 0; width: 960px; height: 1080px; overflow: hidden; }
 .gift-page__boutique-image img { width: 1448px; height: 1086px; max-width: none; object-fit: cover; transform: translateX(-4px); }
 .gift-page__sets { height: 900px; }

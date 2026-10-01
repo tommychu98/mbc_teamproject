@@ -13,3 +13,10 @@
 .cart-summary p { display: flex; margin-bottom: 14px; justify-content: space-between; font-size: 13px; }
 .cart-summary .button { width: 100%; margin-top: 16px; }
 @media (min-width: 900px) { .cart-page__layout { grid-template-columns: 1fr 360px; }.cart-summary { position: sticky; top: 110px; } }
+.cart-page { box-sizing: border-box; }
+@media (max-width: 599px) {
+  .cart-page .cart-item { grid-template-columns: 72px minmax(0, 1fr); gap: 14px; }
+  .cart-page .cart-item img { width: 72px; grid-row: span 2; }
+  .cart-page .cart-item > div:last-child { grid-column: 2; display: flex; align-items: center; justify-content: space-between; }
+  .cart-page .cart-item__remove { margin: 0; }
+}

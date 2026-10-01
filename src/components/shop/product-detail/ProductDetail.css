@@ -14,3 +14,4 @@
 .product-detail details { padding: 20px 0; border-bottom: 1px solid var(--color-border-default); }
 .product-detail details p { padding-top: 14px; color: var(--color-text-secondary); }
 @media (min-width: 900px) { .product-detail { grid-template-columns: 1.1fr .9fr; gap: 7vw; }.product-detail__content { position: sticky; top: 120px; } }
+.product-detail { box-sizing: border-box; }

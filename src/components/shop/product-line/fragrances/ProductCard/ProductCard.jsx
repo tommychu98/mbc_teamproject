@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Heart, Plus, ShoppingBag } from 'lucide-react';
+import { Plus, ShoppingBag } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../../../store/useAuthStore';
 import { useCartStore } from '../../../../../store/useCartStore';
 import { useWishlistStore } from '../../../../../store/useWishlistStore';
 import { formatPrice } from '../../../../../utils/formatPrice';
 import './ProductCard.css';
+import heartIcon from './assets/heart.svg';
+import heartActiveIcon from './assets/heart-active.svg';
 
 const EMPTY_WISHLIST = [];
 
@@ -60,12 +62,12 @@ export default function ProductCard({ product, onRemove, variant = 'default' }) 
           />}
         </Link>
         {!isCatalog && product.badge && <span className="product-card__badge">{product.badge}</span>}
-        <button className={`product-card__like ${liked ? 'product-card__like--active' : ''}`} type="button" aria-label={liked ? `${product.name} 좋아요 취소` : `${product.name} 좋아요`} aria-pressed={liked} onClick={handleLike}><Heart fill={liked ? 'currentColor' : 'none'} /></button>
+        <button className={`product-card__like ${liked ? 'product-card__like--active' : ''}`} type="button" aria-label={liked ? `${product.name} 좋아요 취소` : `${product.name} 좋아요`} aria-pressed={liked} onClick={handleLike}><img src={liked ? heartActiveIcon : heartIcon} alt="" /></button>
         {isCatalog && <button className="product-card__quick-add" type="button" aria-label={`${product.name} 장바구니 담기`} onClick={() => addItem(product)}><Plus /></button>}
         {onRemove && <button className="product-card__remove" type="button" onClick={() => onRemove(product.id)}>기록 삭제</button>}
       </div>
       <div className="product-card__body">
-        <Link to={productHref}><h3>{product.name}</h3>{!isCatalog && <p>{product.subtitle}</p>}<span className="product-card__price">{formatPrice(product.price, product.currency)}</span></Link>
+        <Link to={productHref}><h3>{product.name}</h3>{product.subtitle && <p>{product.subtitle}</p>}<span className="product-card__price">{formatPrice(product.price, product.currency)}</span></Link>
         {!isCatalog && <button type="button" aria-label={`${product.name} 장바구니 담기`} onClick={() => addItem(product)}><ShoppingBag /></button>}
       </div>
     </article>

@@ -82,12 +82,12 @@ function CatalogShopPage() {
   return (
     <main className="shop-page shop-page--catalog">
       <div className="shop-page__container">
+        <nav className="shop-page__breadcrumb" aria-label="현재 위치">
+          <Link to="/">Home</Link><span aria-hidden="true">›</span><span aria-current="page">Shop</span>
+        </nav>
         <header className="shop-page__catalog-header">
           <div className="shop-page__heading-row">
             <h1 className="shop-page__catalog-title">SHOP</h1>
-            <nav className="shop-page__breadcrumb" aria-label="현재 위치">
-              <Link to="/">Home</Link><span aria-hidden="true">›</span><span>Shop</span>
-            </nav>
           </div>
           <div className="shop-page__category-tabs" aria-label="상품 카테고리">
             {CATEGORIES.map((item) => (

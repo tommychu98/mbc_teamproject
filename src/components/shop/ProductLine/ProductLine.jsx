@@ -115,7 +115,7 @@ function ProductLineExclusive() {
     return (
         <section className="product-line__exclusive">
             <h2>Exclusive</h2>
-            <p>자연이 간직한 숨은 아름다움에서 영감을 받아, 향과 디자인으로 새롭게 풀어낸 특별한 향수 컬렉션입니다. 감각을 깨우고 깊은 감정을 불러일으키는 창작을 만나보세요.</p>
+            <p>자연이 간직한 숨은 아름다움에서 영감을 받아, 향과 디자인으로<br className="product-line__exclusive-break" />{' '}새롭게 풀어낸 특별한 향수 컬렉션입니다. 감각을 깨우고 깊은 감정을<br className="product-line__exclusive-break" />{' '}불러일으키는 창작을 만나보세요.</p>
             <ViewMoreLink to="/shop?category=exclusive" label="Exclusive" />
         </section>
     );
