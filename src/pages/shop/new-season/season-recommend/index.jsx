@@ -1,1 +1,1 @@
-export { default } from '../../../../components/shop/Shop';
+export { default } from '../../../../components/shop/Season recommend';
