@@ -44,9 +44,8 @@ const menuGroups = [
     { label: '배송 조회', to: '/mypage/orders/track' },
   ] },
   { title: 'Community', label: '나의 활동', links: [
-    { label: '1:1 문의', to: '/inquiries' },
-    { label: 'FAQ', to: '/contact/faq' },
-    { label: '상품문의', to: '/inquiries' },
+    { label: '1:1 문의', to: '/mypage/community/inquiry' },
+    { label: '상품문의', to: '/mypage/community/product-inquiry' },
   ] },
 ];
 
