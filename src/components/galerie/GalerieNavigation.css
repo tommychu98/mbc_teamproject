@@ -17,12 +17,6 @@
         object-fit: cover;
     }
 
-    .app:has(.galerie-page[data-hero-visible="true"]) .header__nav {
-        left: 50%;
-        transform: translateX(-50%);
-        width: clamp(560px, 37.239583vw, 715px);
-    }
-
     .app:has(.galerie-page[data-hero-visible="true"]) .header__nav-item > a {
         color: var(--color-ivory, #f7f6f4);
         font-family: var(--font-family-display);

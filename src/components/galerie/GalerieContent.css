@@ -146,6 +146,8 @@ main.galerie-page { animation: none; }
 }
 
 .galerie-hero__track {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     gap: calc(43.24vw - var(--galerie-card-width));
@@ -229,6 +231,7 @@ main.galerie-page { animation: none; }
     font-size: 12px;
     cursor: pointer;
 }
+.galerie-hero__top > picture { display: block; line-height: 0; }
 .galerie-hero__top-arrow { width: 24px; height: 33px; object-fit: contain; filter: brightness(0) invert(1); }
 .galerie-hero__top:hover { background: transparent; }
 .galerie-hero__top:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
@@ -262,13 +265,18 @@ main.galerie-page { animation: none; }
         bottom: 6.4167%;
         gap: 7px;
         border: 0;
-        border-radius: 0;
+        border-radius: 20px;
         background: transparent;
         font-family: var(--font-family-sans);
-        font-size: 16px;
-        font-weight: 300;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.6;
         letter-spacing: 0.02em;
     }
+    /* Preserve the SVG's intrinsic bounds, including its 0.675px stroke overflow. */
+    .galerie-hero__top > picture { position: absolute; left: 34.325px; top: 12.325px; }
+    .galerie-hero__top-arrow { width: 13.35px; height: 18.35px; }
+    .galerie-hero__top > span { position: absolute; top: 37px; left: 29px; width: 23px; text-align: center; opacity: 0.7; }
     .galerie-hero__top:hover { background: transparent; opacity: 0.75; }
 }
 

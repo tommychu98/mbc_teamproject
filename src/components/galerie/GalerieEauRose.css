@@ -50,7 +50,7 @@
     .galerie-rose__lineup .galerie-lineup__product { flex: 0 0 160px; width: 160px; margin: 0; scroll-snap-align: start; }
     .galerie-rose__lineup .galerie-lineup__picture { width: 160px; height: 230px; box-sizing: border-box; aspect-ratio: auto; border-radius: 30px; }
     .galerie-rose__lineup .galerie-lineup__product h3 { margin-top: 20px; font-size: 13px; line-height: 1.4; letter-spacing: 0.02em; }
-    .galerie-rose__lineup .galerie-lineup__product p { font-size: 14px; line-height: 1.4; letter-spacing: 0.02em; white-space: nowrap; }
+    .galerie-rose__lineup .galerie-lineup__product p { font-size: 14px; line-height: 1.4; letter-spacing: 0.02em; white-space: normal; overflow-wrap: anywhere; }
     .galerie-rose__lineup .galerie-lineup__favorite { width: 44px; height: 44px; top: 17px; right: 11px; }
     .galerie-rose__lineup .galerie-lineup__favorite img { display: block; width: 24px; height: 24px; object-fit: contain; }
     .galerie-rose__lineup .galerie-lineup__scent { position: relative; left: auto; width: auto; max-width: none; height: 272px; margin: 70.2px 22px 0; }

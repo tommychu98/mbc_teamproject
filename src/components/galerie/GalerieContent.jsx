@@ -14,14 +14,15 @@ import chapterThreeMobile from './assets/images/mobile/chapter-three-mobile.png'
 import chapterFourMobile from './assets/images/mobile/chapter-four-mobile.png';
 import scrollDown from './assets/images/mobile/scroll-down-white.svg';
 import topArrow from './assets/images/shared/top-arrow-white.svg';
+import topArrowWeb from './assets/images/shared/top-arrow-web.svg';
 import GalerieTamDao from './GalerieTamDao';
 import GalerieTamDaoLineup from './GalerieTamDaoLineup';
 import GalerieEauRose from './GalerieEauRose';
 import GalerieEauDesSens from './GalerieEauDesSens';
 import GaleriePhilosykos from './GaleriePhilosykos';
 import GalerieAnother from './GalerieAnother';
+import GalerieHeroPetals from './GalerieHeroPetals';
 import './GalerieContent.css';
-import './GalerieNavigation.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -118,6 +119,7 @@ export default function GalerieContent() {
             <section className="galerie-hero" ref={rootRef} aria-label="향의 풍경 갤러리">
             <h1 className="galerie-hero__sr-only" id="galerie-title">Galerie Diptyque — 향의 풍경</h1>
             <div className="galerie-hero__stage">
+                <GalerieHeroPetals />
                 <div className="galerie-hero__track">
                     {chapters.map((chapter) => (
                         <figure className="galerie-hero__card" key={chapter.number}>
@@ -145,7 +147,10 @@ export default function GalerieContent() {
                     ))}
                 </div>
                 {createPortal(<button className="galerie-hero__top" type="button" onClick={scrollToTop} aria-label="페이지 맨 위로 이동">
-                    <img className="galerie-hero__top-arrow" src={topArrow} alt="" />
+                    <picture>
+                        <source media="(min-width: 768px)" srcSet={topArrowWeb} />
+                        <img className="galerie-hero__top-arrow" src={topArrow} alt="" />
+                    </picture>
                     <span>TOP</span>
                 </button>, document.body)}
             </div>
