@@ -3,7 +3,7 @@ import './CommunityNav.css';
 
 const items = [
   ['inquiry', '1:1 문의', '/mypage/community/inquiry'],
-  ['faq', 'FAQ', '/mypage/community/faq'],
+  ['faq', 'FAQ', '/contact/faq'],
   ['product', '상품문의', '/mypage/community/product-inquiry'],
 ];
 

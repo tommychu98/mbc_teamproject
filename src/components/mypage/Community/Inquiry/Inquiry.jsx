@@ -7,7 +7,7 @@ const navigation = [
   ['MY PAGE', '/mypage'],
   ['PROFILE', '/mypage/profile'],
   ['MY ORDERS', '/mypage/orders/history'],
-  ['COMMUNITY', '/mypage/community/faq'],
+  ['COMMUNITY', '/mypage/community/inquiry'],
 ];
 
 export default function Inquiry() {
