@@ -1,0 +1,123 @@
+@font-face {
+    font-family: NoticeKoPub;
+    src: url('/ForThePlanet/KoPubWorld-Dotum-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: NoticeKoPub;
+    src: url('/ForThePlanet/KoPubWorld-Dotum-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+
+.notice-page {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    min-height: 1079px;
+    overflow: hidden;
+    padding: 110px var(--page-padding) 180px;
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: NoticeKoPub, var(--font-family-sans);
+    font-weight: var(--font-weight-light);
+    letter-spacing: .02em;
+}
+
+.notice-page__botanical,
+.notice-page__landscape {
+    position: absolute;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .35;
+}
+
+.notice-page__botanical {
+    bottom: 0;
+    left: 0;
+    width: 680px;
+    height: 1079px;
+    object-fit: cover;
+}
+
+.notice-page__landscape {
+    right: 0;
+    bottom: 0;
+    width: 990px;
+    height: 320px;
+    object-position: bottom;
+}
+
+.notice-page__heading { position: relative; z-index: 1; text-align: center; }
+.notice-page__eyebrow {
+    color: var(--color-text-secondary);
+    font-size: var(--text-web-footer-m2-do-size);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.6;
+}
+.notice-page__heading h1 {
+    margin-top: 16px;
+    font-family: var(--font-family-display), var(--font-family-sans);
+    font-size: var(--text-web-title-r1-size);
+    font-weight: var(--font-weight-regular);
+    line-height: 1;
+    letter-spacing: 0;
+}
+.notice-page__description {
+    margin-top: 30px;
+    font-size: var(--text-web-body-l1-do-size);
+    line-height: 1.5;
+}
+.notice-page__table {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--container-lg);
+    margin: 72px auto 0;
+    table-layout: fixed;
+    background: var(--color-surface);
+    font-size: var(--text-web-body-l2-do-size);
+    line-height: 1.5;
+}
+.notice-page__number-column { width: 10%; }
+.notice-page__date-column { width: 15%; }
+.notice-page__table td {
+    box-sizing: border-box;
+    height: 69px;
+    padding: 18.5px 16px 22.75px;
+    border-bottom: 1.25px solid var(--color-border-default);
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+}
+.notice-page__table .notice-page__number { text-align: center; padding-block: 18.5px 21.25px; }
+.notice-page__date { color: var(--color-text-secondary); white-space: nowrap; }
+.notice-page__badge {
+    display: inline-flex;
+    width: 49px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    background: var(--color-accent-highlight);
+    color: var(--color-paper-ivory);
+    font-size: 14px;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+    .notice-page { min-height: calc(100svh - 72px); padding-top: 64px; padding-bottom: 150px; }
+    .notice-page__heading h1 { font-size: var(--text-mobile-title-r1-size); }
+    .notice-page__description { margin-top: 24px; font-size: 16px; }
+    .notice-page__table { margin-top: 48px; font-size: 14px; }
+    .notice-page__number-column { width: 58px; }
+    .notice-page__date-column { width: 90px; }
+    .notice-page__table td { height: 72px; padding: 16px 8px; }
+    .notice-page__table .notice-page__number { padding-block: 16px; }
+    .notice-page__date { font-size: 12px; }
+    .notice-page__badge { width: 40px; height: 26px; font-size: 12px; }
+    .notice-page__botanical { width: 420px; height: 667px; }
+    .notice-page__landscape { width: 600px; height: 194px; }
+}
