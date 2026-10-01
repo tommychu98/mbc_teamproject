@@ -187,3 +187,44 @@
   height: calc(973 / 2050 * 100%);
   object-fit: cover;
 }
+
+/* Rock the cropped frames as rigid objects around their hanging points. */
+.fragrances-con4__drawing {
+  transform-origin: 50% 0%;
+  animation: fragrances-con4-frame-sway 9s ease-in-out -2.25s infinite;
+  --con4-sway: 2.5deg;
+}
+.fragrances-con4__drawing--second {
+  animation-duration: 10.5s;
+  animation-delay: -5s;
+  --con4-sway: -3deg;
+}
+/* Complementary crops keep the wall bracket fixed, using the original asset.
+   The hanging body pivots at the chain below the bracket's curled tip. */
+.fragrances-con4__clock { overflow: visible; }
+.fragrances-con4__clock-image--mount {
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 85% 50%, 85% 24%, 0 24%);
+}
+.fragrances-con4__clock-image--hanging {
+  clip-path: polygon(0 24%, 85% 24%, 85% 50%, 100% 50%, 100% 100%, 0 100%);
+  transform-origin: 46% 24%;
+  animation: fragrances-con4-clock-swing 6s ease-in-out -1.5s infinite;
+}
+.fragrances-con4__drawing,
+.fragrances-con4__clock-image--hanging { animation-play-state: paused; }
+.fragrances-con4__scene--visible .fragrances-con4__drawing,
+.fragrances-con4__scene--visible .fragrances-con4__clock-image--hanging {
+  animation-play-state: running;
+}
+@keyframes fragrances-con4-frame-sway {
+  0%, 100% { transform: rotate(var(--con4-sway)); }
+  50% { transform: rotate(calc(var(--con4-sway) * -1)); }
+}
+@keyframes fragrances-con4-clock-swing {
+  0%, 100% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fragrances-con4__drawing,
+  .fragrances-con4__clock-image--hanging { animation: none; }
+}

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import man from './assets/con4-man.png';
 import cabinet from './assets/con4-cabinet.png';
 import clock from './assets/con4-clock.png';
@@ -7,9 +8,20 @@ import cloth from './assets/con4-cloth.png';
 import './Con4.css';
 
 export default function Con4() {
+  const sceneRef = useRef(null);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const observer = new IntersectionObserver(([entry]) => {
+      scene.classList.toggle('fragrances-con4__scene--visible', entry.isIntersecting);
+    });
+    observer.observe(scene);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="fragrances-con4" aria-labelledby="fragrances-con4-title">
-      <div className="fragrances-con4__scene">
+      <div ref={sceneRef} className="fragrances-con4__scene">
         <p className="fragrances-con4__text fragrances-con4__text--body1">
           오 드 퍼퓸은 34번가의 기억을 더욱 깊이 담아냅니다.<br /><span className="fragrances-story__mobile-copy">{' '}</span>
           바닐라와 앰버 우드가 풍성한 온기를 더하며,<br /><span className="fragrances-story__mobile-copy">{' '}</span>
@@ -37,7 +49,8 @@ export default function Con4() {
           <img className="fragrances-con4__cabinet-image" src={cabinet} alt="" width="1050" height="1498" draggable="false" />
         </div>
         <div className="fragrances-con4__clock">
-          <img className="fragrances-con4__clock-image" src={clock} alt="" width="1024" height="1536" draggable="false" />
+          <img className="fragrances-con4__clock-image fragrances-con4__clock-image--mount" src={clock} alt="" width="1024" height="1536" draggable="false" />
+          <img className="fragrances-con4__clock-image fragrances-con4__clock-image--hanging" src={clock} alt="" width="1024" height="1536" draggable="false" />
         </div>
         <div className="fragrances-con4__drawing fragrances-con4__drawing--second">
           <img className="fragrances-con4__drawing-image fragrances-con4__drawing-image--second" src={drawing2} alt="" width="1536" height="1024" draggable="false" />

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import StoryImage from './StoryImage';
 import mobilecouple from './assets/mobile-couple.png';
 import mobilepillar from './assets/mobile-con1-pillar.png';
@@ -8,9 +9,20 @@ import couple from './assets/con1-couple.png';
 import './Con1.css';
 
 export default function Con1() {
+  const sceneRef = useRef(null);
+
+  useEffect(() => {
+    const scene = sceneRef.current;
+    const observer = new IntersectionObserver(([entry]) => {
+      scene.classList.toggle('fragrances-con1__scene--visible', entry.isIntersecting);
+    });
+    observer.observe(scene);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="fragrances-con1" aria-labelledby="fragrances-con1-title">
-      <div className="fragrances-con1__scene">
+      <div ref={sceneRef} className="fragrances-con1__scene">
         <img className="fragrances-con1__cloud fragrances-con1__cloud--left" src={cloud} alt="" width="929" height="464" draggable="false" />
         <img className="fragrances-con1__cloud fragrances-con1__cloud--small" src={cloud} alt="" width="465" height="232" draggable="false" />
 

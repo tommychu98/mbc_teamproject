@@ -1,5 +1,5 @@
 /* Figma Con1 2934:9877 — 1920 × 2050. Preserve the composition at every width.
-   Each positioned element is an independent future animation target. */
+   Decorative motion preserves the original placement and left butterfly reflection. */
 @font-face {
   font-family: 'Fragrances Con1 Dotum';
   src: url('./assets/con1-kopub-dotum-medium.otf') format('opentype');
@@ -156,4 +156,60 @@
   top: 36.146341463414636%;
   width: 47.8125%;
   height: 63.853658536585364%;
+}
+
+/* Percentage translations scale with each image on desktop and mobile.
+   Animate the left butterfly wrapper to preserve the image's Figma transform. */
+.fragrances-con1__cloud--left {
+  animation: fragrances-con1-cloud-drift 20s ease-in-out infinite;
+  --con1-drift-x: 12%;
+  --con1-drift-y: -7%;
+  --con1-cloud-tilt: 1.5deg;
+}
+.fragrances-con1__cloud--small {
+  animation: fragrances-con1-cloud-drift 17s ease-in-out -6s infinite;
+  --con1-drift-x: -16%;
+  --con1-drift-y: 10%;
+  --con1-cloud-tilt: -2deg;
+}
+.fragrances-con1__butterfly--right {
+  animation: fragrances-con1-butterfly-float 10s ease-in-out -2s infinite;
+  --con1-float-x: 24%;
+  --con1-float-y: -30%;
+  --con1-tilt: 12deg;
+}
+.fragrances-con1__butterfly-left {
+  animation: fragrances-con1-butterfly-float 12s ease-in-out infinite;
+  --con1-float-x: 32%;
+  --con1-float-y: -24%;
+  --con1-tilt: -10deg;
+}
+.fragrances-con1__cloud,
+.fragrances-con1__butterfly--right,
+.fragrances-con1__butterfly-left {
+  animation-play-state: paused;
+}
+.fragrances-con1__scene--visible .fragrances-con1__cloud,
+.fragrances-con1__scene--visible .fragrances-con1__butterfly--right,
+.fragrances-con1__scene--visible .fragrances-con1__butterfly-left {
+  animation-play-state: running;
+}
+@keyframes fragrances-con1-cloud-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  25% { transform: translate(calc(var(--con1-drift-x) * .45), var(--con1-drift-y)) rotate(var(--con1-cloud-tilt)) scale(1.025); }
+  50% { transform: translate(var(--con1-drift-x), calc(var(--con1-drift-y) * .35)) rotate(0deg) scale(1.04); }
+  75% { transform: translate(calc(var(--con1-drift-x) * .4), calc(var(--con1-drift-y) * -.4)) rotate(calc(var(--con1-cloud-tilt) * -.6)) scale(1.015); }
+}
+@keyframes fragrances-con1-butterfly-float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(calc(var(--con1-float-x) * .4), var(--con1-float-y)) rotate(var(--con1-tilt)); }
+  50% { transform: translate(var(--con1-float-x), calc(var(--con1-float-y) * .5)) rotate(calc(var(--con1-tilt) * -.4)); }
+  75% { transform: translate(calc(var(--con1-float-x) * .5), calc(var(--con1-float-y) * -.3)) rotate(calc(var(--con1-tilt) * -.8)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fragrances-con1__cloud,
+  .fragrances-con1__butterfly--right,
+  .fragrances-con1__butterfly-left {
+    animation: none;
+  }
 }

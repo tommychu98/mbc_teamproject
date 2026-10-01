@@ -1,4 +1,4 @@
-/* Figma Con3 2778:1777 — 1920 × 1080. Preserve the source layer geometry. */
+/* Figma Con3 3869:11407 — 1920 × 1080. Separate ingredient and bottle layers. */
 .fragrances-con3 {
   container-type: inline-size;
   overflow: hidden;
@@ -53,6 +53,34 @@
   object-fit: cover;
 }
 
+.fragrances-con3__main-perfume {
+  position: absolute;
+  left: calc(837 / 1920 * 100%);
+  top: calc(508 / 1080 * 100%);
+  width: calc(246 / 1920 * 100%);
+  height: calc(367 / 1080 * 100%);
+}
+/* Separate entrance transform from the outer scroll-driven transform.
+   Preserve the original image crop and shadow at the final pose. */
+.fragrances-con3__main-perfume-artwork {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: 0 calc(4px * var(--con3-scale)) calc(4px * var(--con3-scale)) rgb(0 0 0 / 25%);
+}
+.fragrances-con3__main-perfume-image {
+  position: absolute;
+  left: -89.53%;
+  top: 0;
+  width: 281.83%;
+  height: 100%;
+}
+/* The existing mobile artwork already contains its bottle. */
+@media (width < 768px) {
+  .fragrances-con3__main-perfume { display: none; }
+}
+
 /* Note centers: x = 548, 960, 1372. Source label/name slots are 20/32px. */
 .fragrances-con3__notes {
   position: absolute;
@@ -90,4 +118,10 @@
   line-height: var(--text-point-title-m1-line-height);
   letter-spacing: var(--text-point-title-m1-letter-spacing);
   white-space: nowrap;
+}
+
+/* Mask the natural text line, leaving the Figma's shorter label slot intact. */
+.fragrances-con3__note-name-copy {
+  display: inline-block;
+  vertical-align: top;
 }
