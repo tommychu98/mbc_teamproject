@@ -191,10 +191,11 @@ export function ProductLineBackMain() {
     };
 
     const handleBackToMain = (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
         if (isNavigatingRef.current) return;
         isNavigatingRef.current = true;
-        const page = document.querySelector('.product-line-page');
+        const page = interactiveRef.current?.closest('main');
         const transitionOverlay = document.querySelector('.page-transition-overlay');
         gsap.killTweensOf([doorRef.current, shadowRef.current, innerShadowRef.current, labelRef.current, lineRef.current, page, transitionOverlay]);
         gsap.set(transitionOverlay, { opacity: 0 });
@@ -294,13 +295,13 @@ export function ProductLineServices() {
 export default function ProductLine() {
     return (
         <main className="product-line-page" data-node-id="3285:18940">
-            <ProductLineStorySection story={stories.homeDecor} />
             <ProductLineVisual image="fragrance-visual.png" />
             <ProductLineStorySection story={stories.fragrances} />
             <ProductLineVisual image="exclusive-visual.png" className="product-line__visual--exclusive" />
             <ProductLineExclusive />
             <ProductLineStorySection story={stories.candlesHome} />
             <ProductLineStorySection story={stories.bathBody} />
+            <ProductLineStorySection story={stories.homeDecor} />
             <ProductLineExplore />
             <ProductLineBackMain />
             <ProductLineServices />

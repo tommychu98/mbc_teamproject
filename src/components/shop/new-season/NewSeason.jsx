@@ -5,6 +5,7 @@ import {
     ViewMoreLink,
 } from '../ProductLine/ProductLine';
 import './NewSeason.css';
+import heroRituels from './assets/hero-rituels.png';
 
 const ASSET_PATH = '/images/new-season';
 
@@ -12,7 +13,7 @@ function NewSeasonHero() {
     return (
         <section className="new-season__hero new-season__hero--rituels">
             <div className="new-season__canvas">
-                <img src={`${ASSET_PATH}/hero-rituels.png`} alt="" />
+                <img src={heroRituels} alt="" />
                 <p className="new-season__eyebrow">New Arrivals</p>
                 <h1>Les Rituels<br />de Soin</h1>
             </div>

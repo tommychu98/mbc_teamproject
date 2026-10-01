@@ -57,7 +57,8 @@ function CatalogShopPage() {
   }, [category, fragranceFilter, sort]);
 
   const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
-  const visibleProducts = products.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const currentPage = Math.min(page, pageCount);
+  const visibleProducts = products.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   const setCategory = (value) => {
     const nextParams = new URLSearchParams(searchParams);
@@ -159,18 +160,18 @@ function CatalogShopPage() {
               className="shop-page__page-button"
               type="button"
               aria-label="이전 페이지"
-              disabled={page === 1}
-              onClick={() => setPage((current) => Math.max(1, current - 1))}
+              disabled={currentPage === 1}
+              onClick={() => setPage(Math.max(1, currentPage - 1))}
             >
               <ChevronLeft aria-hidden="true" />
             </button>
             {Array.from({ length: pageCount }, (_, index) => index + 1).map((pageNumber) => (
               <button
                 key={pageNumber}
-                className={`shop-page__page-button ${page === pageNumber ? 'shop-page__page-button--active' : ''}`}
+                className={`shop-page__page-button ${currentPage === pageNumber ? 'shop-page__page-button--active' : ''}`}
                 type="button"
                 aria-label={`${pageNumber}페이지`}
-                aria-current={page === pageNumber ? 'page' : undefined}
+                aria-current={currentPage === pageNumber ? 'page' : undefined}
                 onClick={() => setPage(pageNumber)}
               >
                 {pageNumber}
@@ -180,8 +181,8 @@ function CatalogShopPage() {
               className="shop-page__page-button"
               type="button"
               aria-label="다음 페이지"
-              disabled={page === pageCount}
-              onClick={() => setPage((current) => Math.min(pageCount, current + 1))}
+              disabled={currentPage === pageCount}
+              onClick={() => setPage(Math.min(pageCount, currentPage + 1))}
             >
               <ChevronRight aria-hidden="true" />
             </button>
