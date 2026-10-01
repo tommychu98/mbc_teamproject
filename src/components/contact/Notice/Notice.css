@@ -59,7 +59,7 @@
 }
 .notice-page__heading h1 {
     margin-top: 16px;
-    font-family: var(--font-family-display), var(--font-family-sans);
+    font-family: var(--font-family-serif-kr);
     font-size: var(--text-web-title-r1-size);
     font-weight: var(--font-weight-regular);
     line-height: 1;
