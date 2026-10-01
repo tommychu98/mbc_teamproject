@@ -1,0 +1,39 @@
+.scent-sequence {
+    position: relative;
+    height: 440svh;
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+}
+
+.scent-sequence__stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--color-bg-primary);
+}
+
+.scent-sequence__canvas { position: relative; width: 100%; height: 100%; }
+.scent-sequence__line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max-content;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-family-display);
+    font-size: clamp(32px, 5.729167vw, 110px);
+    font-weight: var(--text-web-title-m2-weight);
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+    visibility: hidden;
+}
+.scent-sequence__line:first-child { visibility: visible; }
+.scent-sequence__line[data-scene="0"] { margin-left: 0.026042vw; }
+.scent-sequence__line[data-scene="1"] { margin-left: -0.911458vw; }
+.scent-sequence__line[data-scene="2"] { margin-left: -0.052083vw; }
+.scent-sequence__char { display: inline-block; }
+@media (max-width: 767px) {
+    .scent-sequence__line { font-size: clamp(28px, 7.5vw, 57px); }
+}

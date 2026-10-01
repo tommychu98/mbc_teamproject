@@ -7,6 +7,10 @@ import HomeMainFilm from './HomeMainFilm/HomeMainFilm';
 import HomeNightRitual from './HomeNightRitual/HomeNightRitual';
 import HomeNightJourney from './HomeNightJourney/HomeNightJourney';
 
+import HomeScentSequence from './HomeScentSequence/HomeScentSequence';
+import HomeFragranceWorld from './HomeFragranceWorld/HomeFragranceWorld';
+import HomePreFooter from './HomePreFooter';
+
 export default function HomePage() {
     return (
         <div className="home">
@@ -18,6 +22,9 @@ export default function HomePage() {
             <HomeMainFilm />
             <HomeNightRitual />
             <HomeNightJourney />
+            <HomeScentSequence />
+            <HomeFragranceWorld />
+            <HomePreFooter />
         </div>
     );
 }

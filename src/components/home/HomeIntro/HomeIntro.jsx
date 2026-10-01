@@ -11,17 +11,12 @@ import './HomeIntro.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const INITIAL_HOLE_WIDTH = 0;
-const INITIAL_HOLE_HEIGHT = 0;
 const HERO_WIDTH = 1920;
 const HERO_HEIGHT = 1080;
-const INITIAL_HOLE_X = (HERO_WIDTH - INITIAL_HOLE_WIDTH) / 2;
-const INITIAL_HOLE_Y = (HERO_HEIGHT - INITIAL_HOLE_HEIGHT) / 2;
 const REVEAL_END_PROGRESS = 0.4;
 const SEQUENCE_DRIFT_START = REVEAL_END_PROGRESS;
 const SEQUENCE_MAIN_START = 0.58;
 const SEQUENCE_COMPLETE_PROGRESS = 0.94;
-const STORY_TRIGGER_PROGRESS = 0.8;
 const SEQUENCE_DRIFT_PROGRESS = 0.015;
 const SCROLL_DISTANCE = 3600;
 const SEEK_SMOOTHING = 0.12;
@@ -78,8 +73,10 @@ const easeSequenceEdges = (progress) => {
 
 export default function HomeIntro() {
     const maskId = `home-intro-mask-${useId().replace(/:/g, '')}`;
+    const mistFilterId = `${maskId}-mist`;
     const rootRef = useRef(null);
-    const holeRef = useRef(null);
+    const mistRef = useRef(null);
+    const revealOverlayRef = useRef(null);
     const canvasRef = useRef(null);
     const logoRef = useRef(null);
     const storyRef = useRef(null);
@@ -97,17 +94,14 @@ export default function HomeIntro() {
         let maxScrollProgress = 0;
         let requestedFrame = FIRST_FRAME;
         let disposed = false;
+        let storyStarted = false;
 
         const updateStoryTimeline = (activeFrame) => {
             const storyTimeline = storyTimelineRef.current;
-            if (!storyTimeline) return;
+            if (!storyTimeline || storyStarted || activeFrame !== LAST_FRAME) return;
 
-            const hasReachedFinalFrame =
-                scrollProgress >= STORY_TRIGGER_PROGRESS || activeFrame >= LAST_FRAME - 1;
-
-            if (hasReachedFinalFrame) {
-                storyTimeline.play();
-            }
+            storyStarted = true;
+            storyTimeline.play();
         };
 
         const updateReveal = () => {
@@ -115,18 +109,30 @@ export default function HomeIntro() {
                 gsap.utils.clamp(0, 1, scrollProgress / REVEAL_END_PROGRESS)
             );
 
-            gsap.set(holeRef.current, {
-                attr: {
-                    x: INITIAL_HOLE_X * (1 - revealProgress),
-                    y: INITIAL_HOLE_Y * (1 - revealProgress),
-                    width: HERO_WIDTH * revealProgress,
-                    height: HERO_HEIGHT * revealProgress,
-                },
+            // Use the existing scrubbed progress: the logo and film timeline
+            // retain their original timing. Only the ivory-to-film reveal changes.
+            const diffusion = smoothstep(revealProgress);
+            const settle = smoothstep(gsap.utils.clamp(0, 1, (revealProgress - 0.62) / 0.38));
+            const scaleX = 0.18 + diffusion * 3.7;
+            const scaleY = 0.24 + diffusion * 3.1;
+            gsap.set(mistRef.current, {
+                attr: { transform: `translate(${960 - 55 * diffusion} ${540 - 35 * diffusion}) scale(${scaleX} ${scaleY})` },
+                opacity: smoothstep(gsap.utils.clamp(0, 1, revealProgress / 0.35)),
+            });
+            gsap.set(revealOverlayRef.current, {
+                opacity: 1 - settle,
+                visibility: revealProgress === 1 ? 'hidden' : 'visible',
+            });
+            gsap.set(canvas, {
+                opacity: smoothstep(gsap.utils.clamp(0, 1, revealProgress / 0.75)),
+                filter: revealProgress === 1 ? 'none' : `blur(${12 * (1 - diffusion)}px)`,
+                scale: 1.03 - diffusion * 0.03,
             });
         };
 
         const resizeCanvas = () => {
-            const { width, height } = canvas.getBoundingClientRect();
+            // Measure layout size, independent of the reveal's subtle scale.
+            const { clientWidth: width, clientHeight: height } = canvas;
             const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
             canvas.width = Math.max(1, Math.round(width * pixelRatio));
             canvas.height = Math.max(1, Math.round(height * pixelRatio));
@@ -136,7 +142,9 @@ export default function HomeIntro() {
             );
         };
 
-        const drawFrame = (image) => {
+        const drawFrame = (image, frame) => {
+            if (!image.complete || image.naturalWidth === 0) return;
+
             const canvasRatio = canvas.width / canvas.height;
             const imageRatio = image.naturalWidth / image.naturalHeight;
             let sourceX = 0;
@@ -163,6 +171,8 @@ export default function HomeIntro() {
                 canvas.width,
                 canvas.height
             );
+            // Start the story only after the final image has actually been drawn.
+            updateStoryTimeline(frame);
         };
 
         const trimFrameCache = (activeFrame) => {
@@ -184,7 +194,7 @@ export default function HomeIntro() {
         const loadFrame = (frame, shouldDraw = false) => {
             if (frameCache.has(frame)) {
                 const cachedImage = frameCache.get(frame);
-                if (shouldDraw && cachedImage.complete) drawFrame(cachedImage);
+                if (shouldDraw && cachedImage.complete) drawFrame(cachedImage, frame);
                 return;
             }
 
@@ -192,7 +202,8 @@ export default function HomeIntro() {
             frameCache.set(frame, image);
             image.onload = () => {
                 if (disposed) return;
-                if (shouldDraw && frame === requestedFrame) drawFrame(image);
+                // A prefetched image may become the requested frame while loading.
+                if (frame === requestedFrame) drawFrame(image, frame);
                 trimFrameCache(requestedFrame);
             };
             image.src = frameSrc(frame);
@@ -215,7 +226,6 @@ export default function HomeIntro() {
                 gsap.utils.clamp(0, 1, currentTime / VIDEO_DURATION_FALLBACK)
             );
             const nextFrame = Math.round(FIRST_FRAME + sequenceProgress * (FRAME_COUNT - 1));
-            updateStoryTimeline(nextFrame);
             if (nextFrame !== requestedFrame) {
                 requestedFrame = nextFrame;
                 loadFrame(requestedFrame, true);
@@ -237,14 +247,7 @@ export default function HomeIntro() {
         };
 
         const context = gsap.context(() => {
-            gsap.set(holeRef.current, {
-                attr: {
-                    x: INITIAL_HOLE_X,
-                    y: INITIAL_HOLE_Y,
-                    width: INITIAL_HOLE_WIDTH,
-                    height: INITIAL_HOLE_HEIGHT,
-                },
-            });
+            updateReveal();
             gsap.set(logoRef.current, { xPercent: -50, yPercent: -50, x: 0, y: 0 });
             gsap.set(storyRef.current, { autoAlpha: 0 });
             gsap.set('[data-story-plant]', { autoAlpha: 0, y: 42, rotate: -2.8 });
@@ -334,7 +337,7 @@ export default function HomeIntro() {
         const resizeObserver = new ResizeObserver(() => {
             resizeCanvas();
             const currentImage = frameCache.get(requestedFrame);
-            if (currentImage?.complete) drawFrame(currentImage);
+            if (currentImage?.complete) drawFrame(currentImage, requestedFrame);
         });
         resizeObserver.observe(canvas);
         resizeCanvas();
@@ -359,22 +362,30 @@ export default function HomeIntro() {
                 aria-label="Diptyque hero animation"
             />
             <svg
+                ref={revealOverlayRef}
                 className="home-intro__reveal-overlay"
                 viewBox={`0 0 ${HERO_WIDTH} ${HERO_HEIGHT}`}
                 preserveAspectRatio="none"
                 aria-hidden="true"
             >
                 <defs>
-                    <mask id={maskId} maskUnits="userSpaceOnUse" maskType="luminance">
+                    <filter id={mistFilterId} filterUnits="userSpaceOnUse"
+                        x="-480" y="-270" width="2880" height="1620" colorInterpolationFilters="sRGB">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.003 0.005" numOctaves="2" seed="17" result="air" />
+                        <feDisplacementMap in="SourceGraphic" in2="air" scale="180" xChannelSelector="R" yChannelSelector="G" />
+                        <feGaussianBlur stdDeviation="65" />
+                    </filter>
+                    <mask id={maskId} x="0" y="0" width={HERO_WIDTH} height={HERO_HEIGHT}
+                        maskUnits="userSpaceOnUse" maskType="luminance">
                         <rect width={HERO_WIDTH} height={HERO_HEIGHT} fill="white" />
-                        <rect
-                            ref={holeRef}
-                            x={INITIAL_HOLE_X}
-                            y={INITIAL_HOLE_Y}
-                            width={INITIAL_HOLE_WIDTH}
-                            height={INITIAL_HOLE_HEIGHT}
-                            fill="black"
-                        />
+                        {/* A displaced, feathered silhouette grows in unequal
+                            directions; no geometric aperture or looping noise. */}
+                        <g filter={`url(#${mistFilterId})`}>
+                            <g ref={mistRef} transform="translate(960 540) scale(0.18 0.24)" opacity="0" fill="black">
+                                <path d="M-490 35 C-545-55-392-70-350-140 C-315-210-170-130-118-222 C-40-306 55-215 103-174 C160-116 272-210 335-126 C383-62 294 1 408 45 C505 86 389 164 286 133 C206 113 241 239 109 207 C18 184-36 296-132 228 C-201 175-166 116-285 145 C-387 171-421 104-490 35Z" />
+                                <path opacity="0.35" d="M-610-25 C-550-155-375-194-253-147 C-105-100-105-294 60-257 C216-221 241-97 433-117 C610-132 581 48 408 105 C290 147 242 289 73 302 C-97 311-158 211-328 243 C-501 275-566 121-610-25Z" />
+                            </g>
+                        </g>
                     </mask>
                 </defs>
                 <rect

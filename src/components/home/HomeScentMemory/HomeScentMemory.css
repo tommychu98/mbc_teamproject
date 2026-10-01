@@ -58,3 +58,18 @@
 .home-scent-memory__copy { color: rgb(34 34 34 / 50%); }
 
 .home-scent-memory__line { display: block; }
+
+/* Paint inside the existing inline glyphs so font metrics and line breaks stay
+   intact. Outside supported browsers the inherited grey text remains legible. */
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+    .home-scent-memory__character {
+        background-image: linear-gradient(
+            90deg,
+            #222 calc(var(--ink-edge, -45%) - 45%),
+            rgb(34 34 34 / 50%) calc(var(--ink-edge, -45%) + 45%)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+}

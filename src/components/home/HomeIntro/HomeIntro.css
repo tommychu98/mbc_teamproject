@@ -17,6 +17,10 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.03);
+    transform-origin: center;
 }
 
 .home-intro__reveal-overlay {
@@ -53,6 +57,8 @@
     inset: 0;
     overflow: hidden;
     color: #222;
+    opacity: 0;
+    visibility: hidden;
     pointer-events: none;
 }
 

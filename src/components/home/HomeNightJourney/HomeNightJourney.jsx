@@ -7,7 +7,6 @@ import { nightJourneyPanels } from './nightJourneyData';
 import './HomeNightJourney.css';
 
 const DESIGN_WIDTH = 1920;
-const DESIGN_HEIGHT = 1080;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const smoothstep = (start, end, value) => {
     const t = clamp((value - start) / (end - start), 0, 1);
@@ -93,7 +92,10 @@ export default function HomeNightJourney() {
             const width = root.clientWidth;
             const viewportHeight = window.innerHeight;
             const travel = width * (nightJourneyPanels.length - 1);
-            const scale = Math.min(width / DESIGN_WIDTH, viewportHeight / DESIGN_HEIGHT);
+            // Match the width-based canvas used by the preceding night section.
+            // Centering or height-fitting this canvas breaks the split botanical
+            // artwork at the section boundary on non-16:9 viewports.
+            const scale = width / DESIGN_WIDTH;
             root.style.height = `${viewportHeight + travel}px`;
             root.style.setProperty('--night-journey-scale', scale);
 
@@ -109,7 +111,7 @@ export default function HomeNightJourney() {
                 return;
             }
 
-            const panelProgress = shift / width;
+            const panelProgress = Math.min(shift, travel) / width;
             const entry = clamp((viewportHeight - top) / viewportHeight, 0, 1);
 
             particles.forEach(({ element, panel, baseOpacity, phase, depth, driftX, driftY, spin, stagger }) => {

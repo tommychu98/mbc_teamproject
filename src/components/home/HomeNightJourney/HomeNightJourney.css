@@ -43,6 +43,12 @@
     transform-origin: center;
 }
 
+.night-journey__panel:first-child .night-journey__canvas {
+    top: 0;
+    transform: translateX(-50%) scale(var(--night-journey-scale, 1));
+    transform-origin: top center;
+}
+
 .night-journey__columns,
 .night-journey__foreground-flowers {
     position: absolute;
@@ -68,7 +74,7 @@
 
 .night-journey__foreground-flowers {
     left: -225px;
-    top: -555px;
+    top: -554px;
     width: 1423.128px;
     height: 992.048px;
 }

@@ -1,0 +1,20 @@
+.fragrance-world { position: relative; height: 850svh; background: var(--color-bg-primary); }
+.fragrance-world .fragrance-world__label, .fragrance-world .fragrance-world__link { font-family: 'HomeNight Dotum', var(--font-family-sans); }
+.fragrance-world .fragrance-world__text { font-family: 'HomeNight Garamond', var(--font-family-display); }
+.fragrance-world__link { text-decoration: none; }
+.fragrance-world__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: var(--color-bg-primary); }
+.fragrance-world__canvas { position: absolute; top: 50%; left: 50%; width: 1920px; height: 1200px; isolation: isolate; transform: translate(-50%, -50%) scale(var(--world-scale, 1)); transform-origin: center; }
+.fragrance-world__background { position: absolute; inset: 0; z-index: 0; width: 1920px; height: 1200px; object-fit: contain; opacity: 1; pointer-events: none; }
+.fragrance-world__copy { position: absolute; inset: 0; z-index: 1; }
+.fragrance-world__copy[data-state="1"] { visibility: hidden; opacity: 0; }
+.fragrance-world__label { position: absolute; top: 266px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; margin: 0; white-space: nowrap; font-family: var(--font-family-sans); font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .4px; color: #000; }
+.fragrance-world__label > span { width: 5px; height: 5px; border-radius: 10px; background: #918181; }
+.fragrance-world__text { position: absolute; top: 440px; left: 50%; transform: translateX(-50%); width: max-content; font-family: var(--font-family-display); font-size: 50px; font-weight: 400; line-height: 1.6; letter-spacing: 0; text-align: center; color: #4b4b4b; }
+.fragrance-world__text p { margin: 0; }
+.fragrance-world__copy[data-state="0"] .fragrance-world__text { margin-left: -.5px; }
+.fragrance-world__link { position: absolute; top: 853px; left: calc(50% + .5px); transform: translateX(-50%); width: 143px; height: 23.5px; color: rgb(75 75 75 / 50%); font-family: var(--font-family-sans); font-size: 18px; font-weight: 300; line-height: 1; }
+.fragrance-world__link img { position: absolute; top: 16.65px; left: 52.65px; max-width: none; }
+.fragrance-world__picture { position: absolute; top: 0; z-index: 2; visibility: hidden; background: transparent; box-shadow: none; filter: none; pointer-events: none; will-change: transform; }
+.fragrance-world__crop { position: absolute; inset: 0; overflow: hidden; background: transparent; box-shadow: none; }
+.fragrance-world__crop img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; background: transparent; box-shadow: none; filter: none; object-fit: cover; }
+.fragrance-world__crop .fragrance-world__bottle-crop { inset: auto; left: -46.87%; top: -38.08%; width: 192.54%; height: 154.7%; }

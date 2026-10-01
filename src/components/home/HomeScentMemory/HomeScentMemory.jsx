@@ -9,6 +9,9 @@ const MEMORY_LINES = [
 ];
 const CHARACTER_COUNT = MEMORY_LINES.join('').replaceAll(' ', '').length;
 const clamp = (value) => Math.min(1, Math.max(0, value));
+const INK_SPREAD = 3;
+const INK_LERP = 0.1;
+const smoothstep = (value) => value * value * (3 - 2 * value);
 
 function MemoryLines() {
     let characterIndex = 0;
@@ -33,19 +36,35 @@ export default function HomeScentMemory() {
         const section = sectionRef.current;
         const stage = stageRef.current;
         const characters = section.querySelectorAll('.home-scent-memory__character');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         let frameId = 0;
+        let renderedProgress = null;
+        let previousTime = 0;
 
-        const paint = () => {
+        const paint = (now) => {
             frameId = 0;
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
             const progress = distance > 0 ? clamp(-section.getBoundingClientRect().top / distance) : 0;
-            const position = progress * CHARACTER_COUNT;
+            const elapsed = previousTime ? Math.min(64, now - previousTime) : 1000 / 60;
+            previousTime = now;
+            // Frame-rate independent inertia continues briefly after scrolling
+            // stops. The same interpolation also handles reverse scrolling.
+            const damping = 1 - Math.pow(1 - INK_LERP, elapsed / (1000 / 60));
+            if (renderedProgress === null || reducedMotion.matches) renderedProgress = progress;
+            else renderedProgress += (progress - renderedProgress) * damping;
+            if (Math.abs(progress - renderedProgress) < 0.00001) renderedProgress = progress;
+            const position = renderedProgress * (CHARACTER_COUNT - 1 + INK_SPREAD);
 
             characters.forEach((character, index) => {
-                const inkAmount = clamp(position - index);
-                character.style.color = `rgba(34, 34, 34, ${0.5 + inkAmount * 0.5})`;
+                // Overlapping character ramps let the feather travel through
+                // each glyph while its neighbours gradually absorb the ink.
+                const inkAmount = smoothstep(clamp((position - index) / INK_SPREAD));
+                character.style.setProperty('--ink-edge', `${(-45 + inkAmount * 190).toFixed(3)}%`);
             });
             section.dataset.scrollProgress = progress.toFixed(6);
+            section.dataset.renderProgress = renderedProgress.toFixed(6);
+            if (renderedProgress !== progress) frameId = requestAnimationFrame(paint);
+            else previousTime = 0;
         };
 
         const schedulePaint = () => {
@@ -56,13 +75,14 @@ export default function HomeScentMemory() {
             const stageHeight = stage.offsetHeight;
             section.style.setProperty('--memory-stage-height', `${stageHeight}px`);
             section.style.setProperty('--memory-scroll-distance', `${Math.max(window.innerHeight, stageHeight)}px`);
-            paint();
+            schedulePaint();
         };
 
         const observer = new ResizeObserver(measure);
         observer.observe(stage);
         window.addEventListener('scroll', schedulePaint, { passive: true });
         window.addEventListener('resize', measure);
+        reducedMotion.addEventListener('change', schedulePaint);
         measure();
 
         return () => {
@@ -70,6 +90,7 @@ export default function HomeScentMemory() {
             observer.disconnect();
             window.removeEventListener('scroll', schedulePaint);
             window.removeEventListener('resize', measure);
+            reducedMotion.removeEventListener('change', schedulePaint);
         };
     }, []);
 
