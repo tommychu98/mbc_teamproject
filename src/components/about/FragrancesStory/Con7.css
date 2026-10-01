@@ -91,6 +91,7 @@
 }
 
 .fragrances-con7__musicians {
+  position: absolute;
   left: calc(313 / 1920 * 100%);
   top: calc(1095 / 2050 * 100%);
   width: calc(787 / 1920 * 100%);
@@ -113,6 +114,7 @@
 }
 
 .fragrances-con7__chandelier {
+  position: absolute;
   left: calc(826 / 1920 * 100%);
   top: calc(-113 / 2050 * 100%);
   width: calc(970 / 1920 * 100%);
@@ -121,10 +123,97 @@
 }
 
 .fragrances-con7__plant {
+  position: absolute;
   left: calc(1664 / 1920 * 100%);
   top: calc(862 / 2050 * 100%);
   width: calc(425 / 1920 * 100%);
   height: calc(638 / 2050 * 100%);
   transform: scaleX(-1);
   opacity: 0.1;
+}
+
+/* Keep the pedestal, pot and trailing ivy grounded. The canopy bends from
+   the stems at the pot rim; the wrapper preserves the original reflection. */
+.fragrances-con7__plant img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fragrances-con7__plant-base { clip-path: inset(46.5% 0 0); }
+.fragrances-con7__plant-leaves {
+  clip-path: inset(0 0 53.5%);
+  transform-origin: 50% 46.5%;
+  animation: fragrances-con7-leaves-sway 8.5s ease-in-out -2s infinite;
+}
+@keyframes fragrances-con7-leaves-sway {
+  0%, 100% { transform: rotate(0deg) skewX(0deg); }
+  30% { transform: rotate(1.8deg) skewX(.6deg); }
+  65% { transform: rotate(-1.3deg) skewX(-.5deg); }
+}
+
+/* Independent neck pivots suggest listening and playing, without moving the
+   piano, drums, double bass, chairs or feet as one rigid stage. */
+.fragrances-con7__musicians img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fragrances-con7__musician {
+  --musician-nod: 4deg;
+  animation: fragrances-con7-musician-nod 3.2s ease-in-out -0.8s infinite;
+}
+.fragrances-con7__musician--piano {
+  --musician-nod: 5deg;
+  animation-duration: 2.6s;
+  animation-delay: -1.8s;
+}
+.fragrances-con7__musician--bass {
+  --musician-nod: -4deg;
+  animation-duration: 3.8s;
+  animation-delay: -2.1s;
+}
+.fragrances-con7__musician--drums {
+  --musician-nod: 5deg;
+  animation-duration: 2.2s;
+  animation-delay: -0.4s;
+}
+/* Complementary masks isolate the central fixture from the ceiling artwork.
+   Both layers reuse the original export at exactly the same dimensions. */
+.fragrances-con7__chandelier img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fragrances-con7__chandelier-mount {
+  clip-path: polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0,
+    25% 60%, 33% 60%, 33% 51%, 40% 51%, 40% 41%, 49% 41%,
+    49% 51%, 55% 51%, 55% 60%, 63% 60%, 63% 100%, 25% 100%, 25% 60%, 0 0);
+}
+.fragrances-con7__chandelier-swing {
+  clip-path: polygon(25% 60%, 33% 60%, 33% 51%, 40% 51%, 40% 41%, 49% 41%,
+    49% 51%, 55% 51%, 55% 60%, 63% 60%, 63% 100%, 25% 100%);
+  transform-origin: 44% 41%;
+  animation: fragrances-con7-chandelier-sway 8s ease-in-out -2s infinite;
+}
+.fragrances-con7__musician,
+.fragrances-con7__plant-leaves,
+.fragrances-con7__chandelier-swing { animation-play-state: paused; }
+.fragrances-con7__scene--visible .fragrances-con7__musician,
+.fragrances-con7__scene--visible .fragrances-con7__plant-leaves,
+.fragrances-con7__scene--visible .fragrances-con7__chandelier-swing {
+  animation-play-state: running;
+}
+@keyframes fragrances-con7-musician-nod {
+  0%, 100% { transform: rotate(0deg); }
+  45% { transform: rotate(var(--musician-nod)); }
+  75% { transform: rotate(calc(var(--musician-nod) * -.5)); }
+}
+@keyframes fragrances-con7-chandelier-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fragrances-con7__musician,
+  .fragrances-con7__plant-leaves,
+  .fragrances-con7__chandelier-swing { animation: none; }
 }

@@ -16,7 +16,7 @@
 - All artwork, title lines, chapter, subtitle and body paragraphs have separate `fragrances-con1__*` selectors. DOM order follows Figma's layer order; the couple is clipped to its 918 × 1309 frame, with a 918 × 1551 image inside.
 - Typography uses existing design tokens. The installed KoPubWorld Dotum Pro Medium font is bundled as `con1-kopub-dotum-medium.otf` under a Con1-only font family because the shared stylesheet names KoPub without loading it. Other components retain their existing font resolution.
 - The supplied desktop composition scales proportionally at smaller widths without rearranging objects; this also reduces text size on mobile. A separate readable mobile layout requires a mobile design. Overflow is clipped at the section boundary.
-- No GSAP, animation, commit or push is part of this Con1 change.
+- Con1 decorative motion references Figma node `3869:11426`: clouds sway, gently expand and drift over 17–20 seconds; butterflies follow a floating loop and tilt over 10–12 seconds using CSS transforms. Staggered phases and broader movement make the motion visible while keeping it gentle. An IntersectionObserver pauses motion outside the viewport; `prefers-reduced-motion` disables it. The left butterfly's original rotation/reflection stays on its inner image. Mobile uses the same proportional motion on its existing visible artwork.
 
 ## Con2
 
