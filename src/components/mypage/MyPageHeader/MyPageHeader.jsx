@@ -4,7 +4,7 @@ import './MyPageHeader.css';
 const navItems = [
   { id: 'mypage', label: 'MY PAGE', to: '/mypage' },
   { id: 'profile', label: 'PROFILE', to: '/mypage/profile' },
-  { id: 'orders', label: 'MY ORDERS', to: '/mypage/orders' },
+  { id: 'orders', label: 'MY ORDERS', to: '/mypage/orders/history' },
   { id: 'community', label: 'COMMUNITY', to: '/mypage/posts' },
 ];
 
