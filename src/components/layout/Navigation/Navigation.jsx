@@ -37,7 +37,7 @@ const navItems = [
     { label: 'MEMBERSHIP', to: '/contact/membership' },
     { label: 'FAQ', to: '/contact/faq' },
     { label: '1:1 문의', to: '/inquiries' },
-    { label: '상품문의', to: '/inquiries/write?category=PRODUCT' },
+   { label: '상품문의', to: '/contact/product-inquiry' },
   ] },
   {
     label: 'MY PAGE', to: '/mypage', variant: 'mypage', groups: [

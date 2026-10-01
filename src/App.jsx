@@ -25,6 +25,7 @@ import GaleriePage from './pages/galerie';
 import NoticePage from './pages/contact/notice';
 import MembershipPage from './pages/contact/membership';
 import FaqPage from './pages/contact/faq';
+import ContactProductInquiryPage from './pages/contact/product-inquiry';
 import NotFoundPage from './pages/_system/NotFoundPage';
 import AuthStatusPage from './pages/auth/AuthStatusPage';
 import MyPage from './pages/mypage';
@@ -120,6 +121,10 @@ export default function App() {
                     <Route path="/contact/notices" element={<NoticePage />} />
                     <Route path="/contact/membership" element={<MembershipPage />} />
                     <Route path="/contact/faq" element={<FaqPage />} />
+                    <Route
+                        path="/contact/product-inquiry"
+                        element={protectedPage(<ContactProductInquiryPage />)}
+                    />
                     <Route path="/inquiries" element={protectedPage(<InquiryListPage />)} />
                     <Route path="/inquiries/write" element={protectedPage(<InquiryWritePage />)} />
                     <Route
