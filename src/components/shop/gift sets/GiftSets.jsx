@@ -2,30 +2,31 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductGrid from '../product-line/fragrances/ProductGrid';
 import { getProducts } from '../../../services/productService';
-import './BestSeller.css';
+import './GiftSets.css';
 
-export default function BestSeller() {
+export default function GiftSets() {
   const [sort, setSort] = useState('recommended');
   const products = useMemo(() => {
-    const items = getProducts().filter((product) => product.badge === 'Best-seller');
+    const items = getProducts().filter((product) => /세트|\bsets?\b/i.test(product.name));
     if (sort === 'price-asc') items.sort((a, b) => a.price - b.price);
     if (sort === 'price-desc') items.sort((a, b) => b.price - a.price);
     return items;
   }, [sort]);
 
   return (
-    <main className="best-seller-shop">
-      <div className="best-seller-shop__container">
-        <nav className="best-seller-shop__breadcrumb" aria-label="현재 위치">
+    <main className="gift-sets-shop">
+      <div className="gift-sets-shop__container">
+        <nav className="gift-sets-shop__breadcrumb" aria-label="현재 위치">
           <Link to="/shop">Shop</Link><span aria-hidden="true">/</span>
-          <span aria-current="page">Best Sellers</span>
+          <Link to="/shop/gifts">Gifts</Link><span aria-hidden="true">/</span>
+          <span aria-current="page">Gift Sets</span>
         </nav>
-        <header className="best-seller-shop__header">
-          <p>The Collection</p>
-          <h1>Best Sellers</h1>
-          <p>많은 사랑을 받은 딥티크의 향기로운 크리에이션을 만나보세요.</p>
+        <header className="gift-sets-shop__header">
+          <p>The Art of Gifting</p>
+          <h1>Gift Sets</h1>
+          <p>소중한 순간을 위한 딥티크의 기프트 세트를 만나보세요.</p>
         </header>
-        <div className="best-seller-shop__toolbar">
+        <div className="gift-sets-shop__toolbar">
           <p aria-live="polite">총 {products.length}개의 상품</p>
           <label>정렬
             <select value={sort} onChange={(event) => setSort(event.target.value)}>

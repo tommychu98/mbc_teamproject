@@ -31,3 +31,29 @@
   .product-card--catalog .product-card__body h3 { min-height: 3.2em; font-size: var(--text-web-footer-m2-do-size); font-weight: var(--text-web-footer-m2-do-weight); line-height: var(--text-web-footer-m2-do-line-height); }
   .product-card--catalog .product-card__price { font-size: var(--text-mobile-body-l1-size); line-height: var(--text-web-body-l2-do-line-height); }
 }
+
+/* Figma 3120:11506: rounded image frame and centered product copy. */
+.product-card { position: relative; }
+.product-card .product-card__media { box-sizing: border-box; border: 1px solid #e4e3e3; border-radius: 50px; background: #f7f7f7; }
+.product-card .product-card__image { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: normal; }
+.product-card .product-card__like { top: 27px; right: 28px; bottom: auto; left: auto; width: 32px; height: 32px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--color-scent-amber); cursor: pointer; }
+.product-card .product-card__like img { display: block; width: 26px; height: 23.548px; }
+.product-card .product-card__like svg { width: 26px; height: 23.548px; }
+.product-card .product-card__body { display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 20px; text-align: center; }
+.product-card .product-card__body > a { width: 100%; max-width: 246px; }
+.product-card .product-card__body h3 { display: block; min-height: 0; overflow: visible; color: #222; font-family: var(--font-family-sans); font-size: 20px; font-weight: 700; line-height: 1.5; letter-spacing: .02em; -webkit-line-clamp: unset; }
+.product-card .product-card__body p { margin-top: 0; color: #222; font-family: var(--font-family-sans); font-size: 18px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
+.product-card .product-card__price { margin-top: 8px; font-size: 16px; line-height: 1.5; }
+.product-card .product-card__quick-add { right: 24px; bottom: 24px; border-radius: 50%; }
+.product-card .product-card__badge { top: 32px; left: 24px; }
+.product-card .product-card__remove { right: auto; left: 24px; bottom: 24px; border-radius: 18px; }
+.product-card .product-card__like:focus-visible, .product-card .product-card__quick-add:focus-visible { outline: 2px solid var(--color-text-primary); outline-offset: 3px; }
+@media (max-width: 767px) {
+  .product-card .product-card__media { border-radius: 24px; }
+  .product-card .product-card__like { top: 10px; right: 10px; }
+  .product-card .product-card__quick-add { right: 10px; bottom: 10px; }
+  .product-card .product-card__badge { top: 12px; left: 10px; max-width: calc(100% - 80px); font-size: 8px; }
+  .product-card .product-card__body { padding-top: 14px; }
+  .product-card .product-card__body h3 { font-size: 16px; }
+  .product-card .product-card__body p, .product-card .product-card__price { font-size: 14px; }
+}

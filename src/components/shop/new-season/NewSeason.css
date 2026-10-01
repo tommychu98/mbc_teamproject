@@ -3,15 +3,15 @@
 .new-season__canvas { position: absolute; top: 0; left: 50%; width: 1920px; height: 100%; transform: translateX(-50%); }
 .new-season__hero--rituels { height: 1200px; }
 .new-season__hero > .new-season__canvas > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
-.new-season__hero--rituels > .new-season__canvas > img { opacity: .7; }
+.new-season__hero--rituels > .new-season__canvas > img { object-position: center; }
 .new-season__eyebrow { position: absolute; top: 454px; left: 1406px; transform: translateX(-50%); font-family: var(--font-family-display); font-size: 42px; font-weight: 500; line-height: 1.5; letter-spacing: .21em; white-space: nowrap; }
-.new-season__hero--rituels h1 { position: absolute; top: 527px; left: 1245px; color: #4b4b4b; font-family: var(--font-family-display); font-size: 110px; font-weight: 500; line-height: 1; white-space: nowrap; }
+.new-season__hero--rituels h1 { position: absolute; top: 527px; left: 1245px; color: #222; font-family: var(--font-family-display); font-size: 110px; font-weight: 500; line-height: 1; white-space: nowrap; }
 .new-season__dawn { display: flex; height: 500px; align-items: center; justify-content: center; background: #f7f6f4; }
 .new-season__dawn h2 { width: 826px; font-family: var(--font-family-display); font-size: 64px; font-weight: 400; line-height: 1.1; text-align: center; white-space: nowrap; }
 .new-season__ritual-copy { position: absolute; top: calc(50% - .25px); left: 205px; display: flex; width: 580px; flex-direction: column; align-items: flex-start; transform: translateY(-50%); }
 .new-season__ritual-copy h2, .new-season__after-copy h2 { width: 551px; font-family: var(--font-family-display); font-size: 42px; font-weight: 500; line-height: 1.3; }
 .new-season__ritual-copy h2, .new-season__after-copy h2 { margin-bottom: 50px; }
-.new-season__ritual-copy > div, .new-season__after-copy > div { display: flex; width: 522px; margin-bottom: 70px; flex-direction: column; gap: 30px; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
+.new-season__ritual-copy > div, .new-season__after-copy > div { display: flex; width: 522px; margin-bottom: 70px; flex-direction: column; gap: 30px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
 .new-season__ritual-media { position: absolute; top: 65px; left: 955px; width: 760px; height: 950px; overflow: hidden; border-radius: 50px; }
 .new-season__ritual-media video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .new-season__hero--summer > .new-season__canvas > img { opacity: .8; }
@@ -24,3 +24,23 @@
 .new-season__after-copy { position: absolute; top: calc(50% + .25px); left: 1121px; display: flex; width: 599px; flex-direction: column; align-items: flex-start; transform: translateY(-50%); }
 .new-season__after-copy h2 { width: 599px; }
 .new-season__after-copy > div { width: 599px; }
+
+@media (max-width: 1199px) {
+  .new-season__ritual-copy, .new-season__after-copy { box-sizing: border-box; }
+  .new-season__hero--rituels { height: 720px; }
+  .new-season__hero .new-season__canvas { left: 0; width: 100%; transform: none; }
+  .new-season__hero--rituels > .new-season__canvas > img { object-position: 40% center; }
+  .new-season__eyebrow { top: auto; bottom: 180px; left: 24px; transform: none; font-size: 24px; }
+  .new-season__hero--rituels h1 { top: auto; bottom: 48px; left: 24px; font-size: 64px; }
+  .new-season__dawn { height: auto; padding: 64px 24px; }
+  .new-season__dawn h2 { width: 100%; white-space: normal; font-size: 40px; }
+  .new-season__rituals, .new-season__after-sunset { height: auto; }
+  .new-season__rituals .new-season__canvas, .new-season__after-sunset .new-season__canvas { position: relative; left: auto; width: 100%; height: auto; transform: none; display: flex; flex-direction: column; }
+  .new-season__ritual-copy, .new-season__after-copy { position: static; width: 100%; padding: 40px 24px; transform: none; }
+  .new-season__ritual-copy h2, .new-season__after-copy h2 { width: 100%; font-size: 36px; margin-bottom: 28px; }
+  .new-season__ritual-copy > div, .new-season__after-copy > div { width: 100%; font-size: 16px; margin-bottom: 32px; }
+  .new-season__ritual-media, .new-season__after-image { position: relative; top: auto; left: auto; width: 100%; height: auto; aspect-ratio: 4 / 5; border-radius: 0; }
+  .new-season__hero--summer { height: 650px; }
+  .new-season__summer-label { top: auto; bottom: 160px; left: 24px; transform: none; font-size: 24px; white-space: normal; }
+  .new-season__hero--summer h2 { top: auto; bottom: 40px; left: 24px; right: 24px; font-size: 48px; white-space: normal; }
+}

@@ -10,7 +10,8 @@
 .gift-page__hero-image--five { top: 589px; left: 1598px; width: 302px; height: 349px; }
 .gift-page__hero-image--six { top: -19px; left: 247px; width: 239px; height: 254px; }
 .gift-page__hero-image--seven { top: -57px; left: 1450px; width: 400px; height: 567px; transform: rotate(-14.42deg); }
-.gift-page__hero-image--eight { top: 723px; left: 1056px; width: 542px; height: 290px; transform: rotate(6.56deg); }
+.gift-page__hero-image--eight { top: 751.8655px; left: 1067.546px; width: 519px; height: 232px; transform: rotate(6.56deg); filter: drop-shadow(-20px 30px 30px rgba(0, 0, 0, .15)); }
+.gift-page__hero-image--eight img { position: absolute; top: -174.63%; left: 0; width: 100%; height: 298.51%; max-width: none; object-fit: fill; }
 .gift-page__hero-image--nine { top: 82px; left: 1125px; width: 406px; height: 559px; transform: rotate(21.2deg); }
 .gift-page__hero-copy { position: absolute; top: 401px; left: 705px; display: flex; width: 509px; flex-direction: column; align-items: flex-start; gap: 15px; }
 .gift-page__hero-copy > p:first-child { font-family: var(--font-family-display); font-size: 28px; font-weight: 500; line-height: 1.3; }
@@ -21,9 +22,9 @@
 .gift-page__story-video--seeking-start { visibility: hidden; }
 .gift-page__story-copy { position: absolute; top: 313px; left: 1221px; width: 538px; }
 .gift-page__story-copy h2, .gift-page__boutique-copy h2 { font-family: var(--font-family-display); font-size: 64px; font-weight: 400; line-height: 1.1; }
-.gift-page__story-copy > div { display: flex; margin-top: 50px; flex-direction: column; gap: 30px; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
+.gift-page__story-copy > div { display: flex; margin-top: 50px; flex-direction: column; gap: 30px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
 .gift-page__boutique-copy { position: absolute; top: 89px; left: 211px; display: flex; width: 538px; flex-direction: column; align-items: flex-start; gap: 70px; }
-.gift-page__boutique-copy > div { display: flex; height: 600px; flex-direction: column; gap: 30px; font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
+.gift-page__boutique-copy > div { display: flex; height: 600px; flex-direction: column; gap: 30px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
 .gift-page__boutique-image { position: absolute; top: 0; right: 0; width: 960px; height: 1080px; overflow: hidden; }
 .gift-page__boutique-image img { width: 1448px; height: 1086px; max-width: none; object-fit: cover; transform: translateX(-4px); }
 .gift-page__sets { height: 900px; }
@@ -55,3 +56,40 @@
 .gift-page__set-more { position: absolute; top: 781px; left: 276.5px; }
 .gift-page__closing { display: flex; height: 400px; align-items: center; justify-content: center; background: #f7f6f4; }
 .gift-page__closing p { font-family: var(--font-family-serif-kr); font-size: 26px; font-weight: 400; line-height: 1.3; text-align: center; }
+
+@media (max-width: 1199px) {
+  .gift-page__story-copy, .gift-page__boutique-copy, .gift-page__sets, .gift-page__card-image { box-sizing: border-box; }
+  .gift-page__hero { height: 620px; }
+  .gift-page__hero .gift-page__canvas { top: 250px; transform: translateX(-50%) scale(.45); transform-origin: top center; }
+  .gift-page__hero-copy { top: -420px; left: 605px; width: 710px; transform: scale(1.6); transform-origin: top center; }
+  .gift-page__hero-copy h1 { font-size: 64px; }
+  .gift-page__hero-copy > p:last-child { font-size: 22px; }
+  .gift-page__story, .gift-page__boutique { height: auto; }
+  .gift-page__story .gift-page__canvas, .gift-page__boutique .gift-page__canvas { position: relative; left: auto; width: 100%; height: auto; transform: none; display: flex; flex-direction: column; }
+  .gift-page__story-image, .gift-page__boutique-image { position: relative; top: auto; left: auto; right: auto; width: 100%; height: auto; aspect-ratio: 4 / 5; }
+  .gift-page__boutique-image img { width: 100%; height: 100%; transform: none; }
+  .gift-page__story-copy, .gift-page__boutique-copy { position: static; width: 100%; padding: 40px 24px; gap: 32px; }
+  .gift-page__story-copy h2, .gift-page__boutique-copy h2 { font-size: 40px; }
+  .gift-page__story-copy > div, .gift-page__boutique-copy > div { height: auto; font-size: 16px; gap: 24px; }
+  .gift-page__sets { height: auto; padding: 40px 24px; }
+  .gift-page__sets .gift-page__canvas { position: relative; left: auto; width: 100%; height: auto; transform: none; }
+  .gift-page__sets h2 { position: static; font-size: 32px; letter-spacing: .08em; padding-right: 64px; }
+  .gift-page__set-controls { top: 8px; right: 0; gap: 4px; }
+  .gift-page__set-viewport { position: relative; top: auto; left: auto; right: auto; height: 510px; margin-top: 32px; }
+  .gift-page__set-list { gap: 24px; padding-right: 0; }
+  .gift-page__card { width: 280px; height: 490px; flex-basis: 280px; }
+  .gift-page__card-image { left: 0; width: 280px; height: 350px; border-radius: 30px; }
+  .gift-page__card-copy { top: 370px; left: 0; width: 280px; }
+  .gift-page__heart { left: auto; right: 16px; top: 16px; }
+  .gift-page__set-more { position: static; margin: 16px 0; }
+  .gift-page__closing { height: auto; padding: 48px 24px; }
+  .gift-page__closing p { font-size: 22px; }
+}
+@media (max-width: 600px) {
+  .gift-page__hero { height: 440px; }
+  .gift-page__hero .gift-page__canvas { top: 210px; transform: translateX(-50%) scale(.2); }
+  .gift-page__hero-copy { top: -900px; left: 200px; width: 1520px; transform: none; }
+  .gift-page__hero-copy h1 { font-size: 210px; }
+  .gift-page__hero-copy > p:first-child { font-size: 100px; }
+  .gift-page__hero-copy > p:last-child { font-size: 75px; }
+}

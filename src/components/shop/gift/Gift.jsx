@@ -143,10 +143,12 @@ function GiftCard({ product }) {
 function GiftSetSection() {
     const sliderRef = useRef(null);
     const dragRef = useRef({ active: false, moved: false, startX: 0, scrollLeft: 0 });
-    const cardStep = 462;
-
     const scrollCards = (direction) => {
-        sliderRef.current?.scrollBy({ left: direction * cardStep, behavior: 'smooth' });
+        const slider = sliderRef.current;
+        if (!slider) return;
+        const cards = slider.querySelectorAll('.gift-page__card');
+        const cardStep = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : slider.clientWidth;
+        slider.scrollBy({ left: direction * cardStep, behavior: 'smooth' });
     };
 
     const handleWheel = (event) => {
@@ -156,15 +158,17 @@ function GiftSetSection() {
     };
 
     const handlePointerDown = (event) => {
-        if (event.pointerType === 'touch') return;
+        if (event.pointerType === 'touch' || event.button !== 0) return;
         dragRef.current = { active: true, moved: false, startX: event.clientX, scrollLeft: sliderRef.current.scrollLeft };
-        sliderRef.current.setPointerCapture(event.pointerId);
     };
 
     const handlePointerMove = (event) => {
         if (!dragRef.current.active) return;
         const distance = event.clientX - dragRef.current.startX;
-        if (Math.abs(distance) > 4) dragRef.current.moved = true;
+        if (Math.abs(distance) > 4) {
+            dragRef.current.moved = true;
+            sliderRef.current.setPointerCapture(event.pointerId);
+        }
         sliderRef.current.scrollLeft = dragRef.current.scrollLeft - distance;
     };
 
@@ -198,6 +202,8 @@ function GiftSetSection() {
                         onPointerMove={handlePointerMove}
                         onPointerUp={stopDragging}
                         onPointerCancel={stopDragging}
+                        onPointerLeave={stopDragging}
+                        onDragStart={(event) => event.preventDefault()}
                         onClickCapture={preventDraggedClick}
                     >
                         <div className="gift-page__set-list">{giftSets.map((product) => <GiftCard product={product} key={product[1]} />)}</div>

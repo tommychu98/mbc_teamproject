@@ -115,7 +115,7 @@ function ProductLineExclusive() {
     return (
         <section className="product-line__exclusive">
             <h2>Exclusive</h2>
-            <p>자연이 간직한 숨은 아름다움에서 영감을 받아, 향과 디자인으로 새롭게 풀어낸 특별한 향수 컬렉션입니다. 감각을 깨우고 깊은 감정을 불러일으키는 창작을 만나보세요.</p>
+            <p>자연이 간직한 숨은 아름다움에서 영감을 받아, 향과 디자인으로<br className="product-line__exclusive-break" />{' '}새롭게 풀어낸 특별한 향수 컬렉션입니다. 감각을 깨우고 깊은 감정을<br className="product-line__exclusive-break" />{' '}불러일으키는 창작을 만나보세요.</p>
             <ViewMoreLink to="/shop?category=exclusive" label="Exclusive" />
         </section>
     );
@@ -191,10 +191,11 @@ export function ProductLineBackMain() {
     };
 
     const handleBackToMain = (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
         if (isNavigatingRef.current) return;
         isNavigatingRef.current = true;
-        const page = document.querySelector('.product-line-page');
+        const page = interactiveRef.current?.closest('main');
         const transitionOverlay = document.querySelector('.page-transition-overlay');
         gsap.killTweensOf([doorRef.current, shadowRef.current, innerShadowRef.current, labelRef.current, lineRef.current, page, transitionOverlay]);
         gsap.set(transitionOverlay, { opacity: 0 });
@@ -294,13 +295,13 @@ export function ProductLineServices() {
 export default function ProductLine() {
     return (
         <main className="product-line-page" data-node-id="3285:18940">
-            <ProductLineStorySection story={stories.homeDecor} />
             <ProductLineVisual image="fragrance-visual.png" />
             <ProductLineStorySection story={stories.fragrances} />
             <ProductLineVisual image="exclusive-visual.png" className="product-line__visual--exclusive" />
             <ProductLineExclusive />
             <ProductLineStorySection story={stories.candlesHome} />
             <ProductLineStorySection story={stories.bathBody} />
+            <ProductLineStorySection story={stories.homeDecor} />
             <ProductLineExplore />
             <ProductLineBackMain />
             <ProductLineServices />
