@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useAuthStore } from '../../../store/useAuthStore';
 import { useInquiryStore } from '../../../store/useInquiryStore';
 import './Inquiry.css';
+import ContactInquiry from './ContactInquiry';
 
 export default function InquiryWritePage() {
   const { inquiryId } = useParams();
@@ -39,6 +40,8 @@ export default function InquiryWritePage() {
     if (nextFiles.some((file) => !['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024)) { setErrors((value) => ({ ...value, files: 'JPEG, PNG, WebP 파일을 개별 5MB 이하로 첨부해 주세요.' })); return; }
     setFiles(nextFiles); setErrors((value) => ({ ...value, files: undefined }));
   };
+
+  if (!inquiryId) return <ContactInquiry />;
 
   return <main className="inquiry-page container"><div className="inquiry-page__head"><div><p className="eyebrow">Contact us</p><h1 className="page-title">{existing ? 'Edit Inquiry' : 'New Inquiry'}</h1></div></div>
     <form className="inquiry-form" onSubmit={submit} noValidate>

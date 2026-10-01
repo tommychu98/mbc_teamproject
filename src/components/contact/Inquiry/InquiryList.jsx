@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
+import ContactInquiry from './ContactInquiry';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { useInquiryStore } from '../../../store/useInquiryStore';
 import './Inquiry.css';
@@ -8,6 +9,7 @@ const statusLabels = { PENDING: '접수 완료', IN_REVIEW: '확인 중', ANSWER
 const categoryLabels = { PRODUCT: '상품', DELIVERY: '배송', RETURN: '교환·반품', ACCOUNT: '회원정보', ETC: '기타' };
 
 export default function InquiryListPage() {
+  const [params] = useSearchParams();
   const user = useAuthStore((state) => state.user);
   const inquiries = useInquiryStore((state) => state.inquiries);
   const [query, setQuery] = useState('');
@@ -23,6 +25,8 @@ export default function InquiryListPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const visible = filtered.slice((page - 1) * pageSize, page * pageSize);
   const changeFilter = (setter) => (event) => { setter(event.target.value); setPage(1); };
+
+  if (params.get('view') !== 'list') return <ContactInquiry />;
 
   return <main className="inquiry-page container">
     <div className="inquiry-page__head"><div><p className="eyebrow">Contact us</p><h1 className="page-title">My Inquiries</h1><p>문의 접수와 답변 현황을 확인할 수 있습니다.</p></div><Link className="button" to="/inquiries/write">문의 작성</Link></div>
