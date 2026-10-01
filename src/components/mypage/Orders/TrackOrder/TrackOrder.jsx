@@ -2,13 +2,6 @@ import { Link } from 'react-router-dom';
 import OrdersNav from '../OrdersNav/OrdersNav';
 import './TrackOrder.css';
 
-const navigation = [
-  ['MY PAGE', '/mypage'],
-  ['PROFILE', '/mypage/profile'],
-  ['MY ORDERS', '/mypage/orders/history'],
-  ['COMMUNITY', '/mypage/posts'],
-];
-
 const trackingGuide = [
   ['주문번호 입력', '주문 완료 후 발급된 주문번호를 입력해주세요.'],
   ['배송 현황 확인', '조회 버튼을 통해 현재 배송 진행 상태를 확인합니다.'],
@@ -18,18 +11,6 @@ const trackingGuide = [
 export default function TrackOrder() {
   return (
     <main className="track-order">
-      <header className="track-order__header">
-        <h1 className="track-order__title">My Page</h1>
-        <nav className="track-order__navigation" aria-label="마이페이지 메뉴">
-          {navigation.map(([label, to]) => (
-            <Link className="track-order__nav-link" key={label} to={to} aria-current={label === 'MY ORDERS' ? 'page' : undefined}>
-              <span className="track-order__nav-sizer" aria-hidden="true">{label}</span>
-              <span className="track-order__nav-label">{label}</span>
-            </Link>
-          ))}
-        </nav>
-      </header>
-
       <OrdersNav active="tracking" />
 
       <section className="track-order__content" aria-labelledby="track-order-heading">

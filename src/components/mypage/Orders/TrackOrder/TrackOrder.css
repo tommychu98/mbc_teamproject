@@ -16,6 +16,7 @@
   line-height: var(--text-mobile-body-r2-do-line-height, 1.4);
   letter-spacing: var(--text-mobile-body-r2-do-letter-spacing, 0.02em);
 }
+.track-order:has(> .orders-nav:first-child) { padding-top: 0; }
 
 .track-order__header { text-align: center; }
 .track-order__title {

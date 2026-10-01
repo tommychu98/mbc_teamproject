@@ -5,13 +5,6 @@ import OrdersNav from '../OrdersNav/OrdersNav';
 import kakaopayIcon from './assets/kakaopay.png';
 import './PaymentMethods.css';
 
-const navigation = [
-  ['MY PAGE', '/mypage'],
-  ['PROFILE', '/mypage/profile'],
-  ['MY ORDERS', '/mypage/orders/history'],
-  ['COMMUNITY', '/mypage/posts'],
-];
-
 const methods = [
   { id: 'card', mark: null, name: '신용 / 체크카드' },
   { id: 'naver', mark: 'N', name: '네이버페이' },
@@ -24,18 +17,6 @@ export default function PaymentMethods() {
 
   return (
     <main className="payment-methods">
-      <header className="payment-methods__header">
-        <h1 className="payment-methods__title">My Page</h1>
-        <nav className="payment-methods__navigation" aria-label="마이페이지 메뉴">
-          {navigation.map(([label, to]) => (
-            <Link className="payment-methods__nav-link" key={label} to={to} aria-current={label === 'MY ORDERS' ? 'page' : undefined}>
-              <span className="payment-methods__nav-sizer" aria-hidden="true">{label}</span>
-              <span className="payment-methods__nav-label">{label}</span>
-            </Link>
-          ))}
-        </nav>
-      </header>
-
       <OrdersNav active="payment" />
 
       <section className="payment-methods__content" aria-labelledby="payment-methods-heading">
