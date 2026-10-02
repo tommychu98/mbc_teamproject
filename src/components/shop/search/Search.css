@@ -1,7 +1,39 @@
-.search-page .page-title { margin: 12px 0 30px; }
-.search-page__field { display: grid; max-width: 760px; height: 58px; margin-bottom: 18px; grid-template-columns: 50px 1fr; align-items: center; border-bottom: 1px solid var(--color-ink-black); }
-.search-page__field svg { width: 19px; }
-.search-page__field input { height: 100%; border: 0; outline: 0; background: transparent; font-family: var(--font-family-display); font-size: 22px; }
-.search-page__count { margin-bottom: 34px; color: var(--color-text-muted); font-size: 12px; }
-.search-page { box-sizing: border-box; }
-.search-page__field input { min-width: 0; width: 100%; box-sizing: border-box; }
+﻿@font-face { font-family: 'Search Dotum'; src: url('/ForThePlanet/KoPubWorld-Dotum-Light.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Search Dotum'; src: url('/ForThePlanet/KoPubWorld-Dotum-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+.search-page { position: relative; isolation: isolate; overflow: hidden; box-sizing: border-box; min-height: 1090px; padding: 100px 24px 300px; background: #f7f6f4; color: #222; font-family: 'Search Dotum', sans-serif; }
+.search-page__floral { position: absolute; z-index: -1; top: -115px; left: calc(50% - 932px); width: 698px; height: 872px; max-width: none; object-fit: cover; transform: rotate(-153.82deg) scaleY(-1); opacity: .6; pointer-events: none; }
+.search-page__content { max-width: 1280px; margin: auto; }
+.search-page__heading { text-align: center; }
+.search-page__heading p { color: #4b4b4b; font-size: 16px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
+.search-page__heading h1 { margin: 15px 0 0; font-family: var(--font-family-display); font-size: 64px; font-weight: 400; line-height: 1.1; }
+.search-page__field { display: flex; align-items: center; gap: 20px; box-sizing: border-box; max-width: 1020px; height: 55px; margin: 44px auto 0; padding: 0 31px; border: 1px solid rgb(107 102 95 / .5); border-radius: 50px; background: #fff; }
+.search-page__field input { min-width: 0; width: 100%; height: 100%; border: 0; outline: 0; background: transparent; font: 300 18px/1.5 'Search Dotum', sans-serif; letter-spacing: .02em; color: #222; }
+.search-page__field input::placeholder { color: rgb(75 75 75 / .4); }
+.search-page__field:focus-within { outline: 2px solid #6b665f; outline-offset: 3px; }
+.search-page__divider { display: flex; align-items: center; justify-content: center; height: 1px; margin-top: 100px; }
+.search-page__divider img { transform: rotate(90deg); }
+.search-page__count { margin: 29px 0 66px; text-align: center; color: #4b4b4b; font-size: 16px; font-weight: 500; line-height: 1.5; letter-spacing: .02em; }
+.search-page .product-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 260px)); gap: 64px 80px; }
+.search-page .product-card__media { aspect-ratio: 2 / 3; border: 0; border-radius: 0; background: transparent; isolation: auto; }
+.search-page .product-card__image-link { mix-blend-mode: multiply; }
+.search-page .product-card__image { object-fit: contain; mix-blend-mode: multiply; }
+.search-page .product-card__like { top: 7px; right: 14px; }
+.search-page .product-card__quick-add { right: 7px; bottom: 15px; }
+.search-page .product-card__body { padding-top: 10px; }
+.search-page .product-card__body h3 { font-family: 'Search Dotum', sans-serif; font-size: 18px; font-weight: 500; line-height: 1.5; }
+.search-page .product-card__body p, .search-page .product-card__price { font-family: 'Search Dotum', sans-serif; font-size: 14px; font-weight: 300; line-height: 1.6; }
+.search-page .product-card__badge { display: none; }
+@media (max-width: 1100px) { .search-page .product-grid { gap: 48px 24px; } }
+@media (max-width: 767px) {
+  .search-page { padding: 56px 20px 220px; }
+  .search-page__floral { width: 420px; height: 525px; left: -220px; top: -90px; opacity: .35; }
+  .search-page__heading h1 { font-size: 48px; }
+  .search-page__field { margin-top: 32px; padding-inline: 18px; gap: 12px; }
+  .search-page__field input { font-size: 16px; }
+  .search-page__divider { margin-top: 60px; }
+  .search-page__count { margin-bottom: 36px; }
+  .search-page .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 16px; }
+  .search-page .product-card__body h3 { font-size: 16px; }
+  .search-page .product-card__like { right: 0; }
+  .search-page .product-card__quick-add { right: 0; bottom: 0; }
+}

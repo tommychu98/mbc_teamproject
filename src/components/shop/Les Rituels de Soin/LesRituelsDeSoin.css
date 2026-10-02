@@ -13,3 +13,4 @@
   .rituels-shop { padding: 24px 16px 48px; }
   .rituels-shop__header { padding: 40px 0; }
 }
+.rituels-shop__price-note { margin: 0 0 20px; color: #666; font-size: 13px; line-height: 1.5; }
