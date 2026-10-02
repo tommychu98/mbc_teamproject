@@ -1,0 +1,202 @@
+[
+    {
+        "sku":  "bainblot",
+        "handle":  "body-care-nurturing-cleansing-gel-bainblot",
+        "title":  "Nurturing cleansing gel - For body and hair",
+        "price":  85,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/GELEE-LAVANTE-BIENFAISANTE_350ML_LES-RITUELS-DE-SOIN-2026_BAINBLOT_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/GELEE-LAVANTE-BIENFAISANTE_350ML_LES-RITUELS-DU-SOIN-2026_BAINBLOT_RVB_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "bainmilk",
+        "handle":  "body-care-comforting-moisturising-lotion-bainmilk",
+        "title":  "Comforting moisturizing lotion - For the body",
+        "price":  98,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/LAIT-HYDRATANT-RECONFORTANT_350ML_LES-RITUELS-DE-SOIN-2026_BAINMILK_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/LAIT-HYDRATANT-RECONFORTANT_350ML_LES-RITUELS-DU-SOIN-2026_BAINMILK_RVB_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "matin190",
+        "handle":  "scented-candles-le-matin-classic-candle-matin190",
+        "title":  "Le Matin - Classic Candle",
+        "price":  90,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOUGIE-CLASSIQUE-LE-MATIN_190G_RITUEL-DU-SOIN-2026_MATIN190_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE_085ce950-ee14-48db-bc3d-c40fcbc32c3b.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOUGIE-CLASSIQUE-LE-MATIN_190G_LES-RITUELS-DE-SOIN-2026_MATIN190_RVB_HD_FOND-BLANC_SPEC-ECOM_2292x3055px_2_DIPTYQUE_d5543c18-9922-4164-a7d0-506db9a7d045.jpg?v=1781571464"
+    },
+    {
+        "sku":  "soir190",
+        "handle":  "scented-candles-le-soir-classic-candle-soir190",
+        "title":  "Le Soir - Classic Candle",
+        "price":  90,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOUGIE-CLASSIQUE-LE-SOIR_190G_RITUEL-DU-SOIN-2026_SOIR190_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOUGIE-CLASSIQUE-LE-SOIR_190G_LES-RITUELS-DE-SOIN-2026_MATIN190_RVB_BD_FOND-BLANC_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571463"
+    },
+    {
+        "sku":  "baisatinoil",
+        "handle":  "body-care-perfecting-satin-oil-baisatinoil",
+        "title":  "Perfecting satin oil - For body and hair",
+        "price":  88,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/HUILE-LEGERE-EMBELISSANTE_100ML_LES-RITUELS-DE-SOIN-2026_BAISATINOIL_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE_7708df75-ac8b-4fac-b9ae-a9bd72350ee0.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/HUILE-LEGERE-EMBELISSANTE_100ML_LES-RITUELS-DE-SOIN-2026_BAISATINOIL_RVB_FOND-BLANC_SPEC-ECOM_2292x2055px_2_DIPTYQUE_9951a9b1-af2c-4082-9149-30c304485df8.jpg?v=1781571464"
+    },
+    {
+        "sku":  "bainoilin",
+        "handle":  "body-care-relaxing-oil-in-oil-for-the-body-bainoilin",
+        "title":  "Relaxing oil-in-oil - For the body",
+        "price":  88,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/HUILE-EN-HUILE-RELAXANTE_100ML_LES-RITUELS-DE-SOIN-2026_BAINOILIN_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/HUILE-EN-HUILE-RELAXANTE_100ML_LES-RITUELS-DE-SOIN-2026_BAINOILIN_RVB_FOND-BLANC_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316535"
+    },
+    {
+        "sku":  "matinset",
+        "handle":  "energizing-morning-ritual-discovery-set-matinset",
+        "title":  "Energizing morning ritual - Discovery set",
+        "price":  92,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RITUEL-DECOUVERTE-ENERGISANT-DU-MATIN_LES-RITUELS-DE-SOIN-2026_MATINSET_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316536",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RITUEL-DECOUVERTE-ENERGISANT-DU-MATIN_LES-RITUELS-DE-SOIN-2026_MATINSET_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE_7ffec30a-781a-43bb-b2dd-5c205e3a4c35.jpg?v=1785481660"
+    },
+    {
+        "sku":  "nuitset",
+        "handle":  "soothing-evening-ritual-discovery-set-nuitset",
+        "title":  "Soothing evening ritual - Discovery set",
+        "price":  92,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RITUEL-DECOUVERTE-APAISANT-DU-SOIR_LES-RITUELS-DE-SOIN-2026_NUITSET_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RITUEL-DECOUVERTE-APAISANT-DU-SOIR_LES-RITUELS-DE-SOIN-2026_NUITSET_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316536"
+    },
+    {
+        "sku":  "bainlipwax",
+        "handle":  "body-care-lip-wax-refillable-bainlipwax",
+        "title":  "Lip wax - Refillable",
+        "price":  70,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/CIRE-A-LEVRES_7G_RITUEL-DU-SOIN-2026_BAINLIPWAX_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/CIRE-A-LEVRES_7G_RITUEL-DU-SOIN-2026_BAINLIPWAX_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316535"
+    },
+    {
+        "sku":  "bainscrub",
+        "handle":  "body-care-invigorating-scrub-for-the-body-bainscrub",
+        "title":  "Invigorating scrub - For the body",
+        "price":  98,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/POMMADE-GOMMANTE-VIVIFIANTE_200ML_RITUEL-DU-SOIN-2026_BAINSCRUB_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/POMMADE-GOMMANTE-VIVIFIANTE_200ML_RITUEL-DU-SOIN-2026_BAINSCRUB_RVB_FOND-F8F8F8_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316535"
+    },
+    {
+        "sku":  "bainbbalm",
+        "handle":  "body-care-rich-soothing-balm-bainbbalm",
+        "title":  "Rich soothing balm - For the body",
+        "price":  115,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BAUME-RICHE-APAISANTE_200ML_RITUEL-DU-SOIN-2026_BAINBBALM_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BAUME-RICHE-APAISANTE_200ML_RITUEL-DU-SOIN-2026_BAINBBALM_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316536"
+    },
+    {
+        "sku":  "rbainmilk",
+        "handle":  "body-care-refill-comforting-moisturising-lotion-rbainmilk",
+        "title":  "Refill Comforting moisturizing lotion - For the body",
+        "price":  78,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RECHARGE-LAIT-HYDRATANT-RECONFORTANT_350ML_RITUEL-DU-SOIN-2026_RBAINMILK_RVB_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/LAIT-HYDRATANT-RECONFORTANT_350ML_LES-RITUELS-DE-SOIN-2026_BAINMILK_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_3_DIPTYQUE_46bce227-c103-4f37-bf22-9133f4213e77.jpg?v=1787731867"
+    },
+    {
+        "sku":  "rbainlipwax",
+        "handle":  "body-care-lip-wax-refill-rbainlipwax",
+        "title":  "Lip wax - Refill",
+        "price":  38,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RECHARGE-CIRE-A-LEVRES_7G_RITUEL-DU-SOIN-2026_RBAINLIPWAX_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RECHARGE-CIRE-A-LEVRES_7G_RITUEL-DU-SOIN-2026_RBAINLIPWAX_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316535"
+    },
+    {
+        "sku":  "baintool",
+        "handle":  "body-care-gua-sha-for-the-body-baintool",
+        "title":  "Gua Sha - For the body",
+        "price":  80,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/GUA-SHA_RITUEL-DU-SOIN-2026_BAINTOOL_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/GUA-SHA_RITUEL-DU-SOIN-2026_BAINTOOL_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316535"
+    },
+    {
+        "sku":  "bainsponge",
+        "handle":  "body-care-natural-soft-sponge-for-the-body-bainsponge",
+        "title":  "Natural soft sponge - For the body",
+        "price":  45,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/EPONGE_RITUEL-DU-SOIN-2026_BAINSPONGE_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/EPONGE_RITUEL-DU-SOIN-2026_BAINSONGE_RVB_FOND-F8F8F8_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316535"
+    },
+    {
+        "sku":  "bainbrush",
+        "handle":  "body-care-dry-brush-for-the-body-bainbrush",
+        "title":  "Dry brush - For the body",
+        "price":  72,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BROSSE-DRAINANTE_RITUEL-DU-SOIN-2026_BAINBRUSH_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BROSSE-DRAINANTE_RITUEL-DU-SOIN-2026_BAINBRUSH_RVB_HD_FOND-F8F8F8_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1782316535"
+    },
+    {
+        "sku":  "deco01583",
+        "handle":  "home-decor-shell-pocket-mirror-black-deco01583",
+        "title":  "Shell Pocket Mirror - Black",
+        "price":  128,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/MIROIR-DE-POCHE-OVALE-NOIR_BEAUTY-ACCESSORIES-2025_DECO01583_RVB_BD_FOND-GRIS_SPEC-ECOM_3055x2292_4x3_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/MIROIR-DE-POCHE-OVALE-NOIR_BEAUTY-ACCESSORIES-2025_DECO01583_RVB_BD_FOND-GRIS_SPEC-ECOM_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "deco01698",
+        "handle":  "home-decor-shell-pocket-mirror-white-deco01698",
+        "title":  "Shell Pocket Mirror - White",
+        "price":  128,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/MIROIR-OVALE-BLANC_ACCESSOIRES-DE-BEAUTE-2026_DECO01698_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/MIROIR-OVALE-BLANC_ACCESSOIRES-DE-BEAUTE-2026_DECO01698_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "deco01677",
+        "handle":  "home-decor-toiletry-bag-oval-deco01677",
+        "title":  "Toiletry Bag - Oval",
+        "price":  170,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/TROUSSE-VOYAGE_ACCESSOIRES-DE-BEAUTE-2026_DECO01677_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/TROUSSE-VOYAGE_ACCESSOIRES-DE-BEAUTE-2026_DECO01677_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "deco01669",
+        "handle":  "home-decor-apothecary-jar-small-deco01669",
+        "title":  "Apothecary Jar - Small",
+        "price":  165,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/POT-PHARMACIE-S_ACCESSOIRES-DE-BEAUTE-2026_DECO01669_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE_db0f55a4-c961-4290-8516-a09675cfd8c8.jpg?v=1781571463",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/POT-PHARMACIE-S_ACCESSOIRES-DE-BEAUTE-2026_DECO01669_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE_4848cb32-e41d-452f-af56-b4ab615053a8.jpg?v=1781571463"
+    },
+    {
+        "sku":  "deco01670",
+        "handle":  "home-decor-apothecary-jar-medium-deco01670",
+        "title":  "Apothecary Jar - Medium",
+        "price":  185,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/POT-PHARMACIE-M_ACCESSOIRES-DE-BEAUTE-2026_DECO01670_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571463",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/POT-PHARMACIE-M_ACCESSOIRES-DE-BEAUTE-2026_DECO01670_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571463"
+    },
+    {
+        "sku":  "deco01676",
+        "handle":  "home-decor-mirror-box-oval-deco01676",
+        "title":  "Mirror Box - Oval",
+        "price":  340,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOITE-MIROIR_ACCESSOIRES-DE-BEAUTE-2026_DECO01676_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOITE-MIROIR_ACCESSOIRES-DE-BEAUTE-2026_DECO01676_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "deco01675",
+        "handle":  "home-decor-tissue-box-mediterranean-essences-deco01675",
+        "title":  "Tissue Box - Mediterranean Essences",
+        "price":  315,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOITE-A-MOUCHOIRS_ACCESSOIRES-DE-BEAUTE-2026_DECO01675_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571463",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/BOITE-A-MOUCHOIRS_ACCESSOIRES-DE-BEAUTE-2026_DECO01675_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "deco01673",
+        "handle":  "home-decor-oval-tray-mediterranean-essences-deco01673",
+        "title":  "Oval Tray - Mediterranean Essences",
+        "price":  235,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/PLATEAU-OVALE_ACCESSOIRES-DE-BEAUTE-2026_DECO01673_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1781571464",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/PLATEAU-OVALE_ACCESSOIRES-DE-BEAUTE-2026_DECO01673_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_2_DIPTYQUE.jpg?v=1781571464"
+    },
+    {
+        "sku":  "rbainblot",
+        "handle":  "body-care-refill-nurturing-cleansing-gel-rbainblot",
+        "title":  "Refill Nurturing cleansing gel - For body and hair",
+        "price":  60,
+        "image":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/RECHARGE-GELEE-LAVANTE-BIENFAISANTE_350ML_RITUEL-DU-SOIN-2026_RBAINBLOT_RVB_FOND-F8F8F8_SPEC-ECOM_2292x3055px_1_DIPTYQUE.jpg?v=1782316535",
+        "hoverImage":  "https://cdn.shopify.com/s/files/1/0991/4784/1850/files/GELEE-LAVANTE-BIENFAISANTE_350ML_LES-RITUELS-DE-SOIN-2026_BAINBLOT_RVB_FOND-GRIS_SPEC-ECOM_2292x3055px_3_DIPTYQUE_28a519e1-de46-40d4-80ac-fe2607b466a0.jpg?v=1787731866"
+    }
+]

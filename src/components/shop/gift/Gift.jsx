@@ -1,5 +1,9 @@
-import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../../store/useAuthStore';
+import { useWishlistStore } from '../../../store/useWishlistStore';
+import { getProductById } from '../services/productService';
+import activeHeart from '../product-line/fragrances/ProductCard/assets/heart-active.svg';
 import {
     ProductLineBackMain,
     ProductLineExplore,
@@ -11,6 +15,13 @@ import './Gift.css';
 const ASSET_PATH = '/images/gift';
 const GIFT_SET_ROUTE = '/shop/gifts/gift-sets';
 const GIFT_VIDEO_START = 1;
+const EMPTY_WISHLIST = [];
+const GIFT_PRODUCT_IDS = {
+    'gift-set-03.png': 'exclusive-lilyphea-100ml',
+    'gift-set-04.png': 'rituels-matinset',
+    'gift-set-05.png': 'shinsegae-candle-home-260415153487399',
+    'gift-set-06.png': 'shinsegae-candle-home-260311147198450',
+};
 
 const heroImages = [
     { file: 'hero-01.png', className: 'gift-page__hero-image--one' },
@@ -129,13 +140,27 @@ function GiftBoutique() {
 
 function GiftCard({ product }) {
     const [image, name, type] = product;
+    const catalogProduct = getProductById(GIFT_PRODUCT_IDS[image]);
+    const { user, isAuthenticated } = useAuthStore();
+    const ids = useWishlistStore((state) => state.byUser[user?.id] ?? EMPTY_WISHLIST);
+    const toggle = useWishlistStore((state) => state.toggle);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [motion, setMotion] = useState(0);
+    const liked = catalogProduct && ids.includes(catalogProduct.id);
+    const handleLike = () => {
+        if (!catalogProduct) return;
+        if (!isAuthenticated) { navigate('/login', { state: { from: location.pathname } }); return; }
+        toggle(user.id, catalogProduct.id);
+        setMotion((value) => value + 1);
+    };
     return (
         <article className="gift-page__card">
             <Link className="gift-page__card-link" to={GIFT_SET_ROUTE} aria-label={`${name} Gift Set 보기`}>
                 <span className="gift-page__card-image"><img src={`${ASSET_PATH}/${image}`} alt="" /></span>
                 <span className="gift-page__card-copy"><strong>{name}</strong><small>{type}</small></span>
             </Link>
-            <button className="gift-page__heart" type="button" aria-label={`${name} 찜하기`}><img src={`${ASSET_PATH}/heart.svg`} alt="" /></button>
+            <button className="gift-page__heart" type="button" disabled={!catalogProduct} aria-label={`${name} ${!catalogProduct ? '상품 연결 준비 중' : liked ? '찜 취소' : '찜하기'}`} aria-pressed={Boolean(liked)} onClick={handleLike}><img key={motion} className={motion ? 'gift-page__heart-motion' : ''} src={liked ? activeHeart : `${ASSET_PATH}/heart.svg`} alt="" /></button>
         </article>
     );
 }

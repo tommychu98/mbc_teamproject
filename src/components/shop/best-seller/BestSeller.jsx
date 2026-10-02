@@ -1,42 +1,19 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import ProductGrid from '../product-line/fragrances/ProductGrid';
-import { getProducts } from '../../../services/productService';
+import CollectionCatalog from '../CollectionCatalog';
+import { getProducts } from '../services/productService';
+import { BEST_SELLER_NAMES, BEST_SELLER_DATE } from '../data/products/bestSellers';
 import './BestSeller.css';
 
 export default function BestSeller() {
-  const [sort, setSort] = useState('recommended');
-  const products = useMemo(() => {
-    const items = getProducts().filter((product) => product.badge === 'Best-seller');
-    if (sort === 'price-asc') items.sort((a, b) => a.price - b.price);
-    if (sort === 'price-desc') items.sort((a, b) => b.price - a.price);
-    return items;
-  }, [sort]);
+  const catalog = getProducts();
+  const products = BEST_SELLER_NAMES.map((name, index) => {
+    const product = catalog.find((item) => item.name === name);
+    return product ? { ...product, bestSellerRank: index + 1 } : null;
+  }).filter(Boolean);
 
-  return (
-    <main className="best-seller-shop">
-      <div className="best-seller-shop__container">
-        <nav className="best-seller-shop__breadcrumb" aria-label="현재 위치">
-          <Link to="/shop">Shop</Link><span aria-hidden="true">/</span>
-          <span aria-current="page">Best Sellers</span>
-        </nav>
-        <header className="best-seller-shop__header">
-          <p>The Collection</p>
-          <h1>Best Sellers</h1>
-          <p>많은 사랑을 받은 딥티크의 향기로운 크리에이션을 만나보세요.</p>
-        </header>
-        <div className="best-seller-shop__toolbar">
-          <p aria-live="polite">총 {products.length}개의 상품</p>
-          <label>정렬
-            <select value={sort} onChange={(event) => setSort(event.target.value)}>
-              <option value="recommended">추천순</option>
-              <option value="price-asc">낮은 가격순</option>
-              <option value="price-desc">높은 가격순</option>
-            </select>
-          </label>
-        </div>
-        <ProductGrid products={products} variant="catalog" />
-      </div>
-    </main>
-  );
+  return <CollectionCatalog
+    title="Best Sellers"
+    products={products}
+    ranked
+    note={`신세계V 인기상품순 TOP 20 · ${BEST_SELLER_DATE} 기준`}
+  />;
 }

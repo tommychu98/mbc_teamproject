@@ -93,3 +93,8 @@
   .gift-page__hero-copy > p:first-child { font-size: 100px; }
   .gift-page__hero-copy > p:last-child { font-size: 75px; }
 }
+.gift-page__heart:disabled { opacity: .35; cursor: default; }
+.gift-page__heart:focus-visible { outline: 2px solid #222; outline-offset: 3px; }
+.gift-page__heart-motion { animation: gift-heart-pop 400ms ease-out; }
+@keyframes gift-heart-pop { 0% { transform: scale(.8); } 45% { transform: scale(1.2); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .gift-page__heart-motion { animation: none; } }
