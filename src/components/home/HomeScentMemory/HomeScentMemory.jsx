@@ -9,8 +9,13 @@ const MEMORY_LINES = [
 ];
 const CHARACTER_COUNT = MEMORY_LINES.join('').replaceAll(' ', '').length;
 const clamp = (value) => Math.min(1, Math.max(0, value));
-const INK_SPREAD = 3;
-const INK_LERP = 0.1;
+const INK_SPREAD = 8;
+const INK_LERP = 0.045;
+const INK_START_PROGRESS = 0.2;
+const INK_END_PROGRESS = 0.95;
+// Preserve the existing transition distance (2.295 viewports × 94%),
+// extend it by 1.9, and fit it between the opening hold and final hold.
+const SCROLL_RANGE_MULTIPLIER = (2.295 * 0.94 * 1.9) / (INK_END_PROGRESS - INK_START_PROGRESS);
 const smoothstep = (value) => value * value * (3 - 2 * value);
 
 function MemoryLines() {
@@ -53,7 +58,10 @@ export default function HomeScentMemory() {
             if (renderedProgress === null || reducedMotion.matches) renderedProgress = progress;
             else renderedProgress += (progress - renderedProgress) * damping;
             if (Math.abs(progress - renderedProgress) < 0.00001) renderedProgress = progress;
-            const position = renderedProgress * (CHARACTER_COUNT - 1 + INK_SPREAD);
+            // Hold grey for the first 20%, then reveal ink slowly in either
+            // direction, leaving a short black hold before sticky releases.
+            const inkProgress = clamp((renderedProgress - INK_START_PROGRESS) / (INK_END_PROGRESS - INK_START_PROGRESS));
+            const position = inkProgress * (CHARACTER_COUNT - 1 + INK_SPREAD);
 
             characters.forEach((character, index) => {
                 // Overlapping character ramps let the feather travel through
@@ -74,7 +82,7 @@ export default function HomeScentMemory() {
         const measure = () => {
             const stageHeight = stage.offsetHeight;
             section.style.setProperty('--memory-stage-height', `${stageHeight}px`);
-            section.style.setProperty('--memory-scroll-distance', `${Math.max(window.innerHeight, stageHeight)}px`);
+            section.style.setProperty('--memory-scroll-distance', `${Math.max(window.innerHeight, stageHeight) * SCROLL_RANGE_MULTIPLIER}px`);
             schedulePaint();
         };
 
