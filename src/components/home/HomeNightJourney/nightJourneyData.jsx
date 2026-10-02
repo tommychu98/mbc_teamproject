@@ -28,8 +28,12 @@ import element42 from './assets/element-42.png';
 
 // Coordinates are the original 1920 × 1080 Figma slots. The outer rectangle
 // matches the rotated layer bounds; the image keeps its original unrotated size.
+const flowerAssets = new Set([element20, element29, element59, element50, element42]);
+const leafAssets = new Set([element08, element03]);
+const botanicalAssets = new Set([element56, element52, element45, element57, element28, element07]);
 const particle = (src, x, y, width, height, rotation = 0, opacity = 0.6, imageWidth = width, imageHeight = height) => ({
     src, x, y, width, height, rotation, opacity, imageWidth, imageHeight,
+    motionType: flowerAssets.has(src) ? 'flower' : leafAssets.has(src) ? 'leaf' : botanicalAssets.has(src) ? 'botanical' : 'petal',
 });
 
 export const nightJourneyPanels = [

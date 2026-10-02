@@ -45,6 +45,8 @@
 
 .night-journey__panel:first-child .night-journey__canvas {
     top: 0;
+    /* Match the preceding section's content width, excluding the scrollbar. */
+    left: calc(960px * var(--night-journey-scale, 1));
     transform: translateX(-50%) scale(var(--night-journey-scale, 1));
     transform-origin: top center;
 }
@@ -178,6 +180,30 @@
 }
 
 .night-journey__particle img { flex: none; object-fit: cover; }
+.night-journey__wind {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+}
+.night-journey__wind { will-change: transform; }
+.night-journey__wind[data-motion-type='botanical'] { transform-origin: 50% 15%; }
+/* This image continues the fixed artwork clipped by HomeNightRitual.
+   Keep its original coordinate system; independent wind belongs to particles. */
+.night-journey__wind--branch {
+    transform: none !important;
+    will-change: auto;
+}
+/* Attached Con6 fragments have one visible transform owner. Keep the ambient
+   wrappers/indices intact so every free-floating flight retains its seed. */
+.night-journey__wind[data-attached-wind] { transform: none !important; }
+.night-journey__botanical-response {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+}
 .night-journey__mobile { display: none; }
 
 @media (max-width: 767px) {
