@@ -4,7 +4,7 @@ import woman from './assets/woman.png';
 import floralOverlay from './assets/floral-overlay.png';
 import leftFloral from './assets/left-floral.png';
 import rightFloral from './assets/right-floral.png';
-import foregroundLeaf from './assets/foreground-leaf.png';
+import foregroundLeaf from './assets/leaf-flight.png';
 import topLemon from './assets/top-lemon.png';
 import bird from './assets/bird.png';
 import bathObjects from './assets/bath-objects.png';
@@ -12,13 +12,16 @@ import morningRule from './assets/rule-morning.svg';
 import sensorialRule from './assets/rule-sensorial.svg';
 import buttonArrow from './assets/button-arrow.svg';
 import './HomeDayRitual.css';
+import useLeafExit from './useLeafExit';
 
 const DESIGN_WIDTH = 1920;
 
 /** Standalone desktop section based on Figma node 2863:8282. */
 export default function HomeDayRitual({ collectionHref = '/shop/new-season/les-rituels-de-soin' }) {
     const containerRef = useRef(null);
+    const leafRef = useRef(null);
     const [scale, setScale] = useState(1);
+    useLeafExit(containerRef, leafRef, scale);
 
     useLayoutEffect(() => {
         const container = containerRef.current;
@@ -44,7 +47,7 @@ export default function HomeDayRitual({ collectionHref = '/shop/new-season/les-r
                 <div className="home-day-ritual__floral-overlay"><img src={floralOverlay} alt="" draggable="false" /></div>
                 <div className="home-day-ritual__left-floral"><img src={leftFloral} alt="" draggable="false" /></div>
                 <div className="home-day-ritual__right-floral"><img src={rightFloral} alt="" draggable="false" /></div>
-                <div className="home-day-ritual__foreground-leaf"><img src={foregroundLeaf} alt="" draggable="false" /></div>
+                <div className="home-day-ritual__foreground-leaf" ref={leafRef} data-node-id="2863:8288" data-name="leaf"><img src={foregroundLeaf} alt="" draggable="false" /></div>
 
                 <img className="home-day-ritual__top-lemon" src={topLemon} alt="" draggable="false" />
                 <img className="home-day-ritual__bird" src={bird} alt="" draggable="false" />
