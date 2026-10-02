@@ -45,6 +45,7 @@ import BoardFormPage from './pages/mypage/community/form';
 import MyPageInquiryPage from './pages/mypage/community/inquiry';
 import MyPageProductInquiryPage from './pages/mypage/community/product-inquiry';
 import './App.css';
+import './components/mypage/MyPageSpacing.css';
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -56,10 +57,10 @@ function ScrollToTop() {
 
 const protectedPage = (element) => <ProtectedRoute>{element}</ProtectedRoute>;
 const protectedMyPage = (element, active) => protectedPage(
-    <>
-        <div className="container"><MyPageHeader active={active} /></div>
+    <div className="mypage-layout">
+        <div className="container mypage-layout__header"><MyPageHeader active={active} /></div>
         {element}
-    </>,
+    </div>,
 );
 
 export default function App() {
@@ -134,7 +135,7 @@ export default function App() {
                         path="/inquiries/:inquiryId"
                         element={protectedPage(<InquiryDetailPage />)}
                     />
-                    <Route path="/mypage" element={protectedPage(<MyPage />)} />
+                    <Route path="/mypage" element={protectedMyPage(<MyPage />, 'mypage')} />
                     <Route path="/mypage/orders" element={protectedMyPage(<OrdersPage />, 'orders')} />
                     <Route
                         path="/mypage/orders/payment-methods"
@@ -155,11 +156,11 @@ export default function App() {
                     <Route path="/mypage/profile" element={protectedMyPage(<ProfileEditPage />, 'profile')} />
                     <Route
                         path="/mypage/community/inquiry"
-                        element={protectedPage(<MyPageInquiryPage />)}
+                        element={protectedMyPage(<MyPageInquiryPage />, 'community')}
                     />
                     <Route
                         path="/mypage/community/product-inquiry"
-                        element={protectedPage(<MyPageProductInquiryPage />)}
+                        element={protectedMyPage(<MyPageProductInquiryPage />, 'community')}
                     />
                     <Route
                         path="/mypage/posts"

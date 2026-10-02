@@ -1,0 +1,44 @@
+/* Match OrderHistory's upper rhythm without relying on collapsed margins.
+   Global Header clearance remains owned by .app__main. */
+.mypage-layout {
+  --mypage-title-gap: var(--space-3);
+  --mypage-primary-nav-gap: var(--space-8);
+  --mypage-secondary-nav-gap: var(--space-10);
+  --mypage-content-gap: var(--space-10);
+}
+
+.mypage-layout > .mypage-layout__header {
+  box-sizing: border-box;
+  display: flow-root;
+  padding-top: var(--mypage-title-gap);
+}
+.mypage-layout .mypage-header__title { margin-block: 0; }
+.mypage-layout .mypage-header__nav {
+  margin-block: var(--mypage-primary-nav-gap) 0;
+}
+
+/* Keep child widths, bottom spacing and all content styles intact. */
+.mypage-layout > main {
+  box-sizing: border-box;
+  display: flow-root;
+  padding-top: 0;
+}
+.mypage-layout > main > :is(.orders-nav, .community-nav) {
+  margin-top: var(--mypage-secondary-nav-gap);
+}
+.mypage-layout > main > :is(.orders-nav, .community-nav) + * {
+  padding-top: var(--mypage-content-gap);
+}
+/* OrderHistory has an extra content wrapper; apply the gap only once. */
+.mypage-layout > .order-history > .order-history__content { padding-top: 0; }
+.mypage-layout .order-history__intro { padding-top: var(--mypage-content-gap); }
+.mypage-layout > .mypage > .mypage__dashboard {
+  margin-top: var(--mypage-content-gap);
+}
+.mypage-layout > :is(.profile-edit, .board-page, .orders-page) {
+  padding-top: var(--mypage-content-gap);
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .mypage-layout { --mypage-secondary-nav-gap: var(--space-12); }
+}
