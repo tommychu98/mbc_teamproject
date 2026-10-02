@@ -28,7 +28,7 @@ export default function Notice() {
         <p className="notice-page__eyebrow">Contact us</p>
         <h1 id="notice-title">공지사항</h1>
         <p className="notice-page__description">
-          딥디크의 새로운 소식과 서비스 안내.
+          딥디크의 새로운 소식과 서비스 안내
         </p>
       </header>
       <table className="notice-page__table">
@@ -57,7 +57,7 @@ export default function Notice() {
                   index + 1
                 )}
               </td>
-              <td>{title}</td>
+              <td className="notice-page__subject">{title}</td>
               <td className="notice-page__date">
                 <time dateTime="2026-09-17">2026. 9. 17.</time>
               </td>
