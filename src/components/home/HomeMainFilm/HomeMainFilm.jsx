@@ -5,10 +5,7 @@ import './HomeMainFilm.css';
 export default function HomeMainFilm() {
     const videoRef = useRef(null);
     const sectionRef = useRef(null);
-    const stageRef = useRef(null);
-    const frameRef = useRef(null);
-    const backdropRef = useRef(null);
-    useFilmTransition(sectionRef, stageRef, frameRef, backdropRef);
+    useFilmTransition(sectionRef);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -16,7 +13,7 @@ export default function HomeMainFilm() {
         let isVisible = false;
 
         const syncPlayback = () => {
-            if (reducedMotion.matches || !isVisible || frameRef.current.dataset.visible !== 'true') {
+            if (reducedMotion.matches || !isVisible) {
                 video.pause();
                 return;
             }
@@ -32,23 +29,19 @@ export default function HomeMainFilm() {
         );
 
         observer.observe(video);
-        const visibilityObserver = new MutationObserver(syncPlayback);
-        visibilityObserver.observe(frameRef.current, { attributes: true, attributeFilter: ['data-visible'] });
         reducedMotion.addEventListener('change', syncPlayback);
 
         return () => {
             observer.disconnect();
-            visibilityObserver.disconnect();
             reducedMotion.removeEventListener('change', syncPlayback);
             video.pause();
         };
     }, []);
 
     return (
-        <section className="home-main-film" ref={sectionRef} aria-label="Diptyque ritual film" data-scroll-progress="0">
-            <div className="home-main-film__stage" ref={stageRef}>
-                <div className="home-main-film__backdrop" ref={backdropRef} aria-hidden="true" />
-                <div className="home-main-film__frame" ref={frameRef} data-visible="false">
+        <section className="home-main-film" ref={sectionRef} aria-label="Diptyque ritual film">
+            <div className="home-main-film__stage">
+                <div className="home-main-film__frame">
                     <video
                         ref={videoRef}
                         className="home-main-film__video"
