@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import essential from './assets/이미지1.png';
-import signature from './assets/이미지2.png';
-import prestige from './assets/이미지3.png';
-import flowers from './assets/배경1.png';
-import arch from './assets/배경2.png';
-import bird from './assets/배경3.png';
+import essential from './assets/이미지1.png';
+import signature from './assets/이미지2.png';
+import prestige from './assets/이미지3.png';
+import flowers from './assets/배경1.png';
+import arch from './assets/배경2.png';
+import bird from './assets/배경3.png';
 import coins from './assets/coins.svg';
 import gift from './assets/gift.svg';
 import bag from './assets/bag.svg';
 import crown from './assets/crown.svg';
 import ticket from './assets/ticket.svg';
+import divider from './assets/divider.svg';
 import './Membership.css';
 
 const tiers = [
@@ -35,7 +36,7 @@ export default function Membership({ membership = { grade: '일반회원', point
             <div className="membership__decor" aria-hidden="true">
                 <img className="membership__bird" src={bird} alt="" />
                 <img className="membership__arch" src={arch} alt="" />
-                <img className="membership__flowers" src={flowers} alt="" />
+                <div className="membership__flowers"><img src={flowers} alt="" /></div>
             </div>
             <header className="membership__hero">
                 <p className="membership__eyebrow">Contact us</p>
@@ -53,9 +54,9 @@ export default function Membership({ membership = { grade: '일반회원', point
                             <button key={tier.name} type="button" className={`membership__tier${selectedTier === tier.name ? ' membership__tier--selected' : ''}`} aria-pressed={selectedTier === tier.name} onClick={() => setSelectedTier(tier.name)}>
                                 <span className="membership__tier-name">{tier.name}</span>
                                 <span className="membership__tier-label">{tier.label}</span>
-                                <span className="membership__tier-rule" />
+                                <span className="membership__tier-rule"><img src={divider} alt="" /></span>
                                 <span className="membership__tier-description">{tier.lines.map((line) => <span key={line}>{line}</span>)}</span>
-                                <img className="membership__tier-image" src={tier.image} alt="" />
+                                <span className={`membership__tier-image membership__tier-image--${tier.name.toLowerCase()}`}><img src={tier.image} alt="" /></span>
                             </button>
                         ))}
                     </div>
@@ -76,6 +77,7 @@ export default function Membership({ membership = { grade: '일반회원', point
                         <h2 id="membership-summary-title">MY MEMBERSHIP</h2>
                         <dl className="membership__summary-grid">
                             {summary.map((item) => <div className="membership__summary-item" key={item.label}>
+                                <img className="membership__summary-divider" src={divider} alt="" />
                                 <span className="membership__icon"><img src={item.icon} alt="" /></span>
                                 <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
                             </div>)}
