@@ -24,6 +24,7 @@ import GalerieAnother from './GalerieAnother';
 import GalerieFooter from './GalerieFooter';
 import GalerieHeroPetals from './GalerieHeroPetals';
 import './GalerieContent.css';
+import './GalerieNavigation.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,6 +109,54 @@ export default function GalerieContent() {
         return () => media.revert();
     }, []);
 
+    useLayoutEffect(() => {
+        const page = rootRef.current.closest('.galerie-page');
+        const media = gsap.matchMedia();
+
+        media.add('(prefers-reduced-motion: no-preference)', () => {
+            page.querySelectorAll('.galerie-chapter-intro').forEach((intro) => {
+                const background = intro.querySelector('picture');
+                const stage = intro.querySelector('.galerie-chapter-intro__stage');
+                const text = intro.querySelector('.galerie-chapter-intro__text');
+                const lines = [...text.children];
+                const next = intro.querySelector('.galerie-chapter-intro__next');
+
+                // CSS sticky adds reading time without a pin spacer. Once the
+                // stage scrolls away, offset the title until its dissolve ends.
+                const transition = gsap.timeline({
+                    defaults: { ease: 'none' },
+                    scrollTrigger: {
+                        trigger: intro,
+                        start: 'top top',
+                        end: () => `+=${stage.clientHeight * 2.65}`,
+                        scrub: true,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                transition
+                    .fromTo(background, { '--galerie-mask-shift': '0%' }, {
+                        '--galerie-mask-shift': '125%', duration: 0.55,
+                    }, 0.1)
+                    .fromTo(text, { y: 0 }, {
+                        y: () => stage.clientHeight * 0.85, duration: 0.85 / 2.65,
+                    }, 1.8 / 2.65)
+                    .to(text, { color: '#222222', duration: 0.2 }, 0.2)
+                    .fromTo(lines, { opacity: 1, filter: 'blur(0px)', y: 0 }, {
+                        opacity: 0,
+                        filter: 'blur(6px)',
+                        y: -16,
+                        duration: 0.23,
+                        stagger: 0.03,
+                        ease: 'sine.inOut',
+                    }, 0.58)
+                    .fromTo(next, { opacity: 0.8 }, { opacity: 0, duration: 0.15 }, 0);
+            });
+        }, page);
+
+        return () => media.revert();
+    }, []);
+
     const scrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -157,82 +206,90 @@ export default function GalerieContent() {
             </div>
             </section>
             <section className="galerie-chapter-intro" id="galerie-chapter-one" tabIndex={-1} aria-labelledby="galerie-chapter-one-title">
-                <picture>
-                    <source media="(max-width: 767px)" srcSet={chapterOneMobile} />
-                    <img className="galerie-chapter-intro__image" src={chapterOneForest} alt="" loading="lazy" />
-                </picture>
-                <div className="galerie-chapter-intro__text">
-                    <p className="galerie-chapter-intro__label">Chapter 1</p>
-                    <h2 className="galerie-chapter-intro__title" id="galerie-chapter-one-title">비가 그친 숲</h2>
+                <div className="galerie-chapter-intro__stage">
+                    <picture>
+                        <source media="(max-width: 767px)" srcSet={chapterOneMobile} />
+                        <img className="galerie-chapter-intro__image" src={chapterOneForest} alt="" loading="lazy" />
+                    </picture>
+                    <div className="galerie-chapter-intro__text">
+                        <p className="galerie-chapter-intro__label">Chapter 1</p>
+                        <h2 className="galerie-chapter-intro__title" id="galerie-chapter-one-title">비가 그친 숲</h2>
+                    </div>
+                    <button className="galerie-chapter-intro__next" type="button" aria-label="탐다오 소개로 이동"
+                        onClick={() => {
+                            const target = document.getElementById('galerie-tamdao-content');
+                            target?.focus({ preventScroll: true });
+                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+                        }}>
+                        <img src={scrollDown} alt="" />
+                    </button>
                 </div>
-                <button className="galerie-chapter-intro__next" type="button" aria-label="탐다오 소개로 이동"
-                    onClick={() => {
-                        const target = document.getElementById('galerie-tamdao-content');
-                        target?.focus({ preventScroll: true });
-                        target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                    }}>
-                    <img src={scrollDown} alt="" />
-                </button>
             </section>
             <div className="galerie-tamdao-chapter" id="galerie-tamdao-content" tabIndex={-1}>
                 <GalerieTamDao />
                 <GalerieTamDaoLineup />
             </div>
             <section className="galerie-chapter-intro" id="galerie-chapter-two" tabIndex={-1} aria-labelledby="galerie-chapter-two-title">
-                <picture>
-                    <source media="(max-width: 767px)" srcSet={chapterTwoMobile} />
-                    <img className="galerie-chapter-intro__image" src={eauRose} alt="" loading="lazy" />
-                </picture>
-                <div className="galerie-chapter-intro__text">
-                    <p className="galerie-chapter-intro__label">Chapter 2</p>
-                    <h2 className="galerie-chapter-intro__title" id="galerie-chapter-two-title">장미 향이 머무는 정원</h2>
+                <div className="galerie-chapter-intro__stage">
+                    <picture>
+                        <source media="(max-width: 767px)" srcSet={chapterTwoMobile} />
+                        <img className="galerie-chapter-intro__image" src={eauRose} alt="" loading="lazy" />
+                    </picture>
+                    <div className="galerie-chapter-intro__text">
+                        <p className="galerie-chapter-intro__label">Chapter 2</p>
+                        <h2 className="galerie-chapter-intro__title" id="galerie-chapter-two-title">장미 향이 머무는 정원</h2>
+                    </div>
+                    <button className="galerie-chapter-intro__next" type="button" aria-label="오 로즈 소개로 이동"
+                        onClick={() => {
+                            const target = document.getElementById('galerie-rose-content');
+                            target?.focus({ preventScroll: true });
+                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+                        }}>
+                        <img src={scrollDown} alt="" />
+                    </button>
                 </div>
-                <button className="galerie-chapter-intro__next" type="button" aria-label="오 로즈 소개로 이동"
-                    onClick={() => {
-                        const target = document.getElementById('galerie-rose-content');
-                        target?.focus({ preventScroll: true });
-                        target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                    }}>
-                    <img src={scrollDown} alt="" />
-                </button>
             </section>
             <GalerieEauRose />
             <section className="galerie-chapter-intro galerie-chapter-intro--orange" id="galerie-chapter-three" tabIndex={-1} aria-labelledby="galerie-chapter-three-title">
-                <picture>
-                    <source media="(max-width: 767px)" srcSet={chapterThreeMobile} />
-                    <img className="galerie-chapter-intro__image" src={eauDesSens} alt="" loading="lazy" />
-                </picture>
-                <div className="galerie-chapter-intro__text">
-                    <p className="galerie-chapter-intro__label">Chapter 3</p>
-                    <h2 className="galerie-chapter-intro__title" id="galerie-chapter-three-title">오렌지 향이 번지는 오후</h2>
+                <div className="galerie-chapter-intro__stage">
+                    <picture>
+                        <source media="(max-width: 767px)" srcSet={chapterThreeMobile} />
+                        <img className="galerie-chapter-intro__image" src={eauDesSens} alt="" loading="lazy" />
+                    </picture>
+                    <div className="galerie-chapter-intro__text">
+                        <p className="galerie-chapter-intro__label">Chapter 3</p>
+                        <h2 className="galerie-chapter-intro__title" id="galerie-chapter-three-title">오렌지 향이 번지는 오후</h2>
+                    </div>
+                    <button className="galerie-chapter-intro__next" type="button" aria-label="오 데 썽 소개로 이동"
+                        onClick={() => {
+                            const target = document.getElementById('galerie-sens-content');
+                            target?.focus({ preventScroll: true });
+                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+                        }}>
+                        <img src={scrollDown} alt="" />
+                    </button>
                 </div>
-                <button className="galerie-chapter-intro__next" type="button" aria-label="오 데 썽 소개로 이동"
-                    onClick={() => {
-                        const target = document.getElementById('galerie-sens-content');
-                        target?.focus({ preventScroll: true });
-                        target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                    }}>
-                    <img src={scrollDown} alt="" />
-                </button>
             </section>
             <GalerieEauDesSens />
             <section className="galerie-chapter-intro galerie-chapter-intro--fig" id="galerie-chapter-four" tabIndex={-1} aria-labelledby="galerie-chapter-four-title">
-                <picture>
-                    <source media="(max-width: 767px)" srcSet={chapterFourMobile} />
-                    <img className="galerie-chapter-intro__image" src={chapterFourFig} alt="" loading="lazy" />
-                </picture>
-                <div className="galerie-chapter-intro__text">
-                    <p className="galerie-chapter-intro__label">Chapter 4</p>
-                    <h2 className="galerie-chapter-intro__title" id="galerie-chapter-four-title">햇살 머금은 무화과 나무</h2>
+                <div className="galerie-chapter-intro__stage">
+                    <picture>
+                        <source media="(max-width: 767px)" srcSet={chapterFourMobile} />
+                        <img className="galerie-chapter-intro__image" src={chapterFourFig} alt="" loading="lazy" />
+                    </picture>
+                    <div className="galerie-chapter-intro__text">
+                        <p className="galerie-chapter-intro__label">Chapter 4</p>
+                        <h2 className="galerie-chapter-intro__title" id="galerie-chapter-four-title">햇살 머금은 무화과 나무</h2>
+                    </div>
+                    <button className="galerie-chapter-intro__next" type="button" aria-label="필로시코스 소개로 이동"
+                        onClick={() => {
+                            const target = document.getElementById('galerie-fig-content');
+                            target?.focus({ preventScroll: true });
+                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+                        }}>
+                        <img src={scrollDown} alt="" />
+                    </button>
                 </div>
-                <button className="galerie-chapter-intro__next" type="button" aria-label="필로시코스 소개로 이동"
-                    onClick={() => {
-                        const target = document.getElementById('galerie-fig-content');
-                        target?.focus({ preventScroll: true });
-                        target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                    }}>
-                    <img src={scrollDown} alt="" />
-                </button>
             </section>
             <GaleriePhilosykos />
             <GalerieAnother />

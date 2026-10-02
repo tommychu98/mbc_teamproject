@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef } from 'react';
-import { gsap } from 'gsap';
+import { useRef } from 'react';
+import useDecorationPop from './useDecorationPop';
 import background from './assets/images/shared/tam-dao-background.png';
 import forest from './assets/images/shared/chapter-one-forest.png';
 import bottle from './assets/images/web/tam-dao-bottle.svg';
@@ -18,31 +18,7 @@ const ingredients = [
 export default function GalerieTamDao() {
     const sectionRef = useRef(null);
 
-    useLayoutEffect(() => {
-        const section = sectionRef.current;
-        const media = gsap.matchMedia();
-        media.add('(prefers-reduced-motion: no-preference)', () => {
-            const floats = [...section.querySelectorAll('.galerie-tamdao__float')].map((element, index) => (
-                gsap.to(element, {
-                    y: index % 2 ? 20 : -25,
-                    x: index % 2 ? -7 : 9,
-                    rotation: index % 2 ? -2.8 : 2.8,
-                    duration: 3.2 + index * 0.45,
-                    delay: index * 0.4,
-                    ease: 'sine.inOut',
-                    repeat: -1,
-                    yoyo: true,
-                    paused: true,
-                })
-            ));
-            const observer = new IntersectionObserver(([entry]) => {
-                floats.forEach((animation) => entry.isIntersecting ? animation.play() : animation.pause());
-            });
-            observer.observe(section);
-            return () => observer.disconnect();
-        }, section);
-        return () => media.revert();
-    }, []);
+    useDecorationPop(sectionRef, '.galerie-tamdao__float');
 
     return (
         <section className="galerie-tamdao" ref={sectionRef} aria-labelledby="galerie-tamdao-title">

@@ -31,7 +31,34 @@ main.galerie-page { animation: none; }
     position: relative;
     padding: 48px 24px;
 }
-.galerie-chapter-intro > picture { position: absolute; inset: 0; }
+.galerie-chapter-intro__stage > picture { position: absolute; inset: 0; }
+.galerie-chapter-intro__stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+}
+@media (max-width: 767px) {
+    .galerie-chapter-intro__stage { min-height: 600px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .galerie-chapter-intro {
+        background: var(--color-ivory, #f7f6f4);
+    }
+    .galerie-chapter-intro__stage > picture {
+        --galerie-mask-shift: 0%;
+        background: #8d8d8d;
+        /* Fade the entire photo layer, including its original gray backing. */
+        -webkit-mask-image: linear-gradient(to bottom,
+            #000 calc(100% - var(--galerie-mask-shift)),
+            transparent calc(125% - var(--galerie-mask-shift)));
+        mask-image: linear-gradient(to bottom,
+            #000 calc(100% - var(--galerie-mask-shift)),
+            transparent calc(125% - var(--galerie-mask-shift)));
+    }
+}
 .galerie-chapter-intro__next { display: none; }
 .galerie-chapter-intro--orange .galerie-chapter-intro__image {
     top: -77.78%;
@@ -325,4 +352,24 @@ main.galerie-page { animation: none; }
     .galerie-hero__track { flex-direction: column; gap: 90px; padding: 70px 24px 120px; }
     .galerie-hero__card { flex: none; width: min(64vw, 400px); will-change: auto; }
     .galerie-hero__title { white-space: normal; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .galerie-page :is(#galerie-chapter-one, #galerie-chapter-two, #galerie-chapter-three, #galerie-chapter-four) {
+        --galerie-intro-height: 100svh;
+        display: block;
+        height: calc(var(--galerie-intro-height) * 2.8);
+        min-height: 0;
+        overflow: visible;
+    }
+    .galerie-chapter-intro__stage {
+        position: sticky;
+        top: 0;
+        height: var(--galerie-intro-height);
+    }
+}
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+    .galerie-page :is(#galerie-chapter-one, #galerie-chapter-two, #galerie-chapter-three, #galerie-chapter-four) {
+        --galerie-intro-height: max(100svh, 600px);
+    }
 }

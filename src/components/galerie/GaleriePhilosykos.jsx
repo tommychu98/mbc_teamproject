@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
+import { useRef, useState } from 'react';
+import useDecorationPop from './useDecorationPop';
 import garden from './assets/images/web/chapter-four-fig.png';
 import background from './assets/images/shared/fig-background.png';
 import bottle from './assets/images/shared/fig-bottle.svg';
@@ -37,23 +37,7 @@ const products = [
 export default function GaleriePhilosykos() {
     const rootRef = useRef(null);
     const [favorites, setFavorites] = useState([]);
-    useLayoutEffect(() => {
-        const root = rootRef.current;
-        const media = gsap.matchMedia();
-        media.add('(prefers-reduced-motion: no-preference)', () => {
-            const animations = [...root.querySelectorAll('[data-fig-float]')].map((element, index) => gsap.to(element, {
-                y: index % 2 ? 20 : -25, x: index % 2 ? -7 : 9,
-                rotation: index % 2 ? -2.8 : 2.8, duration: 3.2 + index * 0.45,
-                ease: 'sine.inOut', repeat: -1, yoyo: true, paused: true,
-            }));
-            const observer = new IntersectionObserver(([entry]) => {
-                animations.forEach((animation) => entry.isIntersecting ? animation.play() : animation.pause());
-            });
-            observer.observe(root);
-            return () => observer.disconnect();
-        }, root);
-        return () => media.revert();
-    }, []);
+    useDecorationPop(rootRef, '[data-fig-float]');
 
     return (
         <div className="galerie-fig" id="galerie-fig-content" tabIndex={-1} ref={rootRef}>
@@ -109,7 +93,12 @@ export default function GaleriePhilosykos() {
                                 <div className="galerie-lineup__picture">
                                     <img src={product.image} alt={`PHILOSYKOS ${product.type}`} loading="lazy" />
                                     <button className="galerie-lineup__favorite" type="button" aria-label={`PHILOSYKOS ${product.type} 관심 표시`} aria-pressed={favorites.includes(product.type)}
-                                        onClick={() => setFavorites((current) => current.includes(product.type) ? current.filter((type) => type !== product.type) : [...current, product.type])}>
+                                        onClick={(event) => {
+                                            event.currentTarget.dataset.interacted = 'true';
+                                            setFavorites((current) => current.includes(product.type)
+                                                ? current.filter((type) => type !== product.type)
+                                                : [...current, product.type]);
+                                        }}>
                                         <picture>
                                             <source media="(max-width: 767px)" srcSet={favorites.includes(product.type) ? mobileHeartFilled : mobileHeart} />
                                             <img src={favorites.includes(product.type) ? heartFilled : heart} alt="" />
