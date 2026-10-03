@@ -1,7 +1,8 @@
 .fragrance-world { position: relative; height: 850svh; background: var(--color-bg-primary); }
 .fragrance-world .fragrance-world__label, .fragrance-world .fragrance-world__link { font-family: 'HomeNight Dotum', var(--font-family-sans); }
 .fragrance-world .fragrance-world__text { font-family: 'HomeNight Garamond', var(--font-family-display); }
-.fragrance-world__link { text-decoration: none; }
+.fragrance-world__link { text-decoration: none; transition: color var(--duration-normal) var(--ease-standard); }
+.fragrance-world__link:is(:hover, :focus-visible) { color: var(--color-ink-black); }
 .fragrance-world__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: var(--color-bg-primary); }
 .fragrance-world__canvas { position: absolute; top: 50%; left: 50%; width: 1920px; height: 1200px; isolation: isolate; transform: translate(-50%, -50%) scale(var(--world-scale, 1)); transform-origin: center; }
 .fragrance-world__background { position: absolute; inset: 0; z-index: 0; width: 1920px; height: 1200px; object-fit: contain; transform: scale(var(--world-background-scale, 1)); transform-origin: center; opacity: 1; pointer-events: none; }

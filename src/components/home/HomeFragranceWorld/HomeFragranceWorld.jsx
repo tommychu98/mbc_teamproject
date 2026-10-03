@@ -7,6 +7,8 @@ import bottle from './assets/61c94.png';
 import wood from './assets/6a550.png';
 import flowers from './assets/a3b9e.png';
 import perfume from './assets/de6e1.png';
+import pomegranate from './assets/pomegranate.png';
+import rose from './assets/rose.png';
 import arrow from './assets/eaf6d.svg';
 import './HomeFragranceWorld.css';
 
@@ -22,12 +24,14 @@ const states = [
 ];
 // Figma slots and crops, on the original 1920 × 1200 canvas.
 const images = [
-    { id: '2863:8178', src: orange, x: 329, width: 301, height: 339, start: 0.8, duration: 1.72, damping: 210, drift: 18, turn: 3.4, swell: 0.025, phase: 0.2 },
-    { id: '2863:8179', src: fig, x: 1199, width: 341, height: 384, start: 2.65, duration: 1.86, damping: 255, drift: 25, turn: 4.2, swell: 0.032, phase: 1.4 },
-    { id: '2863:8180', src: bottle, x: 516, width: 156, height: 259, start: 4.55, duration: 1.7, damping: 190, drift: 13, turn: 2.6, swell: 0.02, phase: 2.3, crop: true },
-    { id: '2863:8187', src: wood, x: 320, width: 236, height: 344, start: 8.5, duration: 1.78, damping: 235, drift: 22, turn: 4.6, swell: 0.028, phase: 0.8 },
-    { id: '2863:8188', src: flowers, x: 1119, width: 257, height: 380, start: 10.35, duration: 1.9, damping: 275, drift: 27, turn: 3.8, swell: 0.035, phase: 1.9 },
-    { id: '2863:8189', src: perfume, x: 1247.04, width: 149.952, height: 253.92, start: 12.28, duration: 1.72, damping: 205, drift: 14, turn: 2.8, swell: 0.022, phase: 2.7 },
+    { id: '2863:8178', src: orange, x: 329, width: 301, height: 339, start: -0.6, duration: 3.9, damping: 210, drift: 18, turn: 3.4, swell: 0.025, phase: 0.2 },
+    { id: '2863:8179', src: fig, x: 1199, width: 341, height: 384, start: 1.2, duration: 4, damping: 255, drift: 25, turn: 4.2, swell: 0.032, phase: 1.4 },
+    { id: '2863:8180', src: bottle, x: 516, width: 156, height: 259, start: 3, duration: 3.9, damping: 190, drift: 13, turn: 2.6, swell: 0.02, phase: 2.3, crop: true },
+    { id: '4259:21920', src: pomegranate, x: 508, width: 298, height: 298, start: 4.8, duration: 4.1, damping: 220, drift: 18, turn: 3.2, swell: 0.024, phase: 1.1 },
+    { id: '2863:8187', src: wood, x: 320, width: 236, height: 344, start: 6.6, duration: 4.5, damping: 235, drift: 22, turn: 4.6, swell: 0.028, phase: 0.8 },
+    { id: '2863:8188', src: flowers, x: 1119, width: 257, height: 380, start: 8.4, duration: 4.1, damping: 275, drift: 27, turn: 3.8, swell: 0.035, phase: 1.9 },
+    { id: '2863:8189', src: perfume, x: 1247.04, width: 149.952, height: 253.92, start: 10.2, duration: 4, damping: 205, drift: 14, turn: 2.8, swell: 0.022, phase: 2.7 },
+    { id: '4259:21917', src: rose, x: 607, width: 313, height: 313, start: 12, duration: 4.2, damping: 245, drift: 20, turn: 3.6, swell: 0.028, phase: 2.1 },
 ];
 const clamp = value => Math.max(0, Math.min(1, value));
 const smooth = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
