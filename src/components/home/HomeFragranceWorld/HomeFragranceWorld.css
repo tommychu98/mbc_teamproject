@@ -4,7 +4,7 @@
 .fragrance-world__link { text-decoration: none; }
 .fragrance-world__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: var(--color-bg-primary); }
 .fragrance-world__canvas { position: absolute; top: 50%; left: 50%; width: 1920px; height: 1200px; isolation: isolate; transform: translate(-50%, -50%) scale(var(--world-scale, 1)); transform-origin: center; }
-.fragrance-world__background { position: absolute; inset: 0; z-index: 0; width: 1920px; height: 1200px; object-fit: contain; opacity: 1; pointer-events: none; }
+.fragrance-world__background { position: absolute; inset: 0; z-index: 0; width: 1920px; height: 1200px; object-fit: contain; transform: scale(var(--world-background-scale, 1)); transform-origin: center; opacity: 1; pointer-events: none; }
 .fragrance-world__copy { position: absolute; inset: 0; z-index: 1; }
 .fragrance-world__copy[data-state="1"] { visibility: hidden; opacity: 0; }
 .fragrance-world__label { position: absolute; top: 266px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 10px; margin: 0; white-space: nowrap; font-family: var(--font-family-sans); font-size: 20px; font-weight: 500; line-height: 1.5; letter-spacing: .4px; color: #000; }

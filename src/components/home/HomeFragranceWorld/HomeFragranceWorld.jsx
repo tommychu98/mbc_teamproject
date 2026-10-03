@@ -57,6 +57,8 @@ export default function HomeFragranceWorld() {
             // only outside the viewport, instead of shrinking the entire scene.
             const scale = Math.max(width / 1920, height / 1200);
             root.style.setProperty('--world-scale', scale);
+            // Fit only the botanical background; preserve copy and motion geometry.
+            root.style.setProperty('--world-background-scale', Math.min(width / 1920, height / 1200) / scale);
             const target = clamp(-root.getBoundingClientRect().top / Math.max(1, root.offsetHeight - height));
             const elapsed = previous ? Math.min(64, now - previous) : 16;
             previous = now;
