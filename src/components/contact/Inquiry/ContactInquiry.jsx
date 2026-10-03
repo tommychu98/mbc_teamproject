@@ -1,10 +1,14 @@
 ﻿import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Mail, MessageCircle, Phone } from 'lucide-react';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { useInquiryStore } from '../../../store/useInquiryStore';
 import leftBackground from './assets/bg image1.png';
 import rightBackground from './assets/bg image2.png';
+import chatIcon from './assets/chat.svg';
+import phoneIcon from './assets/phone.svg';
+import mailIcon from './assets/mail.svg';
+import verticalDivider from './assets/divider-vertical.svg';
+import horizontalDivider from './assets/divider-horizontal.svg';
 import './ContactInquiry.css';
 
 export default function ContactInquiry() {
@@ -69,9 +73,11 @@ export default function ContactInquiry() {
         <button className="contact-inquiry__submit" type="submit" disabled={submitting}>{submitting ? '등록 중…' : '문의 하기'}</button>
       </form>
       <aside className="contact-inquiry__support" aria-label="고객센터 안내">
+        <img className="contact-inquiry__vertical-divider" src={verticalDivider} alt="" />
         <h2>고객센터 안내</h2>
-        <dl><div><MessageCircle size={26} aria-hidden="true" /><div><dt>운영시간</dt><dd>평일 9:00 ~ 18:00<br />(주말 공휴일 제외)</dd></div></div><div><Phone size={26} aria-hidden="true" /><div><dt>전화 문의</dt><dd>02 - 1234 - 5678</dd></div></div><div><Mail size={30} aria-hidden="true" /><div><dt>이메일 문의</dt><dd>cs@diptyque.co.kr</dd></div></div></dl>
-        <div className="contact-inquiry__faq"><h2>자주 묻는 질문</h2><p>많이 문의주시는 내용은 FAQ에서<br />빠르게 확인하실 수 있습니다.</p><Link to="/contact/faq">FAQ 바로가기</Link></div>
+        <span className="contact-inquiry__horizontal-divider"><img src={horizontalDivider} alt="" /></span>
+        <dl><div><img src={chatIcon} alt="" /><div><dt>운영시간</dt><dd>평일 9:00 ~ 18:00<br />(주말 공휴일 제외)</dd></div></div><div><img src={phoneIcon} alt="" /><div><dt>전화 문의</dt><dd>02 - 1234 - 5678</dd></div></div><div><img src={mailIcon} alt="" /><div><dt>이메일 문의</dt><dd>cs@diptyque.co.kr</dd></div></div></dl>
+        <div className="contact-inquiry__faq"><span className="contact-inquiry__horizontal-divider"><img src={horizontalDivider} alt="" /></span><h2>자주 묻는 질문</h2><p>많이 문의주시는 내용은 FAQ에서<br />빠르게 확인하실 수 있습니다.</p><Link to="/contact/faq">FAQ 바로가기</Link></div>
       </aside>
     </div>
   </main>;
