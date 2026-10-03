@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
+import { useRef, useState } from 'react';
+import useDecorationPop from './useDecorationPop';
 import sandalwood from './assets/images/shared/sandalwood.png';
 import wood from './assets/images/shared/tam-dao-wood-collage.png';
 import edp from './assets/images/web/tam-dao-edp.png';
@@ -25,33 +25,10 @@ export default function GalerieTamDaoLineup() {
     const rootRef = useRef(null);
     const [favorites, setFavorites] = useState([]);
 
-    useLayoutEffect(() => {
-        const root = rootRef.current;
-        const media = gsap.matchMedia();
-        media.add('(prefers-reduced-motion: no-preference)', () => {
-            const animations = [...root.querySelectorAll('[data-lineup-float]')].map((element, index) => (
-                gsap.to(element, {
-                    y: index ? -25 : 20,
-                    x: index ? 9 : -7,
-                    rotation: index ? 2.8 : -2.8,
-                    duration: index ? 3.6 : 4.5,
-                    ease: 'sine.inOut',
-                    repeat: -1,
-                    yoyo: true,
-                    paused: true,
-                })
-            ));
-            const observer = new IntersectionObserver(([entry]) => {
-                animations.forEach((animation) => entry.isIntersecting ? animation.play() : animation.pause());
-            });
-            observer.observe(root);
-            return () => observer.disconnect();
-        }, root);
-        return () => media.revert();
-    }, []);
+    useDecorationPop(rootRef, '[data-lineup-float]');
 
     return (
-        <section className="galerie-lineup" ref={rootRef} aria-labelledby="galerie-lineup-title">
+        <section className="galerie-lineup galerie-lineup--tamdao" ref={rootRef} aria-labelledby="galerie-lineup-title">
             <div className="galerie-lineup__wood-shavings" aria-hidden="true">
                 <img src={sandalwood} alt="" loading="lazy" data-lineup-float />
             </div>
@@ -73,9 +50,12 @@ export default function GalerieTamDaoLineup() {
                                     type="button"
                                     aria-label={`TAM DAO ${product.type} 관심 표시`}
                                     aria-pressed={favorites.includes(product.type)}
-                                    onClick={() => setFavorites((current) => current.includes(product.type)
-                                        ? current.filter((type) => type !== product.type)
-                                        : [...current, product.type])}
+                                    onClick={(event) => {
+                                        event.currentTarget.dataset.interacted = 'true';
+                                        setFavorites((current) => current.includes(product.type)
+                                            ? current.filter((type) => type !== product.type)
+                                            : [...current, product.type]);
+                                    }}
                                 >
                                     <picture>
                                         <source media="(max-width: 767px)" srcSet={favorites.includes(product.type) ? mobileHeartFilled : mobileHeart} />

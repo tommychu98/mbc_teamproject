@@ -27,6 +27,45 @@
 .galerie-lineup__favorite { position: absolute; right: 7%; top: 6%; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 50%; }
 .galerie-lineup__favorite img { max-width: 32px; height: auto; }
 .galerie-lineup__favorite:focus-visible { outline: 2px solid var(--color-ink-black); outline-offset: -2px; }
+.galerie-lineup__favorite { -webkit-tap-highlight-color: transparent; }
+@media (prefers-reduced-motion: no-preference) {
+    .galerie-lineup__favorite > picture {
+        display: block;
+        transition: transform 120ms ease-out;
+    }
+    .galerie-lineup__favorite:active > picture { transform: scale(0.82); }
+    .galerie-lineup__favorite[data-interacted="true"][aria-pressed="true"] img {
+        animation: galerie-heart-pop 420ms ease-out;
+    }
+    .galerie-lineup__favorite[data-interacted="true"][aria-pressed="false"] img {
+        animation: galerie-heart-release 300ms ease-out;
+    }
+    .galerie-lineup__favorite[data-interacted="true"][aria-pressed="true"]::after {
+        content: '';
+        position: absolute;
+        inset: 4px;
+        border: 1px solid var(--color-ink-black, #222);
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0;
+        animation: galerie-heart-ring 450ms ease-out;
+    }
+}
+@keyframes galerie-heart-pop {
+    0% { transform: scale(0.75); }
+    45% { transform: scale(1.22); }
+    75% { transform: scale(0.94); }
+    100% { transform: scale(1); }
+}
+@keyframes galerie-heart-release {
+    0% { transform: scale(0.8); }
+    65% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+}
+@keyframes galerie-heart-ring {
+    0% { transform: scale(0.6); opacity: 0.3; }
+    100% { transform: scale(1.4); opacity: 0; }
+}
 .galerie-lineup__scent { position: absolute; right: 4.1667%; top: 18.5185%; width: 20.3125%; text-align: right; }
 .galerie-lineup__scent > img { display: block; width: 70.7692%; aspect-ratio: 276 / 330; object-fit: cover; margin-left: auto; }
 .galerie-lineup__scent h3 { margin-top: 1.25cqw; font-family: var(--font-family-display); font-size: 1.4583cqw; font-weight: 500; }
