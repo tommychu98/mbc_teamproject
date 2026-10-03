@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import useCon1TypographyMotion from './useCon1TypographyMotion';
 import StoryImage from './StoryImage';
 import mobilecouple from './assets/mobile-couple.png';
 import mobilepillar from './assets/mobile-con1-pillar.png';
@@ -10,6 +11,7 @@ import './Con1.css';
 
 export default function Con1() {
   const sceneRef = useRef(null);
+  useCon1TypographyMotion(sceneRef);
 
   useEffect(() => {
     const scene = sceneRef.current;

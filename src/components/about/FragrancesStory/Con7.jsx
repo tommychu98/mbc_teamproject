@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import useStoryTypographyMotion from './useStoryTypographyMotion';
+import useContinuousArtwork from './useContinuousArtwork';
 import StoryImage from './StoryImage';
 import mobilefurniture from './assets/mobile-chair.png';
 import musicians from './assets/con7-musicians.png';
@@ -19,6 +21,8 @@ const musicianMountClip = `polygon(evenodd, 0 0, 100% 0, 100% 100%, 0 100%, 0 0,
 
 export default function Con7() {
   const sceneRef = useRef(null);
+  useStoryTypographyMotion(sceneRef, 'con7', 'title', 'title');
+  useContinuousArtwork(sceneRef);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -59,8 +63,7 @@ export default function Con7() {
           <img className="fragrances-con7__chandelier-swing" src={chandelier} alt="" width="970" height="647" draggable="false" />
         </div>
         <div className="fragrances-con7__plant" aria-hidden="true">
-          <img className="fragrances-con7__plant-base" src={plant} alt="" width="425" height="638" draggable="false" />
-          <img className="fragrances-con7__plant-leaves" src={plant} alt="" width="425" height="638" draggable="false" />
+          <img className="fragrances-con7__plant-image" src={plant} alt="" width="425" height="638" draggable="false" />
         </div>
       </div>
     </section>
