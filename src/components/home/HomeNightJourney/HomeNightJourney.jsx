@@ -4,6 +4,8 @@ import columns from '../HomeNightRitual/assets/columns.png';
 import foregroundFlowers from '../HomeNightRitual/assets/foreground-flowers.png';
 import buttonArrow from '../HomeNightRitual/assets/button-arrow.svg';
 import { nightJourneyPanels } from './nightJourneyData';
+import useAmbientWind from './useAmbientWind';
+import useCon6Wind from './useCon6Wind';
 import './HomeNightJourney.css';
 
 const DESIGN_WIDTH = 1920;
@@ -39,6 +41,15 @@ function Category({ category, mobile = false }) {
 }
 
 function Particle({ particle, panelIndex, index }) {
+    const attached = panelIndex === 0 && particle.motionType === 'botanical';
+    const artwork = (
+        <img
+            src={particle.src}
+            alt=""
+            style={{ width: particle.imageWidth, height: particle.imageHeight, transform: `rotate(${particle.rotation}deg)` }}
+            draggable="false"
+        />
+    );
     return (
         <span
             className="night-journey__particle"
@@ -49,12 +60,13 @@ function Particle({ particle, panelIndex, index }) {
             style={{ left: particle.x, top: particle.y, width: particle.width, height: particle.height, opacity: particle.opacity }}
             aria-hidden="true"
         >
-            <img
-                src={particle.src}
-                alt=""
-                style={{ width: particle.imageWidth, height: particle.imageHeight, transform: `rotate(${particle.rotation}deg)` }}
-                draggable="false"
-            />
+            <span className="night-journey__wind" data-motion-type={particle.motionType} data-attached-wind={attached ? '' : undefined}>
+                {attached ? (
+                    <span className="night-journey__botanical-response" data-botanical-x={particle.x + particle.width / 2} data-botanical-y={particle.y + particle.height / 2}>
+                        {artwork}
+                    </span>
+                ) : artwork}
+            </span>
         </span>
     );
 }
@@ -62,6 +74,8 @@ function Particle({ particle, panelIndex, index }) {
 export default function HomeNightJourney() {
     const rootRef = useRef(null);
     const trackRef = useRef(null);
+    useAmbientWind(rootRef);
+    useCon6Wind(rootRef);
 
     useLayoutEffect(() => {
         const root = rootRef.current;
@@ -166,7 +180,9 @@ export default function HomeNightJourney() {
                                 {panelIndex === 0 && (
                                     <>
                                         <div className="night-journey__columns"><img src={columns} alt="" /></div>
-                                        <div className="night-journey__foreground-flowers"><img src={foregroundFlowers} alt="" /></div>
+                                        <div className="night-journey__foreground-flowers">
+                                            <span className="night-journey__wind night-journey__wind--branch" data-motion-type="branch"><img src={foregroundFlowers} alt="" /></span>
+                                        </div>
                                     </>
                                 )}
                                 {panel.category && <Category category={panel.category} />}

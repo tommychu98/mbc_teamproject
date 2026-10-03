@@ -22,6 +22,7 @@ export default function HomePerfumeHistory() {
     const photoTrackRef = useRef(null);
     const logoTrackRef = useRef(null);
     const statusId = useId();
+    const innerShadowId = `${statusId}-inner-shadow`;
     const goTo = usePerfumeHistoryScroll(sectionRef, stageRef, photoTrackRef, logoTrackRef, SLIDES, setStoryState);
 
     const activeSlide = SLIDES[activeIndex];
@@ -36,6 +37,24 @@ export default function HomePerfumeHistory() {
             data-active-index={activeIndex}
             data-scroll-progress="0"
         >
+            <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: 'absolute', pointerEvents: 'none' }}>
+                <defs>
+                    <filter id={innerShadowId} x="-50%" y="-50%" width="200%" height="200%" colorInterpolationFilters="sRGB">
+                        <feComponentTransfer in="SourceAlpha" result="inverseAlpha">
+                            <feFuncA type="table" tableValues="1 0" />
+                        </feComponentTransfer>
+                        <feOffset in="inverseAlpha" dx="0" dy="3" result="offsetAlpha" />
+                        <feGaussianBlur in="offsetAlpha" stdDeviation="1.5" result="softAlpha" />
+                        <feComposite in="softAlpha" in2="SourceAlpha" operator="in" result="innerAlpha" />
+                        <feFlood floodColor="#000000" floodOpacity="0.5" result="shadowColor" />
+                        <feComposite in="shadowColor" in2="innerAlpha" operator="in" result="innerShadow" />
+                        <feMerge>
+                            <feMergeNode in="SourceGraphic" />
+                            <feMergeNode in="innerShadow" />
+                        </feMerge>
+                    </filter>
+                </defs>
+            </svg>
             <div className="home-perfume-history__stage" ref={stageRef}>
                 <div className="home-perfume-history__canvas">
                     <div className="home-perfume-history__photo">
@@ -49,7 +68,7 @@ export default function HomePerfumeHistory() {
                                     data-pair={`3-${index + 1}`}
                                 >
                                     <img className="home-perfume-history__photo-image" src={slide.photo} alt="" width="1086" height="1448" draggable="false" />
-                                    <h2 className="home-perfume-history__title">
+                                    <h2 className="home-perfume-history__title" style={{ filter: `url(#${innerShadowId})` }}>
                                         {index === 1 ? <><span>34 Boulevard</span><span>Saint-Germain</span></> : slide.name}
                                     </h2>
                                 </div>
