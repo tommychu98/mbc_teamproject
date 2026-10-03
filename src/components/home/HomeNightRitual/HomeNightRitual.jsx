@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import useDraperyPull from './useDraperyPull';
 import background from './assets/background.png';
 import man from './assets/man.png';
 import moon from './assets/moon.png';
@@ -12,8 +14,11 @@ import buttonArrow from './assets/button-arrow.svg';
 import './HomeNightRitual.css';
 
 export default function HomeNightRitual() {
+    const sectionRef = useRef(null);
+    const draperyRef = useRef(null);
+    useDraperyPull(sectionRef, draperyRef);
     return (
-        <section className="home-night-ritual" aria-labelledby="home-night-ritual-title" data-node-id="2863:8262">
+        <section ref={sectionRef} className="home-night-ritual" aria-labelledby="home-night-ritual-title" data-node-id="2863:8262">
             <img className="home-night-ritual__background" src={background} alt="" />
             <img className="home-night-ritual__man" src={man} alt="" />
             <img className="home-night-ritual__moon" src={moon} alt="" />
@@ -42,7 +47,10 @@ export default function HomeNightRitual() {
 
             <div className="home-night-ritual__columns"><img src={columns} alt="" /></div>
             <div className="home-night-ritual__foreground-flowers"><img src={foregroundFlowers} alt="" /></div>
-            <div className="home-night-ritual__right-leaves"><img src={rightLeaves} alt="" /></div>
+            <div ref={draperyRef} className="home-night-ritual__right-leaves">
+                <img src={rightLeaves} alt="" />
+                <canvas aria-hidden="true" />
+            </div>
 
             <Link className="home-night-ritual__collection" to="/shop/new-season/les-rituels-de-soin">
                 <span>New Collection</span>

@@ -176,6 +176,7 @@
 }
 
 .home-night-ritual__right-leaves {
+    transform-origin: 90% 8%;
     left: calc(977 * var(--night-unit));
     top: calc(1183 * var(--night-unit));
     width: calc(1465.601 * var(--night-unit));
@@ -184,13 +185,17 @@
     place-items: center;
 }
 
-.home-night-ritual__right-leaves img {
+.home-night-ritual__right-leaves img,
+.home-night-ritual__right-leaves canvas {
+    grid-area: 1 / 1;
     width: calc(1329.683 * var(--night-unit));
     height: calc(1374.976 * var(--night-unit));
     object-fit: cover;
     transform: rotate(174.02deg) scaleY(-1);
     opacity: .9;
 }
+
+.home-night-ritual__right-leaves canvas { visibility: hidden; }
 
 .home-night-ritual__collection {
     position: absolute;
@@ -241,7 +246,8 @@
     .home-night-ritual__foreground-flowers { left: -25%; top: 1230px; width: 110%; height: 330px; }
     .home-night-ritual__foreground-flowers img { width: 440px; height: 294px; }
     .home-night-ritual__right-leaves { left: 55%; top: 960px; width: 85%; height: 430px; }
-    .home-night-ritual__right-leaves img { width: 360px; height: 372px; }
+    .home-night-ritual__right-leaves img,
+    .home-night-ritual__right-leaves canvas { width: 360px; height: 372px; }
     .home-night-ritual__collection { left: 14%; top: 850px; width: 143px; height: 30px; color: rgb(247 246 244 / 80%); font-size: 17px; }
     .home-night-ritual__collection img { left: 53px; top: 17px; width: 89.7px; height: 7.2px; }
 }
