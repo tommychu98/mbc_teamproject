@@ -1,0 +1,53 @@
+@font-face {
+  font-family: MyPageWishlistDotum;
+  src: url('/ForThePlanet/KoPubWorld-Dotum-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: MyPageWishlistDotum;
+  src: url('/ForThePlanet/planet-dotum-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+.mypage__wishlist:has(> .wishlist-empty) {
+  min-height: 340px;
+  padding: 30px 32px;
+  border-color: #e8e6e3;
+}
+.wishlist-empty {
+  position: relative;
+  min-height: 278px;
+  font-family: MyPageWishlistDotum, var(--font-family-sans);
+  color: #282826;
+}
+.wishlist-empty__header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.wishlist-empty__kicker, .wishlist-empty__message, .wishlist-empty__history {
+  font-size: var(--text-web-footer-m2-do-size);
+  font-weight: var(--text-web-footer-m2-do-weight);
+  line-height: var(--text-web-footer-m2-do-line-height);
+  letter-spacing: var(--text-web-footer-m2-do-letter-spacing);
+}
+.wishlist-empty__header h2 {
+  margin-top: 5px;
+  font-size: var(--text-web-body-m1-do-size);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--text-web-body-m1-do-line-height);
+  letter-spacing: var(--text-web-body-m1-do-letter-spacing);
+}
+.wishlist-empty__history { flex-shrink: 0; }
+.wishlist-empty__history img { flex: none; }
+.wishlist-empty__message {
+  position: absolute;
+  top: 149px;
+  inset-inline: 0;
+  transform: translateY(-50%);
+  text-align: center;
+  color: rgb(107 102 95 / 50%);
+}
+.wishlist-empty__message:focus-visible { outline: 2px solid var(--color-focus); outline-offset: var(--space-2); }
+
+@media (max-width: 767px) {
+  .mypage__wishlist:has(> .wishlist-empty) { padding-inline: var(--space-5); }
+}

@@ -1,0 +1,57 @@
+@font-face {
+  font-family: MyPageWishlistDotum;
+  src: url('/ForThePlanet/KoPubWorld-Dotum-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-display: swap;
+}
+
+.mypage__wishlist:has(> .wishlist) { min-height: 340px; padding: 30px 32px 12px; border-color: #e8e6e3; }
+.wishlist { font-family: MyPageWishlistDotum, var(--font-family-sans); color: #282826; }
+.wishlist__header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.wishlist__kicker, .wishlist__history {
+  font-size: var(--text-web-footer-m2-do-size);
+  font-weight: var(--text-web-footer-m2-do-weight);
+  line-height: var(--text-web-footer-m2-do-line-height);
+  letter-spacing: var(--text-web-footer-m2-do-letter-spacing);
+}
+.wishlist__header h2 {
+  margin-top: 5px;
+  font-size: var(--text-web-body-m1-do-size);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--text-web-body-m1-do-line-height);
+  letter-spacing: var(--text-web-body-m1-do-letter-spacing);
+}
+.wishlist__history { flex-shrink: 0; }
+.wishlist__history img { flex: none; }
+.wishlist__items { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 18.6px; }
+.wishlist__item { position: relative; min-width: 0; min-height: 220px; text-align: center; color: var(--color-ink-black); }
+.wishlist__image { display: block; width: 107px; max-width: 100%; height: 160px; margin-inline: auto; border: 1px solid #e4e3e3; border-radius: 20px; object-fit: cover; }
+.wishlist__image--missing { display: grid; place-items: center; color: var(--color-text-muted); font-size: 12px; }
+.wishlist__item h3 { margin-top: 6px; font-size: 16px; font-weight: var(--font-weight-light); line-height: 1.5; letter-spacing: .02em; overflow-wrap: anywhere; }
+.wishlist__item p { margin-top: 4px; font-size: 14px; font-weight: var(--font-weight-medium); line-height: 1.6; letter-spacing: .02em; overflow-wrap: anywhere; }
+.wishlist__item--design p { white-space: nowrap; }
+.wishlist__remove {
+  position: absolute;
+  top: -4px;
+  right: calc(50% - 58.5px);
+  display: grid;
+  place-items: center;
+  width: var(--size-touch-min);
+  height: var(--size-touch-min);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+/* Figma places the original heart vector inside an 18px instance of a 40px component. */
+.wishlist__remove img { transform: scale(.45); }
+.wishlist__items:focus-visible { outline: 2px solid var(--color-focus); outline-offset: var(--space-2); }
+.wishlist__loading { display: grid; place-items: center; min-height: 220px; color: var(--color-text-secondary); }
+
+@media (min-width: 1200px) {
+  .wishlist__items { width: calc(100% + 16px); gap: 30px; }
+}
+@media (max-width: 767px) {
+  .mypage__wishlist:has(> .wishlist) { padding-inline: var(--space-5); padding-bottom: var(--space-5); }
+  .wishlist__items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+}
