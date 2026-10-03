@@ -6,6 +6,8 @@ import {
 } from '../ProductLine/ProductLine';
 import './NewSeason.css';
 import heroRituels from './assets/hero-rituels.png';
+import heroAutumn from './assets/hero-autumn.png';
+import autumnScents from './assets/autumn-scents.png';
 
 const ASSET_PATH = '/images/new-season';
 
@@ -48,29 +50,29 @@ function NewSeasonRituals() {
     );
 }
 
-function NewSeasonSummerHero() {
+function NewSeasonAutumnHero() {
     return (
-        <section className="new-season__hero new-season__hero--summer">
+        <section className="new-season__hero new-season__hero--autumn" data-node-id="3540:7188">
             <div className="new-season__canvas">
-                <img src={`${ASSET_PATH}/hero-summer.png`} alt="" />
-                <span className="new-season__summer-overlay" aria-hidden="true" />
-                <p className="new-season__summer-label">Season recommend</p>
-                <h2>The last light of summer</h2>
+                <img src={heroAutumn} alt="" />
+                <span className="new-season__autumn-overlay" aria-hidden="true" />
+                <p className="new-season__autumn-label">Season recommend</p>
+                <h2>Autumn Aglow</h2>
             </div>
         </section>
     );
 }
 
-function NewSeasonAfterSunset() {
+function NewSeasonAutumnScents() {
     return (
-        <section className="new-season__after-sunset">
+        <section className="new-season__after-sunset" data-node-id="3540:7181">
             <div className="new-season__canvas">
-                <div className="new-season__after-image"><img src={`${ASSET_PATH}/after-sunset.png`} alt="" /></div>
+                <div className="new-season__after-image"><img src={autumnScents} alt="" /></div>
                 <div className="new-season__after-copy">
-                    <h2>After sunset</h2>
+                    <h2>Autumn Scents</h2>
                     <div>
-                        <p>여름이 추억 속으로 저물어가도, 그 빛의 여운은 오래도록 남아 있습니다.</p>
-                        <p>Diptyque의 향은 따뜻하고 빛나는 순간 속에서 여름의 감각을 조금 더 오래 이어주며, 마치 시간이 잠시 멈춘 듯한 순간을 선사합니다.</p>
+                        <p>Mousses(무스), Chêne(셴), Noisetier(누아즈티에), Feu de Bois(푀 드 부아)…</p>
+                        <p>숲길을 오래 거닐고 돌아온 듯, 가을이 깊은 향기와 함께 찾아왔습니다<br />이 계절이 선사하는 특별한 순간을 만끽해보세요</p>
                     </div>
                     <ViewMoreLink to="/shop/new-season/season-recommend" label="Season recommend" />
                 </div>
@@ -85,8 +87,8 @@ export default function NewSeason() {
             <NewSeasonHero />
             <NewSeasonDawn />
             <NewSeasonRituals />
-            <NewSeasonSummerHero />
-            <NewSeasonAfterSunset />
+            <NewSeasonAutumnHero />
+            <NewSeasonAutumnScents />
             <ProductLineExplore />
             <ProductLineBackMain />
             <ProductLineServices />
