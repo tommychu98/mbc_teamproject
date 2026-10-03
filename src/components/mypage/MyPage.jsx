@@ -2,8 +2,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Clock3, CreditCard, Package, Truck, PackageCheck, BadgeCheck } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 import defaultProfileImage from './Profile/Information/assets/profile1.png';
+import character02 from './Profile/Information/assets/character-02.png';
+import character03 from './Profile/Information/assets/character-03.png';
+import character04 from './Profile/Information/assets/character-04.png';
+import character05 from './Profile/Information/assets/character-05.png';
 import Wishlist from './Wishlist';
 import './MyPage.css';
+
+const profileAvatarImages = {
+  'character-01': defaultProfileImage,
+  'character-02': character02,
+  'character-03': character03,
+  'character-04': character04,
+  'character-05': character05,
+};
 
 const orderSteps = [
   { label: '입금 대기', icon: Clock3 },
@@ -34,8 +46,10 @@ export default function MyPage() {
   const navigate = useNavigate();
   const handleLogout = () => { logout(); navigate('/'); };
   if (!user) return null;
-  const profileImage = user.profileImageType !== 'upload' && user.profileImage === '/images/characters/character-01.svg'
-    ? defaultProfileImage : user.profileImage;
+  const avatarImage = profileAvatarImages[user.selectedAvatarId];
+  const profileImage = user.profileImageType !== 'upload'
+    ? avatarImage || (user.profileImage === '/images/characters/character-01.svg' ? defaultProfileImage : user.profileImage)
+    : user.profileImage;
 
   return (
     <main className="mypage container">
