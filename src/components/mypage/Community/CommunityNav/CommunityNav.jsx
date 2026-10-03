@@ -3,11 +3,10 @@ import './CommunityNav.css';
 
 const items = [
   ['inquiry', '1:1 문의', '/mypage/community/inquiry'],
-  ['faq', 'FAQ', '/contact/faq'],
   ['product', '상품문의', '/mypage/community/product-inquiry'],
 ];
 
-export default function CommunityNav({ active = 'faq' }) {
+export default function CommunityNav({ active = 'inquiry' }) {
   return (
     <nav className="community-nav" aria-label="커뮤니티 메뉴">
       {items.map(([id, label, to]) => {

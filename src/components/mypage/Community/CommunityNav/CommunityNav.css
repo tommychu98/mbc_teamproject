@@ -1,7 +1,7 @@
 .community-nav, .community-nav *, .community-nav::before, .community-nav *::after { box-sizing: border-box; }
 .community-nav {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: var(--space-8);
   border-bottom: var(--border-width-thin, 1px) solid var(--color-border-default);
 }
@@ -43,7 +43,6 @@
 
 .community-nav__tab:focus-visible { outline: var(--border-width-medium, 2px) solid var(--color-focus); outline-offset: var(--space-1); }
 @media (min-width: 768px) {
-  .community-nav { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .community-nav__tab {
     font-size: var(--text-web-body-l1-do-size);
     line-height: var(--text-web-body-l1-do-line-height);
