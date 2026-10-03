@@ -4,7 +4,6 @@ import { ArrowUpRight, Clock3, CreditCard, Heart, Package, Truck, PackageCheck, 
 import { useAuthStore } from '../../store/useAuthStore';
 import { useWishlistStore } from '../../store/useWishlistStore';
 import { PRODUCTS } from '../../data/products';
-import MyPageHeader from './MyPageHeader/MyPageHeader';
 import defaultProfileImage from './Profile/Information/assets/profile1.png';
 import tamDaoImage from './Profile/Information/assets/tamdao.png';
 import eauRoseImage from './Profile/Information/assets/eaurose.png';
@@ -68,8 +67,6 @@ export default function MyPage() {
 
   return (
     <main className="mypage container">
-      <MyPageHeader active="mypage" />
-
       <div className="mypage__dashboard">
         <div className="mypage__overview">
           <section className="mypage__member" aria-labelledby="mypage-member-title">

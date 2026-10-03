@@ -1,31 +1,12 @@
 import { useId } from 'react';
-import { Link } from 'react-router-dom';
 import CommunityNav from '../CommunityNav/CommunityNav';
 import './ProductInquiry.css';
-
-const navigation = [
-  ['MY PAGE', '/mypage'],
-  ['PROFILE', '/mypage/profile'],
-  ['MY ORDERS', '/mypage/orders/history'],
-  ['COMMUNITY', '/mypage/community/inquiry'],
-];
 
 export default function ProductInquiry() {
   const instanceId = useId();
 
   return (
     <main className="mypage-product-inquiry">
-      <header className="mypage-product-inquiry__header">
-        <h1 className="mypage-product-inquiry__title">My Page</h1>
-        <nav className="mypage-product-inquiry__navigation" aria-label="마이페이지 메뉴">
-          {navigation.map(([label, to]) => (
-            <Link className="mypage-product-inquiry__nav-link" key={label} to={to} aria-current={label === 'COMMUNITY' ? 'page' : undefined}>
-              <span className="mypage-product-inquiry__nav-sizer" aria-hidden="true">{label}</span>
-              <span className="mypage-product-inquiry__nav-label">{label}</span>
-            </Link>
-          ))}
-        </nav>
-      </header>
       <CommunityNav active="product" />
       <section className="mypage-product-inquiry__content" aria-labelledby={`${instanceId}-heading`}>
         <p className="mypage-product-inquiry__eyebrow">CUSTOMER CARE</p>
