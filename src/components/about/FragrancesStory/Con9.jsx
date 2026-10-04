@@ -23,6 +23,7 @@ export default function Con9() {
   return (
     <section className="fragrances-con9" aria-label="Orphéon 향 노트">
       <div ref={sceneRef} className="fragrances-con9__scene">
+        <h2 className="fragrances-con9__title fragrances-story__mobile-copy">NOTES</h2>
         <StoryImage mobileSrc={mobilebackground} className="fragrances-con9__background" src={background} alt="" width="1920" height="1080" draggable="false" />
         <div className="fragrances-con9__table">
           <StoryImage mobileSrc={mobiletable} className="fragrances-con9__table-image" src={table} alt="" width="1122" height="1402" draggable="false" />
