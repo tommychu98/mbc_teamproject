@@ -1,0 +1,163 @@
+@font-face {
+    font-family: 'Shop Service Dotum';
+    src: url('./assets/KoPubWorld-Dotum-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Shop Service Dotum';
+    src: url('./assets/KoPubWorld-Dotum-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+
+.shop-pre-footer {
+    --pre-footer-unit: calc(100cqw / 1920);
+    position: relative;
+    container-type: inline-size;
+    width: 100%;
+    aspect-ratio: 1920 / 800;
+    overflow: hidden;
+    background: #f7f6f4;
+    color: #000;
+}
+
+.shop-pre-footer__title {
+    position: absolute;
+    top: calc(179 * var(--pre-footer-unit));
+    left: 50%;
+    margin: 0;
+    color: #4b4b4b;
+    font-family: var(--font-family-display);
+    font-size: calc(42 * var(--pre-footer-unit));
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: calc(8.82 * var(--pre-footer-unit));
+    white-space: nowrap;
+    transform: translateX(-50%);
+}
+
+.shop-pre-footer__services {
+    position: absolute;
+    top: calc(283 * var(--pre-footer-unit));
+    left: 50%;
+    display: flex;
+    width: calc(1920 * var(--pre-footer-unit));
+    height: calc(385 * var(--pre-footer-unit));
+    align-items: center;
+    justify-content: center;
+    gap: calc(55 * var(--pre-footer-unit));
+    transform: translateX(-50%);
+}
+
+.shop-pre-footer__service {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: calc(26 * var(--pre-footer-unit));
+    margin: 0;
+    text-align: center;
+}
+
+.shop-pre-footer__service:nth-child(2) {
+    height: calc(267 * var(--pre-footer-unit));
+    justify-content: flex-start;
+}
+
+.shop-pre-footer__image {
+    width: calc(189 * var(--pre-footer-unit));
+    height: calc(158 * var(--pre-footer-unit));
+    flex: 0 0 auto;
+}
+
+.shop-pre-footer__service:nth-child(n + 4) .shop-pre-footer__image {
+    width: calc(188 * var(--pre-footer-unit));
+}
+
+.shop-pre-footer__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: fill;
+    object-position: center bottom;
+    pointer-events: none;
+    user-select: none;
+}
+
+.shop-pre-footer__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(6 * var(--pre-footer-unit));
+    font-family: 'Shop Service Dotum', var(--font-family-sans);
+    white-space: nowrap;
+}
+
+.shop-pre-footer__copy h3,
+.shop-pre-footer__copy p {
+    margin: 0;
+    color: #000;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+}
+
+.shop-pre-footer__copy h3 {
+    font-size: calc(20 * var(--pre-footer-unit));
+    font-weight: 500;
+}
+
+.shop-pre-footer__copy p {
+    font-size: calc(16 * var(--pre-footer-unit));
+    font-weight: 300;
+}
+
+@media (max-width: 767px) {
+    .shop-pre-footer {
+        --pre-footer-unit: 1px;
+        aspect-ratio: auto;
+        box-sizing: border-box;
+        padding: 72px 20px 76px;
+        overflow: visible;
+    }
+
+    .shop-pre-footer__title {
+        position: static;
+        font-size: 28px;
+        letter-spacing: 5.88px;
+        text-align: center;
+        transform: none;
+    }
+
+    .shop-pre-footer__services {
+        position: static;
+        display: flex;
+        width: 100%;
+        height: auto;
+        gap: 20px;
+        justify-content: flex-start;
+        align-items: stretch;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        margin-top: 54px;
+        transform: none;
+    }
+
+    .shop-pre-footer__services::-webkit-scrollbar { display: none; }
+    .shop-pre-footer__service { flex: 0 0 100%; width: 100%; min-width: 0; gap: 20px; scroll-snap-align: start; scroll-snap-stop: always; }
+    .shop-pre-footer__service,
+    .shop-pre-footer__service:nth-child(2) { height: auto; justify-content: flex-start; }
+    .shop-pre-footer__title { font-size: clamp(20px, 6.5vw, 28px); letter-spacing: .12em; }
+    .shop-pre-footer__image,
+    .shop-pre-footer__service:nth-child(n + 4) .shop-pre-footer__image { width: 132px; height: 110px; }
+    .shop-pre-footer__copy { gap: 5px; }
+    .shop-pre-footer__copy h3 { font-size: 13px; }
+    .shop-pre-footer__copy p { font-size: 11px; white-space: normal; }
+}
