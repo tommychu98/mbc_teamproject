@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import useScentLighting from './useScentLighting';
 import './HistoryScent.css';
 
 const ASSET_ROOT = '/images/history/scent';
@@ -16,8 +18,14 @@ function ScentAsset({ className, name }) {
 }
 
 export default function HistoryScent() {
+  const scrollRef = useRef(null);
+  const sceneRef = useRef(null);
+  useScentLighting(scrollRef, sceneRef);
+
   return (
-    <section className="history-scent" aria-labelledby="history-scent-title">
+    <div ref={scrollRef} className="history-scent-scroll">
+      <div className="history-scent-viewport">
+    <section ref={sceneRef} className="history-scent" aria-labelledby="history-scent-title">
       <ScentAsset
         className="history-scent__background-long"
         name="background-long-composite.png"
@@ -65,10 +73,10 @@ export default function HistoryScent() {
         className="history-scent__feature-collage"
         name="story-01-feature-collage.png"
       />
-      <ScentAsset
-        className="history-scent__candle-object"
-        name="story-01-candle-object-02.png"
-      />
+      <div className="history-scent__asset history-scent__candle-object" aria-hidden="true">
+        <img src={`${ASSET_ROOT}/story-01-candle-object-02.png`} alt="" loading="eager" decoding="async" />
+        <span className="history-scent__flame"><span /></span>
+      </div>
 
       <article className="history-scent__story history-scent__story--one">
         <h3>THE CANDLE</h3>
@@ -134,6 +142,14 @@ export default function HistoryScent() {
           The invisible became a new material.
         </p>
       </header>
+        <div className="history-scent-lighting" aria-hidden="true">
+          <div className="history-scent-lighting__shade" />
+          <div className="history-scent-lighting__glow" />
+          <div className="history-scent-lighting__haze" />
+          <div className="history-scent-lighting__vignette" />
+        </div>
     </section>
+      </div>
+    </div>
   );
 }

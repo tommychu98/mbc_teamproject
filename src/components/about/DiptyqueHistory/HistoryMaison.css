@@ -27,6 +27,130 @@
   height: 35.718421%;
 }
 
+.history-maison__fishing-line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Overlap the white/sky seam; the transparent artwork keeps a soft silhouette. */
+.history-maison__cloud-bank {
+  position: absolute;
+  top: 64.281579%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.history-maison__cloud {
+  position: absolute;
+  display: block;
+  max-width: none;
+  height: auto;
+  animation: history-maison-cloud-drift var(--cloud-period) ease-in-out var(--cloud-delay) infinite;
+}
+
+/* Backfill the central opening, including the full drift range of the front clouds. */
+.history-maison__cloud--bridge {
+  left: 33%;
+  width: 46%;
+  top: max(-23vw, -441.6px);
+  --cloud-period: 14s;
+  --cloud-delay: -5s;
+  --cloud-x: min(.35vw, 6.72px);
+  --cloud-y: min(.45vw, 8.64px);
+}
+
+.history-maison__cloud--left {
+  left: -48%;
+  width: 80%;
+  top: max(-30vw, -576px);
+  --cloud-period: 11s;
+  --cloud-delay: -4s;
+  --cloud-x: min(1vw, 19px);
+  --cloud-y: min(.8vw, 15px);
+}
+
+.history-maison__cloud--right {
+  left: 45%;
+  width: 70%;
+  top: max(-27vw, -518.4px);
+  --cloud-period: 13s;
+  --cloud-delay: -10s;
+  --cloud-x: max(-1.2vw, -23px);
+  --cloud-y: min(1vw, 19px);
+}
+
+.history-maison__cloud--front {
+  left: -18%;
+  width: 91%;
+  top: max(-39vw, -748.8px);
+  --cloud-period: 10s;
+  --cloud-delay: -7s;
+  --cloud-x: min(.7vw, 13px);
+  --cloud-y: min(1.1vw, 21px);
+}
+
+/* Animate outer cloud wrappers; preserve mirrored artwork transforms inside. */
+.history-maison__story-02-visual-02,
+.history-maison__story-02-visual-03,
+.history-maison__story-02-visual-05,
+.history-maison__story-02-visual-07,
+.history-maison__story-02-visual-08,
+.history-maison__story-03-visual-01,
+.history-maison__story-03-visual-02,
+.history-maison__story-03-visual-03,
+.history-maison__story-03-visual-04 {
+  animation: history-maison-cloud-drift var(--cloud-period, 13s) ease-in-out var(--cloud-delay, -3s) infinite;
+  --cloud-x: min(3vw, 58px);
+  --cloud-y: min(2vw, 38px);
+}
+.history-maison__story-02-visual-02 { --cloud-period: 8s; --cloud-delay: -2s; }
+.history-maison__story-02-visual-03 { --cloud-period: 9s; --cloud-delay: -3.3s; --cloud-x: max(-3.2vw, -61px); }
+.history-maison__story-02-visual-05 { --cloud-period: 10s; --cloud-delay: -4.6s; }
+/* Harp angel and its supporting cloud share the exact same motion/phase. */
+.history-maison__story-02-visual-07,
+.history-maison__story-02-visual-08 { --cloud-period: 9.5s; --cloud-delay: -5.9s; --cloud-x: max(-3.2vw, -61px); }
+.history-maison__story-03-visual-01 { --cloud-period: 11s; --cloud-delay: -7.2s; }
+.history-maison__story-03-visual-02 { --cloud-period: 8.5s; --cloud-delay: -8.5s; --cloud-x: max(-3.2vw, -61px); }
+.history-maison__story-03-visual-03 { --cloud-period: 9s; --cloud-delay: -9.8s; }
+.history-maison__story-03-visual-04 { --cloud-period: 10s; --cloud-delay: -11.1s; --cloud-x: max(-3.2vw, -61px); }
+@media (prefers-reduced-motion: reduce) {
+  .history-maison__story-02-visual-02,
+  .history-maison__story-02-visual-03,
+  .history-maison__story-02-visual-05,
+  .history-maison__story-02-visual-07,
+  .history-maison__story-02-visual-08,
+  .history-maison__story-03-visual-01,
+  .history-maison__story-03-visual-02,
+  .history-maison__story-03-visual-03,
+  .history-maison__story-03-visual-04 {
+    --cloud-x: 0px;
+    --cloud-y: min(.8vw, 15px);
+    animation-duration: 12s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+
+@keyframes history-maison-cloud-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(var(--cloud-x), calc(var(--cloud-y) * -1), 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .history-maison__cloud {
+    --cloud-x: 0px;
+    --cloud-y: min(.6vw, 10px);
+    animation-duration: 12s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+
 .history-maison__image,
 .history-maison__hero,
 .history-maison__story,
@@ -150,6 +274,45 @@
 .history-maison__floating-07 { top: 25.666427%; left: 79.739583%; width: 18.385417%; height: 8.969741%; }
 .history-maison__floating-09 { top: 36.113112%; left: -11.770833%; width: 29.739583%; height: 9.852305%; }
 .history-maison__floating-10 { top: 48.919308%; left: 79.739583%; width: 14.0625%; height: 6.394092%; }
+
+/* Move the cropped letter as a whole, preserving its inner artwork transforms. */
+.history-maison__main > [class*="history-maison__floating-"] {
+  --float-x: min(1.2vw, 23px);
+  --float-y: min(4vw, 77px);
+  animation: history-maison-float calc(var(--float-duration, 11s) * .55) ease-in-out
+    var(--float-delay, -3s) infinite;
+  transform-origin: 50% 55%;
+  pointer-events: none;
+}
+
+.history-maison__floating-01 { --float-duration: 13s; --float-delay: -7s; }
+.history-maison__floating-02 { --float-duration: 9s; --float-delay: -2s; --float-tilt: -3deg; }
+.history-maison__floating-03 { --float-duration: 10.5s; --float-delay: -5s; }
+.history-maison__floating-04 { --float-duration: 12s; --float-delay: -9s; --float-tilt: -2deg; }
+.history-maison__floating-05 { --float-duration: 14s; --float-delay: -4s; }
+.history-maison__floating-06 { --float-duration: 11.5s; --float-delay: -8s; --float-tilt: -2.5deg; }
+.history-maison__floating-07 { --float-duration: 12.5s; --float-delay: -1s; }
+.history-maison__floating-08 { --float-duration: 10s; --float-delay: -6s; --float-tilt: -2deg; }
+.history-maison__floating-09 { --float-duration: 15s; --float-delay: -10s; }
+.history-maison__floating-10 { --float-duration: 9.5s; --float-delay: -4s; --float-tilt: -3deg; }
+
+@keyframes history-maison-float {
+  0%, 100% { transform: translate3d(0, var(--float-y), 0); }
+  25% { transform: translate3d(var(--float-x), 0, 0); }
+  50% { transform: translate3d(0, calc(var(--float-y) * -1), 0); }
+  75% { transform: translate3d(calc(var(--float-x) * -1), 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the requested float gentle when the system reduces motion.
+     The global accessibility rule otherwise completes it in .01ms. */
+  .history-maison__main > [class*="history-maison__floating-"] {
+    --float-x: 0px;
+    --float-y: min(.6vw, 10px);
+    animation-duration: 12s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
 
 .history-maison__floating-01 img,
 .history-maison__floating-02 img {
@@ -277,3 +440,25 @@
 .history-maison__story-03-visual-03-inner { width: 100%; height: 100%; transform: rotate(180deg) scaleY(-1); }
 .history-maison__story-03-visual-04 { top: 13.646677%; left: 16.09375%; width: 40.260417%; height: 18.800648%; }
 .history-maison__story-03-accent-01 { top: 68.298217%; left: 55.104167%; width: 3.28125%; height: 2.042139%; }
+
+/* Reference composition is 16:9, anchored to the existing scene's bottom.
+   Separate outer travel and inner plant settling keep the final layout exact. */
+.history-maison__finale {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  pointer-events: none;
+}
+.history-maison__finale-layer { position: absolute; }
+.history-maison__finale-layer img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 100%;
+}
+.history-maison__finale-layer--rock { left: 42%; bottom: 1%; width: 25%; }
+.history-maison__finale-layer--left { left: 0; bottom: 0; width: 58%; }
+.history-maison__finale-layer--right { right: 0; bottom: 0; width: 57%; }
+.history-maison__finale-layer--agave { left: 28%; bottom: 10%; width: 16%; }

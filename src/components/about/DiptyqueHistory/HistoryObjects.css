@@ -10,6 +10,82 @@
   isolation: isolate;
 }
 
+/* Alpha-following shadows: light falls from the upper left.
+   Keep these on asset wrappers so mirrored images retain the same light direction. */
+.history-objects__framed-image-01,
+.history-objects__framed-image-02,
+.history-objects__framed-image-03,
+.history-objects__framed-image-04,
+.history-objects__framed-image-05,
+.history-objects__story-02-decorative,
+.history-objects__decorative-object-02,
+.history-objects__detail-visual-01 {
+  filter:
+    drop-shadow(min(.12vw, 2px) min(.2vw, 4px) min(.18vw, 3.5px) rgb(43 34 24 / 32%))
+    drop-shadow(min(.55vw, 11px) min(.8vw, 15px) min(.65vw, 12px) rgb(43 34 24 / 27%));
+}
+
+.history-objects__figure-visual {
+  filter:
+    drop-shadow(min(.18vw, 3.5px) min(.3vw, 6px) min(.25vw, 5px) rgb(43 34 24 / 23%))
+    drop-shadow(min(.85vw, 16px) min(1.1vw, 21px) min(.9vw, 17px) rgb(43 34 24 / 26%));
+}
+
+/* Small, firm contact shadow plus a softer cast shadow for every shelf object. */
+.history-objects :is(
+  [class*="history-objects__shelf-object-"],
+  [class*="history-objects__shelf-background-"],
+  .history-objects__tall-object-01,
+  .history-objects__outro-decorative-object
+),
+.history-objects__collected-strip img {
+  filter:
+    drop-shadow(min(.1vw, 2px) min(.18vw, 3.5px) min(.13vw, 2.5px) rgb(40 31 22 / 35%))
+    drop-shadow(min(.4vw, 8px) min(.55vw, 11px) min(.4vw, 8px) rgb(40 31 22 / 27%));
+}
+
+.history-objects__wide-collage {
+  filter: drop-shadow(min(.4vw, 8px) min(.65vw, 12px) min(.5vw, 10px) rgb(43 34 24 / 26%));
+}
+
+/* Floor-only shadows. The PNG feet end at roughly 82% of its transparent canvas. */
+.history-objects__feature-collage {
+  filter: none;
+  isolation: isolate;
+}
+
+.history-objects__feature-collage::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.history-objects__feature-collage::before {
+  left: 5%;
+  top: 75%;
+  width: 91%;
+  height: 8%;
+  background: linear-gradient(to bottom,
+    rgb(35 25 16 / 58%) 0%,
+    rgb(35 25 16 / 46%) 30%,
+    rgb(35 25 16 / 25%) 65%,
+    transparent 100%);
+  border-radius: 0 0 35% 20%;
+  filter: blur(min(.12vw, 2px));
+}
+
+.history-objects__feature-collage img {
+  position: relative;
+  z-index: 1;
+}
+
+.history-objects__story-01-feature {
+  filter:
+    drop-shadow(min(.1vw, 2px) min(.15vw, 3px) min(.12vw, 2px) rgb(43 34 24 / 22%))
+    drop-shadow(min(.25vw, 5px) min(.4vw, 8px) min(.4vw, 8px) rgb(43 34 24 / 18%));
+}
+
+
 .history-objects img {
   display: block;
   width: 100%;
@@ -442,6 +518,20 @@
   left: 64.895833%;
   width: 10.580885%;
   aspect-ratio: 1;
+  /* Pivot at the clock spindle, accounting for the image's transparent padding. */
+  transform-origin: 39% 63%;
+  transition: transform 1.2s cubic-bezier(.22, 1, .36, 1);
+}
+
+.history-objects__detail-visual-02.history-objects__minute-hand--moved {
+  transform: rotate(30deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .history-objects__detail-visual-02 {
+    /* Keep this explicitly requested, one-shot clock movement. */
+    transition: transform 1.2s cubic-bezier(.22, 1, .36, 1) !important;
+  }
 }
 
 .history-objects__detail-visual-02 img {

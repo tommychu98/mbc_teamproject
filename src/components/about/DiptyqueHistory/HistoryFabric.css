@@ -10,6 +10,43 @@
   isolation: isolate;
 }
 
+/* Warm tabletop shadows; applied outside rotated artwork so the light
+   consistently comes from the upper left. No image/text blur. */
+.history-fabric__floating-botanical-01 {
+  filter: drop-shadow(min(.45vw, 8px) min(.8vw, 15px) min(.7vw, 13px) rgb(48 40 28 / 24%));
+}
+
+.history-fabric__story-canvas {
+  box-shadow:
+    0 min(.12vw, 2px) min(.22vw, 4px) rgb(49 40 29 / 18%),
+    min(.35vw, 7px) min(.65vw, 12px) min(.95vw, 18px) rgb(49 40 29 / 16%),
+    min(.8vw, 15px) min(1.2vw, 23px) min(2vw, 38px) rgb(49 40 29 / 9%);
+}
+
+/* Ceramic objects: contact shadow plus a softer cast shadow. */
+.history-fabric__floating-object-03,
+.history-fabric__floating-object-04,
+.history-fabric__floating-object-07 {
+  filter:
+    drop-shadow(min(.12vw, 2px) min(.22vw, 4px) min(.2vw, 4px) rgb(43 34 24 / 28%))
+    drop-shadow(min(.65vw, 12px) min(1vw, 19px) min(.7vw, 13px) rgb(43 34 24 / 23%));
+}
+
+/* Loose paper and fabric remain close to the tabletop. */
+.history-fabric__floating-object-01,
+.history-fabric__floating-object-02,
+.history-fabric__floating-object-05,
+.history-fabric__floating-fabric-01,
+.history-fabric__floating-collage-01,
+.history-fabric__floating-collage-02 {
+  filter: drop-shadow(min(.2vw, 4px) min(.35vw, 7px) min(.35vw, 7px) rgb(49 40 29 / 20%));
+}
+
+.history-fabric__floating-object-06,
+.history-fabric__floating-object-08 {
+  filter: drop-shadow(min(.2vw, 4px) min(.3vw, 6px) min(.2vw, 4px) rgb(43 34 24 / 26%));
+}
+
 .history-fabric img {
   display: block;
   width: 100%;
@@ -33,6 +70,8 @@
 }
 
 .history-fabric__hero h2 {
+  position: relative;
+  isolation: isolate;
   font-family: var(--font-family-display);
   font-size: min(8.333333vw, var(--text-web-title-m1-size));
   font-weight: var(--text-web-title-m1-weight);
@@ -42,13 +81,31 @@
 }
 
 .history-fabric__hero p {
+  position: relative;
+  isolation: isolate;
+  color: #211d18;
   margin-top: min(20.833333vw, 400px);
   font-family: var(--font-family-display);
   font-size: min(3.333333vw, var(--text-sub-title-r1-size));
-  font-weight: var(--text-sub-title-r1-weight);
+  font-weight: 500;
   line-height: var(--text-sub-title-r1-line-height);
   letter-spacing: var(--text-sub-title-r1-letter-spacing);
   white-space: nowrap;
+}
+
+.history-fabric__hero h2::before,
+.history-fabric__hero p::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: -70% -20%;
+  background: radial-gradient(ellipse at 48% 50%,
+    rgba(248, 244, 233, .72) 0%,
+    rgba(248, 244, 233, .55) 32%,
+    rgba(248, 244, 233, .24) 55%,
+    rgba(248, 244, 233, 0) 74%);
+  filter: blur(min(1.25vw, 24px));
+  pointer-events: none;
 }
 
 .history-fabric__asset,
@@ -67,7 +124,7 @@
 
 .history-fabric__floating-object-01 {
   top: 17.517921%;
-  left: 59.010417%;
+  left: 66.5%;
   width: 46.614583%;
   aspect-ratio: 1;
 }

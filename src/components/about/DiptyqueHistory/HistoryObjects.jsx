@@ -1,6 +1,115 @@
+import { useEffect, useRef, useState } from 'react';
 import './HistoryObjects.css';
 
 const asset = (name) => `/images/history/objects/${name}`;
+
+// 151 frames at 40ms per frame in objects-walking-figure.gif.
+const WALKING_DURATION_MS = 6040;
+
+function WalkingFigure() {
+  const containerRef = useRef(null);
+  const canvasRef = useRef(null);
+  const timerRef = useRef(null);
+  const [status, setStatus] = useState('waiting');
+  const canDecodeFrames = typeof window.ImageDecoder === 'function';
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setStatus('playing');
+      observer.disconnect();
+    }, { threshold: 0.1 });
+    observer.observe(containerRef.current);
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (status !== 'playing' || !canDecodeFrames) return;
+    const controller = new AbortController();
+    let decoder;
+    let cancelled = false;
+    let frameTimer;
+
+    const playOnce = async () => {
+      try {
+        const response = await fetch(asset('objects-walking-figure.gif'), {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error('Unable to load walking animation');
+        const data = await response.arrayBuffer();
+        if (cancelled) return;
+        decoder = new window.ImageDecoder({ data, type: 'image/gif' });
+        await decoder.tracks.ready;
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        const frameCount = decoder.tracks.selectedTrack.frameCount;
+
+        const drawFrame = async (frameIndex) => {
+          try {
+            if (cancelled) return;
+            if (frameIndex === frameCount) {
+              context.clearRect(0, 0, canvas.width, canvas.height);
+              setStatus('finished');
+              return;
+            }
+            const { image } = await decoder.decode({ frameIndex });
+            if (cancelled) { image.close(); return; }
+            if (canvas.width !== image.displayWidth || canvas.height !== image.displayHeight) {
+              canvas.width = image.displayWidth;
+              canvas.height = image.displayHeight;
+            }
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(image, 0, 0);
+            const duration = image.duration / 1000 || 40;
+            image.close();
+            frameTimer = window.setTimeout(() => drawFrame(frameIndex + 1), duration);
+          } catch {
+            if (!cancelled) setStatus('finished');
+          }
+        };
+        await drawFrame(0);
+      } catch {
+        if (!cancelled) setStatus('finished');
+      }
+    };
+    playOnce();
+    return () => {
+      cancelled = true;
+      controller.abort();
+      window.clearTimeout(frameTimer);
+      decoder?.close();
+    };
+  }, [status, canDecodeFrames]);
+
+  const finishAfterPlayback = () => {
+    window.clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => setStatus('finished'), WALKING_DURATION_MS);
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="history-objects__asset history-objects__walking-figure"
+      aria-hidden="true"
+      style={{ visibility: status === 'finished' ? 'hidden' : undefined }}
+    >
+      {status === 'playing' && canDecodeFrames && (
+        <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
+      )}
+      {status === 'playing' && !canDecodeFrames && (
+        <img
+          src={asset('objects-walking-figure.gif')}
+          alt=""
+          onLoad={finishAfterPlayback}
+          onError={() => setStatus('finished')}
+        />
+      )}
+    </div>
+  );
+}
 
 function ImageAsset({ className, name }) {
   return (
@@ -11,8 +120,52 @@ function ImageAsset({ className, name }) {
 }
 
 export default function HistoryObjects() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const clock = section.querySelector('.history-objects__detail-visual-01');
+    const minuteHand = section.querySelector('.history-objects__detail-visual-02');
+    // The spindle sits slightly below the image midpoint because of the top ornament.
+    const getCenterOffset = () => {
+      const rect = clock.getBoundingClientRect();
+      return rect.top + rect.height * 0.535 - window.innerHeight / 2;
+    };
+    let previousOffset = getCenterOffset();
+    let frame = 0;
+    let played = false;
+
+    const checkCenter = () => {
+      frame = 0;
+      if (played) return;
+      const offset = getCenterOffset();
+      const crossedCenter = (previousOffset > 0 && offset <= 0)
+        || (previousOffset < 0 && offset >= 0);
+      previousOffset = offset;
+      if (!crossedCenter && Math.abs(offset) > 1) return;
+      played = true;
+      minuteHand.classList.add('history-objects__minute-hand--moved');
+      window.removeEventListener('scroll', onScroll);
+    };
+    const onScroll = () => {
+      if (!frame && !played) frame = window.requestAnimationFrame(checkCenter);
+    };
+    const onResize = () => {
+      previousOffset = getCenterOffset();
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+    checkCenter();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
   return (
-    <section className="history-objects" aria-labelledby="history-objects-title">
+    <section ref={sectionRef} className="history-objects" aria-labelledby="history-objects-title">
       <ImageAsset
         className="history-objects__asset history-objects__background-main"
         name="objects-background-main.png"
@@ -28,10 +181,6 @@ export default function HistoryObjects() {
       <ImageAsset
         className="history-objects__asset history-objects__outro-background"
         name="objects-outro-background.png"
-      />
-      <ImageAsset
-        className="history-objects__asset history-objects__walking-figure"
-        name="objects-walking-figure.gif"
       />
       <div className="history-objects__copy-backplate" aria-hidden="true" />
       <ImageAsset
@@ -63,6 +212,10 @@ export default function HistoryObjects() {
           </p>
         </div>
       </article>
+
+      {/* The walking figure passes in front of the complete wall frame,
+          while the later table and its objects stay in the foreground. */}
+      <WalkingFigure />
 
       <header className="history-objects__hero">
         <h2 id="history-objects-title">OBJECTS</h2>

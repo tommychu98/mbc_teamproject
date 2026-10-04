@@ -1,0 +1,44 @@
+.history-fabric-mobile { display: none; }
+@media (max-width: 767px) {
+  .diptyque-history > .history-fabric,
+  .diptyque-history > .diptyque-history__fabric-transition { display: none; }
+  .history-fabric-mobile__story { position: absolute; left: 12.093023cqw; top: 30cqw; width: 49.302326cqw; color: #222; }
+  .history-fabric-mobile__story h2 { margin: 0 0 5.813953cqw; font: 400 9.302326cqw/1.1 var(--font-family-display); letter-spacing: 0; }
+  .history-fabric-mobile__story-body { display: grid; gap: 4.651163cqw; font: 300 3.255814cqw/1.4 'KoPubWorldDotum Pro', sans-serif; letter-spacing: .065116cqw; }
+  .history-fabric-mobile__story-body p { margin: 0; overflow-wrap: anywhere; word-break: normal; }
+  .history-fabric-mobile--visions .history-fabric-mobile__story { left: 11.395349cqw; }
+  .history-fabric-mobile--visions .history-fabric-mobile__story h2 { white-space: nowrap; }
+  .diptyque-history__opening + .history-fabric-mobile + .history-fabric::after { display: none; }
+  .history-fabric-mobile {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    container-type: inline-size;
+    background: #ddd9d1;
+    color: #222;
+  }
+  .history-fabric-mobile__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: fill; }
+  /* Fit the entire 430 × 883 artwork below the 52px shared header.
+     Width-only scaling clipped the founders on shorter phones. */
+  .history-fabric-mobile__stage {
+    position: absolute;
+    top: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(100%, calc((100svh - 52px) * 430 / 883));
+    aspect-ratio: 430 / 883;
+    container-type: inline-size;
+    overflow: visible;
+  }
+  .history-fabric-mobile__copy { position: absolute; left: 50%; top: 22.55814cqw; width: 47.906977cqw; height: 31.860465cqw; transform: translateX(-50%); text-align: center; font-family: var(--font-family-display); }
+  .history-fabric-mobile__copy h2 { margin: 0; font-size: 13.488372cqw; font-weight: 500; line-height: 1.1; letter-spacing: 0; }
+  .history-fabric-mobile__divider { position: absolute; top: 16.744186cqw; left: 41.26%; }
+  .history-fabric-mobile__copy p { position: absolute; top: 21.627907cqw; left: 50%; transform: translateX(-50%); margin: 0; font-size: 3.72093cqw; font-weight: 400; line-height: 1.4; letter-spacing: 0; white-space: nowrap; }
+  .history-fabric-mobile__layer { position: absolute; display: grid; place-items: center; pointer-events: none; }
+  .history-fabric-mobile__layer img { display: block; max-width: none; object-fit: fill; }
+  /* This screen has its own header in Figma: keep the shared header visible. */
+  .app--history .header--hidden { opacity: 1; transform: none; pointer-events: auto; }
+}

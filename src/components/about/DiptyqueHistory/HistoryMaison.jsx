@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+import useMaisonSun from './useMaisonSun';
 import './HistoryMaison.css';
 
 const ASSET_ROOT = '/images/history/maison';
@@ -31,8 +33,10 @@ function MaisonNestedImage({ className, innerClassName, name }) {
 }
 
 export default function HistoryMaison() {
+  const rootRef = useRef(null);
+  useMaisonSun(rootRef);
   return (
-    <section className="history-maison" aria-labelledby="history-maison-title">
+    <section ref={rootRef} className="history-maison" aria-labelledby="history-maison-title">
       <div className="history-maison__main">
         <header className="history-maison__hero">
           <h2 id="history-maison-title">MAISON</h2>
@@ -106,6 +110,16 @@ export default function HistoryMaison() {
         <MaisonImage className="history-maison__story-02-visual-08 history-maison__cover" name="story-02-visual-08.png" />
       </div>
 
+      <svg className="history-maison__fishing-line" aria-hidden="true" focusable="false">
+        <path fill="none" stroke="#756e60" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <div className="history-maison__cloud-bank" aria-hidden="true">
+        <img className="history-maison__cloud history-maison__cloud--bridge" src={`${ASSET_ROOT}/story-02-visual-03.png`} alt="" loading="lazy" />
+        <img className="history-maison__cloud history-maison__cloud--left" src={`${ASSET_ROOT}/story-02-visual-03.png`} alt="" loading="lazy" />
+        <img className="history-maison__cloud history-maison__cloud--right" src={`${ASSET_ROOT}/story-02-visual-03.png`} alt="" loading="lazy" />
+        <img className="history-maison__cloud history-maison__cloud--front" src={`${ASSET_ROOT}/story-02-visual-03.png`} alt="" loading="lazy" />
+      </div>
+
       <div className="history-maison__outro">
         <article className="history-maison__story history-maison__story--three">
           <h3>
@@ -147,6 +161,13 @@ export default function HistoryMaison() {
         <MaisonNestedImage className="history-maison__story-03-visual-03" innerClassName="history-maison__story-03-visual-03-inner history-maison__cover" name="story-03-visual-03.png" />
         <MaisonImage className="history-maison__story-03-visual-04 history-maison__cover" name="story-03-visual-03.png" />
         <MaisonImage className="history-maison__story-03-accent-01 history-maison__cover" name="story-03-small-accent-01.png" />
+        <div className="history-maison__finale" aria-hidden="true">
+          {['rock', 'left', 'right', 'agave'].map((name) => (
+            <div key={name} className={`history-maison__finale-layer history-maison__finale-layer--${name}`}>
+              <img src={`${ASSET_ROOT}/finale-${name}.png`} alt="" decoding="async" />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
