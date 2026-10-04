@@ -11,6 +11,7 @@ import HomeScentSequence from './HomeScentSequence/HomeScentSequence';
 import HomeFragranceWorld from './HomeFragranceWorld/HomeFragranceWorld';
 import HomePreFooter from './HomePreFooter';
 import Home3D from './3d';
+import HomeTopButton from './HomeTopButton';
 
 export default function HomePage() {
     return (
@@ -27,6 +28,7 @@ export default function HomePage() {
             <HomeFragranceWorld />
             <Home3D />
             <HomePreFooter />
+            <HomeTopButton />
         </div>
     );
 }

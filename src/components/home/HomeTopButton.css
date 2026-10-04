@@ -1,0 +1,35 @@
+.home .home-top-button {
+    position: fixed;
+    right: calc(40px + env(safe-area-inset-right, 0px));
+    bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+    z-index: calc(var(--z-header, 200) + 2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 48px;
+    height: 56px;
+    padding: 8px 0;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 24px;
+    background: transparent;
+    color: #fff;
+    /* Contrast follows the actual backdrop, including artwork and video. */
+    mix-blend-mode: difference;
+    font: 300 11px/1.3 'HomeDayRitual Dotum', sans-serif;
+    letter-spacing: .22px;
+    cursor: pointer;
+}
+.home .home-top-button img { display: block; max-width: none; filter: invert(1); }
+.home .home-top-button:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+/* The fixed control replaces the hero's mobile-only TOP control. */
+.home .home-intro__mobile-top { display: none; }
+
+@media (max-width: 767px) {
+    .home .home-top-button {
+        right: calc(20px + env(safe-area-inset-right, 0px));
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    }
+}
