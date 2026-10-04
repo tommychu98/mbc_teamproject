@@ -1,0 +1,7 @@
+.home-mobile-wind { position: relative; z-index: 2; height: calc(883px * var(--mobile-wind-scale, 1)); overflow: visible; background: #222; pointer-events: none; }
+.home-mobile-wind .home-mobile-wind__canvas { left: 0; top: 0; width: 430px; height: 883px; transform: scale(var(--mobile-wind-scale, 1)); transform-origin: top left; }
+.home-mobile-wind__branch { position: absolute; left: -165px; top: -259px; width: 504.813px; height: 447.131px; display: grid; place-items: center; transform-origin: 25% 70%; animation: home-mobile-night-sway 11s ease-in-out infinite; }
+.home-mobile-wind__branch img { width: 422.005px; height: 281.336px; transform: rotate(28.14deg); opacity: .8; }
+.home-mobile-wind__particle { position: absolute; display: grid; place-items: center; pointer-events: none; }
+.home-mobile-wind__particle img { object-fit: cover; }
+@media (prefers-reduced-motion: reduce) { .home-mobile-wind__branch { animation: none; } }

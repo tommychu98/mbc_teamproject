@@ -14,6 +14,7 @@ import buttonArrow from './assets/button-arrow.svg';
 import './HomeDayRitual.css';
 import useLeafExit from './useLeafExit';
 import useLemonReveal from './useLemonReveal';
+import MobileDayRitual from './MobileDayRitual';
 
 const DESIGN_WIDTH = 1920;
 
@@ -43,6 +44,7 @@ export default function HomeDayRitual({ collectionHref = '/shop/new-season/les-r
             aria-labelledby="home-day-ritual-title"
             data-node-id="2863:8282"
         >
+            <MobileDayRitual collectionHref={collectionHref} />
             <div className="home-day-ritual__canvas">
                 <img className="home-day-ritual__background" src={background} alt="" draggable="false" />
                 <img className="home-day-ritual__woman" src={woman} alt="" draggable="false" />

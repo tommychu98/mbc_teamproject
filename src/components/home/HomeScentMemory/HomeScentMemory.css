@@ -61,6 +61,30 @@
 
 .home-scent-memory__line { display: block; }
 
+@media (max-width: 767px) {
+    .home-scent-memory__stage {
+        top: calc(52px + env(safe-area-inset-top, 0px));
+        height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+        aspect-ratio: auto;
+    }
+    .home-scent-memory__copy {
+        top: calc(50% - 91.5px);
+        left: calc(50% + 1.744186cqw);
+        transform: translateX(-50%);
+        width: min(335px, 77.906977cqw);
+        font-size: min(32px, 7.44186cqw);
+        line-height: 1.1;
+        white-space: normal;
+    }
+    .home-scent-memory .home-scent-memory__lemon {
+        top: calc(80% + 42.6px);
+        left: -23.255814cqw;
+        width: 103.255814cqw;
+        height: 68.837209cqw;
+        opacity: .56;
+    }
+}
+
 /* Paint inside the existing inline glyphs so font metrics and line breaks stay
    intact. Outside supported browsers the inherited grey text remains legible. */
 @supports ((background-clip: text) or (-webkit-background-clip: text)) {

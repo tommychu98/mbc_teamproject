@@ -1,0 +1,19 @@
+.mobile-categories { position: relative; height: calc(883px * var(--mobile-category-scale, 1)); overflow: hidden; background: #222; color: #f7f6f4; }
+.mobile-categories__viewport { position: relative; z-index: 1; display: flex; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; }
+.mobile-categories__viewport::-webkit-scrollbar { display: none; }
+.mobile-categories__viewport:focus-visible { outline: 1px solid #f7f6f4; outline-offset: -4px; }
+.mobile-categories__slide { position: relative; flex: 0 0 100%; width: 100%; height: 100%; scroll-snap-align: start; scroll-snap-stop: always; }
+.mobile-categories__canvas, .mobile-categories .mobile-categories__ambient { position: absolute; left: 0; top: 0; width: 430px; height: 883px; transform: scale(var(--mobile-category-scale, 1)); transform-origin: top left; }
+.mobile-categories__ambient { pointer-events: none; }
+.mobile-categories__particle { position: absolute; display: grid; place-items: center; }
+.mobile-categories__particle img { object-fit: cover; }
+.mobile-categories__card { position: absolute; left: 50px; top: 80px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 330px; height: 671px; text-align: center; }
+.mobile-categories__image { width: 213px; height: 320px; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.mobile-categories__copy { display: flex; flex-direction: column; align-items: center; gap: 30px; width: 330px; }
+.mobile-categories p { margin: 0; font: 300 16px/1.4 'HomeNight Dotum', sans-serif; letter-spacing: .96px; }
+.mobile-categories h3 { margin: 10px 0 0; font: 400 32px/1.1 'HomeNight Garamond', Georgia, serif; white-space: nowrap; }
+.mobile-categories__link { position: relative; width: 115px; min-height: 24px; color: rgb(247 246 244 / .5); font: 300 16px/1 'HomeNight Dotum', sans-serif; text-align: left; text-decoration: none; }
+.mobile-categories__link img { position: absolute; left: 46px; top: 19px; }
+.mobile-categories__link::after { content: ''; position: absolute; inset: -10px 0; }
+.mobile-categories__link:focus-visible { outline: 2px solid #f7f6f4; outline-offset: 5px; }
+.mobile-categories__announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }

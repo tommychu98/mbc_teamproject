@@ -4,8 +4,10 @@ import useStoryDescriptionReveal from './useStoryDescriptionReveal';
 import './HomeFragranceStory.css';
 
 const STORY_LINES = [
-    'The story continues through fragrance.',
-    'Each scent, a chapter of Diptyque.',
+    'The story continues',
+    'through fragrance.',
+    'Each scent,',
+    'a chapter of Diptyque.',
 ];
 
 function StoryLines() {
@@ -13,7 +15,7 @@ function StoryLines() {
 
     return STORY_LINES.map((line, lineIndex) => (
         <Fragment key={lineIndex}>
-            {lineIndex > 0 && <br />}
+            {lineIndex > 0 && (lineIndex % 2 === 0 ? <br /> : <><span className="home-fragrance-story__desktop-space"> </span><br className="home-fragrance-story__mobile-break" /></>)}
             {Array.from(line, (character) => {
                 if (character === ' ') return character;
 
@@ -40,7 +42,7 @@ export default function HomeFragranceStory() {
                         <StoryLines />
                     </h2>
                     <p className="home-fragrance-story__description" lang="ko" ref={descriptionRef}>
-                        “향기로 이어지는 딥디크의 이야기, 각각의 향에 담긴 영감과 기억의 순간”
+                        “향기로 이어지는 딥디크의 이야기,<span className="home-fragrance-story__desktop-space"> </span><br className="home-fragrance-story__mobile-break" />각각의 향에 담긴 영감과 기억의 순간”
                     </p>
                 </div>
             </div>

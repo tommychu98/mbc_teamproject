@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -7,6 +7,12 @@ import storyObject from './assets/story-object.png';
 import storyLeafDrawing from './assets/story-leaf-drawing.png';
 import storyFoundersPhoto from './assets/story-founders-photo.png';
 import storyButtonLine from './assets/story-button-line.svg';
+import mobileTopIcon from './assets/mobile-top-bk.svg';
+import mobileScrollDown from './assets/mobile-scroll-down.svg';
+import mobileHero from './assets/mobile-hero-source.png';
+import mobileFilm from './assets/phone-main.mp4';
+import setupMobileIntro from './setupMobileIntro';
+import MobileIntroStory from './MobileIntroStory';
 import './HomeIntro.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -72,20 +78,38 @@ const easeSequenceEdges = (progress) => {
 };
 
 export default function HomeIntro() {
+    const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 767px)').matches);
     const maskId = `home-intro-mask-${useId().replace(/:/g, '')}`;
     const mistFilterId = `${maskId}-mist`;
     const rootRef = useRef(null);
     const mistRef = useRef(null);
     const revealOverlayRef = useRef(null);
     const canvasRef = useRef(null);
+    const mobileVideoRef = useRef(null);
     const logoRef = useRef(null);
+    const topButtonRef = useRef(null);
+    const downButtonRef = useRef(null);
     const storyRef = useRef(null);
     const storyTimelineRef = useRef(null);
 
+    useEffect(() => {
+        const viewport = window.matchMedia('(max-width: 767px)');
+        const update = () => setIsMobile(viewport.matches);
+        viewport.addEventListener('change', update);
+        update();
+        return () => viewport.removeEventListener('change', update);
+    }, []);
+
     useLayoutEffect(() => {
+        if (isMobile) return setupMobileIntro({
+            root: rootRef.current, video: mobileVideoRef.current, logo: logoRef.current,
+            mist: mistRef.current, overlay: revealOverlayRef.current, topButton: topButtonRef.current,
+            downButton: downButtonRef.current,
+        });
         const canvas = canvasRef.current;
         const canvasContext = canvas.getContext('2d');
         const frameCache = new Map();
+        const mobileViewport = window.matchMedia('(max-width: 767px)');
         let frameRequest = 0;
         let previousFrameTime = performance.now();
         let targetTime = 0;
@@ -97,6 +121,7 @@ export default function HomeIntro() {
         let storyStarted = false;
 
         const updateStoryTimeline = (activeFrame) => {
+            if (isMobile) return;
             const storyTimeline = storyTimelineRef.current;
             if (!storyTimeline || storyStarted || activeFrame !== LAST_FRAME) return;
 
@@ -112,6 +137,11 @@ export default function HomeIntro() {
             // Use the existing scrubbed progress: the logo and film timeline
             // retain their original timing. Only the ivory-to-film reveal changes.
             const diffusion = smoothstep(revealProgress);
+            gsap.set(logoRef.current, { autoAlpha: mobileViewport.matches ? 1 - diffusion : 1 });
+            gsap.set(topButtonRef.current, {
+                autoAlpha: 1 - diffusion,
+                pointerEvents: revealProgress === 1 ? 'none' : 'auto',
+            });
             const settle = smoothstep(gsap.utils.clamp(0, 1, (revealProgress - 0.62) / 0.38));
             const scaleX = 0.18 + diffusion * 3.7;
             const scaleY = 0.24 + diffusion * 3.1;
@@ -305,6 +335,7 @@ export default function HomeIntro() {
 
             const scrollState = { progress: 0 };
 
+
             const scrollTimeline = gsap.timeline({
                 scrollTrigger: {
                     trigger: rootRef.current,
@@ -351,10 +382,35 @@ export default function HomeIntro() {
             frameCache.clear();
             context.revert();
         };
-    }, []);
+    }, [isMobile]);
 
     return (
-        <section ref={rootRef} className="home-intro" data-node-id="1991:658">
+        <><section ref={rootRef} className="home-intro" data-node-id="1991:658">
+            {isMobile && <video ref={mobileVideoRef} className="home-intro__mobile-film"
+                src={mobileFilm} poster={mobileHero} preload="auto" muted playsInline
+                aria-label="Diptyque 모바일 히어로 영상"
+                onEnded={() => {
+                    const root = rootRef.current;
+                    const headerHeight = document.querySelector('.header')?.getBoundingClientRect().height ?? 52;
+                    if (!root || root.getBoundingClientRect().bottom <= headerHeight) return;
+                    downButtonRef.current?.click();
+                }} />}
+            {isMobile && <button
+                ref={downButtonRef}
+                className="home-intro__mobile-down"
+                type="button"
+                aria-label="다음 콘텐츠로 이동"
+                onClick={() => {
+                    const next = rootRef.current?.nextElementSibling;
+                    const target = next?.matches('section') ? next : next?.querySelector('section');
+                    if (!target) return;
+                    const headerHeight = document.querySelector('.header')?.getBoundingClientRect().height ?? 52;
+                    window.scrollTo({
+                        top: target.getBoundingClientRect().top + window.scrollY - headerHeight,
+                        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+                    });
+                }}
+            ><img src={mobileScrollDown} alt="" aria-hidden="true" /></button>}
             <canvas
                 ref={canvasRef}
                 className="home-intro__video"
@@ -403,6 +459,19 @@ export default function HomeIntro() {
                 width="618"
                 height="225"
             />
+            <button
+                ref={topButtonRef}
+                className="home-intro__mobile-top"
+                type="button"
+                aria-label="홈 맨 위로 이동"
+                onClick={() => window.scrollTo({
+                    top: 0,
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+                })}
+            >
+                <img src={mobileTopIcon} alt="" aria-hidden="true" width="13" height="17" />
+                <span aria-hidden="true">TOP</span>
+            </button>
             <div
                 ref={storyRef}
                 className="home-intro__story"
@@ -455,6 +524,6 @@ export default function HomeIntro() {
                     </Link>
                 </div>
             </div>
-        </section>
+        </section>{isMobile && <MobileIntroStory />}</>
     );
 }

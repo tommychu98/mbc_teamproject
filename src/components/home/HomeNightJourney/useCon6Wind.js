@@ -13,7 +13,7 @@ const groups = [
 ];
 const waveDuration = .65;
 
-export default function useCon6Wind(rootRef) {
+export default function useCon6Wind(rootRef, mobile = false) {
     useEffect(() => {
         const root = rootRef.current;
         const panel = root.querySelector('[data-node-id="2863:8195"]');
@@ -183,5 +183,7 @@ export default function useCon6Wind(rootRef) {
                 delete element.dataset.connectedWindGroup;
             }));
         };
-    }, [rootRef]);
+    // The neighbouring Night DOM is replaced at the mobile breakpoint.
+    // Rebind its continuation instead of retaining the removed desktop element.
+    }, [rootRef, mobile]);
 }

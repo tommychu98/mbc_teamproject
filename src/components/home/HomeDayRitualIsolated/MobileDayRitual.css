@@ -1,0 +1,37 @@
+.home-mobile-day { display: none; }
+@media (max-width: 767px) {
+    .home-day-ritual > .home-day-ritual__canvas { display: none; }
+    .home-mobile-day { display: block; --mobile-day-scale: 1; color: #4b4b4b; }
+    .home-mobile-day__page { position: relative; height: calc(883px * var(--mobile-day-scale)); overflow: hidden; }
+    .home-mobile-day__canvas { position: relative; width: 430px; height: 883px; transform: scale(var(--mobile-day-scale)); transform-origin: top left; font-family: 'HomeDayRitual Garamond', Georgia, serif; }
+    .home-mobile-day img { display: block; max-width: none; pointer-events: none; }
+    .home-mobile-day p { margin: 0; }
+    .home-mobile-day .home-mobile-day__lemon { left: -100px; top: var(--mobile-lemon-top, -134px); width: 444px; height: 296px; opacity: .56; }
+    .home-mobile-day__title { position: absolute; left: 120px; top: 57px; margin: 0; font-size: 58px; font-weight: 500; line-height: 1.1; letter-spacing: 0; }
+    .home-mobile-day__byline { position: absolute; left: 120px; top: 185px; font-size: 16px; }
+    .home-mobile-day__floral { position: absolute; left: 289px; top: 120px; width: 254.22px; height: 241.132px; display: grid; place-items: center; animation: home-mobile-day-sway 8s ease-in-out infinite; transform-origin: 90% 70%; }
+    .home-mobile-day__floral img { width: 141.324px; height: 211.986px; opacity: .4; transform: rotate(-52.53deg); }
+    .home-mobile-day__morning { position: absolute; left: 23px; top: 317px; width: 280px; }
+    .home-mobile-day h3 { margin: 0; font-size: 40px; font-weight: 400; line-height: 1.1; }
+    .home-mobile-day__morning .home-mobile-day__rule { margin-top: 16px; }
+    .home-mobile-day__body { color: #6b665f; font: 300 16px/1.4 'HomeDayRitual Dotum', sans-serif; letter-spacing: .96px; overflow-wrap: break-word; }
+    .home-mobile-day__morning .home-mobile-day__body { margin-top: 18px; }
+    .home-mobile-day__body p + p { margin-top: 22.4px; }
+    .home-mobile-day__left { position: absolute; left: -125px; width: 313.313px; height: 330.736px; display: grid; place-items: center; animation: home-mobile-day-sway 8s ease-in-out infinite; transform-origin: 15% 50%; }
+    .home-mobile-day__left img { width: 275.735px; height: 183.823px; opacity: .4; transform: rotate(52.7deg); }
+    .home-mobile-day__left--first { top: 700px; }
+    .home-mobile-day__left--second { top: var(--mobile-branch-top, -183px); }
+    .home-mobile-day__left { animation-delay: var(--mobile-day-sway-delay, 0ms); }
+    .home-mobile-day__background { position: absolute; left: -402px; top: 107px; width: 902px; height: 601px; opacity: .2; }
+    .home-mobile-day__sensorial { position: absolute; left: 67px; top: 62px; width: 309px; text-align: right; }
+    .home-mobile-day__sensorial h3 { height: 83px; }
+    .home-mobile-day__sensorial .home-mobile-day__rule { margin-top: 21px; }
+    .home-mobile-day__sensorial .home-mobile-day__body { width: 269px; margin: 39px 0 0 auto; }
+    .home-mobile-day__woman { position: absolute; left: 32px; top: 514px; width: 354px; height: 324px; opacity: .7; object-fit: cover; }
+    .home-mobile-day__bath { position: absolute; left: 104px; top: 812px; width: 96px; height: 64px; object-fit: cover; }
+    .home-mobile-day__collection { position: absolute; left: 264px; top: 495px; width: 114px; min-height: 44px; color: rgb(75 75 75 / .5); font: 300 14px/1 'HomeDayRitual Dotum', sans-serif; text-decoration: none; }
+    .home-mobile-day__collection img { position: absolute; left: 46px; top: 19px; }
+    .home-mobile-day__collection:focus-visible { outline: 2px solid #4b4b4b; outline-offset: 4px; }
+}
+@keyframes home-mobile-day-sway { 0%, 100% { transform: rotate(-.8deg); } 50% { transform: rotate(1.1deg); } }
+@media (prefers-reduced-motion: reduce) { .home-mobile-day__left, .home-mobile-day__floral { animation: none; } }

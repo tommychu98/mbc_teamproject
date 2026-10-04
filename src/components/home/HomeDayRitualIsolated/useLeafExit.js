@@ -71,6 +71,7 @@ export default function useLeafExit(sectionRef, leafRef, scale) {
         };
         const paint = (now) => {
             frameId = 0;
+            if (!leaf.offsetParent || !pathLengths) return;
             const progress = advanceClock(now);
             paintLeaf(leaf, progress);
             // The film holds a visual copy of Day. Synchronize only its leaf
@@ -83,6 +84,7 @@ export default function useLeafExit(sectionRef, leafRef, scale) {
             if (flightState.direction !== 0) frameId = requestAnimationFrame(paint);
         };
         const checkTrigger = () => {
+            if (!leaf.offsetParent || !pathLengths) return;
             // Scroll only selects playback direction when the same boundary is
             // crossed. The clock, not scroll distance or velocity, drives motion.
             const beyondTrigger = window.scrollY >= start;
@@ -100,6 +102,7 @@ export default function useLeafExit(sectionRef, leafRef, scale) {
             const leafBounds = leaf.getBoundingClientRect();
             const dayTop = sectionBounds.top + window.scrollY;
             const canvas = leaf.offsetParent;
+            if (!canvas || !canvas.offsetWidth) return;
             const canvasScale = canvas.getBoundingClientRect().width / canvas.offsetWidth;
             const travel = sectionBounds.height - window.innerHeight;
             start = travel > 0 ? dayTop + travel * 0.6 : dayTop;

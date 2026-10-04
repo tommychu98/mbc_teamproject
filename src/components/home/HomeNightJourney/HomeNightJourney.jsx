@@ -7,6 +7,9 @@ import { nightJourneyPanels } from './nightJourneyData';
 import useAmbientWind from './useAmbientWind';
 import useCon6Wind from './useCon6Wind';
 import './HomeNightJourney.css';
+import MobileNightWind from './MobileNightWind';
+import useHomeMobile from '../useHomeMobile';
+import MobileCategoryCarousel from './MobileCategoryCarousel';
 
 const DESIGN_WIDTH = 1920;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -72,10 +75,11 @@ function Particle({ particle, panelIndex, index }) {
 }
 
 export default function HomeNightJourney() {
+    const mobile = useHomeMobile();
     const rootRef = useRef(null);
     const trackRef = useRef(null);
     useAmbientWind(rootRef);
-    useCon6Wind(rootRef);
+    useCon6Wind(rootRef, mobile);
 
     useLayoutEffect(() => {
         const root = rootRef.current;
@@ -193,14 +197,8 @@ export default function HomeNightJourney() {
                 </div>
             </div>
             <div className="night-journey__mobile">
-                <div className="night-journey__mobile-con6" aria-hidden="true">
-                    <img src={foregroundFlowers} alt="" />
-                </div>
-                {nightJourneyPanels.slice(1).map((panel) => (
-                    <article className="night-journey__mobile-panel" key={panel.id}>
-                        <Category category={panel.category} mobile />
-                    </article>
-                ))}
+                {mobile && <MobileNightWind />}
+                {mobile && <MobileCategoryCarousel />}
             </div>
         </section>
     );
