@@ -2,7 +2,7 @@
 
 @media (max-width: 899px) {
   .ftp-renewal-scroll > .ftp-renewal-stage { display: none; }
-  .for-the-planet .ftp-renewal-scroll { height: 340svh; }
+  .for-the-planet .ftp-renewal-scroll { height: 440svh; }
   .ftp-mobile-renewal {
     position: sticky;
     top: 0;

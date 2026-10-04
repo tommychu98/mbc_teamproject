@@ -37,7 +37,7 @@ body.ftp-route.ftp-header-hidden .header {
   font-display: swap;
 }
 
-/* Portal keeps blending outside the scenes' isolated stacking contexts. */
+/* Portal keeps the button above the scenes' isolated stacking contexts. */
 .ftp-back-to-top {
   position: fixed;
   z-index: 90;
@@ -48,19 +48,26 @@ body.ftp-route.ftp-header-hidden .header {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #fff;
-  mix-blend-mode: difference;
+  color: rgb(34 34 34 / .7);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.ftp-back-to-top picture { position: absolute; top: 11.3235px; left: 27.3256px; }
-.ftp-back-to-top img { display: block; max-width: none; filter: brightness(0) invert(1); }
-.ftp-back-to-top span { position: absolute; top: 55px; left: 26px; font: 300 16px/1.5 PlanetKoPub, sans-serif; letter-spacing: .32px; }
+.ftp-back-to-top[data-backdrop="dark"] { color: rgb(247 246 244 / .7); }
+.ftp-back-to-top__arrow {
+  position: absolute;
+  top: 11.3235px;
+  left: 27.3256px;
+  width: 25.35px;
+  height: 34.35px;
+  background: currentColor;
+  mask: url('/ForThePlanet/top-desktop.svg') center / contain no-repeat;
+}
+.ftp-back-to-top > span:not(.ftp-back-to-top__arrow) { position: absolute; top: 55px; left: 26px; font: 300 16px/1.5 PlanetKoPub, sans-serif; letter-spacing: .32px; }
 .ftp-back-to-top:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
 @media (max-width: 899px) {
   .ftp-back-to-top { right: 20px; width: 40px; height: 43px; }
-  .ftp-back-to-top picture { top: 7.5px; left: 13.5px; }
-  .ftp-back-to-top span { top: 29px; left: 9px; font-size: 11px; line-height: 1.3; letter-spacing: .22px; }
+  .ftp-back-to-top__arrow { top: 7.5px; left: 13.5px; width: 13px; height: 17px; mask-image: url('/ForThePlanet/top-mobile.svg'); }
+  .ftp-back-to-top > span:not(.ftp-back-to-top__arrow) { top: 29px; left: 9px; font-size: 11px; line-height: 1.3; letter-spacing: .22px; }
 }
 
 .for-the-planet {
@@ -142,6 +149,37 @@ body.ftp-route.ftp-header-hidden .header {
 .ftp-story-stage { isolation: isolate; }
 .ftp-world-background { position: absolute; z-index: 1; inset: 0; pointer-events: none; }
 .ftp-world-background img { position: absolute; opacity: .3; object-fit: contain; }
+
+.ftp-world-background img,
+.ftp-mobile-ambition__decorations .ftp-mobile-decoration--falling {
+  --drift-opacity: .3;
+  --drift-start: -90px;
+  --drift-end: 130px;
+  animation: ftp-background-fall var(--drift-duration, 21.7s) linear var(--drift-delay, 0s) infinite;
+}
+
+@media (max-width: 899px) {
+  .ftp-mobile-ambition__decorations .ftp-mobile-decoration--falling {
+    --drift-start: -36px;
+    --drift-end: 70px;
+  }
+}
+
+/* Keep original image positions and rotations while drifting the decorations. */
+@keyframes ftp-background-fall {
+  0% { translate: 0 var(--drift-start); rotate: -5deg; opacity: 0; }
+  15% { opacity: var(--drift-opacity); }
+  25% { translate: var(--drift-sway, 24px) calc(var(--drift-start) * .5); rotate: 3deg; }
+  50% { translate: 0 20px; rotate: -3deg; }
+  75% { translate: calc(var(--drift-sway, 24px) * -1) calc(var(--drift-end) * .65); rotate: 4deg; }
+  85% { opacity: var(--drift-opacity); }
+  100% { translate: 0 var(--drift-end); rotate: -5deg; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ftp-world-background img,
+  .ftp-mobile-ambition__decorations .ftp-mobile-decoration--falling { animation: none; }
+}
 .ftp-story-viewport { position: absolute; top: 50%; left: 50%; width: 1920px; height: 1080px; transform-origin: center center; }
 .ftp-story-track { position: absolute; top: 0; left: 0; width: 7683px; height: 1080px; will-change: transform; }
 .ftp-world-intro,
@@ -221,7 +259,7 @@ body.ftp-route.ftp-header-hidden .header {
 
 /* Con6 uses a uniformly scaled 1920x1080 Figma artboard. No mixed
    percentage/px positioning: this previously made the image overlap text. */
-.ftp-renewal-scroll { position: relative; height: 340svh; }
+.ftp-renewal-scroll { position: relative; height: 440svh; }
 .ftp-renewal-stage { background: var(--ftp-ivory); }
 .ftp-renewal-canvas { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
 .ftp-renewal-layout { position: absolute; z-index: 4; top: 50%; left: 50%; width: 1920px; height: 1080px; transform-origin: center; pointer-events: none; }
