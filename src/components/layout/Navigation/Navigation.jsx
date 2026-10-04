@@ -72,7 +72,7 @@ export default function Header() {
   const hideTimeoutRef = useRef(null);
   const dropdownCloseTimeoutRef = useRef(null);
   const isHeaderHoveredRef = useRef(false);
-  const { user, isAuthenticated, logout } = useAuthStore();
+  const { isAuthenticated, logout } = useAuthStore();
   const cartCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
   const navigate = useNavigate();
 
@@ -216,7 +216,7 @@ export default function Header() {
         <div className="header__mobile-auth">{isAuthenticated ? <button type="button" onClick={handleLogout}>LOG OUT</button> : <><Link to="/login" onClick={closeMenu}>LOGIN</Link><Link to="/signup" onClick={closeMenu}>JOIN</Link></>}</div>
       </nav>
       <div className="header__utilities">
-        <Link className="header__account" to={isAuthenticated ? '/mypage' : '/login'} aria-label={isAuthenticated ? '마이페이지' : '로그인'}>{user?.profileImage ? <img className="header__profile-image" src={user.profileImage} alt="" /> : <img src="/images/common/icon-profile.svg" alt="" />}</Link>
+        <Link className="header__account" to={isAuthenticated ? '/mypage' : '/login'} aria-label={isAuthenticated ? '마이페이지' : '로그인'}>{isAuthenticated ? <span className="header__profile-avatar"><img className="header__profile-image" src="/images/common/nav-botanical-avatar.png" alt="" /></span> : <img src="/images/common/icon-profile.svg" alt="" />}</Link>
         <Link className="header__search" to="/search" aria-label="검색"><img src="/images/common/icon-search.svg" alt="" /></Link>
         <Link className="header__cart" to="/cart" aria-label={`장바구니 ${cartCount}개`}><img src="/images/common/icon-bag.svg" alt="" />{cartCount > 0 && <span>{cartCount}</span>}</Link>
       </div>
