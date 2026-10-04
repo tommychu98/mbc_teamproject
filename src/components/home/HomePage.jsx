@@ -10,6 +10,7 @@ import HomeNightJourney from './HomeNightJourney/HomeNightJourney';
 import HomeScentSequence from './HomeScentSequence/HomeScentSequence';
 import HomeFragranceWorld from './HomeFragranceWorld/HomeFragranceWorld';
 import HomePreFooter from './HomePreFooter';
+import Home3D from './3d';
 
 export default function HomePage() {
     return (
@@ -24,6 +25,7 @@ export default function HomePage() {
             <HomeNightJourney />
             <HomeScentSequence />
             <HomeFragranceWorld />
+            <Home3D />
             <HomePreFooter />
         </div>
     );

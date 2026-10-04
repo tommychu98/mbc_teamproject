@@ -26,7 +26,8 @@
 
 .home-scent-memory__lemon {
     position: absolute;
-    top: 71.481481%;
+    /* 770 + 310 = 1080: align with the Day image across the section seam. */
+    top: 71.296296%;
     left: -14.947917%;
     display: block;
     width: 73.125%;

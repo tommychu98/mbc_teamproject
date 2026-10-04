@@ -18,7 +18,9 @@ export default function useAmbientWind(rootRef) {
         const root = rootRef.current;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const desktop = window.matchMedia('(min-width: 768px)');
-        const petals = [...root.querySelectorAll('.night-journey__wind')].map((element, index) => {
+        // Connected branches share one wind field in useCon6Wind, including
+        // the adjoining Night artwork. Do not add an independent second sway.
+        const petals = [...root.querySelectorAll('.night-journey__wind:not([data-motion-type="branch"]):not([data-attached-wind])')].map((element, index) => {
             const image = element.querySelector('img');
             // Use the original asset slot to distinguish distant and foreground petals.
             const imageStyle = getComputedStyle(image);
@@ -74,10 +76,10 @@ export default function useAmbientWind(rootRef) {
             petals.forEach((particle) => {
                 const { element, image, type, seed, phase, period, drift, turn, radius, depth } = particle;
                 const time = elapsed / period + phase;
-                // Preserve ordinary orientation changes; limit only abrupt startup turns.
+                // Ease into each turn without hitting a fixed angular speed,
+                // which made drifting leaves look stiff at direction changes.
                 const limitTurn = (target) => {
-                    const step = (type === 'botanical' || type === 'branch' ? 2.5 : 1.6) * delta;
-                    particle.angle += Math.max(-step, Math.min(step, target - particle.angle));
+                    particle.angle += (target - particle.angle) * (1 - Math.exp(-delta / .85));
                     return particle.angle;
                 };
                 if (type === 'botanical' || type === 'branch') {
@@ -101,7 +103,7 @@ export default function useAmbientWind(rootRef) {
                 // A circle encloses the image at every rotation; include lateral drift under
                 // the parent's rotation so neither entry nor exit can clip a visible corner.
                 const lateral = drift * (type === 'flower' ? 2.05 : type === 'leaf' ? 3.0 : 4.2 + (1 - depth) * 0.8);
-                const clearance = (radius + lateral * Math.abs(parentMatrix.b)) * scale + 32;
+                const clearance = (radius + (lateral + drift * .75) * Math.abs(parentMatrix.b)) * scale + 32;
                 const above = (-clearance - centerY) / verticalScale;
                 const below = (window.innerHeight + clearance - centerY) / verticalScale;
                 const suspension = type === 'petal' ? 0.72 : type === 'leaf' ? 0.54 : 0.36;
@@ -111,7 +113,7 @@ export default function useAmbientWind(rootRef) {
                     const distanceRatio = Math.min(1, Math.max(0.3, (below - startY) * verticalScale / window.innerHeight));
                     const distance = Math.abs((below - startY) * verticalScale);
                     // Small petals linger longest; larger leaves keep a little more weight.
-                    const pace = (type === 'petal' ? 0.66 : type === 'leaf' ? 0.70 : 0.69)
+                    const pace = (type === 'petal' ? 0.50 : type === 'leaf' ? 0.56 : 0.60)
                         + depth * 0.04;
                     const oldSpeed = type === 'petal' ? 170 : 180;
                     const oldAcceleration = type === 'flower' ? 40 : 35;
@@ -120,7 +122,7 @@ export default function useAmbientWind(rootRef) {
                     const curve = 0.6 + (random(seed + 71 + Math.floor(elapsed)) + 1) * 0.35;
                     // Also budget the sideways curve projected onto screen Y by the
                     // existing outer rotation, which previously produced speed outliers.
-                    const projectedDrift = lateral * scale * Math.abs(parentMatrix.b);
+                    const projectedDrift = (lateral + drift * .75) * scale * Math.abs(parentMatrix.b);
                     const sidewaysVelocity = projectedDrift * 3 * Math.max(1, curve + 0.15);
                     const sidewaysAcceleration = projectedDrift * 6 * (2 + 3 * curve);
                     const originalDuration = Math.max(
@@ -154,16 +156,27 @@ export default function useAmbientWind(rootRef) {
                     - 3 * inverse * progress * progress * flight.curve
                     + progress ** 3 * 0.15;
                 const air = current(time * 0.27, seed + 307);
-                const x = flight.direction * lateral * sideways + air * drift * 0.18;
+                const opening = Math.min(1, progress / .12);
+                const release = opening * opening * (3 - 2 * opening);
+                // A shared breeze carries the whole scene, while each light
+                // fragment flutters at its own pace along the broad flight path.
+                const breeze = Math.sin(elapsed * .78) * .3 + Math.sin(elapsed * 1.14 + .7) * .14;
+                const flutterPhase = elapsed * (type === 'leaf' ? 1.12 : .88) + phase * Math.PI * 2;
+                const flutter = Math.sin(flutterPhase) * (type === 'flower' ? .13 : .24);
+                const x = flight.direction * lateral * sideways
+                    + (air * .18 + breeze * .45 + flutter) * drift * release;
                 // Integrate one broad air-resistance pulse. Velocity remains positive
                 // (minimum 28% for petals), with no stops or segment boundaries.
                 const breath = (phase % 1 - 0.5) * 0.8;
                 const descent = progress - suspension / (Math.PI * 2)
                     * (Math.sin(progress * Math.PI * 2 + breath) - Math.sin(breath));
-                const y = flight.startY + (flight.endY - flight.startY) * descent;
+                const y = flight.startY + (flight.endY - flight.startY) * descent
+                    + Math.sin(flutterPhase + .7) * drift * .055 * release;
                 const orientation = type === 'flower' ? 0.45 : type === 'leaf' ? 0.8 : 0.6;
-                const angle = limitTurn((air * 1.6 + current(time * 0.38, seed + 419) * 0.65) * turn * orientation);
-                element.style.transform = `translate3d(${x.toFixed(3)}px, ${y.toFixed(3)}px, 0) rotate(${angle.toFixed(3)}deg)`;
+                const angle = limitTurn(((air * 1.6 + current(time * 0.38, seed + 419) * .65) * turn * orientation
+                    + Math.cos(flutterPhase) * (type === 'leaf' ? 12 : type === 'petal' ? 8 : 4)) * release);
+                const flutterScale = 1 - Math.sin(flutterPhase) ** 2 * (type === 'leaf' ? .075 : .035) * release;
+                element.style.transform = `translate3d(${x.toFixed(3)}px, ${y.toFixed(3)}px, 0) rotate(${angle.toFixed(3)}deg) scaleX(${flutterScale.toFixed(4)})`;
                 // Do not fade or reset until the entire rendered image is below the viewport.
                 if (progress === 1 && image.getBoundingClientRect().top > window.innerHeight) {
                     particle.hasExited = true;

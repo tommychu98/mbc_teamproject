@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import lemonDrawing from './assets/top-lemon.png';
 import './HomeScentMemory.css';
+import '../connectedLemon.css';
 
 const MEMORY_LINES = [
     'Every scent begins as a memory,',

@@ -17,6 +17,7 @@
     "react-dom": "latest",
     "react-router-dom": "latest",
     "swiper": "latest",
+    "three": "0.186.1",
     "vite": "latest",
     "zustand": "latest"
   },

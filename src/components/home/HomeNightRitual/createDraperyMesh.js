@@ -6,7 +6,9 @@ const clamp = x => Math.max(0, Math.min(1, x));
 const ease = x => { const t = clamp(x); return t * t * t * (t * (t * 6 - 15) + 10); };
 
 export default function createDraperyMesh(canvas, image) {
-    const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: true });
+    // Keep texture sampling and browser compositing in premultiplied alpha.
+    // Straight-alpha antialiasing can expose hidden RGB at transparent hems.
+    const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true });
     if (!gl) return null;
     const shader = (type, source) => {
         const s = gl.createShader(type);
@@ -23,7 +25,10 @@ export default function createDraperyMesh(canvas, image) {
     const fragment = shader(gl.FRAGMENT_SHADER, `
         precision mediump float; uniform sampler2D artwork;
         varying vec2 texCoord; varying float lighting;
-        void main() { vec4 c = texture2D(artwork, texCoord); gl_FragColor = vec4(c.rgb * lighting, c.a); }
+        void main() {
+            vec4 c = texture2D(artwork, texCoord);
+            gl_FragColor = vec4(clamp(c.rgb * lighting, vec3(0.0), vec3(c.a)), c.a);
+        }
     `);
     const program = gl.createProgram();
     gl.attachShader(program, vertex);
@@ -53,14 +58,30 @@ export default function createDraperyMesh(canvas, image) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     let loaded = false;
+    let contextLost = false;
     let lastProgress = 0;
+    const showImage = () => {
+        canvas.style.visibility = 'hidden';
+        image.style.removeProperty('visibility');
+    };
+    const handleContextLost = event => {
+        event.preventDefault();
+        contextLost = true;
+        loaded = false;
+        // The outer fabric still animates when GPU rendering is unavailable.
+        showImage();
+    };
+    canvas.addEventListener('webglcontextlost', handleContextLost);
     const vertices = new Float32Array((COLS + 1) * (ROWS + 1) * 5);
     const projected = new Float32Array(COLS + 1);
     const fold = new Float32Array(COLS + 1);
     const amount = new Float32Array(COLS + 1);
     const draw = progress => {
         lastProgress = progress;
-        if (!loaded) return false;
+        if (!loaded || contextLost || gl.isContextLost()) {
+            showImage();
+            return false;
+        }
         const width = canvas.clientWidth, height = canvas.clientHeight;
         const density = Math.min(devicePixelRatio || 1, 2);
         const w = Math.round(width * density), h = Math.round(height * density);
@@ -101,14 +122,17 @@ export default function createDraperyMesh(canvas, image) {
         return true;
     };
     const load = () => {
+        if (contextLost || gl.isContextLost()) return;
+        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-        loaded = true;
+        loaded = gl.getError() === gl.NO_ERROR;
         draw(lastProgress);
     };
     if (image.complete && image.naturalWidth) load();
     else image.addEventListener('load', load);
     return { draw, dispose() {
         image.removeEventListener('load', load);
+        canvas.removeEventListener('webglcontextlost', handleContextLost);
         image.style.removeProperty('visibility');
         canvas.style.visibility = 'hidden';
         gl.deleteTexture(texture); gl.deleteBuffer(buffer); gl.deleteBuffer(indexBuffer);
