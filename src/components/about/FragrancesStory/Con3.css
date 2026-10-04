@@ -74,10 +74,6 @@
   width: 281.83%;
   height: 100%;
 }
-/* The existing mobile artwork already contains its bottle. */
-@media (width < 768px) {
-  .fragrances-con3__main-perfume { display: none; }
-}
 
 /* Note centers: x = 548, 960, 1372. Source label/name slots are 20/32px. */
 .fragrances-con3__notes {

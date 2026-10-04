@@ -6,7 +6,6 @@ import mobilebackground from './assets/mobile-notes-background.png';
 import mobiletable from './assets/mobile-notes-table.png';
 import background from './assets/con3-background.png';
 import table from './assets/con3-table.png';
-import perfume from './assets/con6-perfume.png';
 import ingredients from './assets/con6-ingredients.png';
 import mainPerfume from './assets/con6-main-perfume.png';
 import './Con6.css';
@@ -28,7 +27,7 @@ export default function Con6() {
         <div className="fragrances-con6__table">
           <StoryImage mobileSrc={mobiletable} className="fragrances-con6__table-image" src={table} alt="" width="1122" height="1402" draggable="false" />
         </div>
-        <StoryImage mobileSrc={perfume} className="fragrances-con6__perfume" src={ingredients} alt="주니퍼 베리, 튜베로즈와 샌들우드로 구성된 The 34 향 재료" width="1131" height="601" draggable="false" />
+        <StoryImage mobileSrc={ingredients} className="fragrances-con6__perfume" src={ingredients} alt="주니퍼 베리, 튜베로즈와 샌들우드로 구성된 The 34 향 재료" width="1131" height="601" draggable="false" />
         <div className="fragrances-con6__ingredient-targets">
           {notes.map(({ id, label, name }) => (
             <button key={id} type="button" className={`fragrances-con6__ingredient fragrances-con6__ingredient--${id}`} data-ingredient={id} aria-pressed="false" aria-label={`${name}: ${label} 강조`} aria-controls={`fragrances-con6-note-${id}`} />

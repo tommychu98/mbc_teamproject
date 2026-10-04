@@ -10,9 +10,15 @@ export default function useCon3BottleEntrance(sceneRef) {
     const scene = sceneRef.current;
     if (!scene) return undefined;
     const media = gsap.matchMedia();
-    media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+    media.add({
+      motion: '(prefers-reduced-motion: no-preference)',
+      desktop: '(min-width: 768px)',
+      mobile: '(width < 768px)',
+    }, ({ conditions }) => {
+      if (!conditions.motion) return;
       const bottle = scene.querySelector('.fragrances-con3__main-perfume');
-      gsap.set(bottle, { y: 120 });
+      // The mobile bottle uses its own Figma slot; preserve the desktop 120px rise.
+      gsap.set(bottle, { y: conditions.desktop ? 120 : 32 * scene.clientWidth / 430 });
       const entrance = gsap.timeline({ paused: true })
         .to(bottle, { y: 0, duration: 1.7, ease: 'power2.out',
           onComplete: () => gsap.set(bottle, { clearProps: 'transform' }) });

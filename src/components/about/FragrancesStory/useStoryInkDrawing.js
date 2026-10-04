@@ -58,6 +58,7 @@ export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints 
     const media = gsap.matchMedia();
     media.add('(prefers-reduced-motion: no-preference)', () => {
       let disposed = false;
+      let generation = 0;
       let sequence;
       let trigger;
       let states = [];
@@ -73,9 +74,10 @@ export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints 
         states = [];
       };
       const setup = async () => {
+        const version = ++generation;
         const images = frames.map(frame => frame.querySelector('img'));
         try { await Promise.all(images.map(image => image.decode())); } catch { return; }
-        if (disposed) return;
+        if (disposed || version !== generation) return;
         const oldProgress = sequence?.progress();
         const wasReversed = sequence?.reversed();
         trigger?.kill(); sequence?.kill(); cleanLayers();

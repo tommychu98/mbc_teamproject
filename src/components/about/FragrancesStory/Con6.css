@@ -85,10 +85,6 @@
   height: 100%;
 }
 
-/* Preserve the existing mobile composition, whose artwork includes the bottle. */
-@media (width < 768px) {
-  .fragrances-con6__main-perfume { display: none; }
-}
 
 /* The end-aligned Figma row overflows its frame by 80px on the left.
    Actual note centers are 464, 964, 1464; text slots are 20/32px. */

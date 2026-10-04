@@ -76,7 +76,12 @@ export default function Con13() {
     const root = rootRef.current;
     const media = gsap.matchMedia(root);
 
-    media.add('(prefers-reduced-motion: no-preference)', () => {
+    media.add({
+      motion: '(prefers-reduced-motion: no-preference)',
+      desktop: '(min-width: 768px)',
+      mobile: '(width < 768px)',
+    }, ({ conditions }) => {
+      if (!conditions.motion) return;
       const selectLayer = (name) => root.querySelector(`.fragrances-con13__layer--${name}`);
       const bookData = layers.find(({ name }) => name === 'main-book');
       const book = selectLayer(bookData.name);
@@ -101,7 +106,8 @@ export default function Con13() {
           { opacity: 1, yPercent: 0, duration: 1, ease: 'power3.out' })
         .set(book, { clearProps: 'transform,opacity' })
         .fromTo(flowers, {
-          yPercent: (index) => -60 / flowerData[index].height * 100,
+          // A 28px mobile fall is visible immediately; desktop keeps its exact path.
+          yPercent: (index) => conditions.mobile ? -28 / flowers[index].clientHeight * 100 : -60 / flowerData[index].height * 100,
         }, {
           yPercent: 0,
           duration: 0.35, stagger: 0.15, ease: 'power1.inOut',

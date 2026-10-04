@@ -80,10 +80,6 @@
   height: 100%;
 }
 
-/* Keep the existing mobile composite and breakpoint layout. */
-@media (width < 768px) {
-  .fragrances-con9__main-perfume { display: none; }
-}
 
 /* Note centers: x = 490, 960, 1430. Source label/name slots are 20/32px. */
 .fragrances-con9__notes {

@@ -6,7 +6,6 @@ import mobilebackground from './assets/mobile-notes-background.png';
 import mobiletable from './assets/mobile-notes-table.png';
 import background from './assets/con3-background.png';
 import table from './assets/con3-table.png';
-import perfume from './assets/con3-perfume.png';
 import ingredients from './assets/con3-ingredients.png';
 import mainPerfume from './assets/con3-main-perfume.png';
 import './Con3.css';
@@ -29,7 +28,7 @@ export default function Con3() {
         <div className="fragrances-con3__table">
           <StoryImage mobileSrc={mobiletable} className="fragrances-con3__table-image" src={table} alt="" width="1122" height="1402" draggable="false" />
         </div>
-        <StoryImage mobileSrc={perfume} className="fragrances-con3__perfume" src={ingredients} alt="베르가못, 아이리스와 암브레트로 구성된 Fleur de Peau 향 재료" width="1131" height="600" draggable="false" />
+        <StoryImage mobileSrc={ingredients} className="fragrances-con3__perfume" src={ingredients} alt="베르가못, 아이리스와 암브레트로 구성된 Fleur de Peau 향 재료" width="1131" height="600" draggable="false" />
         <div className="fragrances-con3__ingredient-targets">
           {notes.map(({ id, label, name }) => (
             <button key={id} type="button" className={`fragrances-con3__ingredient fragrances-con3__ingredient--${id}`} data-ingredient={id} aria-pressed="false" aria-label={`${name}: ${label} 강조`} aria-controls={`fragrances-con3-note-${id}`} />

@@ -6,7 +6,6 @@ import mobilebackground from './assets/mobile-notes-background.png';
 import mobiletable from './assets/mobile-notes-table.png';
 import background from './assets/con3-background.png';
 import table from './assets/con3-table.png';
-import perfume from './assets/con9-perfume.png';
 import ingredients from './assets/con9-ingredients.png';
 import mainPerfume from './assets/con9-main-perfume.png';
 import './Con9.css';
@@ -37,7 +36,7 @@ export default function Con9() {
           ))}
         </dl>
         <div className="fragrances-con9__perfume">
-          <StoryImage mobileSrc={perfume} className="fragrances-con9__perfume-image" src={ingredients} alt="갈바넘, 자스민과 통카빈으로 구성된 Orphéon 향 재료" width="1721" height="914" draggable="false" />
+          <StoryImage mobileSrc={ingredients} className="fragrances-con9__perfume-image" src={ingredients} alt="갈바넘, 자스민과 통카빈으로 구성된 Orphéon 향 재료" width="1721" height="914" draggable="false" />
         </div>
         <div className="fragrances-con9__ingredient-targets">
           {notes.map(({ id, label, name }) => (
