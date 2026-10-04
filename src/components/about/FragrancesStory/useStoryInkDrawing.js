@@ -51,12 +51,14 @@ function makeLines(frame, image, namespace) {
   return canvas;
 }
 
-export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints }) {
+export default function useStoryInkDrawing(sectionRef, {
+  namespace, focalPoints, mediaQuery = '(prefers-reduced-motion: no-preference)',
+}) {
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return undefined;
     const media = gsap.matchMedia();
-    media.add('(prefers-reduced-motion: no-preference)', () => {
+    media.add(mediaQuery, () => {
       let disposed = false;
       let generation = 0;
       let sequence;
@@ -138,5 +140,5 @@ export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints 
       };
     });
     return () => media.revert();
-  }, [sectionRef, namespace, focalPoints]);
+  }, [sectionRef, namespace, focalPoints, mediaQuery]);
 }

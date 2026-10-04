@@ -114,3 +114,7 @@
 .fragrances-con5__card-description span {
   display: block;
 }
+.fragrances-con5__pagination { padding: 0; border: 0; background: none; cursor: pointer; }
+@media (width < 768px) {
+  .fragrances-con5 .fragrances-con5__cards { touch-action: pan-y pinch-zoom; scroll-snap-type: none; }
+}
