@@ -1,4 +1,5 @@
 import useMobileCards from './useMobileCards';
+import useCon2InkDrawing from './useCon2InkDrawing';
 import { useRef } from 'react';
 import background from './assets/con2-background.png';
 import cloth from './assets/con2-cloth.png';
@@ -9,9 +10,11 @@ import './Con2.css';
 export default function Con2() {
   const { railRef, active } = useMobileCards();
   const clothRef = useRef(null);
+  const sectionRef = useRef(null);
+  useCon2InkDrawing(sectionRef);
 
   return (
-    <section className="fragrances-con2" aria-labelledby="fragrances-con2-title">
+    <section ref={sectionRef} className="fragrances-con2" aria-labelledby="fragrances-con2-title">
       <div className="fragrances-con2__scene">
         <div className="fragrances-con2__content">
           <img className="fragrances-con2__background" src={background} alt="" width="1920" height="1080" draggable="false" />

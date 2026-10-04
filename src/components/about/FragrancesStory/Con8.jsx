@@ -4,6 +4,8 @@ import mobileCard1 from './assets/mobile-essence.png';
 import mobileCard2 from './assets/mobile-night-echo.png';
 const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
+import { useRef } from 'react';
+import useCon8InkDrawing from './useCon8InkDrawing';
 import background from './assets/con2-background.png';
 import mobileBackground from './assets/con5-background.png';
 import jazzNight from './assets/con8-jazz-night.png';
@@ -38,15 +40,21 @@ const cards = [
 
 export default function Con8() {
   const { railRef, active } = useMobileCards();
+  const sectionRef = useRef(null);
+  useCon8InkDrawing(sectionRef);
   return (
-    <section className="fragrances-con8" aria-labelledby="fragrances-con8-title">
+    <section ref={sectionRef} className="fragrances-con8" aria-labelledby="fragrances-con8-title">
       <div className="fragrances-con8__scene">
         <StoryImage mobileSrc={mobileBackground} className="fragrances-con8__background" src={background} alt="" width="1920" height="1080" draggable="false" />
         <h2 className="fragrances-con8__title" id="fragrances-con8-title">A MEMORY OF PARIS AFTER DARK</h2>
         <div ref={railRef} className="fragrances-con8__cards">
           {cards.map(({ number, title, image, alt, lines }, index) => (
             <article className="fragrances-con8__card" key={number}>
-              <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con8__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+              <div className="fragrances-con8__card-artwork">
+                <div className="fragrances-con8__ink-original">
+                  <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con8__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+                </div>
+              </div>
               <div className="fragrances-con8__card-content">
                 <h3 className="fragrances-con8__card-heading">
                   <span>{number}</span>
