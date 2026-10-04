@@ -68,3 +68,55 @@ Unrelated pre-existing changes remain in Navigation.css, Navigation.jsx,
 Navigation/assets/mobile-logo.png, mobile-menu.svg, mobile-search.svg and
 public/models/orpheon-custom.glb. They must be reviewed/staged separately by
 their owner; they were not changed during this review.
+
+## Submission review — 2026-10-05
+
+This section records the current review; the sections above describe earlier work.
+
+- Project root: mbc_teamproject_1. Origin matches the requested team repository.
+  Current branch remains feature/galerie. The tree was dirty, so no checkout,
+  pull, reset, add, commit or push was performed.
+- Read all 143 files under Galerie, including all nested assets and documentation.
+  Inspected the sole initial Galerie diff, useDecorationPop.js; no Galerie
+  additions, deletions, renames or staged changes were present.
+- All 84 PNGs decompress, all 25 SVGs parse as XML, and all five font files have
+  valid container signatures. All 166 local import/asset references resolve.
+  Installed direct dependency versions match package-lock.json; npm ci is unnecessary.
+- Ingredient motion now unfolds like paper on desktop and mobile. Desktop uses
+  each ingredient's fixed wrapper as the scroll trigger. Mobile unfolds visible
+  ingredients at 0.35-second intervals with an earlier scene arrival, and reverses
+  on departure. Hidden responsive ingredients no longer consume sequence slots.
+  No upward fly-away exit remains. CSS, assets, exports, props and event names
+  were preserved; reduced motion leaves the original artwork visible.
+- Changes in this review are limited to useDecorationPop.js and this report.
+  Existing changes outside Galerie are preserved: HomeIntro.css, HomeIntro.jsx,
+  createFrameSequence.js, createVideoScrubber.js, Navigation.css, Navigation.jsx,
+  Navigation/assets/mobile-logo.png, mobile-menu.svg, mobile-search.svg, and
+  public/models/orpheon-custom.glb.
+- Galerie ESLint and npm run build pass. The existing whole-app JavaScript chunk
+  size warning remains; package configuration and shared code were not modified.
+- Headless Chrome at 320, 390, 430, 768 and 1440 CSS pixels: all 12 favorites
+  select/clear; four mobile introduction arrows focus and scroll to the correct
+  content; Another navigates to its chapter; TOP returns to zero; ingredient
+  groups unfold and reverse; all 102 Galerie page/footer images decode; no
+  document horizontal overflow or browser JavaScript exceptions were observed.
+  Reduced-motion artwork remains visible. A 430px Rose screenshot was inspected.
+- After the hidden-ingredient fix, targeted checks at 390px confirm sequential
+  mobile entry, complete reverse and replay, unchanged wrapper positions/sizes,
+  CDP touch selection of a favorite, and scrolling all five horizontal regions.
+  At 1440px all four Rose ingredients independently reach closed, intermediate,
+  open and closed states as their wrappers cross the scroll range. Reduced motion
+  removes ingredient transforms. Final 390px/1440px screenshots were inspected.
+  Final diff and whitespace checks pass. Hash comparison confirms all ten
+  pre-existing files outside Galerie remain unchanged by this review.
+- Development server: http://127.0.0.1:5173/galerie. Restart with
+  `npm.cmd run dev -- --host 127.0.0.1 --port 5173 --strictPort` in PowerShell.
+  Check paper unfolding and reverse scrolling, mobile arrival timing, four
+  introduction arrows, favorite buttons, horizontal product/card scrolling,
+  chapter navigation and TOP. There is no Galerie filter UI.
+- Real phones, iOS/Safari, Firefox, authenticated inquiry submission and exact
+  design-reference matching remain unverified. Footer policy/store/chat labels
+  retain their existing text behavior. Its displayed ISMS validity ends on
+  2026-09-15; replacement certification/company content needs team confirmation.
+  GalerieNavigation.css remains an unimported optional shared-header theme;
+  future header/footer or route integration belongs to the team lead.
