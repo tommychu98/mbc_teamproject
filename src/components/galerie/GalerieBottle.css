@@ -1,0 +1,33 @@
+.galerie-bottle__desktop { display: block; width: 100%; height: auto; }
+.galerie-bottle__mobile { display: none; }
+
+@media (max-width: 767px) {
+    .galerie-bottle__desktop { display: none; }
+    .galerie-bottle__mobile {
+        display: block;
+        position: relative;
+        aspect-ratio: 293 / 376;
+    }
+    .galerie-bottle__crop {
+        position: absolute;
+        left: 3.41297%;
+        top: 1.59574%;
+        width: 93.17406%;
+        height: 94.68085%;
+        overflow: hidden;
+    }
+    .galerie-bottle__crop > img {
+        position: absolute;
+        left: 0;
+        top: -1.1236%;
+        width: 100%;
+        height: 102.2472%;
+        max-width: none;
+    }
+    .galerie-bottle__mobile--cropped .galerie-bottle__crop > img {
+        left: -10.475%;
+        top: -15.2308%;
+        width: 120.9501%;
+        height: 124.0514%;
+    }
+}

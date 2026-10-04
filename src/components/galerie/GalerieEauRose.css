@@ -58,3 +58,10 @@
     .galerie-rose__lineup .galerie-lineup__scent p { margin-top: 20px; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
     .galerie-rose__collage { position: absolute; left: calc(50% + 3px); top: 33px; width: min(176px, 45.6%); aspect-ratio: 176 / 190; }
 }
+.galerie-rose__lineup .galerie-lineup__favorite {
+    z-index: 2;
+    touch-action: manipulation;
+}
+.galerie-rose__lineup .galerie-lineup__favorite > picture {
+    pointer-events: none;
+}

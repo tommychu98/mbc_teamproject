@@ -1,3 +1,39 @@
+@font-face {
+    font-family: 'Galerie Batang';
+    src: url('./assets/fonts/kopub-batang-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Galerie Batang';
+    src: url('./assets/fonts/kopub-batang-bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Galerie Dotum';
+    src: url('./assets/fonts/kopub-dotum-light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Galerie Dotum';
+    src: url('./assets/fonts/kopub-dotum-medium.woff2') format('woff2');
+    font-weight: 400 500;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Galerie Dotum';
+    src: url('./assets/fonts/kopub-dotum-bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+.galerie-page {
+    --font-family-serif-kr: 'Galerie Batang', serif;
+    --font-family-sans: 'Galerie Dotum', sans-serif;
+    font-family: var(--font-family-sans);
+}
+
 .galerie-hero {
     position: relative;
     height: 460svh;
@@ -43,7 +79,7 @@ main.galerie-page { animation: none; }
 @media (max-width: 767px) {
     .galerie-chapter-intro__stage { min-height: 600px; }
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
     .galerie-chapter-intro {
         background: var(--color-ivory, #f7f6f4);
     }
@@ -60,6 +96,15 @@ main.galerie-page { animation: none; }
     }
 }
 .galerie-chapter-intro__next { display: none; }
+.galerie-chapter-intro__shine {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    background: linear-gradient(115deg, transparent 35%, rgb(255 255 255 / 12%) 43%, rgb(255 255 255 / 65%) 50%, rgb(255 255 255 / 12%) 57%, transparent 65%);
+    background-size: 300% 100%;
+}
 .galerie-chapter-intro--orange .galerie-chapter-intro__image {
     top: -77.78%;
     height: 177.78%;
@@ -354,7 +399,7 @@ main.galerie-page { animation: none; }
     .galerie-hero__title { white-space: normal; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
     .galerie-page :is(#galerie-chapter-one, #galerie-chapter-two, #galerie-chapter-three, #galerie-chapter-four) {
         --galerie-intro-height: 100svh;
         display: block;
@@ -368,8 +413,19 @@ main.galerie-page { animation: none; }
         height: var(--galerie-intro-height);
     }
 }
+
+/* A short mobile reading pause, with the arrow available throughout the hold. */
 @media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
     .galerie-page :is(#galerie-chapter-one, #galerie-chapter-two, #galerie-chapter-three, #galerie-chapter-four) {
-        --galerie-intro-height: max(100svh, 600px);
+        --galerie-mobile-intro-height: max(100svh, 600px);
+        display: block;
+        height: calc(var(--galerie-mobile-intro-height) * 1.45);
+        min-height: 0;
+        overflow: visible;
+    }
+    .galerie-chapter-intro__stage {
+        position: sticky;
+        top: 0;
+        height: var(--galerie-mobile-intro-height);
     }
 }

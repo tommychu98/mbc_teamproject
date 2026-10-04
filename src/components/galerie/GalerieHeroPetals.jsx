@@ -28,13 +28,24 @@ const petals = [
     { image: petal14, x: 1902.5, y: 671, width: 61, height: 56, angle: 0 },
 ];
 
+// Spread the mobile flowers around the centered artwork and its caption.
+const mobilePositions = [
+    [87, 74], [7, 19], [68, 12], [16, 69], [92, 31], [10, 90],
+    [76, 89], [47, 82], [24, 39], [80, 53], [95, 64],
+];
+
 export default function GalerieHeroPetals() {
     const layerRef = useRef(null);
 
     useLayoutEffect(() => {
         const layer = layerRef.current;
         const media = gsap.matchMedia();
-        media.add('(prefers-reduced-motion: no-preference)', () => {
+        media.add({
+            motion: '(prefers-reduced-motion: no-preference)',
+            mobile: '(max-width: 767px)',
+        }, (context) => {
+            if (!context.conditions.motion) return;
+            const mobile = context.conditions.mobile;
             let height = layer.clientHeight;
             let visible = false;
             const padding = 120;
@@ -43,23 +54,24 @@ export default function GalerieHeroPetals() {
 
             [...layer.children].forEach((petal, index) => {
                 const design = petals[index];
+                const startY = mobile ? mobilePositions[index][1] / 100 : design.y / 1200;
                 const sway = petal.firstElementChild;
-                const phase = { value: (design.y / 1200 * height + padding) / (height + padding * 2) };
+                const phase = { value: (startY * height + padding) / (height + padding * 2) };
                 const setY = gsap.quickSetter(petal, 'y', 'px');
                 const render = () => {
                     // Wrap only beyond the clipped edges, without a visible jump.
-                    setY((phase.value % 1) * (height + padding * 2) - padding - design.y / 1200 * height);
+                    setY((phase.value % 1) * (height + padding * 2) - padding - startY * height);
                 };
                 renders.push(render);
                 render();
                 animations.push(
                     gsap.to(phase, {
                         value: phase.value + 1,
-                        duration: 28 + (index * 7 % 17),
+                        duration: (mobile ? 16 : 28) + (index * 7 % 17),
                         ease: 'none', repeat: -1, paused: true, onUpdate: render,
                     }),
                     gsap.to(sway, {
-                        x: (index % 2 ? -1 : 1) * (18 + index % 4 * 9),
+                        x: (index % 2 ? -1 : 1) * ((mobile ? 28 : 18) + index % 4 * 9),
                         rotation: (index % 2 ? 1 : -1) * (16 + index % 3 * 11),
                         rotationY: index % 2 ? 38 : -32,
                         duration: 3.6 + index % 5 * 0.7,
@@ -96,12 +108,15 @@ export default function GalerieHeroPetals() {
 
     return (
         <div className="galerie-hero-petals" ref={layerRef} aria-hidden="true">
-            {petals.map((petal) => (
+            {petals.map((petal, index) => (
                 <span className="galerie-hero-petals__petal" key={petal.image} style={{
-                    left: `${petal.x / 1920 * 100}%`,
-                    top: `${petal.y / 1200 * 100}%`,
+                    '--petal-x': `${petal.x / 1920 * 100}%`,
+                    '--petal-y': `${petal.y / 1200 * 100}%`,
                     '--petal-width': `${petal.width / 1920 * 100}vw`,
                     '--petal-angle': `${petal.angle}deg`,
+                    '--petal-mobile-x': `${mobilePositions[index][0]}%`,
+                    '--petal-mobile-y': `${mobilePositions[index][1]}%`,
+                    '--petal-mobile-width': `${petal.width / 430 * 100}vw`,
                     aspectRatio: `${petal.width} / ${petal.height}`,
                 }}>
                     <span className="galerie-hero-petals__sway">

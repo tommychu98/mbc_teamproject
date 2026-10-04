@@ -85,7 +85,9 @@
     .galerie-tamdao-chapter .galerie-tamdao__background { inset: 2.14% auto auto -91.91%; width: 266.26%; height: 95.61%; object-fit: fill; }
     .galerie-tamdao-chapter .galerie-tamdao__middle { width: min(73.4884%, 400px); top: calc(50% - 37.5px); left: 50%; transform: translate(-50%, -50%); }
     .galerie-tamdao-chapter .galerie-tamdao__oval { aspect-ratio: 316 / 484; border-radius: 300px; }
-    .galerie-tamdao-chapter .galerie-tamdao__bottle { width: 92.7215%; top: 50.8264%; }
+    /* 284px keeps the cropped 963px source within its native resolution at 3x
+       density: 284 * (273 / 293) * 1.209501 * 3 < 963. */
+    .galerie-tamdao-chapter .galerie-tamdao__bottle { width: 92.7215%; max-width: 284px; top: 50.8264%; }
     .galerie-tamdao-chapter .galerie-tamdao__title { margin-top: 0; font-size: clamp(42px, 13.4884cqw, 68px); line-height: 1.1; }
     .galerie-tamdao-chapter .galerie-tamdao__description { position: relative; left: 50%; transform: translateX(-50%); width: 94cqw; margin-top: 0; font-size: clamp(11px, 3.2558cqw, 14px); line-height: 1.4; letter-spacing: 0.02em; }
     .galerie-tamdao-chapter .galerie-tamdao__ingredient--cypress { left: 61.457%; top: 14.14%; width: 17.154%; }

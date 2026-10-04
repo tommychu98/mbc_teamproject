@@ -1,3 +1,4 @@
+import GalerieBottle from './GalerieBottle';
 import { useRef, useState } from 'react';
 import useDecorationPop from './useDecorationPop';
 import garden from './assets/images/web/chapter-four-fig.png';
@@ -17,7 +18,7 @@ import heartFilled from './assets/images/shared/heart-filled.svg';
 import mobileHeart from './assets/images/mobile/heart-outline.svg';
 import mobileHeartFilled from './assets/images/mobile/heart-filled.svg';
 import mobileGarden from './assets/images/mobile/chapter-four-mobile.png';
-import mobileBottle from './assets/images/mobile/fig-bottle.svg';
+import mobileBottle from './assets/images/mobile/fig-bottle.png';
 import mobileBackground from './assets/images/shared/rose-background.png';
 import './GalerieTamDao.css';
 import './GalerieTamDaoLineup.css';
@@ -37,7 +38,7 @@ const products = [
 export default function GaleriePhilosykos() {
     const rootRef = useRef(null);
     const [favorites, setFavorites] = useState([]);
-    useDecorationPop(rootRef, '[data-fig-float]');
+    useDecorationPop(rootRef, '[data-fig-float]', true);
 
     return (
         <div className="galerie-fig" id="galerie-fig-content" tabIndex={-1} ref={rootRef}>
@@ -53,10 +54,7 @@ export default function GaleriePhilosykos() {
                                 <source media="(max-width: 767px)" srcSet={mobileGarden} />
                                 <img className="galerie-tamdao__forest" src={garden} alt="" loading="lazy" />
                             </picture>
-                            <picture>
-                                <source media="(max-width: 767px)" srcSet={mobileBottle} />
-                                <img className="galerie-tamdao__bottle" src={bottle} alt="딥티크 필로시코스 오 드 뚜왈렛" width="520" height="670" loading="lazy" />
-                            </picture>
+                            <GalerieBottle desktop={bottle} mobile={mobileBottle} alt="딥티크 필로시코스 오 드 뚜왈렛" />
                         </div>
                         <h2 className="galerie-tamdao__title" id="galerie-fig-title">PHILOSYKOS</h2>
                         <p className="galerie-tamdao__description">햇살 머금은 무화과 잎과 수액, 부드럽게 번지는 초록빛 나무의 향</p>
@@ -92,7 +90,7 @@ export default function GaleriePhilosykos() {
                             <article className="galerie-lineup__product" key={product.type}>
                                 <div className="galerie-lineup__picture">
                                     <img src={product.image} alt={`PHILOSYKOS ${product.type}`} loading="lazy" />
-                                    <button className="galerie-lineup__favorite" type="button" aria-label={`PHILOSYKOS ${product.type} 관심 표시`} aria-pressed={favorites.includes(product.type)}
+                                    <button className="galerie-lineup__favorite" type="button" aria-label={`PHILOSYKOS ${product.type} ${favorites.includes(product.type) ? '관심 해제' : '관심 표시'}`} aria-pressed={favorites.includes(product.type)}
                                         onClick={(event) => {
                                             event.currentTarget.dataset.interacted = 'true';
                                             setFavorites((current) => current.includes(product.type)
