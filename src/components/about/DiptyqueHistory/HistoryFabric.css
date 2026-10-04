@@ -420,15 +420,21 @@
 }
 
 .history-fabric__pick-up-fabric {
-  top: 13.59767%;
-  left: -18.59375%;
+  top: 12.791219%;
+  left: -14.0625%;
   width: 72.601354%;
   height: 46.529144%;
+  visibility: hidden;
+}
+
+.history-fabric__pick-up-fabric--idle,
+.history-fabric__pick-up-fabric--playing {
+  visibility: visible;
 }
 
 .history-fabric__pick-up-fabric img {
   width: 137.738%;
   height: 51.997%;
   object-fit: cover;
-  transform: rotate(99.9deg);
+  transform: rotate(80.1deg) scaleY(-1);
 }

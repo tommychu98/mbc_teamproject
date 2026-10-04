@@ -38,6 +38,15 @@
   height: 84.541063%;
 }
 
+.history-objects__background-main img {
+  position: absolute;
+  top: 0;
+  left: 19.64%;
+  width: 60.69%;
+  height: 102.69%;
+  object-fit: fill;
+}
+
 .history-objects__background-main img,
 .history-objects__figure-visual img,
 .history-objects__walking-figure img,
@@ -87,6 +96,10 @@
 .history-objects__shelf-object-10 img,
 .history-objects__shelf-object-11 img {
   object-position: center bottom;
+}
+
+.history-objects__background-lower img {
+  object-fit: cover;
 }
 
 .history-objects__figure-visual {

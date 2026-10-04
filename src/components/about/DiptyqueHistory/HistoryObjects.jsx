@@ -31,7 +31,7 @@ export default function HistoryObjects() {
       />
       <ImageAsset
         className="history-objects__asset history-objects__walking-figure"
-        name="objects-walking-figure.png"
+        name="objects-walking-figure.gif"
       />
       <div className="history-objects__copy-backplate" aria-hidden="true" />
       <ImageAsset

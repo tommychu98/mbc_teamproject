@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import './HistoryFabric.css';
 
 const asset = (name) => `/images/history/fabric/${name}`;
@@ -6,6 +7,86 @@ function ImageAsset({ className, name }) {
   return (
     <div className={className} aria-hidden="true">
       <img src={asset(name)} alt="" loading="lazy" decoding="async" />
+    </div>
+  );
+}
+
+const PICK_UP_FABRIC_DURATION_MS = 4000;
+
+function FabricPickupAnimation() {
+  const containerRef = useRef(null);
+  const hasPlayedRef = useRef(false);
+  const [animationState, setAnimationState] = useState('idle');
+  const [playbackCount, setPlaybackCount] = useState(0);
+
+  useEffect(() => {
+    let frameId;
+    const checkPosition = () => {
+      frameId = undefined;
+      const element = containerRef.current;
+      if (!element || hasPlayedRef.current) return;
+
+      const bounds = element.getBoundingClientRect();
+      const elementCenter = bounds.top + bounds.height / 2;
+      const isAtViewportMiddle =
+        elementCenter >= window.innerHeight * 0.42 &&
+        elementCenter <= window.innerHeight * 0.58;
+
+      if (isAtViewportMiddle) {
+        hasPlayedRef.current = true;
+        setPlaybackCount((count) => count + 1);
+        setAnimationState('playing');
+      }
+    };
+    const scheduleCheck = () => {
+      if (frameId === undefined) frameId = window.requestAnimationFrame(checkPosition);
+    };
+
+    checkPosition();
+    window.addEventListener('scroll', scheduleCheck, { passive: true });
+    window.addEventListener('resize', scheduleCheck);
+
+    return () => {
+      window.removeEventListener('scroll', scheduleCheck);
+      window.removeEventListener('resize', scheduleCheck);
+      if (frameId !== undefined) window.cancelAnimationFrame(frameId);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (animationState !== 'playing') return undefined;
+
+    const hideTimer = window.setTimeout(
+      () => setAnimationState('finished'),
+      PICK_UP_FABRIC_DURATION_MS,
+    );
+
+    return () => window.clearTimeout(hideTimer);
+  }, [animationState]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`history-fabric__centered-asset history-fabric__pick-up-fabric history-fabric__pick-up-fabric--${animationState}`}
+      aria-hidden="true"
+    >
+      {animationState === 'idle' && (
+        <img
+          src={asset('fabric-pick-up.png')}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+      {animationState === 'playing' && (
+        <img
+          key={playbackCount}
+          src={`${asset('fabric-pick-up.gif')}#play-${playbackCount}`}
+          alt=""
+          loading="eager"
+          decoding="async"
+        />
+      )}
     </div>
   );
 }
@@ -190,10 +271,7 @@ export default function HistoryFabric() {
         className="history-fabric__centered-asset history-fabric__floating-accent-03"
         name="floating-small-accent-03.png"
       />
-      <ImageAsset
-        className="history-fabric__centered-asset history-fabric__pick-up-fabric"
-        name="fabric-pick-up.png"
-      />
+      <FabricPickupAnimation />
       <ImageAsset
         className="history-fabric__centered-asset history-fabric__floating-object-04"
         name="floating-decorative-object-04.png"

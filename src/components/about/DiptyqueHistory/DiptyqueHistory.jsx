@@ -18,7 +18,7 @@ export default function DiptyqueHistory() {
         <img
           src="/images/history/fabric/history-fabric-transition.png"
           alt=""
-          loading="lazy"
+          loading="eager"
           decoding="async"
         />
       </div>
