@@ -60,14 +60,12 @@
   width: calc(246 / 1920 * 100%);
   height: calc(367 / 1080 * 100%);
 }
-/* Separate entrance transform from the outer scroll-driven transform.
-   Preserve the original image crop and shadow at the final pose. */
+/* Preserve the original static bottle crop. */
 .fragrances-con3__main-perfume-artwork {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  box-shadow: 0 calc(4px * var(--con3-scale)) calc(4px * var(--con3-scale)) rgb(0 0 0 / 25%);
 }
 .fragrances-con3__main-perfume-image {
   position: absolute;
@@ -124,4 +122,37 @@
 .fragrances-con3__note-name-copy {
   display: inline-block;
   vertical-align: top;
+}
+
+.fragrances-con3__ingredient-targets { position: absolute; pointer-events: none; z-index: 4; }
+.fragrances-con3__ingredient {
+  position: absolute; inset: 0; width: 100%; height: 100%; padding: 0;
+  border: 0; background: transparent; appearance: none; cursor: pointer;
+  pointer-events: auto; clip-path: var(--ingredient-region);
+}
+.fragrances-con3__ingredient--bergamot { --ingredient-region: polygon(3% 28%, 24% 3%, 39% 15%, 40% 48%, 38% 81%, 27% 97%, 2% 85%); }
+.fragrances-con3__ingredient--iris { --ingredient-region: polygon(41% 0%, 83% 0%, 95% 36%, 74% 55%, 61% 72%, 61% 24%, 45% 20%); }
+.fragrances-con3__ingredient--ambrettes { --ingredient-region: polygon(67% 60%, 96% 48%, 99% 92%, 57% 100%, 55% 82%); }
+.fragrances-con3__ingredient:focus-visible { outline: none; }
+.fragrances-con3__scene:has(.fragrances-con3__ingredient--bergamot:focus-visible) #fragrances-con3-note-bergamot .fragrances-con3__note-name-copy,
+.fragrances-con3__scene:has(.fragrances-con3__ingredient--iris:focus-visible) #fragrances-con3-note-iris .fragrances-con3__note-name-copy,
+.fragrances-con3__scene:has(.fragrances-con3__ingredient--ambrettes:focus-visible) #fragrances-con3-note-ambrettes .fragrances-con3__note-name-copy { outline: 1px solid currentColor; outline-offset: 4px; }
+/* Original-pixel ingredient layers; bottle remains above desktop layers. */
+.fragrances-con3__ingredient-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.fragrances-con3__main-perfume { z-index: 5; pointer-events: none; }
+.fragrances-con3__note { --note-light-opacity: 0; --note-light-position: 150%; --note-light-color: #fff9ed; }
+.fragrances-con3__note [data-light-text] { position: relative; }
+.fragrances-con3__note [data-light-text]::after {
+  content: attr(data-light-text) / ""; position: absolute; inset: 0;
+  color: transparent; pointer-events: none; opacity: var(--note-light-opacity);
+  background: linear-gradient(100deg, transparent 32%, color-mix(in srgb, var(--note-light-color) 30%, transparent) 43%, var(--note-light-color) 50%, color-mix(in srgb, var(--note-light-color) 30%, transparent) 57%, transparent 68%);
+  text-shadow: 0 0 2px color-mix(in srgb, var(--note-light-color) 18%, transparent);
+  background-size: 250% 100%; background-position: var(--note-light-position) 0;
+  background-clip: text; -webkit-background-clip: text;
+}
+@media (width < 768px) {
+  .fragrances-con3__note { --note-light-color: #a69881; }
+  .fragrances-con3__ingredient--bergamot { --ingredient-region: polygon(2% 30%, 26% 1%, 41% 16%, 41% 39%, 38% 79%, 29% 98%, 2% 88%); }
+  .fragrances-con3__ingredient--iris { --ingredient-region: polygon(41% 0%, 83% 0%, 96% 34%, 76% 57%, 61% 56%, 61% 25%, 44% 25%); }
+  .fragrances-con3__ingredient--ambrettes { --ingredient-region: polygon(66% 59%, 96% 46%, 99% 94%, 59% 100%, 58% 84%); }
 }
