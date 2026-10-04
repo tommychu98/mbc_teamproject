@@ -6,7 +6,7 @@
   font-display: swap;
 }
 
-/* Figma Con6 2852:4507 — 1920 × 1080, clipsContent: false. */
+/* Figma Con6 3869:11364 — 1920 × 1080, separate ingredient/bottle layers. */
 .fragrances-con6 {
   container-type: inline-size;
   background: var(--color-bg-primary);
@@ -56,9 +56,38 @@
   position: absolute;
   left: calc(395 / 1920 * 100%);
   top: calc(382 / 1080 * 100%);
-  width: calc(1130 / 1920 * 100%);
-  height: calc(600 / 1080 * 100%);
+  width: calc(1131 / 1920 * 100%);
+  height: calc(601 / 1080 * 100%);
   object-fit: cover;
+}
+
+.fragrances-con6__main-perfume {
+  position: absolute;
+  left: calc(849 / 1920 * 100%);
+  top: calc(478 / 1080 * 100%);
+  width: calc(223 / 1920 * 100%);
+  height: calc(363 / 1080 * 100%);
+  pointer-events: none;
+}
+
+.fragrances-con6__main-perfume-artwork {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.fragrances-con6__main-perfume-image {
+  position: absolute;
+  left: -103.38%;
+  top: 0;
+  width: 306.23%;
+  height: 100%;
+}
+
+/* Preserve the existing mobile composition, whose artwork includes the bottle. */
+@media (width < 768px) {
+  .fragrances-con6__main-perfume { display: none; }
 }
 
 /* The end-aligned Figma row overflows its frame by 80px on the left.
@@ -99,4 +128,27 @@
   line-height: var(--text-point-title-m1-line-height);
   letter-spacing: var(--text-point-title-m1-letter-spacing);
   white-space: nowrap;
+}
+
+.fragrances-con6__ingredient-targets { position: absolute; pointer-events: none; z-index: 4; }
+.fragrances-con6__ingredient {
+  position: absolute; inset: 0; width: 100%; height: 100%; padding: 0;
+  border: 0; background: transparent; appearance: none; cursor: pointer;
+  pointer-events: auto; clip-path: var(--ingredient-region);
+}
+/* Hit regions follow Con6's berries (left), flowers (upper/right), wood (lower/right). */
+.fragrances-con6__ingredient--juniper { --ingredient-region: polygon(0% 40%, 27% 2%, 40% 12%, 41% 53%, 31% 86%, 29% 99%, 0% 99%); }
+.fragrances-con6__ingredient--tuberose { --ingredient-region: polygon(41% 2%, 69% 0%, 99% 44%, 84% 60%, 70% 63%, 55% 89%, 31% 99%, 32% 90%, 30% 83%, 25% 82%, 27% 76%, 24% 72%, 27% 67%, 31% 65%, 30% 58%, 32% 52%, 36% 57%, 40% 55%, 41% 52%); }
+.fragrances-con6__ingredient--sandalwood { --ingredient-region: polygon(84% 60%, 99% 59%, 100% 99%, 56% 99%, 55% 89%, 70% 63%); }
+.fragrances-con6__ingredient:focus-visible { outline: none; }
+.fragrances-con6__scene:has(.fragrances-con6__ingredient--juniper:focus-visible) #fragrances-con6-note-juniper .fragrances-con6__note-name,
+.fragrances-con6__scene:has(.fragrances-con6__ingredient--tuberose:focus-visible) #fragrances-con6-note-tuberose .fragrances-con6__note-name,
+.fragrances-con6__scene:has(.fragrances-con6__ingredient--sandalwood:focus-visible) #fragrances-con6-note-sandalwood .fragrances-con6__note-name { outline: 1px solid currentColor; outline-offset: 4px; }
+/* Original-pixel ingredient layers; bottle remains above desktop layers. */
+.fragrances-con6__ingredient-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.fragrances-con6__main-perfume { z-index: 5; pointer-events: none; }
+@media (width < 768px) {
+  .fragrances-con6__ingredient--juniper { --ingredient-region: polygon(0% 40%, 27% 2%, 40% 12%, 41% 53%, 31% 86%, 29% 99%, 0% 99%); }
+  .fragrances-con6__ingredient--tuberose { --ingredient-region: polygon(41% 2%, 69% 0%, 99% 44%, 84% 60%, 70% 63%, 59% 82%, 59% 24%, 43% 24%, 43% 82%, 31% 99%, 32% 90%, 30% 83%, 25% 82%, 27% 76%, 24% 72%, 27% 67%, 31% 65%, 30% 58%, 32% 52%, 36% 57%, 40% 55%, 41% 52%); }
+  .fragrances-con6__ingredient--sandalwood { --ingredient-region: polygon(84% 60%, 99% 59%, 100% 99%, 60% 99%, 60% 80%, 70% 63%); }
 }
