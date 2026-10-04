@@ -47,6 +47,11 @@
 .fragrances-story__pagination { display: none; }
 
 @media (width < 768px) {
+  /* Mobile_hero 2778:2213 TOP: (369,843), 40 × 43 on 430 × 935. */
+  .fragrances-story__top {
+    right: max(21px, env(safe-area-inset-right));
+    bottom: max(49px, env(safe-area-inset-bottom));
+  }
   .fragrances-story {
     background: var(--color-bg-primary);
     /* The guide defines these complete type sets; variables.css currently only
@@ -585,7 +590,7 @@
   .fragrances-story__layer--main-book .fragrances-story__object { width: 95.67007551256374% !important; height: 93.63624843233134% !important; transform: rotate(-3.27deg) !important; }
   .fragrances-story__layer--flower-iris { display: flex; left: 73.95348837209302% !important; top: 19.46524064171123% !important; width: 39.009069767441865% !important; height: 17.82139037433155% !important; z-index: 6; }
   .fragrances-story__layer--flower-iris .fragrances-story__object { width: 69.2116919738403% !important; height: 73.37814319150213% !important; transform: rotate(-127.7deg) !important; }
-  .fragrances-story__layer--small-flower { display: flex; left: 39.36976744186047% !important; top: 62.30085561497326% !important; width: 27.663255813953487% !important; height: 11.69657754010695% !important; z-index: 7; }
+  .fragrances-story__layer--small-flower { display: flex; left: 82.55813953488372% !important; top: 66.84491978609626% !important; width: 27.663255813953487% !important; height: 11.69657754010695% !important; z-index: 7; }
   .fragrances-story__layer--small-flower .fragrances-story__object { width: 80.6442934965364% !important; height: 66.99340727668408% !important; transform: rotate(-27.59deg) !important; }
   .fragrances-story__layer--hand { display: flex; left: 57.906976744186046% !important; top: 44.49197860962567% !important; width: 66.54116279069767% !important; height: 25.61433155080214% !important; z-index: 8; }
   .fragrances-story__layer--hand .fragrances-story__object { width: 90.99560684591108% !important; height: 85.89609760578554% !important; transform: rotate(7.89deg) !important; }

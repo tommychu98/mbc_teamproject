@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { topButtonThemes } from './topButtonThemes';
+import { createBackdropSampler } from './topButtonBackdrop';
 import heroCircle from './assets/top-hero-circle.svg';
 import './StoryTopButton.css';
 
@@ -10,6 +11,8 @@ export default function StoryTopButton() {
   useEffect(() => {
     const button = buttonRef.current;
     const page = button.closest('.fragrances-story');
+    const mobile = window.matchMedia('(width < 768px)');
+    const sampleBackdrop = createBackdropSampler(page, button);
     const regions = topButtonThemes.flatMap(({ selector, theme, darkSurface }) =>
       [...page.querySelectorAll(selector)].map(node => ({ node, theme,
         surface: darkSurface ? node.querySelector(darkSurface) : null })));
@@ -18,6 +21,13 @@ export default function StoryTopButton() {
       * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
     const update = () => {
       frame = undefined;
+      if (mobile.matches) {
+        const luminance = sampleBackdrop();
+        // Contrast crossover for the existing Figma ink/ivory variants, with
+        // a dead band so textured backgrounds don't flicker while scrolling.
+        setVariant(current => luminance > .20 ? 'bk' : luminance < .16 ? 'wh' : current);
+        return;
+      }
       const area = button.getBoundingClientRect();
       let light = 0, dark = 0;
       for (const { node, theme, surface } of regions) {
@@ -46,10 +56,23 @@ export default function StoryTopButton() {
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     page.addEventListener('load', schedule, true);
+    // Existing GSAP entrances/parallax can move the actual backdrop even
+    // between scroll events. Only resample changes under the mobile button.
+    const artwork = new MutationObserver(records => {
+      if (!mobile.matches) return;
+      const area = button.getBoundingClientRect();
+      if (records.some(({ target }) => {
+        if (target === button || button.contains(target)) return false;
+        const box = target.getBoundingClientRect();
+        return overlap(area, box) > 0;
+      })) schedule();
+    });
+    artwork.observe(page, { subtree: true, attributes: true, attributeFilter: ['style', 'class'] });
     update();
     return () => {
       cancelAnimationFrame(frame);
       resize.disconnect();
+      artwork.disconnect();
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       page.removeEventListener('load', schedule, true);
