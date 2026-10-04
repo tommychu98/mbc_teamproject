@@ -8,13 +8,23 @@ import leaf31 from './assets/mobile/a58c3.png';
 import './mobile-ambition.css';
 
 const asset = (name) => `/ForThePlanet/${name}.png`;
+const fixedBackgrounds = new Set([fern, foliage, asset('ea8c4'), asset('fbca1')]);
 const position = (x, y, w, h) => ({ left: `${x / 4.3}%`, top: `${y / 4.3}cqw`, width: `${w / 4.3}%`, height: `${h / 4.3}cqw` });
 
 // Coordinates describe the original image, centred inside its rotated bounds.
 export function Decorations({ items }) {
   return <div className="ftp-mobile-ambition__decorations" aria-hidden="true">
     {items.map(([src, x, y, w, h, rotate = 0, flip = 1, opacity = .3], index) =>
-      <img key={index} src={src} alt="" style={{ ...position(x, y, w, h), opacity, transform: `rotate(${rotate}deg) scaleY(${flip})` }} />)}
+      <img key={index} src={src} alt=""
+        className={fixedBackgrounds.has(src) ? 'ftp-mobile-decoration--fixed' : 'ftp-mobile-decoration--falling'}
+        style={{
+          ...position(x, y, w, h), opacity,
+          transform: `rotate(${rotate}deg) scaleY(${flip})`,
+          "--drift-opacity": opacity,
+          "--drift-duration": `${15.7 + (index % 5) * 3}s`,
+          "--drift-delay": `${-index * 3.7}s`,
+          "--drift-sway": `${(index % 2 ? -1 : 1) * (8 + (index % 4) * 3)}px`,
+        }} />)}
   </div>;
 }
 

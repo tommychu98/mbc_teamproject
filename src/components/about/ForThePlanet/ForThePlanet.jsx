@@ -76,7 +76,7 @@ const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const range = (value, start, end) => clamp((value - start) / (end - start));
 const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
 
-function useScrollProgress(adjustForHeader = false, enableMobile = false) {
+function useScrollProgress(adjustForHeader = false, enableMobile = false, endHoldScreens = 0) {
   const ref = useRef(null);
   const [progress, setProgress] = useState(0);
 
@@ -104,7 +104,7 @@ function useScrollProgress(adjustForHeader = false, enableMobile = false) {
       const stageHeight = stage?.clientHeight || window.innerHeight;
       const distance = Math.max(
         1,
-        element.offsetHeight - stageHeight - headerOverlap
+        element.offsetHeight - stageHeight - headerOverlap - stageHeight * endHoldScreens
       );
       setProgress(clamp((-rect.top - headerOverlap) / distance));
     };
@@ -121,7 +121,7 @@ function useScrollProgress(adjustForHeader = false, enableMobile = false) {
       window.removeEventListener("resize", schedule);
       reducedMotion.removeEventListener("change", schedule);
     };
-  }, [adjustForHeader, enableMobile]);
+  }, [adjustForHeader, enableMobile, endHoldScreens]);
 
   return [ref, progress];
 }
@@ -907,7 +907,12 @@ function StoryBackground({ kind }) {
   return (
     <div className="ftp-world-background" aria-hidden="true">
       {pieces.map(([src, x, y, w, h], i) => (
-        <img key={i} src={src} alt="" style={worldPosition(x, y, w, h)} />
+        <img key={i} src={src} alt="" style={{
+          ...worldPosition(x, y, w, h),
+          "--drift-duration": `${15.7 + (i % 5) * 3}s`,
+          "--drift-delay": `${-i * 3.7}s`,
+          "--drift-sway": `${(i % 2 ? -1 : 1) * (18 + (i % 4) * 6)}px`,
+        }} />
       ))}
     </div>
   );
@@ -1184,7 +1189,8 @@ function DesigningWithLess() {
 }
 
 function RenewalReveal() {
-  const [ref, progress] = useScrollProgress(false, true);
+  // Reserve the last viewport of scrolling for reading the fully revealed copy.
+  const [ref, progress] = useScrollProgress(false, true, 1);
   const stageRef = useRef(null);
   const [scale, setScale] = useState(1);
 
