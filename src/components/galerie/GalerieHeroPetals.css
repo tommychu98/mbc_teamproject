@@ -9,6 +9,8 @@
 
 .galerie-hero-petals__petal {
     position: absolute;
+    left: var(--petal-x);
+    top: var(--petal-y);
     display: block;
     width: var(--petal-width);
     opacity: 0.1;
@@ -32,5 +34,10 @@
 }
 
 @media (max-width: 767px) {
-    .galerie-hero-petals__petal { width: max(22px, var(--petal-width)); }
+    .galerie-hero-petals__petal {
+        left: var(--petal-mobile-x);
+        top: var(--petal-mobile-y);
+        width: clamp(28px, var(--petal-mobile-width), 72px);
+        opacity: 0.24;
+    }
 }

@@ -10,6 +10,7 @@ import perfume from './assets/de6e1.png';
 import pomegranate from './assets/pomegranate.png';
 import rose from './assets/rose.png';
 import arrow from './assets/eaf6d.svg';
+import mobileArrow from '../HomeDayRitualIsolated/assets/mobile-button-arrow.svg';
 import './HomeFragranceWorld.css';
 
 const states = [
@@ -34,6 +35,20 @@ const images = [
     { id: '4259:21917', src: rose, x: 1199, width: 313, height: 313, start: 12, duration: 4.2, damping: 245, drift: 20, turn: 3.6, swell: 0.028, phase: 2.1 },
 ];
 const clamp = value => Math.max(0, Math.min(1, value));
+const mobileLines = [
+    ['Every fragrance opens a world.', 'A garden, a journey,', 'a distant memory.', 'Follow the notes that', 'draw you in —', 'and let the unexpected guide you.'],
+    ['Begin with a note that draws you in.', 'A rose, warm wood,', 'or something unknown.', 'Let one impression', 'lead to the next —', 'until a fragrance feels strangely familiar.'],
+];
+const mobileImages = [
+    { x: 21, width: 87, height: 98, y: 502 },
+    { x: 298, width: 113, height: 127, y: 361 },
+    { x: 59, width: 61, height: 102, y: 244 },
+    { x: 253, width: 90, height: 90, y: 674 },
+    { x: 48, width: 96, height: 140, y: 204 },
+    { x: 315, width: 83, height: 123, y: 365 },
+    { x: 36.98, width: 59.04, height: 99.95, y: 506 },
+    { x: 253, width: 90, height: 90, y: 640 },
+];
 const smooth = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
 // Accelerate through the edges and ease through the text area in the middle.
 const floatCurve = value => {
@@ -49,6 +64,7 @@ export default function HomeFragranceWorld() {
         const copies = [...root.querySelectorAll('.fragrance-world__copy')];
         const pictures = [...root.querySelectorAll('.fragrance-world__picture')];
         const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+        const mobile = matchMedia('(max-width: 767px)');
         let frame = 0;
         let progress = null;
         const imageProgress = images.map(() => null);
@@ -59,11 +75,13 @@ export default function HomeFragranceWorld() {
             const height = stage.clientHeight;
             // Keep the 1920 × 1200 Figma canvas at its authored scale and crop
             // only outside the viewport, instead of shrinking the entire scene.
-            const scale = Math.max(width / 1920, height / 1200);
+            const scale = mobile.matches ? width / 430 : Math.max(width / 1920, height / 1200);
             root.style.setProperty('--world-scale', scale);
             // Fit only the botanical background; preserve copy and motion geometry.
-            root.style.setProperty('--world-background-scale', Math.min(width / 1920, height / 1200) / scale);
-            const target = clamp(-root.getBoundingClientRect().top / Math.max(1, root.offsetHeight - height));
+            root.style.setProperty('--world-background-scale', mobile.matches ? 1 : Math.min(width / 1920, height / 1200) / scale);
+            root.style.setProperty('--world-mobile-height', `${height / scale}px`);
+            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+            const target = clamp((stickyTop - root.getBoundingClientRect().top) / Math.max(1, root.offsetHeight - height));
             const elapsed = previous ? Math.min(64, now - previous) : 16;
             previous = now;
             if (progress === null) {
@@ -85,7 +103,10 @@ export default function HomeFragranceWorld() {
                 copy.setAttribute('aria-hidden', fade[index] < 0.5 ? 'true' : 'false');
             });
             pictures.forEach((picture, index) => {
-                const item = images[index];
+                const item = mobile.matches ? { ...images[index], ...mobileImages[index] } : images[index];
+                picture.style.left = `${item.x}px`;
+                picture.style.width = `${item.width}px`;
+                picture.style.height = `${item.height}px`;
                 const desired = clamp((time - item.start) / item.duration);
                 if (imageProgress[index] === null) {
                     imageProgress[index] = desired;
@@ -103,11 +124,13 @@ export default function HomeFragranceWorld() {
                 const t = clamp(imageProgress[index]);
                 const path = floatCurve(t);
                 // Offscreen bounds account for letterboxing at any viewport ratio.
-                const top = (1200 - height / scale) / 2;
-                const bottom = 1200 - top;
-                const y = bottom + 80 - path * (bottom - top + item.height + 160);
+                const canvasHeight = mobile.matches ? height / scale : 1200;
+                const top = (canvasHeight - height / scale) / 2;
+                const bottom = canvasHeight - top;
+                const slotOffset = mobile.matches ? item.y - (883 - item.height) / 2 : 0;
+                const y = bottom + 80 - path * (bottom - top + item.height + 160) + slotOffset * 4 * path * (1 - path);
                 const envelope = Math.sin(t * Math.PI);
-                const motionStrength = reduced.matches ? 0.35 : 1;
+                const motionStrength = (reduced.matches ? 0.35 : 1) * (mobile.matches ? .35 : 1);
                 const drift = Math.sin(t * Math.PI * 1.65 + item.phase) * item.drift * envelope * motionStrength;
                 const rotation = Math.sin(t * Math.PI * 1.2 + item.phase) * item.turn * envelope * motionStrength;
                 const imageScale = 1 + Math.sin(t * Math.PI) * item.swell * motionStrength;
@@ -141,9 +164,9 @@ export default function HomeFragranceWorld() {
                     <img className="fragrance-world__background" src={background} alt="" />
                     {states.map(({ id, label, lines }, index) => (
                         <div className="fragrance-world__copy" key={id} data-node-id={id} data-state={index}>
-                            <p className="fragrance-world__label"><span />{label}</p>
-                            <div className="fragrance-world__text">{lines.map(line => <p key={line}>{line}</p>)}</div>
-                            <Link to="/galerie" className="fragrance-world__link">Explore Scents<img src={arrow} alt="" /></Link>
+                            <p className="fragrance-world__label"><span /><span className="fragrance-world__desktop-label">{label}</span><span className="fragrance-world__mobile-label">Explore the scent that SUITS YOU</span></p>
+                            <div className="fragrance-world__text"><div className="fragrance-world__desktop-lines">{lines.map(line => <p key={line}>{line}</p>)}</div><div className="fragrance-world__mobile-lines">{mobileLines[index].map(line => <p key={line}>{line}</p>)}</div></div>
+                            <Link to="/galerie" className="fragrance-world__link">Explore Scents<picture><source media="(max-width: 767px)" srcSet={mobileArrow} /><img src={arrow} alt="" /></picture></Link>
                         </div>
                     ))}
                     {images.map(item => (

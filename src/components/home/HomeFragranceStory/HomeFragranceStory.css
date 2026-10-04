@@ -1,4 +1,17 @@
 @font-face {
+    font-family: 'Home Fragrance Story Garamond';
+    src: url('../HomeScentMemory/assets/eb-garamond-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Home Fragrance Story Mobile Dotum';
+    src: url('../HomeDayRitualIsolated/assets/KoPubWorld-Dotum-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+.home-fragrance-story__mobile-break { display: none; }
+@font-face {
     font-family: 'Home Fragrance Story Dotum';
     src: url('../../about/FragrancesStory/assets/con1-kopub-dotum-medium.otf') format('opentype');
     font-style: normal;
@@ -76,7 +89,41 @@
 }
 
 @media (max-width: 767px) {
+    .home-fragrance-story__stage {
+        top: calc(52px + env(safe-area-inset-top, 0px));
+        min-height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+        padding: 0;
+    }
+    .home-fragrance-story__content { position: absolute; inset: 0; width: 100%; }
+    .home-fragrance-story__desktop-space { display: none; }
+    .home-fragrance-story__mobile-break { display: inline; }
+    .home-fragrance-story__title {
+        position: absolute;
+        top: calc(50% - 124.5px);
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+        width: max-content;
+        font-family: 'Home Fragrance Story Garamond', Georgia, serif;
+        font-size: 32px;
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: 0;
+        white-space: nowrap;
+    }
     .home-fragrance-story__description {
-        margin-top: 32px;
+        position: absolute;
+        top: calc(40% + 134.8px);
+        left: calc(50% + .5px);
+        width: max-content;
+        margin: 0;
+        transform: translateX(-50%);
+        color: #4b4b4b;
+        font-family: 'Home Fragrance Story Mobile Dotum', sans-serif;
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.4;
+        letter-spacing: .28px;
+        white-space: nowrap;
     }
 }

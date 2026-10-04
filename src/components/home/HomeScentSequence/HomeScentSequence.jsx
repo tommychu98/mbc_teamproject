@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { Fragment, useLayoutEffect, useRef } from 'react';
 import './HomeScentSequence.css';
 
 
@@ -31,7 +31,8 @@ export default function HomeScentSequence() {
             // Measure live geometry: upstream pins, media and responsive layouts
             // cannot leave this sequence using stale document coordinates.
             const distance = Math.max(1, root.offsetHeight - stage.offsetHeight);
-            const target = clamp(-root.getBoundingClientRect().top / distance);
+            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+            const target = clamp((stickyTop - root.getBoundingClientRect().top) / distance);
             const elapsed = previousTime ? Math.min(64, now - previousTime) : 16;
             previousTime = now;
             if (current === null || reduced.matches) current = target;
@@ -81,7 +82,13 @@ export default function HomeScentSequence() {
                     {scenes.map(({ id, text }, index) => (
                         <p key={id} className="scent-sequence__line" data-node-id={id} data-scene={index} aria-label={text}>
                             <span aria-hidden="true">
-                                {Array.from(text).map((char, i) => <span className="scent-sequence__char" key={i}>{char === ' ' ? '\u00a0' : char}</span>)}
+                                {Array.from(text).map((char, i) => {
+                                    const mobileBreak = index > 0 && i === text.lastIndexOf(' ');
+                                    return <Fragment key={i}>
+                                        {mobileBreak && <br className="scent-sequence__mobile-break" />}
+                                        <span className={`scent-sequence__char${mobileBreak ? ' scent-sequence__desktop-space' : ''}`}>{char === ' ' ? '\u00a0' : char}</span>
+                                    </Fragment>;
+                                })}
                             </span>
                         </p>
                     ))}

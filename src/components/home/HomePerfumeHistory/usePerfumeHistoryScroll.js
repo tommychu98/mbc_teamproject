@@ -14,6 +14,7 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const section = sectionRef.current;
         const stage = stageRef.current;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const mobile = window.matchMedia('(max-width: 767px)');
         let frameId = 0;
         let previousIndex = -1;
         let previousTransition = null;
@@ -21,8 +22,10 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const paint = () => {
             frameId = 0;
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
-            const progress = distance > 0 ? clamp(-section.getBoundingClientRect().top / distance) : 0;
-            const position = Math.min(totalDistance, Math.max(0, -section.getBoundingClientRect().top / scrollUnitRef.current));
+            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+            const offset = stickyTop - section.getBoundingClientRect().top;
+            const progress = distance > 0 ? clamp(offset / distance) : 0;
+            const position = Math.min(totalDistance, Math.max(0, offset / scrollUnitRef.current));
             const segment = Math.min(slides.length - 1, Math.floor(position / (HOLD_VIEWPORTS + TRANSITION_VIEWPORTS)));
             const localPosition = position - segment * (HOLD_VIEWPORTS + TRANSITION_VIEWPORTS);
             const rawTransition = segment < slides.length - 1 ? clamp((localPosition - HOLD_VIEWPORTS) / TRANSITION_VIEWPORTS) : 0;
@@ -40,8 +43,9 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
 
             // Drive the original opposing horizontal tracks directly. There is
             // no wheel interception or trailing CSS transition after release.
-            photoTrackRef.current.style.transform = `translate3d(${interpolate('photoShift')}cqw, 0, 0)`;
-            logoTrackRef.current.style.transform = `translate3d(${interpolate('logoShift')}cqw, 0, 0)`;
+            const mobileShift = (segment + eased) * 100;
+            photoTrackRef.current.style.transform = `translate3d(${mobile.matches ? mobileShift : interpolate('photoShift')}cqw, 0, 0)`;
+            logoTrackRef.current.style.transform = `translate3d(${mobile.matches ? -mobileShift : interpolate('logoShift')}cqw, 0, 0)`;
             const activeIndex = segment + (eased >= 0.5 && next !== segment ? 1 : 0);
             const isTransitioning = transition > 0 && transition < 1;
             section.dataset.scrollProgress = progress.toFixed(6);
@@ -89,8 +93,8 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const start = section.getBoundingClientRect().top + window.scrollY;
         const position = index * (HOLD_VIEWPORTS + TRANSITION_VIEWPORTS);
         window.scrollTo({
-            top: start + position * scrollUnitRef.current,
+            top: start - (parseFloat(getComputedStyle(stageRef.current).top) || 0) + position * scrollUnitRef.current,
             behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
         });
-    }, [sectionRef, slides]);
+    }, [sectionRef, stageRef, slides]);
 }

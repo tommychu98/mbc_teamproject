@@ -49,14 +49,11 @@ Policy/store/chat labels without implemented destinations remain plain text.
 
 ## Team integration follow-up
 
-`GalerieContent` currently renders this footer, while `App.jsx` also renders the
-shared layout footer on `/galerie`. Both are visible. The team lead should decide
-which footer the route uses and update the layout integration outside this folder.
-Galerie CSS does not hide the shared footer. `GalerieNavigation.css` is imported
-by `GalerieContent` for the requested hero navigation theme. All shared header
-and layout overrides require `.app:has(.galerie-page)`, and the white hero theme
-also requires `data-hero-visible="true"`; other routes retain their shared styles.
-The team lead still owns changes to the shared header and footer components.
+The current `App.jsx` renders `GalerieFooter` once after the routes;
+`GalerieContent` does not render another footer. The shared integration remains
+the team lead's responsibility. `GalerieNavigation.css` is retained as an optional
+theme but is not imported by `GalerieContent`: this page must not override the
+shared header or layout. Any future use of that theme needs team-lead integration.
 
 Earlier Edge checks at 320, 430, 768 and 1440px confirmed horizontal overflow
 from the shared footer. Temporarily hiding only `.app > .footer` in the browser

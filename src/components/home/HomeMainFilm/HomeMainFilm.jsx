@@ -1,8 +1,14 @@
 import { useEffect, useRef } from 'react';
 import useFilmTransition from './useFilmTransition';
 import './HomeMainFilm.css';
+import useHomeMobile from '../useHomeMobile';
 
 export default function HomeMainFilm() {
+    const mobile = useHomeMobile();
+    return mobile ? null : <DesktopMainFilm />;
+}
+
+function DesktopMainFilm() {
     const videoRef = useRef(null);
     const sectionRef = useRef(null);
     useFilmTransition(sectionRef);

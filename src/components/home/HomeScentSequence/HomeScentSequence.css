@@ -31,6 +31,27 @@
 }
 .scent-sequence__line:first-child { visibility: visible; }
 .scent-sequence__char { display: inline-block; }
+.scent-sequence__mobile-break { display: none; }
+@font-face {
+    font-family: 'HomeMobileSequence Garamond';
+    src: url('../HomeScentMemory/assets/eb-garamond-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
 @media (max-width: 767px) {
-    .scent-sequence__line { font-size: clamp(28px, 7.5vw, 57px); }
+    .scent-sequence__stage { top: calc(52px + env(safe-area-inset-top, 0px)); height: calc(100svh - 52px - env(safe-area-inset-top, 0px)); }
+    .scent-sequence__line {
+        top: calc(40% - 2.2px);
+        left: calc(50% + .5px);
+        width: min(320px, calc(100% - 40px));
+        transform: translateX(-50%);
+        font-family: 'HomeMobileSequence Garamond', Georgia, serif;
+        font-size: min(50px, 11.627907vw);
+        font-weight: 400;
+        line-height: 1.1;
+        text-align: center;
+        color: #222;
+    }
+    .scent-sequence__mobile-break { display: inline; }
+    .scent-sequence__desktop-space { display: none; }
 }

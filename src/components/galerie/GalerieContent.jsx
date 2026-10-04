@@ -23,7 +23,6 @@ import GaleriePhilosykos from './GaleriePhilosykos';
 import GalerieAnother from './GalerieAnother';
 import GalerieHeroPetals from './GalerieHeroPetals';
 import './GalerieContent.css';
-import './GalerieNavigation.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,6 +43,15 @@ function centerScale(position) {
 
 export default function GalerieContent() {
     const rootRef = useRef(null);
+    const feedbackAnimationsRef = useRef(new Set());
+
+    useLayoutEffect(() => {
+        const animations = feedbackAnimationsRef.current;
+        return () => {
+            animations.forEach((animation) => animation.cancel());
+            animations.clear();
+        };
+    }, []);
 
     useLayoutEffect(() => {
         const hero = rootRef.current;
@@ -112,7 +120,7 @@ export default function GalerieContent() {
         const page = rootRef.current.closest('.galerie-page');
         const media = gsap.matchMedia();
 
-        media.add('(prefers-reduced-motion: no-preference)', () => {
+        media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
             page.querySelectorAll('.galerie-chapter-intro').forEach((intro) => {
                 const background = intro.querySelector('picture');
                 const stage = intro.querySelector('.galerie-chapter-intro__stage');
@@ -155,6 +163,44 @@ export default function GalerieContent() {
 
         return () => media.revert();
     }, []);
+
+    const scrollToChapter = async (event, targetId) => {
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        const button = event.currentTarget;
+        const arrow = button.querySelector('img');
+        const shine = button.querySelector('.galerie-chapter-intro__shine');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!reducedMotion && arrow) {
+            // Finish the tap feedback before moving the button out of view.
+            if (arrow.getAnimations().length) return;
+            const feedback = arrow.animate([
+                { transform: 'translateY(0)', opacity: 1 },
+                { transform: 'translateY(8px)', opacity: 0.55, offset: 0.55 },
+                { transform: 'translateY(0)', opacity: 1 },
+            ], { duration: 360, easing: 'ease-in-out' });
+            const sweep = shine?.animate([
+                { backgroundPosition: '100% 0', opacity: 0 },
+                { backgroundPosition: '55% 0', opacity: 0.85, offset: 0.45 },
+                { backgroundPosition: '0% 0', opacity: 0 },
+            ], { duration: 360, easing: 'ease-out' });
+            const animations = feedbackAnimationsRef.current;
+            animations.add(feedback);
+            if (sweep) animations.add(sweep);
+            try {
+                await Promise.all([feedback.finished, sweep?.finished]);
+            } catch {
+                return;
+            } finally {
+                animations.delete(feedback);
+                if (sweep) animations.delete(sweep);
+            }
+        }
+        if (!target.isConnected) return;
+        target.focus({ preventScroll: true });
+        target.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth', block: 'start' });
+    };
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -215,11 +261,8 @@ export default function GalerieContent() {
                         <h2 className="galerie-chapter-intro__title" id="galerie-chapter-one-title">비가 그친 숲</h2>
                     </div>
                     <button className="galerie-chapter-intro__next" type="button" aria-label="탐다오 소개로 이동"
-                        onClick={() => {
-                            const target = document.getElementById('galerie-tamdao-content');
-                            target?.focus({ preventScroll: true });
-                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                        }}>
+                        onClick={(event) => scrollToChapter(event, 'galerie-tamdao-content')}>
+                        <span className="galerie-chapter-intro__shine" aria-hidden="true" />
                         <img src={scrollDown} alt="" />
                     </button>
                 </div>
@@ -239,11 +282,8 @@ export default function GalerieContent() {
                         <h2 className="galerie-chapter-intro__title" id="galerie-chapter-two-title">장미 향이 머무는 정원</h2>
                     </div>
                     <button className="galerie-chapter-intro__next" type="button" aria-label="오 로즈 소개로 이동"
-                        onClick={() => {
-                            const target = document.getElementById('galerie-rose-content');
-                            target?.focus({ preventScroll: true });
-                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                        }}>
+                        onClick={(event) => scrollToChapter(event, 'galerie-rose-content')}>
+                        <span className="galerie-chapter-intro__shine" aria-hidden="true" />
                         <img src={scrollDown} alt="" />
                     </button>
                 </div>
@@ -260,11 +300,8 @@ export default function GalerieContent() {
                         <h2 className="galerie-chapter-intro__title" id="galerie-chapter-three-title">오렌지 향이 번지는 오후</h2>
                     </div>
                     <button className="galerie-chapter-intro__next" type="button" aria-label="오 데 썽 소개로 이동"
-                        onClick={() => {
-                            const target = document.getElementById('galerie-sens-content');
-                            target?.focus({ preventScroll: true });
-                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                        }}>
+                        onClick={(event) => scrollToChapter(event, 'galerie-sens-content')}>
+                        <span className="galerie-chapter-intro__shine" aria-hidden="true" />
                         <img src={scrollDown} alt="" />
                     </button>
                 </div>
@@ -281,11 +318,8 @@ export default function GalerieContent() {
                         <h2 className="galerie-chapter-intro__title" id="galerie-chapter-four-title">햇살 머금은 무화과 나무</h2>
                     </div>
                     <button className="galerie-chapter-intro__next" type="button" aria-label="필로시코스 소개로 이동"
-                        onClick={() => {
-                            const target = document.getElementById('galerie-fig-content');
-                            target?.focus({ preventScroll: true });
-                            target?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-                        }}>
+                        onClick={(event) => scrollToChapter(event, 'galerie-fig-content')}>
+                        <span className="galerie-chapter-intro__shine" aria-hidden="true" />
                         <img src={scrollDown} alt="" />
                     </button>
                 </div>

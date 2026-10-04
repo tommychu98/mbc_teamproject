@@ -197,3 +197,57 @@
     white-space: nowrap;
     border: 0;
 }
+
+.home-perfume-history__mobile-count,
+.home-perfume-history__mobile-caption { display: none; }
+
+@font-face {
+    font-family: 'HomePerfumeHistory Regular';
+    src: url('../HomeScentMemory/assets/eb-garamond-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'HomePerfumeHistory Mobile Dotum';
+    src: url('../HomeDayRitualIsolated/assets/KoPubWorld-Dotum-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+@media (max-width: 767px) {
+    .home-perfume-history__stage {
+        top: calc(52px + env(safe-area-inset-top, 0px));
+        min-height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+    }
+    .home-perfume-history__canvas {
+        display: block;
+        aspect-ratio: auto;
+        height: 205.348837vw;
+        min-height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+    }
+    .home-perfume-history__photo { height: 144.186047cqw; width: 100%; }
+    .home-perfume-history__photo-slide:nth-child(1) { left: 0 !important; }
+    .home-perfume-history__photo-slide:nth-child(2) { left: -100cqw !important; }
+    .home-perfume-history__photo-slide:nth-child(3) { left: -200cqw !important; }
+    .home-perfume-history__photo-slide--3 .home-perfume-history__photo-image { height: 100%; object-position: center; }
+    .home-perfume-history__title { top: calc(50% - 11.162791cqw); font-size: 22.325581cqw; }
+    .home-perfume-history__photo-slide--2 .home-perfume-history__title { top: calc(50% - 12.325581cqw); font-size: 13.488372cqw; }
+    .home-perfume-history__photo-slide--2 .home-perfume-history__title span:first-child { transform: translateX(1px); }
+    .home-perfume-history__photo-slide--2 .home-perfume-history__title span:last-child { margin-top: -2.55814cqw; }
+    .home-perfume-history__photo-slide--3 .home-perfume-history__title { top: calc(50% - 7.44186cqw); font-size: 14.883721cqw; }
+    .home-perfume-history__logo-panel {
+        position: absolute;
+        left: 0;
+        top: max(calc(144.186047cqw + 3.395349cqw), calc(60% + 26.790698cqw));
+        width: 100%;
+        height: 43.255814cqw;
+    }
+    .home-perfume-history__logo-window { left: 0; top: 6.604651cqw; width: 100%; height: 30.232558cqw; }
+    .home-perfume-history__logo-slide:nth-child(1) { left: 0 !important; }
+    .home-perfume-history__logo-slide:nth-child(2) { left: 100cqw !important; }
+    .home-perfume-history__logo-slide:nth-child(3) { left: 200cqw !important; }
+    .home-perfume-history__logo-image { width: 22.55814cqw; height: 30.232558cqw; margin: 0 auto; }
+    .home-perfume-history__mobile-count { display: block; margin: 0; color: #6b665f; font: 300 16px/1.4 'HomePerfumeHistory Mobile Dotum', sans-serif; letter-spacing: .96px; text-align: center; }
+    .home-perfume-history__mobile-caption { display: block; position: absolute; top: 36.837209cqw; width: 100%; margin: 0; color: #222; font: 400 3.72093cqw/1 'HomePerfumeHistory Regular', Georgia, serif; text-align: center; }
+    .home-perfume-history__oval-text,
+    .home-perfume-history__button { display: none; }
+}

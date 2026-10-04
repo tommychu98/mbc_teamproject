@@ -55,3 +55,10 @@
     .galerie-sens__lineup .galerie-lineup__scent p { margin-top: 20px; font-size: 12px; line-height: 1.4; letter-spacing: 0.02em; }
     .galerie-sens__collage { position: absolute; left: 3px; top: 42px; width: min(190px, 49.2%); margin: 0; }
 }
+.galerie-sens__lineup .galerie-lineup__favorite {
+    z-index: 2;
+    touch-action: manipulation;
+}
+.galerie-sens__lineup .galerie-lineup__favorite > picture {
+    pointer-events: none;
+}

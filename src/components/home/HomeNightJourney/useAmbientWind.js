@@ -13,11 +13,12 @@ const current = (time, seed) => {
     return start + (random(step + seed + 1) - start) * blend;
 };
 
-export default function useAmbientWind(rootRef) {
+export default function useAmbientWind(rootRef, mobile = false) {
     useEffect(() => {
         const root = rootRef.current;
+        const sharedMobileScene = mobile ? root.closest('.night-journey__mobile') : null;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-        const desktop = window.matchMedia('(min-width: 768px)');
+        const desktop = window.matchMedia(mobile ? '(max-width: 767px)' : '(min-width: 768px)');
         // Connected branches share one wind field in useCon6Wind, including
         // the adjoining Night artwork. Do not add an independent second sway.
         const petals = [...root.querySelectorAll('.night-journey__wind:not([data-motion-type="branch"]):not([data-attached-wind])')].map((element, index) => {
@@ -105,7 +106,11 @@ export default function useAmbientWind(rootRef) {
                 const lateral = drift * (type === 'flower' ? 2.05 : type === 'leaf' ? 3.0 : 4.2 + (1 - depth) * 0.8);
                 const clearance = (radius + (lateral + drift * .75) * Math.abs(parentMatrix.b)) * scale + 32;
                 const above = (-clearance - centerY) / verticalScale;
-                const below = (window.innerHeight + clearance - centerY) / verticalScale;
+                // Mobile petals cross the wind/category seam before recycling.
+                const exitBottom = sharedMobileScene
+                    ? sharedMobileScene.getBoundingClientRect().bottom
+                    : window.innerHeight;
+                const below = (exitBottom + clearance - centerY) / verticalScale;
                 const suspension = type === 'petal' ? 0.72 : type === 'leaf' ? 0.54 : 0.36;
                 if (!particle.flight) {
                     const startY = particle.hasExited ? above : 0;
@@ -178,7 +183,7 @@ export default function useAmbientWind(rootRef) {
                 const flutterScale = 1 - Math.sin(flutterPhase) ** 2 * (type === 'leaf' ? .075 : .035) * release;
                 element.style.transform = `translate3d(${x.toFixed(3)}px, ${y.toFixed(3)}px, 0) rotate(${angle.toFixed(3)}deg) scaleX(${flutterScale.toFixed(4)})`;
                 // Do not fade or reset until the entire rendered image is below the viewport.
-                if (progress === 1 && image.getBoundingClientRect().top > window.innerHeight) {
+                if (progress === 1 && image.getBoundingClientRect().top > exitBottom) {
                     particle.hasExited = true;
                     particle.flight = null;
                     particle.waitUntil = elapsed + 1.1 + (phase % 1) * 2.8;
@@ -200,7 +205,7 @@ export default function useAmbientWind(rootRef) {
             visible = entry.isIntersecting;
             sync();
         });
-        observer.observe(root.querySelector('.night-journey__stage'));
+        observer.observe(sharedMobileScene || root.querySelector('.night-journey__stage') || root);
         document.addEventListener('visibilitychange', sync);
         reducedMotion.addEventListener('change', sync);
         desktop.addEventListener('change', sync);
@@ -213,5 +218,5 @@ export default function useAmbientWind(rootRef) {
             if (frame) window.cancelAnimationFrame(frame);
             reset();
         };
-    }, [rootRef]);
+    }, [rootRef, mobile]);
 }

@@ -50,7 +50,8 @@ export default function HomeScentMemory() {
         const paint = (now) => {
             frameId = 0;
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
-            const progress = distance > 0 ? clamp(-section.getBoundingClientRect().top / distance) : 0;
+            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+            const progress = distance > 0 ? clamp((stickyTop - section.getBoundingClientRect().top) / distance) : 0;
             const elapsed = previousTime ? Math.min(64, now - previousTime) : 1000 / 60;
             previousTime = now;
             // Frame-rate independent inertia continues briefly after scrolling

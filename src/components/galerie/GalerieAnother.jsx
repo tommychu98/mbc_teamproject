@@ -21,6 +21,9 @@ const chapters = [
 export default function GalerieAnother() {
     const rootRef = useRef(null);
     const pressRef = useRef(null);
+    const feedbackRef = useRef(null);
+
+    useLayoutEffect(() => () => feedbackRef.current?.cancel(), []);
 
     const startPress = (event) => {
         pressRef.current = null;
@@ -51,6 +54,21 @@ export default function GalerieAnother() {
 
     useLayoutEffect(() => {
         const media = gsap.matchMedia();
+        media.add('(max-width: 767px) and (prefers-reduced-motion: no-preference)', () => {
+            const section = rootRef.current;
+            const papers = [...section.querySelectorAll('.galerie-another__paper')];
+            const reveal = gsap.fromTo(papers,
+                { y: 24, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.65, stagger: 0.12, ease: 'power2.out', paused: true },
+            );
+            const observer = new IntersectionObserver(([entry]) => {
+                if (!entry.isIntersecting) return;
+                reveal.play();
+                observer.disconnect();
+            }, { threshold: 0.1 });
+            observer.observe(section);
+            return () => observer.disconnect();
+        }, rootRef);
         media.add('(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)', () => {
             const cleanups = [...rootRef.current.querySelectorAll('.galerie-another__card')].map((card) => {
                 const paper = card.querySelector('img');
@@ -89,7 +107,7 @@ export default function GalerieAnother() {
         return () => media.revert();
     }, []);
 
-    const navigateToChapter = (event) => {
+    const navigateToChapter = async (event) => {
         const cancelled = pressRef.current?.cancelled;
         pressRef.current = null;
         if (event.detail > 0 && cancelled) {
@@ -100,6 +118,26 @@ export default function GalerieAnother() {
         const target = document.querySelector(event.currentTarget.getAttribute('href'));
         if (!target) return;
         event.preventDefault();
+        const mobile = window.matchMedia('(max-width: 767px)').matches;
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const card = event.currentTarget;
+        if (mobile && !reducedMotion) {
+            if (feedbackRef.current) return;
+            const feedback = card.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(0.98)', offset: 0.4 },
+                { transform: 'scale(1)' },
+            ], { duration: 200, easing: 'ease-out' });
+            feedbackRef.current = feedback;
+            try {
+                await feedback.finished;
+            } catch {
+                return;
+            } finally {
+                feedbackRef.current = null;
+            }
+        }
+        if (!target.isConnected) return;
         target.focus({ preventScroll: true });
         target.scrollIntoView({ behavior: 'instant', block: 'start' });
     };

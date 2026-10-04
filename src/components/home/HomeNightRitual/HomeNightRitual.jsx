@@ -12,8 +12,15 @@ import introRule from './assets/rule-intro.svg';
 import sensorialRule from './assets/rule-sensorial.svg';
 import buttonArrow from './assets/button-arrow.svg';
 import './HomeNightRitual.css';
+import useHomeMobile from '../useHomeMobile';
+import MobileNightRitual from './MobileNightRitual';
 
 export default function HomeNightRitual() {
+    const mobile = useHomeMobile();
+    return mobile ? <MobileNightRitual /> : <DesktopNightRitual />;
+}
+
+function DesktopNightRitual() {
     const sectionRef = useRef(null);
     const draperyRef = useRef(null);
     useDraperyPull(sectionRef, draperyRef);

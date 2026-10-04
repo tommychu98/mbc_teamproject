@@ -3,6 +3,9 @@ import usePerfumeHistoryScroll from './usePerfumeHistoryScroll';
 import photo1 from './assets/3-1.png';
 import photo2 from './assets/3-2.png';
 import photo3 from './assets/3-3.png';
+import mobileLogo1 from './assets/mobile-orpheon-logo.png';
+import mobileLogo2 from './assets/mobile-saint-germain-logo.png';
+import mobileLogo3 from './assets/mobile-fleur-de-peau-logo.png';
 import logo1 from './assets/3-logo1.png';
 import logo2 from './assets/3-logo2.png';
 import logo3 from './assets/3-logo3.png';
@@ -15,6 +18,7 @@ const SLIDES = [
     { name: '34 Boulevard Saint-Germain', photo: photo2, logo: logo2, photoX: '-51.5625cqw', logoX: '23.645833cqw', photoShift: '51.5625cqw', logoShift: '-23.645833cqw' },
     { name: 'Fleur de Peau', photo: photo3, logo: logo3, photoX: '-102.864583cqw', logoX: '44.947917cqw', photoShift: '102.864583cqw', logoShift: '-44.947917cqw' },
 ];
+const MOBILE_LOGOS = [mobileLogo1, mobileLogo2, mobileLogo3];
 export default function HomePerfumeHistory() {
     const [{ activeIndex, isTransitioning }, setStoryState] = useState({ activeIndex: 0, isTransitioning: false });
     const sectionRef = useRef(null);
@@ -77,15 +81,21 @@ export default function HomePerfumeHistory() {
                     </div>
 
                     <div className="home-perfume-history__logo-panel">
+                        <p className="home-perfume-history__mobile-count" aria-hidden="true">{activeIndex + 1}/3</p>
                         <div className="home-perfume-history__logo-window">
                             <div className="home-perfume-history__logo-track" ref={logoTrackRef}>
                                 {SLIDES.map((slide, index) => (
                                     <div className="home-perfume-history__logo-slide" key={slide.name} style={{ left: slide.logoX }} aria-hidden={index !== activeIndex} data-pair={`3-logo${index + 1}`}>
-                                        <img className="home-perfume-history__logo-image" src={slide.logo} alt={`${slide.name} illustration`} width="380" height="510" draggable="false" />
+                                        <picture>
+                                            <source media="(max-width: 767px)" srcSet={MOBILE_LOGOS[index]} />
+                                            <img className="home-perfume-history__logo-image" src={slide.logo} alt={`${slide.name} illustration`} width="380" height="510" draggable="false" />
+                                        </picture>
                                     </div>
                                 ))}
                             </div>
                         </div>
+
+                        <p className="home-perfume-history__mobile-caption">diptyque 34 boulevard saint germain paris</p>
 
                         <img className="home-perfume-history__oval-text home-perfume-history__oval-text--top" src={ovalTextTop} alt="" width="445.493" height="283.76" draggable="false" />
                         <img className="home-perfume-history__oval-text home-perfume-history__oval-text--bottom" src={ovalTextBottom} alt="" width="444.97" height="277.488" draggable="false" />

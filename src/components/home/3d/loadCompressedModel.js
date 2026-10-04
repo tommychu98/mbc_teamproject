@@ -1,4 +1,4 @@
-// The gzip asset restores the original GLB byte for byte, including all materials.
+// Gzip wraps the optimized GLB. Meshopt and lossless WebP retain its surface data.
 export default async function loadCompressedModel(url, { signal, onProgress }) {
     const response = await fetch(url, { signal });
     if (!response.ok) throw new Error(`Perfume model request failed: ${response.status}`);

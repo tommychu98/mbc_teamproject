@@ -1,3 +1,4 @@
+import GalerieBottle from './GalerieBottle';
 import { useRef, useState } from 'react';
 import useDecorationPop from './useDecorationPop';
 import garden from './assets/images/shared/eau-des-sens.png';
@@ -16,7 +17,7 @@ import heartFilled from './assets/images/shared/heart-filled.svg';
 import mobileHeart from './assets/images/mobile/heart-outline.svg';
 import mobileHeartFilled from './assets/images/mobile/heart-filled.svg';
 import mobileGarden from './assets/images/mobile/chapter-three-mobile.png';
-import mobileBottle from './assets/images/mobile/sens-bottle.svg';
+import mobileBottle from './assets/images/mobile/sens-bottle.png';
 import mobileEdt from './assets/images/mobile/sens-edt.png';
 import mobileHandCream from './assets/images/mobile/sens-hand-cream.png';
 import mobileBodyLotion from './assets/images/mobile/sens-body-lotion.png';
@@ -39,7 +40,7 @@ const products = [
 export default function GalerieEauDesSens() {
     const rootRef = useRef(null);
     const [favorites, setFavorites] = useState([]);
-    useDecorationPop(rootRef, '[data-sens-float]');
+    useDecorationPop(rootRef, '[data-sens-float]', true);
 
     return (
         <div className="galerie-sens" id="galerie-sens-content" tabIndex={-1} ref={rootRef}>
@@ -52,10 +53,7 @@ export default function GalerieEauDesSens() {
                                 <source media="(max-width: 767px)" srcSet={mobileGarden} />
                                 <img className="galerie-tamdao__forest" src={garden} alt="" loading="lazy" />
                             </picture>
-                            <picture>
-                                <source media="(max-width: 767px)" srcSet={mobileBottle} width="293" height="376" />
-                                <img className="galerie-tamdao__bottle" src={bottle} alt="딥티크 오 데 썽 오 드 뚜왈렛" width="520" height="670" loading="lazy" />
-                            </picture>
+                            <GalerieBottle desktop={bottle} mobile={mobileBottle} alt="딥티크 오 데 썽 오 드 뚜왈렛" />
                         </div>
                         <h2 className="galerie-tamdao__title" id="galerie-sens-title">EAU DES SENS</h2>
                         <p className="galerie-tamdao__description">오렌지 껍질의 상큼함과 하얀 꽃, 싱그러운 초록빛 여운</p>
@@ -85,7 +83,7 @@ export default function GalerieEauDesSens() {
                                         <source media="(max-width: 767px)" srcSet={product.mobileImage} />
                                         <img src={product.image} alt={`EAU DES SENS ${product.type}`} loading="lazy" />
                                     </picture>
-                                    <button className="galerie-lineup__favorite" type="button" aria-label={`EAU DES SENS ${product.type} 관심 표시`} aria-pressed={favorites.includes(product.type)}
+                                    <button className="galerie-lineup__favorite" type="button" aria-label={`EAU DES SENS ${product.type} ${favorites.includes(product.type) ? '관심 해제' : '관심 표시'}`} aria-pressed={favorites.includes(product.type)}
                                         onClick={(event) => {
                                             event.currentTarget.dataset.interacted = 'true';
                                             setFavorites((current) => current.includes(product.type)

@@ -16,6 +16,7 @@ export default function HomePerfume3D() {
         let started = false;
         let visible = false;
         let cleanupScene = () => {};
+        let syncPlayback = () => {};
         const modelRequest = new AbortController();
         const stage = stageRef.current;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -25,10 +26,16 @@ export default function HomePerfume3D() {
             started = true;
             setStatus('loading');
             try {
-                const [THREE, { GLTFLoader }, { RoomEnvironment }] = await Promise.all([
+                // Download alongside the renderer modules, before this section is reached.
+                const [THREE, { GLTFLoader }, { RoomEnvironment }, { MeshoptDecoder }, modelData] = await Promise.all([
                     import('three'),
                     import('three/addons/loaders/GLTFLoader.js'),
                     import('three/addons/environments/RoomEnvironment.js'),
+                    import('three/addons/libs/meshopt_decoder.module.js'),
+                    loadCompressedModel(modelUrl, {
+                        signal: modelRequest.signal,
+                        onProgress: value => { if (!disposed) setProgress(value); },
+                    }),
                 ]);
                 if (disposed) return;
                 const scene = new THREE.Scene();
@@ -92,6 +99,7 @@ export default function HomePerfume3D() {
                 resize();
 
                 cleanupScene = () => {
+                    syncPlayback = () => {};
                     renderer.setAnimationLoop(null);
                     resizeObserver.disconnect();
                     if (model) disposeModel(model);
@@ -101,12 +109,8 @@ export default function HomePerfume3D() {
                     replayRef.current = null;
                 };
 
-                const modelData = await loadCompressedModel(modelUrl, {
-                    signal: modelRequest.signal,
-                    onProgress: value => { if (!disposed) setProgress(value); },
-                });
                 if (disposed) return;
-                const gltf = await new GLTFLoader().parseAsync(modelData, '');
+                const gltf = await new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).parseAsync(modelData, '');
                 if (disposed) { disposeModel(gltf.scene); return; }
                 model = gltf.scene;
                 const bounds = new THREE.Box3().setFromObject(model);
@@ -118,9 +122,16 @@ export default function HomePerfume3D() {
                 model.scale.set(scale, scale, scale * depthRatio);
                 model.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale * depthRatio);
                 pivot.add(model);
+                // Prepare shaders and upload textures before the section is seen,
+                // without advancing the entrance animation.
+                pivot.position.y = 3.18;
+                pivot.scale.setScalar(0.16);
+                await renderer.compileAsync(scene, camera);
+                if (disposed) return;
+                renderer.render(scene, camera);
                 setStatus('ready');
                 replayRef.current = () => { elapsed = 0; lastTime = 0; };
-                renderer.setAnimationLoop(time => {
+                const render = time => {
                     const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0;
                     lastTime = time;
                     if (!visible || document.hidden) return;
@@ -135,7 +146,13 @@ export default function HomePerfume3D() {
                     shadow.style.opacity = String(0.05 + ease * 0.17);
                     shadow.style.transform = `translateX(-50%) scale(${0.45 + ease * 0.55})`;
                     renderer.render(scene, camera);
-                });
+                };
+                syncPlayback = () => {
+                    // Preserve elapsed entrance time across visibility pauses.
+                    lastTime = 0;
+                    renderer.setAnimationLoop(visible && !document.hidden ? render : null);
+                };
+                syncPlayback();
             } catch (error) {
                 cleanupScene();
                 if (!disposed) { console.error('Perfume 3D:', error); setStatus('error'); }
@@ -147,10 +164,32 @@ export default function HomePerfume3D() {
         }, { rootMargin: '600px' });
         const visibility = new IntersectionObserver(entries => {
             visible = entries[0].isIntersecting;
+            syncPlayback();
         }, { threshold: 0.12 });
+        const onVisibilityChange = () => syncPlayback();
+        document.addEventListener('visibilitychange', onVisibilityChange);
         preload.observe(sectionRef.current);
         visibility.observe(sectionRef.current);
-        return () => { disposed = true; modelRequest.abort(); preload.disconnect(); visibility.disconnect(); cleanupScene(); };
+        // Give the hero priority, then prepare the model during idle time. The
+        // entrance animation still starts only when the perfume becomes visible.
+        let idleTask;
+        const warmupTimer = window.setTimeout(() => {
+            if ('requestIdleCallback' in window) {
+                idleTask = window.requestIdleCallback(() => { void init(); }, { timeout: 2000 });
+            } else {
+                void init();
+            }
+        }, 2000);
+        return () => {
+            disposed = true;
+            window.clearTimeout(warmupTimer);
+            if (idleTask !== undefined) window.cancelIdleCallback(idleTask);
+            modelRequest.abort();
+            preload.disconnect();
+            visibility.disconnect();
+            document.removeEventListener('visibilitychange', onVisibilityChange);
+            cleanupScene();
+        };
     }, []);
 
     return (

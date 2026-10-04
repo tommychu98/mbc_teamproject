@@ -1,0 +1,98 @@
+import gsap from 'gsap';
+
+export default function setupMobileIntro({ root, video, logo, mist, overlay, topButton, downButton }) {
+    let started = false;
+    let consumeGesture = false;
+    let disposed = false;
+    const reveal = { progress: 0 };
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const paint = () => {
+        const p = gsap.parseEase('power2.inOut')(reveal.progress);
+        const diffusion = p * p * (3 - 2 * p);
+        const settle = gsap.utils.clamp(0, 1, (p - .62) / .38);
+        gsap.set(mist, {
+            attr: { transform: `translate(${960 - 55 * diffusion} ${540 - 35 * diffusion}) scale(${.18 + diffusion * 3.7} ${.24 + diffusion * 3.1})` },
+            opacity: gsap.utils.clamp(0, 1, p / .35),
+        });
+        gsap.set(overlay, { opacity: 1 - settle * settle * (3 - 2 * settle), visibility: p === 1 ? 'hidden' : 'visible' });
+        gsap.set([logo, topButton], { autoAlpha: 1 - diffusion });
+        gsap.set(topButton, { pointerEvents: p === 1 ? 'none' : 'auto' });
+        gsap.set(downButton, { autoAlpha: p === 1 ? .8 : 0, pointerEvents: p === 1 ? 'auto' : 'none' });
+        gsap.set(video, { opacity: Math.min(1, p / .75), filter: p === 1 ? 'none' : `blur(${12 * (1 - diffusion)}px)` });
+    };
+    let timeline;
+    const context = gsap.context(() => {
+        gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0 });
+        paint();
+        timeline = gsap.timeline({ paused: true }).to(reveal, {
+            progress: 1,
+            duration: reduced ? .2 : 1.3,
+            ease: 'none',
+            onUpdate: paint,
+            onComplete: () => video.play().catch(() => { if (!disposed) video.controls = true; }),
+        });
+    }, root);
+    // Include the reveal duration in the two-second automatic start window.
+    let autoStartTimer;
+    const start = () => {
+        if (started || disposed || document.querySelector('.intro-video')) return;
+        started = true;
+        clearTimeout(autoStartTimer);
+        observer.disconnect();
+        video.play().catch(() => { if (!disposed) video.controls = true; });
+        timeline.play();
+    };
+    const scheduleStart = () => {
+        if (started || autoStartTimer || document.querySelector('.intro-video')) return;
+        autoStartTimer = setTimeout(start, 500);
+    };
+    const observer = new MutationObserver(scheduleStart);
+    observer.observe(document.body, { childList: true, subtree: true });
+    const isControl = target => target instanceof Element && !!target.closest('button, a, input');
+    const onTouchStart = event => {
+        consumeGesture = false;
+        if ((started && reveal.progress === 1) || event.touches.length !== 1 || isControl(event.target)) return;
+        consumeGesture = true;
+        if (event.cancelable) event.preventDefault();
+        start();
+    };
+    const onTouchMove = event => {
+        if (consumeGesture && event.cancelable) event.preventDefault();
+    };
+    const onTouchEnd = () => { consumeGesture = false; };
+    const onWheel = event => {
+        if ((started && reveal.progress === 1) || !event.deltaY || isControl(event.target)) return;
+        if (event.cancelable) event.preventDefault();
+        start();
+    };
+    const onPointerDown = event => {
+        if (event.pointerType !== 'touch' && !isControl(event.target)) start();
+    };
+    const onKeyDown = event => {
+        if ((started && reveal.progress === 1) || isControl(event.target) || !['Enter', ' ', 'ArrowDown', 'PageDown'].includes(event.key)) return;
+        event.preventDefault();
+        start();
+    };
+    root.addEventListener('touchstart', onTouchStart, { passive: false });
+    root.addEventListener('touchmove', onTouchMove, { passive: false });
+    root.addEventListener('touchend', onTouchEnd);
+    root.addEventListener('touchcancel', onTouchEnd);
+    root.addEventListener('wheel', onWheel, { passive: false });
+    root.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('keydown', onKeyDown);
+    scheduleStart();
+    return () => {
+        disposed = true;
+        observer.disconnect();
+        clearTimeout(autoStartTimer);
+        root.removeEventListener('touchstart', onTouchStart);
+        root.removeEventListener('touchmove', onTouchMove);
+        root.removeEventListener('touchend', onTouchEnd);
+        root.removeEventListener('touchcancel', onTouchEnd);
+        root.removeEventListener('wheel', onWheel);
+        root.removeEventListener('pointerdown', onPointerDown);
+        window.removeEventListener('keydown', onKeyDown);
+        video.pause();
+        context.revert();
+    };
+}

@@ -37,7 +37,8 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
         const paint = (now) => {
             frameId = 0;
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
-            const progress = distance > 0 ? clamp(-section.getBoundingClientRect().top / distance) : 0;
+            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+            const progress = distance > 0 ? clamp((stickyTop - section.getBoundingClientRect().top) / distance) : 0;
             const elapsed = previousTime ? Math.min(64, now - previousTime) : 1000 / 60;
             previousTime = now;
             const damping = 1 - Math.pow(1 - INK_LERP, elapsed / (1000 / 60));

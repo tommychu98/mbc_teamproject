@@ -121,16 +121,26 @@
 
     .home-pre-footer__services {
         position: static;
-        display: grid;
+        display: flex;
         width: 100%;
         height: auto;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 52px 12px;
+        gap: 20px;
+        justify-content: flex-start;
+        align-items: stretch;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
         margin-top: 54px;
         transform: none;
     }
 
-    .home-pre-footer__service { gap: 20px; }
+    .home-pre-footer__services::-webkit-scrollbar { display: none; }
+    .home-pre-footer__service { flex: 0 0 100%; width: 100%; min-width: 0; gap: 20px; scroll-snap-align: start; scroll-snap-stop: always; }
+    .home-pre-footer__service,
+    .home-pre-footer__service:nth-child(2) { height: auto; justify-content: flex-start; }
+    .home-pre-footer__title { font-size: clamp(20px, 6.5vw, 28px); letter-spacing: .12em; }
     .home-pre-footer__image,
     .home-pre-footer__service:nth-child(n + 4) .home-pre-footer__image { width: 132px; height: 110px; }
     .home-pre-footer__copy { gap: 5px; }
