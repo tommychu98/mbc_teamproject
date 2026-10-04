@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
+import ShopPreFooter from '../ShopPreFooter/ShopPreFooter';
 import './ProductLine.css';
 
 const ASSET_PATH = '/images/product-line';
@@ -59,15 +60,6 @@ const exploreItems = [
     { title: 'Fragrances Story', image: 'explore-fragrances.png', href: '/about/fragrances-story', crop: 'fragrances' },
     { title: 'GALERIE', image: 'explore-galerie.png', href: '/galerie', crop: 'galerie' },
     { title: 'For The Planet', image: 'explore-planet.png', href: '/about/for-the-planet', crop: 'planet' },
-];
-
-const services = [
-    { title: 'FREE SHIPPING', image: 'service-shipping.png', lines: ['13만원 이상 구매 시 무료 배송', '토 일 공휴일 제외 익일 발송'] },
-    { title: 'GIFT WRAPPING', image: 'service-gift.png', lines: ['선물 포장 서비스를 제공합니다.'] },
-    { title: 'FRAGRANCE SAMPLE', image: 'service-fragrance.png', lines: ['프레그런스 구매 시', '시향 샘플 증정'] },
-    { title: 'CHOOSE YOUR SAMPLE', image: 'service-sample.png', lines: ['구매 시 원하는 샘플을', '선택할 수 있습니다.'] },
-    { title: '14-DAY RETURNS', image: 'service-returns.png', lines: ['구매 후 14일 이내', '반품 가능합니다.'] },
-    { title: 'BIRTHDAY SURPRISE', image: 'service-birthday.png', lines: ['회원 특전으로 생일에', '향기로운 서프라이즈를 제공'] },
 ];
 
 export function ViewMoreLink({ to, label }) {
@@ -272,24 +264,7 @@ export function ProductLineBackMain() {
 }
 
 export function ProductLineServices() {
-    return (
-        <section className="product-line__services">
-            <div className="product-line__wide-canvas">
-                <h2>DIPTYQUE SERVICE</h2>
-                <div className="product-line__service-list">
-                    {services.map((service) => (
-                        <article className="product-line__service" key={service.title}>
-                            <img src={`${ASSET_PATH}/${service.image}`} alt="" />
-                            <div>
-                                <h3>{service.title}</h3>
-                                {service.lines.map((line) => <p key={line}>{line}</p>)}
-                            </div>
-                        </article>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+    return <ShopPreFooter />;
 }
 
 export default function ProductLine() {
