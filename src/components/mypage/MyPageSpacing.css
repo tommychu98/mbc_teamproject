@@ -5,7 +5,11 @@
   --mypage-primary-nav-gap: var(--space-8);
   --mypage-secondary-nav-gap: var(--space-10);
   --mypage-content-gap: var(--space-10);
+  padding-bottom: 300px;
 }
+
+/* Prevent viewport stretching from adding space after the fixed My Page gap. */
+.app__main:has(> .mypage-layout) { flex-grow: 0; }
 
 .mypage-layout > .mypage-layout__header {
   box-sizing: border-box;
@@ -17,11 +21,13 @@
   margin-block: var(--mypage-primary-nav-gap) 0;
 }
 
-/* Keep child widths, bottom spacing and all content styles intact. */
+/* The common layout owns the footer gap; retain each page's internal spacing. */
 .mypage-layout > main {
   box-sizing: border-box;
   display: flow-root;
   padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 .mypage-layout > main > :is(.orders-nav, .community-nav) {
   margin-top: var(--mypage-secondary-nav-gap);
