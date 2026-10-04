@@ -14,11 +14,16 @@ export default function useCon10Motion(sceneRef) {
     if (!scene) return undefined;
 
     const media = gsap.matchMedia(scene);
-    media.add('(prefers-reduced-motion: no-preference)', (context) => {
+    media.add({
+      motion: '(prefers-reduced-motion: no-preference)',
+      desktop: '(min-width: 768px)',
+      mobile: '(width < 768px)',
+    }, (context) => {
+      if (!context.conditions.motion) return;
       const book = scene.querySelector('.fragrances-con10__layer--main-book');
       const iris = scene.querySelector('.fragrances-con10__layer--iris');
       const background = scene.querySelector('.fragrances-con10__layer--background');
-      const scaled = (pixels) => pixels * scene.clientWidth / 1920;
+      const scaled = (pixels) => pixels * scene.clientWidth / (context.conditions.mobile ? 860 : 1920);
       const landing = Boolean(sequence);
       let depthStarted = false;
 

@@ -10,7 +10,6 @@ const leftTuberose = [[.32,.52],[.36,.57],[.40,.55],[.43,.62],[.42,.72],
   [.44,.79],[.40,.83],[.37,.90],[.32,.88],[.30,.83],[.25,.82],
   [.27,.76],[.24,.72],[.27,.67],[.31,.65],[.30,.58]];
 const centers = [[0.23, 0.60], [0.62, 0.35], [0.79, 0.80]];
-const bottle = [[.45,.24],[.57,.24],[.58,.42],[.59,.76],[.57,.82],[.45,.82],[.43,.76],[.43,.42]];
 function inside(x, y, points) {
   let result = false;
   for (let i = 0, j = points.length - 1; i < points.length; j = i++) {
@@ -24,9 +23,12 @@ function inside(x, y, points) {
 // original alpha, texture and geometry are preserved throughout.
 function ingredientLayers(image, buttons) {
   const source = document.createElement('canvas');
-  source.width = image.naturalWidth; source.height = image.naturalHeight;
+  const mobile = window.matchMedia('(width < 768px)').matches;
+  // Keep mobile compositing at the rendered Retina resolution, not full export size.
+  source.width = mobile ? Math.min(image.naturalWidth, Math.ceil(image.clientWidth * Math.min(window.devicePixelRatio || 1, 2))) : image.naturalWidth;
+  source.height = Math.round(image.naturalHeight * source.width / image.naturalWidth);
   const ctx = source.getContext('2d', { willReadFrequently: true });
-  ctx.drawImage(image, 0, 0);
+  ctx.drawImage(image, 0, 0, source.width, source.height);
   const pixels = ctx.getImageData(0, 0, source.width, source.height);
   const layers = Array.from({ length: 4 }, (_, index) => {
     const canvas = document.createElement('canvas');
@@ -38,14 +40,12 @@ function ingredientLayers(image, buttons) {
   });
   const polygons = buttons.map(button => getComputedStyle(button).clipPath.match(/[\d.]+/g)
     .reduce((points, value, i, values) => i % 2 ? points : [...points, [+value / 100, +values[i+1] / 100]], []));
-  const mobile = window.matchMedia('(width < 768px)').matches;
   for (let y = 0; y < source.height; y++) {
     for (let x = 0; x < source.width; x++) {
       const p = (y * source.width + x) * 4;
       if (!pixels.data[p+3]) continue;
       const nx = x / source.width, ny = y / source.height;
-      let region = mobile && inside(nx, ny, bottle) ? 3
-        : inside(nx, ny, leftTuberose) ? 1
+      let region = inside(nx, ny, leftTuberose) ? 1
         : polygons.findIndex(points => inside(nx, ny, points));
       if (region < 0) {
         const distances = centers.map(([cx, cy]) => ((nx-cx)/.3)**2 + ((ny-cy)/.4)**2);
@@ -61,7 +61,7 @@ function ingredientLayers(image, buttons) {
     mask.width = source.width; mask.height = source.height;
     canvas.getContext('2d').putImageData(data, 0, 0);
     const maskCtx = mask.getContext('2d', { willReadFrequently: true });
-    maskCtx.filter = 'blur(14px)'; maskCtx.drawImage(canvas, 0, 0);
+    maskCtx.filter = `blur(${14 * source.width / image.naturalWidth}px)`; maskCtx.drawImage(canvas, 0, 0);
     return maskCtx.getImageData(0, 0, source.width, source.height).data;
   });
   const canvas = layers[0].canvas;
@@ -171,7 +171,15 @@ export default function useCon6NoteInteraction(sceneRef) {
     const resetOnExit = new IntersectionObserver(entries => { if (!entries[0].isIntersecting && active >= 0 && focused < 0) restore(); });
     resetOnExit.observe(scene);
     document.addEventListener('pointerdown', outside); scene.addEventListener('keydown', escape);
-    const resize = new ResizeObserver(() => { source = ''; notes.forEach(note => { const color = note.style.color; note.style.removeProperty('color'); note.dataset.originalColor = getComputedStyle(note).color; note.style.color = color; }); place(); });
+    let previousMobile = window.matchMedia('(width < 768px)').matches;
+    const resize = new ResizeObserver(() => {
+      const mobile = window.matchMedia('(width < 768px)').matches;
+      if (mobile !== previousMobile) {
+        restore(); gsap.killTweensOf(typography);
+        typography.forEach(text => { text.style.removeProperty('color'); text.style.removeProperty('text-shadow'); });
+        previousMobile = mobile;
+      }
+      source = ''; notes.forEach(note => { const color = note.style.color; note.style.removeProperty('color'); note.dataset.originalColor = getComputedStyle(note).color; note.style.color = color; }); place(); });
     // Prepare the expensive pixel partitions before this scene approaches view,
     // rather than blocking the Hero's first frames on initial page load.
     const preparation = new IntersectionObserver(([entry]) => {

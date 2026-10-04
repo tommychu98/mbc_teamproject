@@ -19,12 +19,19 @@ export default function useHeroMotion(sceneRef) {
     if (!scene) return undefined;
 
     const media = gsap.matchMedia(scene);
-    media.add('(prefers-reduced-motion: no-preference)', (context) => {
+    media.add({
+      motion: '(prefers-reduced-motion: no-preference)',
+      desktop: '(min-width: 768px)',
+      mobile: '(width < 768px)',
+    }, (context) => {
+      if (!context.conditions.motion) return;
+      const mobile = context.conditions.mobile;
       let disposed = false;
       const layer = (name) => scene.querySelector(`.fragrances-story__layer--${name}`);
-      const layers = [...scene.querySelectorAll('.fragrances-story__layer')];
-      const select = (names) => names.map(layer);
-      const scaled = (pixels) => pixels * scene.clientWidth / 1920;
+      const layers = [...scene.querySelectorAll('.fragrances-story__layer')]
+        .filter(target => !mobile || getComputedStyle(target).display !== 'none');
+      const select = (names) => names.map(layer).filter(target => layers.includes(target));
+      const scaled = (pixels) => pixels * scene.clientWidth / (mobile ? 860 : 1920);
 
       // Entrance owns transform; scroll owns the independent CSS translate property.
       // The inner object's existing rotation, reflection and image crop stay untouched.
@@ -82,7 +89,10 @@ export default function useHeroMotion(sceneRef) {
         });
       });
       const schedule = (names, from, to, offset, stagger = 0) => {
-        names.forEach((name, index) => context.schedule(layer(name), from, to, offset + index * stagger));
+        names.forEach((name, index) => {
+          const target = layer(name);
+          if (layers.includes(target)) context.schedule(target, from, to, offset + index * stagger);
+        });
       };
       schedule(['background'], { opacity: 0, scale: 1.018 },
         { opacity: 1, scale: 1, duration: 1.5, ease: 'power2.out' }, 0);

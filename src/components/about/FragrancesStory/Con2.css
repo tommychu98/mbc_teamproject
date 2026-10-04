@@ -47,6 +47,11 @@
   gap: calc(220px * var(--con2-scale));
 }
 .fragrances-con2__card { display: flex; flex-direction: column; align-items: center; }
+.fragrances-con2__pagination { padding: 0; border: 0; background: none; cursor: pointer; }
+@media (width < 768px) {
+  /* Con2 controls settling explicitly; Con5/8 retain their native snap rails. */
+  .fragrances-con2 .fragrances-con2__cards { touch-action: pan-y pinch-zoom; scroll-snap-type: none; }
+}
 .fragrances-con2__card-artwork { position: relative; width: 100%; aspect-ratio: 340 / 360; overflow: hidden; }
 .fragrances-con2__card-image { position: absolute; top: 0; width: 300.49%; height: 100%; }
 .fragrances-con2__ink-original,

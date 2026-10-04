@@ -2,11 +2,11 @@ import { useRef } from 'react';
 import useCon6NoteInteraction from './useCon6NoteInteraction';
 import useCon6BottleEntrance from './useCon6BottleEntrance';
 import StoryImage from './StoryImage';
-import mobilebackground from './assets/mobile-notes-background.png';
+import mobilebackground from './assets/mobile-con3-background.png';
 import mobiletable from './assets/mobile-notes-table.png';
+import mobilePerfume from './assets/con6-perfume.png';
 import background from './assets/con3-background.png';
 import table from './assets/con3-table.png';
-import perfume from './assets/con6-perfume.png';
 import ingredients from './assets/con6-ingredients.png';
 import mainPerfume from './assets/con6-main-perfume.png';
 import './Con6.css';
@@ -24,11 +24,12 @@ export default function Con6() {
   return (
     <section className="fragrances-con6" aria-label="The 34 향 노트">
       <div ref={sceneRef} className="fragrances-con6__scene">
+        <h2 className="fragrances-con6__title fragrances-story__mobile-copy">NOTES</h2>
         <StoryImage mobileSrc={mobilebackground} className="fragrances-con6__background" src={background} alt="" width="1920" height="1080" draggable="false" />
         <div className="fragrances-con6__table">
           <StoryImage mobileSrc={mobiletable} className="fragrances-con6__table-image" src={table} alt="" width="1122" height="1402" draggable="false" />
         </div>
-        <StoryImage mobileSrc={perfume} className="fragrances-con6__perfume" src={ingredients} alt="주니퍼 베리, 튜베로즈와 샌들우드로 구성된 The 34 향 재료" width="1131" height="601" draggable="false" />
+        <StoryImage mobileSrc={mobilePerfume} className="fragrances-con6__perfume" src={ingredients} alt="주니퍼 베리, 튜베로즈와 샌들우드로 구성된 The 34 향 재료" width="1131" height="601" draggable="false" />
         <div className="fragrances-con6__ingredient-targets">
           {notes.map(({ id, label, name }) => (
             <button key={id} type="button" className={`fragrances-con6__ingredient fragrances-con6__ingredient--${id}`} data-ingredient={id} aria-pressed="false" aria-label={`${name}: ${label} 강조`} aria-controls={`fragrances-con6-note-${id}`} />

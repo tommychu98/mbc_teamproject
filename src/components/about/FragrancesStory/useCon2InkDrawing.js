@@ -5,7 +5,11 @@ const focalPoints = [
   [[50, 78], [45, 55], [56, 30], [28, 42]],
   [[48, 40], [57, 22], [42, 58], [50, 76]],
 ];
-const options = { namespace: 'fragrances-con2', focalPoints };
+const options = {
+  namespace: 'fragrances-con2',
+  focalPoints,
+  mediaQuery: '(min-width: 768px) and (prefers-reduced-motion: no-preference)',
+};
 
 export default function useCon2InkDrawing(sectionRef) {
   useStoryInkDrawing(sectionRef, options);

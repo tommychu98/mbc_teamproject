@@ -1,4 +1,4 @@
-/* Figma Stories_Mobile 2857:3106. Its screens are 430 × 935;
+/* Figma Stories_Mobile 3750:13691 (Con1: 3750:13866). Its screens are 430 × 935;
    the 636px parent also includes the overflowing card rail on the design canvas.
    Desktop styles and GSAP targets remain the source of truth from 768px up. */
 @font-face {
@@ -9,12 +9,49 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Fragrances Con3 Batang';
+  src: url('./assets/mobile-con3-kopub-batang-notes.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fragrances Con3 Garamond';
+  src: url('./assets/mobile-con3-eb-garamond-notes.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fragrances Con6 Garamond';
+  src: url('./assets/mobile-con6-eb-garamond-notes.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fragrances Con9 Garamond';
+  src: url('./assets/mobile-con9-eb-garamond-notes.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 .fragrances-story__picture { display: contents; }
 .fragrances-story__mobile-copy,
 .fragrances-story__mobile-break,
 .fragrances-story__pagination { display: none; }
 
 @media (width < 768px) {
+  /* Mobile_hero 2778:2213 TOP: (369,843), 40 × 43 on 430 × 935. */
+  .fragrances-story__top {
+    right: max(21px, env(safe-area-inset-right));
+    bottom: max(49px, env(safe-area-inset-bottom));
+  }
   .fragrances-story {
     background: var(--color-bg-primary);
     /* The guide defines these complete type sets; variables.css currently only
@@ -34,6 +71,17 @@
     --text-mobile-sub-title-r1-weight: 400;
     --text-mobile-sub-title-r1-letter-spacing: 0;
   }
+  /* Reuse the existing navigation, with the mobile Figma's 52px ivory bar.
+     These selectors affect this page only; menu/search behavior stays shared. */
+  .app:has(.fragrances-story) .header { height: 52px; background: #f7f6f4; color: #222222; }
+  .app:has(.fragrances-story) .header__inner { box-sizing: border-box; position: relative; display: flex; justify-content: space-between; padding-inline: calc(26.5 / 430 * 100%) calc(23.5 / 430 * 100%); }
+  .app:has(.fragrances-story) .header__logo { position: absolute; left: 50%; width: 85px; height: 34px; transform: translateX(-50%); }
+  .app:has(.fragrances-story) .header__logo img,
+  .app:has(.fragrances-story) .header__utilities a > img:not(.header__profile-image) { filter: none; }
+  .app:has(.fragrances-story) .header__menu-button svg { width: 24px; height: 24px; }
+  .app:has(.fragrances-story) .header__utilities .header__search img { width: 16.8px; height: 16.8px; }
+  .app:has(.fragrances-story) .header__cart { display: none; }
+  .app:has(.fragrances-story) .header__nav { top: 52px; }
   .fragrances-story__desktop-copy { display: none; }
   .fragrances-story__mobile-copy { display: inline; }
   .fragrances-story__mobile-break { display: block; }
@@ -46,7 +94,13 @@
     z-index: auto;
     background: var(--color-bg-primary);
   }
-  .fragrances-story > section > [class$='__scene'] {
+  .fragrances-story > section > :is(
+    .fragrances-con1__scene, .fragrances-con2__scene, .fragrances-con3__scene,
+    .fragrances-con4__scene, .fragrances-con5__scene, .fragrances-con6__scene,
+    .fragrances-con7__scene, .fragrances-con8__scene, .fragrances-con9__scene,
+    .fragrances-con10__scene, .fragrances-con11__scene, .fragrances-con12__scene,
+    .fragrances-con13__scene
+  ) {
     --mobile-scale: calc(100cqw / 430px);
     --mobile-flow-scale: max(1, var(--mobile-scale));
     aspect-ratio: auto;
@@ -58,9 +112,6 @@
     aspect-ratio: 430 / 935;
     margin-block: 0;
   }
-
-  /* No top-button slot is present in this mobile Figma. Preserve the existing
-     adaptive button, its hit area and background sampling without a new variant. */
 
   :is(.fragrances-con1__title, .fragrances-con4__title, .fragrances-con7__title) {
     position: absolute;
@@ -235,12 +286,58 @@
     white-space: normal;
   }
   .fragrances-con6__notes { top: calc(416px * var(--mobile-flow-scale)); }
-  .fragrances-con9__notes { top: calc(414px * var(--mobile-flow-scale)); }
+  .fragrances-con9__notes { top: calc(414px * var(--mobile-flow-scale)); color: var(--color-text-inverse); }
   .fragrances-con6__note-name { font-size: var(--text-mobile-body-r2-size); letter-spacing: 0.06em; }
   .fragrances-con6__note:last-child .fragrances-con6__note-name { letter-spacing: 0.02em; }
-  .fragrances-con9__note { gap: 4px; }
-  .fragrances-con9__note-name { font-size: 13px; letter-spacing: 0.02em; }
-  .fragrances-con9__note:first-child .fragrances-con9__note-name { letter-spacing: 0.06em; }
+  /* NOTES measured from 2857:3023: BG_Main height 883 / 2 - 100.5 = y341.
+     Preserve Con9's existing note and artwork slots independently of this title. */
+  .fragrances-con9__title {
+    display: block;
+    position: absolute;
+    left: calc(102 / 430 * 100%);
+    top: calc(341px * var(--mobile-flow-scale));
+    width: calc(228 / 430 * 100%);
+    margin: 0;
+    z-index: 3;
+    color: var(--color-text-inverse);
+    font-family: 'Fragrances Con3 Batang', var(--font-family-serif-kr);
+    font-size: calc(26px * var(--mobile-scale));
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0;
+    text-align: center;
+  }
+  /* Con6 note UI reference 2852:4452; Con9 content/composition stays 3750:13815. */
+  .fragrances-con9__note { position: relative; gap: 0; }
+  .fragrances-con9__note:last-child { margin-right: 0; }
+  .fragrances-con9__note-label {
+    height: calc(20px * var(--mobile-scale));
+    color: #f2e9da;
+    font-size: calc(12px * var(--mobile-scale));
+  }
+  .fragrances-con9__note-name {
+    color: var(--color-text-inverse);
+    font-family: 'Fragrances Con9 Garamond', var(--font-family-display);
+    font-size: calc(14px * var(--mobile-scale));
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    white-space: normal;
+  }
+  .fragrances-con9__note:last-child .fragrances-con9__note-name { letter-spacing: 0.02em; }
+  .fragrances-con9__note + .fragrances-con9__note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(8px * var(--mobile-scale));
+    width: 0.5px;
+    height: calc(42px * var(--mobile-scale));
+    background: var(--color-text-inverse);
+    pointer-events: none;
+  }
+  .fragrances-con9__note:last-child::before {
+    left: calc(7px * var(--mobile-scale));
+    background: url('./assets/mobile-con3-note-divider.svg') center / 100% 100% no-repeat;
+  }
   :is(.fragrances-con3__table-image, .fragrances-con6__table-image, .fragrances-con9__table-image) { width: 100%; height: 100%; object-fit: cover; }
   /* Keep the room behind the table in the latest mobile composition. */
   :is(.fragrances-con3__background, .fragrances-con9__background) { z-index: 0; }
@@ -319,16 +416,75 @@
   .fragrances-con7__furniture { left: calc(16 / 430 * 100%); top: calc(667px * var(--mobile-flow-scale)); width: calc(185 / 430 * 100%); height: calc(280px * var(--mobile-scale)); }
   .fragrances-con1__chapter { top: calc(139px * var(--mobile-flow-scale)); }
   .fragrances-con1__title { top: calc(161px * var(--mobile-flow-scale)); }
-  .fragrances-con2__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
-  .fragrances-con2__background { height: calc(935px * var(--mobile-flow-scale)); bottom: auto; }
-  .fragrances-con5__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
-  .fragrances-con5__background { height: calc(938px * var(--mobile-flow-scale)); bottom: auto; }
+  /* Both rotated paper PNGs have a 25%-alpha final source row.
+     Crop that ~1.6px rendered edge with one mobile background rule.
+     Keep each image's original bottom coverage and all section/foreground geometry. */
+  .fragrances-con2__background { --mobile-paper-height: 935px; }
+  .fragrances-con5__background { --mobile-paper-height: 938px; }
+  :is(.fragrances-con2__background, .fragrances-con5__background) {
+    left: 0;
+    top: calc(-2px * var(--mobile-flow-scale));
+    width: 100%;
+    height: calc((var(--mobile-paper-height) + 2px) * var(--mobile-flow-scale));
+    bottom: auto;
+  }
   .fragrances-con8__background { left: calc(0 / 430 * 100%); top: calc(52px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
   .fragrances-con8__background { height: calc(883px * var(--mobile-flow-scale)); bottom: auto; }
-  .fragrances-con3__background { left: calc(-12 / 430 * 100%); top: calc(1px * var(--mobile-flow-scale)); width: calc(455 / 430 * 100%); }
-  .fragrances-con3__background { height: calc(935px * var(--mobile-flow-scale)); bottom: auto; }
-  .fragrances-con3__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
-  .fragrances-con3__perfume { left: calc(28 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(374 / 430 * 100%); height: calc(201px * var(--mobile-scale)); }
+  /* Mobile_Con3 3138:16881 replaces 3750:13947; reference frame 430 × 935.
+     Scale this composition as one scene; all other Con flow scales stay intact. */
+  .fragrances-story > .fragrances-con3 > .fragrances-con3__scene {
+    --mobile-flow-scale: var(--mobile-scale);
+    height: calc(935px * var(--mobile-scale));
+  }
+  .fragrances-con3__background { left: calc(-12.364 / 430 * 100%); top: calc(1px * var(--mobile-scale)); width: calc(455.773 / 430 * 100%); }
+  .fragrances-con3__background { height: calc(935px * var(--mobile-scale)); bottom: auto; object-fit: fill; }
+  .fragrances-con3__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
+  .fragrances-con3__perfume { left: calc(28 / 430 * 100%); top: calc(518px * var(--mobile-scale)); width: calc(374 / 430 * 100%); height: calc(201px * var(--mobile-scale)); }
+  .fragrances-con3__title {
+    display: block;
+    position: absolute;
+    left: calc(102 / 430 * 100%);
+    top: calc(341px * var(--mobile-scale));
+    width: calc(228 / 430 * 100%);
+    margin: 0;
+    z-index: 3;
+    color: var(--color-text-inverse);
+    font-family: 'Fragrances Con3 Batang', var(--font-family-serif-kr);
+    font-size: calc(26px * var(--mobile-scale));
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0;
+    text-align: center;
+  }
+  .fragrances-con3__notes { top: calc(442px * var(--mobile-scale)); color: var(--color-text-inverse); }
+  .fragrances-con3__note { position: relative; }
+  .fragrances-con3__note:last-child { margin-right: 0; }
+  .fragrances-con3__note-label {
+    height: calc(20px * var(--mobile-scale));
+    color: #f2e9da;
+    font-size: calc(12px * var(--mobile-scale));
+  }
+  .fragrances-con3__note-name {
+    height: calc(32px * var(--mobile-scale));
+    color: var(--color-text-inverse);
+    font-family: 'Fragrances Con3 Garamond', var(--font-family-display);
+    font-size: calc(16px * var(--mobile-scale));
+    white-space: nowrap;
+  }
+  .fragrances-con3__note + .fragrances-con3__note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(8px * var(--mobile-scale));
+    width: 0.5px;
+    height: calc(42px * var(--mobile-scale));
+    background: var(--color-text-inverse);
+    pointer-events: none;
+  }
+  .fragrances-con3__note:last-child::before {
+    left: calc(7px * var(--mobile-scale));
+    background: url('./assets/mobile-con3-note-divider.svg') center / 100% 100% no-repeat;
+  }
   .fragrances-con3__scene { clip-path: inset(0); }
   /* Paint only the uncovered top edge; keep the image's Figma y=1 and crop. */
   .fragrances-con3__scene::before {
@@ -338,21 +494,87 @@
     top: 0;
     width: calc(455 / 430 * 100%);
     height: 100%;
-    background: url('./assets/mobile-notes-background.png') center / cover no-repeat;
+    background: url('./assets/mobile-con3-background.png') center / cover no-repeat;
     opacity: 0.5;
     clip-path: inset(0 0 calc(100% - 1px * var(--mobile-flow-scale)));
     pointer-events: none;
   }
-  .fragrances-con6__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
-  .fragrances-con6__background { height: calc(935px * var(--mobile-flow-scale)); bottom: auto; }
-  .fragrances-con6__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
-  .fragrances-con6__perfume { left: calc(28 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(374 / 430 * 100%); height: calc(201px * var(--mobile-scale)); }
+  .fragrances-con6__background { left: calc(1 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con6__background { height: calc(935px * var(--mobile-flow-scale)); bottom: auto; z-index: 0; }
+  .fragrances-con6__table { left: calc(-25 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
+  /* Mobile_Con6 2852:4452 replaces 3750:13787/13788; reference 430 × 935.
+     Reuse Con3's note hierarchy and two in-between dividers without editing Con3. */
+  .fragrances-story > .fragrances-con6 > .fragrances-con6__scene {
+    --mobile-flow-scale: var(--mobile-scale);
+    height: calc(935px * var(--mobile-scale));
+  }
+  .fragrances-con6__table { z-index: 1; }
+  .fragrances-con6__table-image { width: calc(482.48 / 483 * 100%); }
+  .fragrances-con6__perfume { left: calc(29 / 430 * 100%); top: calc(518px * var(--mobile-scale)); width: calc(374 / 430 * 100%); height: calc(201px * var(--mobile-scale)); z-index: 2; }
+  .fragrances-con6__title {
+    display: block;
+    position: absolute;
+    left: calc(103 / 430 * 100%);
+    top: calc(341px * var(--mobile-scale));
+    width: calc(228 / 430 * 100%);
+    margin: 0;
+    z-index: 3;
+    color: var(--color-text-inverse);
+    font-family: 'Fragrances Con3 Batang', var(--font-family-serif-kr);
+    font-size: calc(26px * var(--mobile-scale));
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0;
+    text-align: center;
+  }
+  .fragrances-con6__notes { top: calc(442px * var(--mobile-scale)); color: var(--color-text-inverse); z-index: 3; }
+  .fragrances-con6__note { position: relative; }
+  .fragrances-con6__note:last-child { margin-right: 0; }
+  .fragrances-con6__note-label {
+    height: calc(20px * var(--mobile-scale));
+    color: #f2e9da;
+    font-size: calc(12px * var(--mobile-scale));
+  }
+  .fragrances-con6__note-name {
+    height: auto;
+    color: var(--color-text-inverse);
+    font-family: 'Fragrances Con6 Garamond', var(--font-family-display);
+    font-size: calc(14px * var(--mobile-scale));
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .fragrances-con6__note + .fragrances-con6__note::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(8px * var(--mobile-scale));
+    width: 0.5px;
+    height: calc(42px * var(--mobile-scale));
+    background: var(--color-text-inverse);
+    pointer-events: none;
+  }
+  .fragrances-con6__note:last-child::before {
+    left: calc(7px * var(--mobile-scale));
+    background: url('./assets/mobile-con3-note-divider.svg') center / 100% 100% no-repeat;
+  }
   .fragrances-con6__scene { clip-path: inset(0); }
   .fragrances-con9__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
   .fragrances-con9__background { height: calc(884px * var(--mobile-flow-scale)); bottom: auto; }
   .fragrances-con9__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
-  .fragrances-con9__perfume { left: calc(28 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(374.816 / 430 * 100%); height: calc(201px * var(--mobile-scale)); }
+  .fragrances-con9__perfume { left: calc(22 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(387 / 430 * 100%); height: calc(206px * var(--mobile-scale)); }
   .fragrances-con9__scene { clip-path: inset(0); }
+  /* Con9 retains its separate bottle asset and original mobile slot. */
+  :is(.fragrances-con3__main-perfume, .fragrances-con6__main-perfume, .fragrances-con9__main-perfume) { display: block; }
+  /* The exact latest mobile PNG includes its bottle. Keep the separate desktop
+     bottle and existing GSAP hook, but avoid painting a duplicate on mobile. */
+  .fragrances-con3__main-perfume { display: none; }
+  /* Latest mobile PNG contains its bottle; keep the independent desktop layer
+     and existing motion hook, but don't render a second mobile bottle. */
+  .fragrances-con6__main-perfume { display: none; }
+  .fragrances-con6__main-perfume-image { left: -110.63%; width: 321.08%; }
+  .fragrances-con6__notes { left: calc(23 / 430 * 100%); }
+  .fragrances-con9__main-perfume { left: calc(166 / 430 * 100%); top: calc(531px * var(--mobile-flow-scale)); width: calc(100 / 430 * 100%); height: calc(155px * var(--mobile-scale)); }
   .fragrances-story__layer { display: none; }
   .fragrances-story__layer--background { display: flex; left: -13.25581395348837% !important; top: 0% !important; width: 459.7674418604651% !important; height: 125.3475935828877% !important; z-index: 0; }
   .fragrances-story__layer--background .fragrances-story__object { width: 100% !important; height: 100% !important; transform: rotate(0deg) !important; }
@@ -368,7 +590,7 @@
   .fragrances-story__layer--main-book .fragrances-story__object { width: 95.67007551256374% !important; height: 93.63624843233134% !important; transform: rotate(-3.27deg) !important; }
   .fragrances-story__layer--flower-iris { display: flex; left: 73.95348837209302% !important; top: 19.46524064171123% !important; width: 39.009069767441865% !important; height: 17.82139037433155% !important; z-index: 6; }
   .fragrances-story__layer--flower-iris .fragrances-story__object { width: 69.2116919738403% !important; height: 73.37814319150213% !important; transform: rotate(-127.7deg) !important; }
-  .fragrances-story__layer--small-flower { display: flex; left: 39.36976744186047% !important; top: 62.30085561497326% !important; width: 27.663255813953487% !important; height: 11.69657754010695% !important; z-index: 7; }
+  .fragrances-story__layer--small-flower { display: flex; left: 82.55813953488372% !important; top: 66.84491978609626% !important; width: 27.663255813953487% !important; height: 11.69657754010695% !important; z-index: 7; }
   .fragrances-story__layer--small-flower .fragrances-story__object { width: 80.6442934965364% !important; height: 66.99340727668408% !important; transform: rotate(-27.59deg) !important; }
   .fragrances-story__layer--hand { display: flex; left: 57.906976744186046% !important; top: 44.49197860962567% !important; width: 66.54116279069767% !important; height: 25.61433155080214% !important; z-index: 8; }
   .fragrances-story__layer--hand .fragrances-story__object { width: 90.99560684591108% !important; height: 85.89609760578554% !important; transform: rotate(7.89deg) !important; }

@@ -48,11 +48,10 @@
 
 /* Keep the existing mobile design and touch target. */
 @media (width < 768px) {
-  /* Figma 2778:2213: (369, 791), 40 × 43 on the 430 × 935 frame.
-     Inner starts at y=52; its bottom gap is 49px, full viewport gap 101px. */
+  /* Figma 3750:13725: (369, 739), 40 × 43 on the 430 × 935 frame. */
   .fragrances-story__top {
     right: max(21px, env(safe-area-inset-right));
-    bottom: max(101px, env(safe-area-inset-bottom));
+    bottom: max(153px, env(safe-area-inset-bottom));
     width: var(--size-button-sm, 40px);
     height: 43px;
   }
