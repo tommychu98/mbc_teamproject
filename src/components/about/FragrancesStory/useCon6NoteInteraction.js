@@ -134,7 +134,9 @@ export default function useCon6NoteInteraction(sceneRef) {
       });
 
     };
+    let nearViewport = false;
     const place = async () => {
+      if (!nearViewport || disposed) return;
       const box = image.getBoundingClientRect(), parent = scene.getBoundingClientRect();
       Object.assign(targets.style, { left: `${box.left-parent.left}px`, top: `${box.top-parent.top}px`, width: `${box.width}px`, height: `${box.height}px` });
       const current = image.currentSrc || image.src;
@@ -170,11 +172,18 @@ export default function useCon6NoteInteraction(sceneRef) {
     resetOnExit.observe(scene);
     document.addEventListener('pointerdown', outside); scene.addEventListener('keydown', escape);
     const resize = new ResizeObserver(() => { source = ''; notes.forEach(note => { const color = note.style.color; note.style.removeProperty('color'); note.dataset.originalColor = getComputedStyle(note).color; note.style.color = color; }); place(); });
+    // Prepare the expensive pixel partitions before this scene approaches view,
+    // rather than blocking the Hero's first frames on initial page load.
+    const preparation = new IntersectionObserver(([entry]) => {
+      nearViewport = entry.isIntersecting;
+      if (nearViewport) place();
+    }, { rootMargin: '100% 0px' });
+    preparation.observe(scene);
     resize.observe(scene); resize.observe(image); image.addEventListener('load', place); place();
     return () => {
       disposed = true; generation++; cancelAnimationFrame(leaveFrame);
       gsap.killTweensOf(notes); gsap.killTweensOf(typography); if (artwork) gsap.killTweensOf(artwork.levels); handlers.forEach(cleanup => cleanup());
-      resize.disconnect(); resetOnExit.disconnect(); image.removeEventListener('load', place);
+      preparation.disconnect(); resize.disconnect(); resetOnExit.disconnect(); image.removeEventListener('load', place);
       document.removeEventListener('pointerdown', outside); scene.removeEventListener('keydown', escape);
       artwork?.canvas.remove(); image.style.removeProperty('opacity'); targets.removeAttribute('style');
       typography.forEach(text => text.removeAttribute('style'));

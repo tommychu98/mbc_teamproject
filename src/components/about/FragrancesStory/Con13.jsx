@@ -104,11 +104,11 @@ export default function Con13() {
           yPercent: (index) => -60 / flowerData[index].height * 100,
         }, {
           yPercent: 0,
-          duration: 1, stagger: 0.15, ease: 'power2.out',
-        }, '+=0.4')
-        // Keep the existing fade timing independent of the slightly faster fall.
+          duration: 0.35, stagger: 0.15, ease: 'power1.inOut',
+        }, 0.08)
+        // Start the flower alongside the book; reveal it while the short fall runs.
         .fromTo(flowers, { opacity: 0 }, {
-          opacity: 1, duration: 1.19, stagger: 0.15, ease: 'power2.out',
+          opacity: 1, duration: 0.4, stagger: 0.15, ease: 'power2.out',
         }, '<')
         // One small breath of lateral motion; no repeat, bounce or upward travel.
         // Percentages keep the 6px / 4px drift proportional to the artboard.
