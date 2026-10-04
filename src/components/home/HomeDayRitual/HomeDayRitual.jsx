@@ -1,16 +1,16 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import background from './assets/background.png';
-import woman from './assets/woman.png';
+import woman from '../HomeDayRitualIsolated/assets/woman.png';
 import floralOverlay from './assets/floral-overlay.png';
 import leftFloral from './assets/left-floral.png';
 import rightFloral from './assets/right-floral.png';
 import foregroundLeaf from './assets/foreground-leaf.png';
-import topLemon from './assets/top-lemon.png';
-import bird from './assets/bird.png';
+import topLemon from '../HomeDayRitualIsolated/assets/top-lemon.png';
+import bird from '../HomeDayRitualIsolated/assets/bird.png';
 import bathObjects from './assets/bath-objects.png';
 import morningRule from './assets/rule-morning.svg';
 import sensorialRule from './assets/rule-sensorial.svg';
-import buttonArrow from './assets/button-arrow.svg';
+import buttonArrow from '../HomeDayRitualIsolated/assets/button-arrow.svg';
 import './HomeDayRitual.css';
 
 const DESIGN_WIDTH = 1920;

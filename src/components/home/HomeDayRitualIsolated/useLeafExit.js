@@ -99,11 +99,13 @@ export default function useLeafExit(sectionRef, leafRef, scale) {
             const sectionBounds = section.getBoundingClientRect();
             const leafBounds = leaf.getBoundingClientRect();
             const dayTop = sectionBounds.top + window.scrollY;
+            const canvas = leaf.offsetParent;
+            const canvasScale = canvas.getBoundingClientRect().width / canvas.offsetWidth;
             const travel = sectionBounds.height - window.innerHeight;
-            start = travel > 0 ? dayTop + travel * 0.28 : dayTop - sectionBounds.height * 0.2;
+            start = travel > 0 ? dayTop + travel * 0.6 : dayTop;
             // Include the tiny rotation's swept bounds and a 32px screen gap.
-            exitDistance = Math.max(0, leafBounds.right - sectionBounds.left) / scale
-                + leaf.offsetHeight * Math.sin(2.5 * Math.PI / 180) + 32 / scale;
+            exitDistance = Math.max(0, leafBounds.right - sectionBounds.left) / canvasScale
+                + leaf.offsetHeight * Math.sin(2.5 * Math.PI / 180) + 32 / canvasScale;
             exitRise = leaf.offsetHeight * 0.65;
             pathLengths = measureCurve(exitDistance, exitRise);
             cancelAnimationFrame(frameId);

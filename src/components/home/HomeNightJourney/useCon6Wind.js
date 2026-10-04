@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 
-// Four visual groups follow the connected branch in the supplied screenshot.
-// The large PNG stays intact; the six existing continuation assets form B/C/D.
+// The large PNG stays intact; each of its six continuation pieces follows
+// the same travelling wave, with increasing flexibility toward the tips.
 const groups = [
     { name: 'A', assets: [], shift: 16, lift: 6, bend: 2, angle: 0.75, tilt: 0.10, point: [150, -150] },
-    { name: 'B', assets: ['element-56.png', 'element-52.png', 'element-45.png'], shift: 17, lift: 7, bend: -1.5, angle: 0.95, tilt: 0.12, point: [1220, 360], pivot: [1127, 260] },
-    { name: 'C', assets: ['element-57.png'], shift: 14, lift: 8, bend: 1.5, angle: 1.1, tilt: 0.14, point: [1510, 620], pivot: [1465, 558] },
-    { name: 'D', assets: ['element-28.png', 'element-07.png'], shift: 18, lift: 9, bend: -1, angle: 1.25, tilt: 0.16, point: [1710, 650], pivot: [1601, 649] },
+    { name: 'B1', assets: ['element-56.png'], shift: 12, lift: 9, bend: -1, angle: 1.4, tilt: .12, point: [1180, 305], pivot: [1127, 260] },
+    { name: 'B2', assets: ['element-52.png'], shift: 13, lift: 11, bend: -1, angle: 1.7, tilt: .14, point: [1260, 385], pivot: [1213, 350] },
+    { name: 'B3', assets: ['element-45.png'], shift: 14, lift: 12, bend: 1, angle: 2, tilt: .16, point: [1380, 500], pivot: [1290, 406] },
+    { name: 'C', assets: ['element-57.png'], shift: 14, lift: 14, bend: 1, angle: 2.3, tilt: .18, point: [1510, 620], pivot: [1465, 558] },
+    { name: 'D1', assets: ['element-28.png'], shift: 15, lift: 15, bend: -1, angle: 2.6, tilt: .2, point: [1660, 690], pivot: [1601, 649] },
+    { name: 'D2', assets: ['element-07.png'], shift: 16, lift: 17, bend: -1, angle: 2.9, tilt: .22, point: [1780, 650], pivot: [1733, 589] },
 ];
-const waveDuration = 0.96;
+const waveDuration = .65;
 
 export default function useCon6Wind(rootRef) {
     useEffect(() => {
@@ -44,16 +47,18 @@ export default function useCon6Wind(rootRef) {
                 element.dataset.connectedWindGroup = group.name;
                 return { element, original, adjoining: element === adjoining };
             });
-            return { ...group, elements, distance, value: 0, velocity: 0, flow: 0 };
+            return { ...group, elements, distance, value: 0, velocity: 0, flow: 0, vertical: 0 };
         });
         objects.forEach(object => { object.delay = object.distance / distance * waveDuration; });
         let frame = 0;
         let previousTime = null;
         let lastScroll = scrollY;
+        let elapsed = 0;
+        const visibleElements = new Set();
         const impulse = { forward: 0, reverse: 0 };
         const wind = { forward: 0, reverse: 0 };
         const history = [];
-        const enabled = () => desktop.matches && !reduced.matches && !document.hidden;
+        const enabled = () => visibleElements.size > 0 && desktop.matches && !reduced.matches && !document.hidden;
         const clear = () => {
             cancelAnimationFrame(frame);
             frame = 0;
@@ -61,7 +66,7 @@ export default function useCon6Wind(rootRef) {
             impulse.forward = impulse.reverse = wind.forward = wind.reverse = 0;
             history.length = 0;
             objects.forEach(object => {
-                object.value = object.velocity = object.flow = 0;
+                object.value = object.velocity = object.flow = object.vertical = 0;
                 object.elements.forEach(({ element, original }) => { element.style.transform = original.transform; });
             });
         };
@@ -70,12 +75,13 @@ export default function useCon6Wind(rootRef) {
             if (!enabled()) { clear(); return; }
             const dt = previousTime === null ? 1 / 60 : Math.min((now - previousTime) / 1000, 0.05);
             previousTime = now;
+            elapsed += dt;
             for (const direction of ['forward', 'reverse']) {
                 impulse[direction] *= Math.exp(-dt / 0.8);
                 wind[direction] += (impulse[direction] - wind[direction]) * (1 - Math.exp(-dt / 0.28));
             }
             history.push({ time: now, ...wind });
-            while (history.length > 2 && history[1].time < now - 1200) history.shift();
+            while (history.length > 2 && history[1].time < now - (waveDuration + .2) * 1000) history.shift();
             const delayed = (direction, time) => {
                 if (time < history[0].time) return 0;
                 for (let i = 0; i < history.length - 1; i++) {
@@ -86,15 +92,21 @@ export default function useCon6Wind(rootRef) {
                 }
                 return wind[direction];
             };
-            let moving = impulse.forward + impulse.reverse + wind.forward + wind.reverse > 0.001;
             objects.forEach(object => {
                 // Separate wave histories reverse the spatial flow without switching a
                 // running trajectory's delay or resetting its position/velocity.
                 const forward = delayed('forward', now - object.delay * 1000);
                 const reverse = delayed('reverse', now - (waveDuration - object.delay) * 1000);
-                const target = Math.max(-0.85, Math.min(1, forward - reverse));
+                const time = elapsed - object.delay;
+                const arrival = Math.min(1, elapsed / 2);
+                const envelope = arrival * arrival * (3 - 2 * arrival);
+                // Slow overlapping currents avoid a mechanical repeating rock.
+                // The same current reaches connected tips slightly later.
+                const breeze = (.28 * Math.sin(time * .55)
+                    + .075 * Math.sin(time * .83 + .7)) * envelope;
+                const target = Math.max(-.5, Math.min(.5, breeze + (forward - reverse) * .2));
                 // Exact critically damped response: continuous velocity, no overshoot/bounce.
-                const stiffness = 4;
+                const stiffness = 2.2;
                 const displacement = object.value - target;
                 const combined = object.velocity + stiffness * displacement;
                 const decay = Math.exp(-stiffness * dt);
@@ -105,19 +117,26 @@ export default function useCon6Wind(rootRef) {
                 // drift. It keeps flowing briefly after X eases, rather than retracing
                 // a straight line or introducing a periodic sway/rocking cycle.
                 object.flow += (value - object.flow) * (1 - Math.exp(-dt / 0.38));
-                const x = value * object.shift;
-                const y = object.flow * object.lift + object.bend * value * (1 - Math.abs(value));
-                const orientation = value * 0.55 + object.flow * 0.45;
+                // A softly lagging upward/downward wave gives each continuation
+                // an elliptical sway rather than a rigid sideways translation.
+                const verticalTarget = object.name === 'A' ? 0
+                    : .12 * Math.sin(time * .55 + .6) * envelope;
+                object.vertical += (verticalTarget - object.vertical) * (1 - Math.exp(-dt / .9));
+                // Keep most movement shared so neighbouring pieces remain
+                // visually connected. Only the tips have a small extra bend.
+                const x = value * (16 + (object.shift - 16) * .25);
+                const y = object.flow * 6 + object.vertical * object.lift * .4
+                    + object.bend * value * (1 - Math.abs(value)) * .3;
+                const orientation = value * .55 + object.flow * .45 + object.vertical * .35;
                 object.elements.forEach(({ element, adjoining: isAdjoining }) => {
                     // The adjoining canvas uses CSS-scaled dimensions, while Con6's
                     // canvas scales 1920px slots. Match their physical displacement.
                     const scale = isAdjoining ? root.clientWidth / 1920 : 1;
-                    element.style.transform = `translate3d(${(x * scale).toFixed(4)}px, ${(y * scale).toFixed(4)}px, 0) rotate(${(orientation * object.angle).toFixed(4)}deg) skewX(${(orientation * object.tilt).toFixed(4)}deg)`;
+                    const angle = orientation * (object.name === 'A' ? object.angle : .75 + (object.angle - .75) * .3);
+                    element.style.transform = `translate3d(${(x * scale).toFixed(4)}px, ${(y * scale).toFixed(4)}px, 0) rotate(${angle.toFixed(4)}deg)`;
                 });
-                moving ||= Math.abs(value) + Math.abs(object.velocity) + Math.abs(object.flow) > 0.001;
             });
-            if (moving) frame = requestAnimationFrame(render);
-            else clear();
+            frame = requestAnimationFrame(render);
         };
         const onScroll = () => {
             const distance = scrollY - lastScroll;
@@ -128,17 +147,32 @@ export default function useCon6Wind(rootRef) {
             // Give slow input a visible response, while saturating even a very fast wheel.
             const direction = distance < 0 ? 'reverse' : 'forward';
             const opposite = distance < 0 ? 'forward' : 'reverse';
-            impulse[direction] = Math.min(distance < 0 ? 0.85 : 1,
-                impulse[direction] + Math.tanh(Math.abs(distance) / 45) * 0.72);
-            impulse[opposite] *= 0.75;
+            // A wheel gesture adds a soft gust rather than stacking a shove
+            // on every event (which differs between mouse and trackpad).
+            impulse[direction] = Math.max(impulse[direction], Math.tanh(Math.abs(distance) / 80) * .6);
+            impulse[opposite] *= .9;
             if (!frame) frame = requestAnimationFrame(render);
         };
-        const onAvailability = () => { lastScroll = scrollY; if (!enabled()) clear(); };
+        const onAvailability = () => {
+            lastScroll = scrollY;
+            if (!enabled()) clear();
+            else if (!frame) frame = requestAnimationFrame(render);
+        };
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) visibleElements.add(entry.target);
+                else visibleElements.delete(entry.target);
+            });
+            onAvailability();
+        });
+        observer.observe(panel);
+        if (adjoining) observer.observe(adjoining);
         addEventListener('scroll', onScroll, { passive: true });
         document.addEventListener('visibilitychange', onAvailability);
         reduced.addEventListener('change', onAvailability);
         desktop.addEventListener('change', onAvailability);
         return () => {
+            observer.disconnect();
             removeEventListener('scroll', onScroll);
             document.removeEventListener('visibilitychange', onAvailability);
             reduced.removeEventListener('change', onAvailability);

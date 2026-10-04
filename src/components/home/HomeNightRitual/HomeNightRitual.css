@@ -37,6 +37,13 @@
 
 .home-night-ritual img { display: block; max-width: none; }
 
+.home-night-ritual__wind-definitions {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
 .home-night-ritual__background,
 .home-night-ritual__man,
 .home-night-ritual__moon,
@@ -56,6 +63,9 @@
     height: calc(1936 * var(--night-unit));
     object-fit: cover;
     opacity: .3;
+    /* Hide the moon baked into the backdrop, beneath the separate bright moon. */
+    -webkit-mask-image: radial-gradient(ellipse 4.5% 4.5% at 76.5% 20.2%, transparent 75%, #000 100%);
+    mask-image: radial-gradient(ellipse 4.5% 4.5% at 76.5% 20.2%, transparent 75%, #000 100%);
 }
 
 .home-night-ritual__man {
@@ -119,8 +129,8 @@
     width: calc(342 * var(--night-unit));
     color: var(--color-paper-ivory);
     font-family: 'HomeNight Dotum', var(--font-family-sans);
-    font-size: calc(20 * var(--night-unit));
-    font-weight: 500;
+    font-size: calc(18 * var(--night-unit));
+    font-weight: 300;
     line-height: 1.5;
     letter-spacing: .02em;
     word-break: break-word;
@@ -133,13 +143,31 @@
 .home-night-ritual__sensorial .home-night-ritual__body p + p { margin-top: calc(30 * var(--night-unit)); }
 
 .home-night-ritual__rose {
-    left: calc(1675 * var(--night-unit));
-    top: calc(185 * var(--night-unit));
-    width: calc(394 * var(--night-unit));
-    height: calc(591 * var(--night-unit));
-    object-fit: cover;
-    transform: rotate(-142.64deg);
+    left: calc(1410 * var(--night-unit));
+    /* The current composition starts 1119 design pixels below this Figma frame. */
+    top: calc(251 * var(--night-unit));
+    width: calc(682.73 * var(--night-unit));
+    height: calc(555.304 * var(--night-unit));
+    display: grid;
+    place-items: center;
     opacity: .5;
+}
+
+.home-night-ritual__rose img {
+    width: calc(393.818 * var(--night-unit));
+    height: calc(590.727 * var(--night-unit));
+    object-fit: cover;
+    transform: rotate(-107.77deg);
+    animation: home-night-rose-sway 6.5s ease-in-out infinite;
+}
+
+@keyframes home-night-rose-sway {
+    0%, 100% { transform: rotate(-108.97deg); }
+    50% { transform: rotate(-106.57deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-night-ritual__rose img { animation: none; }
 }
 
 .home-night-ritual__columns {
@@ -238,7 +266,17 @@
     .home-night-ritual__intro .home-night-ritual__body p + p,
     .home-night-ritual__sensorial .home-night-ritual__body p + p { margin-top: 15px; }
     .home-night-ritual__background { left: -20%; top: 620px; width: 140%; height: 760px; }
-    .home-night-ritual__rose { left: 90%; top: -30px; width: 180px; height: 270px; opacity: .25; }
+    .home-night-ritual__background {
+        /* Follow the centered object-fit crop of the square background. */
+        --backdrop-side: max(140vw, 760px);
+        --moon-mask-radius: calc(var(--backdrop-side) * .045);
+        --moon-mask-x: calc(50% + var(--backdrop-side) * .265);
+        --moon-mask-y: calc(50% - var(--backdrop-side) * .298);
+        -webkit-mask-image: radial-gradient(ellipse var(--moon-mask-radius) var(--moon-mask-radius) at var(--moon-mask-x) var(--moon-mask-y), transparent 75%, #000 100%);
+        mask-image: radial-gradient(ellipse var(--moon-mask-radius) var(--moon-mask-radius) at var(--moon-mask-x) var(--moon-mask-y), transparent 75%, #000 100%);
+    }
+    .home-night-ritual__rose { left: 85%; top: -30px; width: 312px; height: 254px; opacity: .25; }
+    .home-night-ritual__rose img { width: 180px; height: 270px; }
     .home-night-ritual__moon { left: 70%; top: 850px; width: 90px; height: 90px; }
     .home-night-ritual__man { left: 25%; top: 1050px; width: 110%; height: auto; }
     .home-night-ritual__columns { left: -35%; top: 920px; width: 95%; height: 540px; }

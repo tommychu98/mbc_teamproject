@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import useDraperyPull from './useDraperyPull';
-import background from './assets/background.png';
+import NightBackground from './NightBackground';
 import man from './assets/man.png';
 import moon from './assets/moon.png';
 import rose from './assets/rose.png';
@@ -19,7 +19,7 @@ export default function HomeNightRitual() {
     useDraperyPull(sectionRef, draperyRef);
     return (
         <section ref={sectionRef} className="home-night-ritual" aria-labelledby="home-night-ritual-title" data-node-id="2863:8262">
-            <img className="home-night-ritual__background" src={background} alt="" />
+            <NightBackground />
             <img className="home-night-ritual__man" src={man} alt="" />
             <img className="home-night-ritual__moon" src={moon} alt="" />
 
@@ -32,7 +32,9 @@ export default function HomeNightRitual() {
                 </div>
             </div>
 
-            <img className="home-night-ritual__rose" src={rose} alt="" />
+            <div className="home-night-ritual__rose" data-node-id="4245:21566">
+                <img src={rose} alt="" />
+            </div>
 
             <div className="home-night-ritual__sensorial">
                 <h3>A sensorial start<br />of the day</h3>

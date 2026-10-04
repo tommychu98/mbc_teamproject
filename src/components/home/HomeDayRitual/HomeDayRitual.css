@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'HomeDayRitual Garamond';
-    src: url('./assets/eb-garamond-regular.ttf') format('truetype');
+    src: url('../HomeDayRitualIsolated/assets/eb-garamond-regular.ttf') format('truetype');
     font-style: normal;
     font-weight: 400;
     font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
     font-family: 'HomeDayRitual Garamond';
-    src: url('./assets/eb-garamond-medium.ttf') format('truetype');
+    src: url('../HomeDayRitualIsolated/assets/eb-garamond-medium.ttf') format('truetype');
     font-style: normal;
     font-weight: 500;
     font-display: swap;

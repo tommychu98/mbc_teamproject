@@ -66,8 +66,42 @@
 .home-day-ritual__right-floral img { width: 1362.616px; height: 908.411px; object-fit: cover; opacity: .6; transform: rotate(104.11deg); }
 .home-day-ritual__foreground-leaf { position: absolute; left: -451px; top: 1215px; width: 1592.401px; height: 1082.211px; display: grid; place-items: center; transform-origin: 30% 85%; transform: translate3d(var(--leaf-exit-x, 0px), var(--leaf-exit-y, 0px), 0) rotate(var(--leaf-exit-rotation, 0deg)); }
 .home-day-ritual__foreground-leaf img { width: 1568.107px; height: 1045.405px; object-fit: cover; opacity: calc(.9 * var(--leaf-exit-opacity, 1)); transform: rotate(-1.36deg); }
-.home-day-ritual__top-lemon { position: absolute; left: -287px; top: -310px; width: 1404px; height: 936px; object-fit: cover; opacity: .7; }
-.home-day-ritual__bird { position: absolute; left: 1163px; top: 1523px; width: 560px; height: 373px; object-fit: cover; opacity: .7; }
+.home-day-ritual__top-lemon {
+    position: absolute;
+    left: -287px;
+    top: -310px;
+    width: 1404px;
+    height: 936px;
+    object-fit: cover;
+    opacity: .7;
+}
+.home-day-ritual__bird {
+    position: absolute;
+    left: 1163px;
+    top: 1523px;
+    width: 560px;
+    height: 373px;
+    object-fit: cover;
+    opacity: .7;
+    transform-origin: 50% 70%;
+    animation: home-day-swan-drift 18s ease-in-out infinite,
+        home-day-swan-bob 5.5s ease-in-out infinite;
+}
+
+@keyframes home-day-swan-drift {
+    0%, 100% { translate: 0 0; }
+    50% { translate: -38px 0; }
+}
+
+@keyframes home-day-swan-bob {
+    0%, 100% { transform: translateY(0) rotate(-.35deg); }
+    50% { transform: translateY(-6px) rotate(.35deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-day-ritual__bird,
+    .home-day-ritual__top-lemon { animation: none; }
+}
 .home-day-ritual__bath-objects { position: absolute; left: 521px; top: 2218px; width: 354px; height: 236px; object-fit: cover; }
 
 .home-day-ritual__morning-copy,
@@ -93,3 +127,59 @@
 .home-day-ritual__collection:hover,
 .home-day-ritual__collection:focus-visible { color: #4b4b4b; }
 .home-day-ritual__collection:focus-visible { outline: 2px solid #4b4b4b; outline-offset: 8px; }
+
+@media (max-width: 767px) {
+    .home-day-ritual { height: auto; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    .home-day-ritual__canvas {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: 1400px;
+        padding: 170px 24px 420px;
+        box-sizing: border-box;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+    }
+    .home-day-ritual__title,
+    .home-day-ritual__byline,
+    .home-day-ritual__morning-copy,
+    .home-day-ritual__sensorial-copy,
+    .home-day-ritual__collection {
+        position: relative;
+        inset: auto;
+        width: 100%;
+        height: auto;
+        z-index: 1;
+    }
+    .home-day-ritual__title { order: 0; font-size: clamp(40px, 12vw, 64px); letter-spacing: .02em; }
+    .home-day-ritual__byline { order: 1; margin: 10px 0 48px; font-size: 20px; }
+    .home-day-ritual__morning-copy { order: 2; }
+    .home-day-ritual__sensorial-copy { order: 3; margin-top: 40px; }
+    .home-day-ritual__morning-copy h2,
+    .home-day-ritual__sensorial-copy h2 { width: auto; height: auto; font-size: 34px; line-height: 1.15; }
+    .home-day-ritual__morning-rule,
+    .home-day-ritual__sensorial-rule { width: 100%; height: 2px; margin-top: 20px; }
+    .home-day-ritual__body-copy { width: 100%; margin-top: 20px; font-size: 16px; line-height: 1.6; letter-spacing: .02em; }
+    .home-day-ritual__body-copy p { margin-bottom: 20px; }
+    .home-day-ritual__collection { order: 4; width: 143px; min-height: 44px; margin-top: 24px; font-size: 16px; }
+    .home-day-ritual__background { left: -15%; top: 0; width: 130%; height: 100%; object-fit: cover; opacity: .12; }
+    /* Keep the lemon's coordinates scaled exactly like the adjoining section. */
+    .home-day-ritual__top-lemon {
+        left: calc(-287px * var(--home-day-scale));
+        top: calc(-310px * var(--home-day-scale));
+        width: calc(1404px * var(--home-day-scale));
+        height: calc(936px * var(--home-day-scale));
+    }
+    .home-day-ritual__woman { left: 0; top: auto; bottom: 40px; width: 100%; height: auto; }
+    .home-day-ritual__bird { left: 58%; top: auto; bottom: 130px; width: 40%; height: auto; }
+    .home-day-ritual__bath-objects { left: 50%; top: auto; bottom: 24px; width: 120px; height: auto; }
+    .home-day-ritual__foreground-leaf { left: -25%; top: auto; bottom: 30px; width: 90%; height: auto; }
+    .home-day-ritual__foreground-leaf img { width: 100%; height: auto; }
+    .home-day-ritual__floral-overlay { left: 88%; top: 200px; width: 150px; height: 150px; }
+    .home-day-ritual__floral-overlay img { width: 90px; height: auto; opacity: .2; }
+    .home-day-ritual__left-floral { left: -130px; top: auto; bottom: 80px; width: 250px; height: 300px; }
+    .home-day-ritual__left-floral img { width: 230px; height: auto; opacity: .25; }
+    .home-day-ritual__right-floral { left: 90%; top: 600px; width: 250px; height: 300px; }
+    .home-day-ritual__right-floral img { width: 230px; height: auto; opacity: .2; }
+}

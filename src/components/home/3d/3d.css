@@ -1,0 +1,103 @@
+@font-face {
+    font-family: 'HomePerfume Garamond';
+    src: url('../HomeDayRitualIsolated/assets/eb-garamond-medium.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+.home-perfume-3d {
+    --perfume-type-unit: .052083333vw;
+    position: relative;
+    overflow: hidden;
+    height: calc(1080 * var(--perfume-type-unit));
+    padding: 0;
+    background: var(--color-bg-primary, #f7f6f4);
+    color: var(--color-text-secondary, #4b4b4b);
+    font-family: var(--font-family-sans);
+    text-align: center;
+}
+.home-perfume-3d__heading {
+    position: absolute;
+    top: calc(103 * var(--perfume-type-unit));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: min(100%, calc(590 * var(--perfume-type-unit)));
+    margin: 0 auto;
+    color: #222222;
+}
+.home-perfume-3d__heading p,
+.home-perfume-3d__heading > span {
+    font-family: 'HomeNight Dotum', var(--font-family-sans);
+    font-size: calc(16 * var(--perfume-type-unit));
+    font-weight: 300;
+    line-height: 1.5;
+    letter-spacing: .02em;
+}
+.home-perfume-3d__heading p { margin: 0 0 calc(10 * var(--perfume-type-unit)); }
+.home-perfume-3d__heading h2 {
+    margin: 0 0 calc(20 * var(--perfume-type-unit));
+    font-family: 'HomePerfume Garamond', var(--font-family-display, Georgia, serif);
+    font-size: calc(42 * var(--perfume-type-unit));
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: .21em;
+    white-space: nowrap;
+}
+.home-perfume-3d__scene {
+    position: absolute;
+    left: 50%;
+    top: calc(323 * var(--perfume-type-unit));
+    width: calc(552 * var(--perfume-type-unit));
+    height: calc(552 * var(--perfume-type-unit));
+    transform: translateX(-50%);
+}
+.home-perfume-3d__stage { position: absolute; inset: 0; }
+.home-perfume-3d__stage canvas { display: block; width: 100%; height: 100%; }
+.home-perfume-3d__halo {
+    position: absolute;
+    inset: 0;
+    /* Explicit radii fade fully inside the layer, without rectangular clipping. */
+    background: radial-gradient(ellipse 45% 44% at 50% 52%, rgb(226 211 185 / 18%) 0%, rgb(226 211 185 / 10%) 34%, rgb(226 211 185 / 3%) 62%, rgb(226 211 185 / 0%) 85%);
+    pointer-events: none;
+}
+.home-perfume-3d__shadow { position: absolute; left: 50%; bottom: 4%; width: calc(190 * var(--perfume-type-unit)); height: calc(24 * var(--perfume-type-unit)); border-radius: 50%; background: #746450; filter: blur(16px); opacity: 0; transform: translateX(-50%); }
+.home-perfume-3d__status { position: absolute; top: 48%; left: 0; right: 0; padding: 0 24px; font-size: 12px; color: #817b70; }
+.home-perfume-3d__replay {
+    position: absolute;
+    top: calc(954 * var(--perfume-type-unit));
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(118 * var(--perfume-type-unit));
+    height: calc(24 * var(--perfume-type-unit));
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: rgb(75 75 75 / 50%);
+    font-family: 'HomeNight Dotum', var(--font-family-sans);
+    font-size: calc(18 * var(--perfume-type-unit));
+    font-weight: 300;
+    line-height: 1;
+    text-align: left;
+    cursor: pointer;
+    transition: color 180ms ease;
+}
+.home-perfume-3d__replay:not(:disabled):hover { color: var(--color-ink-black, #222); border-color: currentColor; }
+.home-perfume-3d__replay span { position: absolute; top: 0; left: 0; white-space: nowrap; }
+.home-perfume-3d__replay img { position: absolute; left: calc(5.5 * var(--perfume-type-unit)); top: 0; transform: scale(calc(var(--perfume-type-unit) / 1px)); transform-origin: top left; max-width: none; pointer-events: none; }
+.home-perfume-3d__replay:disabled { opacity: 0.35; cursor: default; }
+.home-perfume-3d__replay:focus-visible { outline: 2px solid #817b70; outline-offset: 6px; }
+@media (max-width: 600px) {
+    .home-perfume-3d { --perfume-type-unit: 1px; height: auto; min-height: 660px; padding: 56px 16px 36px; }
+    .home-perfume-3d__heading { position: relative; top: auto; left: auto; transform: none; width: 100%; }
+    .home-perfume-3d__heading h2 { font-size: clamp(22px, 5.5vw, 30px); white-space: normal; }
+    .home-perfume-3d__heading p,
+    .home-perfume-3d__heading > span { font-size: 13px; }
+    .home-perfume-3d__scene { position: relative; top: auto; left: auto; transform: none; width: min(100%, 360px); height: 360px; margin: 32px auto 24px; }
+    .home-perfume-3d__replay { position: relative; top: auto; left: auto; transform: none; display: block; margin: 0 auto; }
+    .home-perfume-3d__shadow { width: 130px; bottom: 4%; }
+}

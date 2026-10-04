@@ -1,0 +1,17 @@
+.home-scent-memory__lemon,
+.home-day-ritual__top-lemon {
+    filter: grayscale(calc(1 - var(--lemon-color, 0))) saturate(1.35);
+    transform-origin: 0% 8%;
+    animation: home-connected-lemon-sway 7s ease-in-out infinite;
+    animation-delay: var(--lemon-sway-delay, 0ms);
+}
+
+@keyframes home-connected-lemon-sway {
+    0%, 100% { transform: rotate(-.8deg); }
+    50% { transform: rotate(1.1deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-scent-memory__lemon,
+    .home-day-ritual__top-lemon { animation: none; }
+}
