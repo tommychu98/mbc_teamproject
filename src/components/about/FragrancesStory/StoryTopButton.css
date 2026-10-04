@@ -1,4 +1,4 @@
-/* Hero 3869:11454: x 1767.85, y 976, 80.145 × 76 on 1920 × 1080. */
+/* Page-local floating control; mobile geometry remains unchanged. */
 .fragrances-story__top {
   position: fixed;
   right: max(var(--page-padding), env(safe-area-inset-right));
@@ -88,38 +88,39 @@
   }
 }
 
+/* Latest Hero 3869:11454: (1738, 912), 80 × 76 on 1920 × 1080. */
 .fragrances-story__top-desktop { display: none; }
 @media (min-width: 768px) {
   .fragrances-story__top {
-    width: 80.145px;
-    right: calc(72.005 / 1920 * 100vw);
-    bottom: calc(28 / 1080 * 100vh);
+    width: 80px;
+    right: max(calc(102 / 1920 * 100vw), env(safe-area-inset-right));
+    bottom: max(calc(92 / 1080 * 100vh), env(safe-area-inset-bottom));
+    color: #f7f6f4;
   }
+  .fragrances-story__top--bk { color: #222222; }
   .fragrances-story__top-mobile { display: none; }
   .fragrances-story__top-desktop { display: block; }
-  .fragrances-story__top-circle,
-  .fragrances-story__top-stem,
-  .fragrances-story__top-chevron { position: absolute; max-width: none; pointer-events: none; }
-  .fragrances-story__top-circle { left: 5px; top: 3px; }
-  .fragrances-story__top-stem { mask-image: url('./assets/top-hero-stem.svg'); left: 39.32px; top: 17.32px; width: 1.35px; height: 24.8993px; }
-  .fragrances-story__top-chevron { mask-image: url('./assets/top-hero-chevron.svg'); left: 30.87px; top: 17.32px; width: 18.2514px; height: 9.37817px; }
-  .fragrances-story__top-stem,
-  .fragrances-story__top-chevron {
+  .fragrances-story__top-arrow {
+    position: absolute;
+    left: 34.325px;
+    top: 12.325px;
+    width: 13.35px;
+    height: 18.35px;
+    mask: url('./assets/top-latest-wh.svg') center / contain no-repeat;
     background-color: var(--top-arrow-color);
-    mask-repeat: no-repeat;
-    mask-size: contain;
     transition: background-color .3s ease;
+    pointer-events: none;
   }
   .fragrances-story__top .fragrances-story__top-label {
-    left: 26px;
-    top: 46.03px;
-    width: 28px;
-    height: 18px;
-    font-family: var(--font-family-display, 'EB Garamond', serif);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: normal;
+    left: 29px;
+    top: 37px;
+    width: 23px;
+    height: 19px;
+    font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: .24px;
     opacity: .7;
     transition: opacity .3s ease, color .3s ease;
   }

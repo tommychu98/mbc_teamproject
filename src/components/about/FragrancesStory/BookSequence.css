@@ -1,0 +1,5 @@
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .fragrances-book-sequence { width: 100%; overflow: hidden; background: #222; }
+  .fragrances-book-sequence__track { display: flex; width: 100%; }
+  .fragrances-book-sequence__track > section { flex: 0 0 100%; min-width: 0; }
+}

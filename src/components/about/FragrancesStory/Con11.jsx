@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { BookSequenceContext, bookSceneTrigger } from './BookSequenceContext';
 import mobileBook from './assets/mobile-con11-main-book.png';
 import StoryImage from './StoryImage';
 import mobileBackground from './assets/mobile-ending-background.png';
@@ -78,8 +80,10 @@ const layers = [
 
 export default function Con11() {
   const rootRef = useRef(null);
+  const sequence = useContext(BookSequenceContext);
 
   useLayoutEffect(() => {
+    if (sequence && !sequence.animation) return undefined;
     const root = rootRef.current;
     const media = gsap.matchMedia(root);
 
@@ -99,6 +103,7 @@ export default function Con11() {
           trigger: root,
           start: 'center 85%',
           end: 'bottom top',
+          ...bookSceneTrigger(sequence),
           // Fast scrolling still leaves both passages fully written on return.
           toggleActions: 'play complete none none',
           once: true,
@@ -113,7 +118,7 @@ export default function Con11() {
 
     // Revert only Con11's animations and trigger, also on reduced-motion changes.
     return () => media.revert();
-  }, []);
+  }, [sequence]);
 
   return (
     <section ref={rootRef} className="fragrances-con11" aria-label="Orphéon — 우리의 이야기가 시작되는 페이지">

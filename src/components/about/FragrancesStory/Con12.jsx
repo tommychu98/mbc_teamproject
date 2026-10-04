@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { BookSequenceContext, bookSceneTrigger } from './BookSequenceContext';
 import mobileBook from './assets/mobile-ending-closed-book.png';
 import StoryImage from './StoryImage';
 import mobileBackground from './assets/mobile-ending-background.png';
@@ -72,8 +74,10 @@ const layers = [
 
 export default function Con12() {
   const rootRef = useRef(null);
+  const sequence = useContext(BookSequenceContext);
 
   useLayoutEffect(() => {
+    if (sequence && !sequence.animation) return undefined;
     const root = rootRef.current;
     const media = gsap.matchMedia(root);
 
@@ -88,6 +92,7 @@ export default function Con12() {
           trigger: root,
           start: 'center 85%',
           end: 'bottom top',
+          ...bookSceneTrigger(sequence),
           toggleActions: 'play complete none none',
           once: true,
         },
@@ -101,7 +106,7 @@ export default function Con12() {
 
     // Scoped cleanup also restores the final pose when reduced motion is enabled.
     return () => media.revert();
-  }, []);
+  }, [sequence]);
 
   return (
     <section ref={rootRef} className="fragrances-con12" aria-label="Scent Stories — Diptyque Paris">

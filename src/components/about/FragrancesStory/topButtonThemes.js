@@ -8,3 +8,11 @@ export const topButtonThemes = [
   { selector: '.fragrances-con9', theme: 'light', darkSurface: '.fragrances-con9__table' },
   { selector: '.fragrances-con10, .fragrances-con11, .fragrances-con12, .fragrances-con13, .fragrances-footer', theme: 'dark' },
 ];
+
+// Light handwritten sheet in the stationery asset, excluding the dark bowl,
+// photograph and transparent corners. Coordinates are relative to that object,
+// so they follow its existing matrix and the horizontal track without scroll px.
+export const topButtonPaperSurfaces = [{
+  selector: '[class$="__layer--stationery"] > [class$="__object"]',
+  polygon: [[.035, .9], [.145, .565], [.57, .675], [.485, .995]],
+}];

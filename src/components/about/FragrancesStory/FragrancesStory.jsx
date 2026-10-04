@@ -15,6 +15,8 @@ import Con10 from './Con10';
 import Con11 from './Con11';
 import Con12 from './Con12';
 import Con13 from './Con13';
+import BookSequence from './BookSequence';
+import Footer from './Footer';
 import StoryTopButton from './StoryTopButton';
 import StoryImage from './StoryImage';
 import mobileHand from './assets/mobile-hero-hand.png';
@@ -49,10 +51,13 @@ export default function FragrancesStory() {
       <Con7 />
       <Con8 />
       <Con9 />
-      <Con10 />
-      <Con11 />
-      <Con12 />
-      <Con13 />
+      <BookSequence>
+        <Con10 />
+        <Con11 />
+        <Con12 />
+        <Con13 />
+      </BookSequence>
+      <Footer />
       <StoryTopButton />
     </section>
   );
