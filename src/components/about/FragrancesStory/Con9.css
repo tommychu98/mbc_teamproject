@@ -1,4 +1,4 @@
-/* Figma Con9 2839:3799 — 1920 × 1080. Preserve the source layer geometry. */
+/* Figma Con9 3869:11325 — 1920 × 1080, separate ingredients and perfume. */
 .fragrances-con9 {
   container-type: inline-size;
   overflow: hidden;
@@ -56,16 +56,40 @@
 .fragrances-con9__perfume-image {
   position: absolute;
   left: 0;
-  top: calc(-0.0000314693788823206 / 0.999937117099762 * 100%);
+  top: 0;
   width: 100%;
-  height: calc(100% / 0.999937117099762);
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Note centers: x = 497, 967, 1437. Source label/name slots are 20/32px. */
+.fragrances-con9__main-perfume {
+  position: absolute;
+  left: calc(841 / 1920 * 100%);
+  top: calc(485 / 1080 * 100%);
+  width: calc(238 / 1920 * 100%);
+  height: calc(368 / 1080 * 100%);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fragrances-con9__main-perfume-image {
+  position: absolute;
+  left: -28.69%;
+  top: 0;
+  width: 156.97%;
+  height: 100%;
+}
+
+/* Keep the existing mobile composite and breakpoint layout. */
+@media (width < 768px) {
+  .fragrances-con9__main-perfume { display: none; }
+}
+
+/* Note centers: x = 490, 960, 1430. Source label/name slots are 20/32px. */
 .fragrances-con9__notes {
   position: absolute;
   top: calc(264 / 1080 * 100%);
-  left: calc(383 / 1920 * 100%);
+  left: calc(376 / 1920 * 100%);
   width: calc(1168 / 1920 * 100%);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -98,4 +122,26 @@
   line-height: var(--text-point-title-m1-line-height);
   letter-spacing: var(--text-point-title-m1-letter-spacing);
   white-space: nowrap;
+}
+
+.fragrances-con9__ingredient-targets { position: absolute; pointer-events: none; z-index: 4; }
+.fragrances-con9__ingredient {
+  position: absolute; inset: 0; width: 100%; height: 100%; padding: 0;
+  border: 0; background: transparent; appearance: none; cursor: pointer;
+  pointer-events: auto; clip-path: var(--ingredient-region);
+}
+/* Con9: galbanum foliage left, jasmine around both sides, tonka beans lower right. */
+.fragrances-con9__ingredient--galbanum { --ingredient-region: polygon(0% 0%, 56% 0%, 53% 31%, 43% 46%, 35% 48%, 31% 62%, 34% 79%, 31% 99%, 0% 99%); }
+.fragrances-con9__ingredient--jasmine { --ingredient-region: polygon(56% 0%, 100% 0%, 100% 64%, 87% 65%, 72% 62%, 65% 77%, 47% 98%, 35% 98%, 34% 81%, 31% 77%, 35% 68%, 31% 62%, 32% 54%, 38% 50%, 43% 46%, 53% 31%); }
+.fragrances-con9__ingredient--tonka { --ingredient-region: polygon(72% 62%, 100% 64%, 100% 99%, 49% 99%, 65% 77%); }
+.fragrances-con9__ingredient:focus-visible { outline: none; }
+.fragrances-con9__scene:has(.fragrances-con9__ingredient--galbanum:focus-visible) #fragrances-con9-note-galbanum .fragrances-con9__note-name,
+.fragrances-con9__scene:has(.fragrances-con9__ingredient--jasmine:focus-visible) #fragrances-con9-note-jasmine .fragrances-con9__note-name,
+.fragrances-con9__scene:has(.fragrances-con9__ingredient--tonka:focus-visible) #fragrances-con9-note-tonka .fragrances-con9__note-name { outline: 1px solid currentColor; outline-offset: 4px; }
+/* Original-pixel ingredient layers; bottle remains above desktop layers. */
+.fragrances-con9__ingredient-layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.fragrances-con9__main-perfume { z-index: 5; pointer-events: none; }
+@media (width < 768px) {
+  .fragrances-con9__ingredient-targets { z-index: 2; }
+  .fragrances-con9__ingredient--jasmine { --ingredient-region: polygon(56% 0%, 100% 0%, 100% 64%, 87% 65%, 72% 62%, 65% 77%, 60% 85%, 60% 18%, 42% 18%, 42% 85%, 35% 98%, 34% 81%, 31% 77%, 35% 68%, 31% 62%, 32% 54%, 38% 50%, 43% 46%, 53% 31%); }
 }

@@ -9,7 +9,9 @@ export default function MythCard({ card }) {
   return (
     <article className={`fragrances-con2__card fragrances-con2__card--${card.id}`}>
       <div className="fragrances-con2__card-artwork">
-        <StoryImage mobileSrc={mobileArtwork[card.id]} className="fragrances-con2__card-image" src={artwork} alt="" width="1021.666" height="360" style={{ left: card.cropLeft }} draggable="false" />
+        <div className="fragrances-con2__ink-original">
+          <StoryImage mobileSrc={mobileArtwork[card.id]} className="fragrances-con2__card-image" src={artwork} alt="" width="1021.666" height="360" style={{ left: card.cropLeft }} draggable="false" />
+        </div>
       </div>
       <div className="fragrances-con2__card-content">
         <div className="fragrances-con2__card-heading">

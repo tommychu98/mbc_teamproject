@@ -68,6 +68,13 @@
   object-fit: cover;
 }
 
+/* Drawing layers share the existing image bounds without changing flow. */
+.fragrances-con8__card-artwork { position: relative; width: 100%; flex: none; }
+.fragrances-con8__ink-trace,
+.fragrances-con8__ink-lines { position: absolute; inset: 0; pointer-events: none; }
+.fragrances-con8__ink-trace { opacity: 0.1; }
+.fragrances-con8__ink-lines { width: 100%; height: 100%; }
+
 .fragrances-con8__card-content {
   display: flex;
   flex-direction: column;

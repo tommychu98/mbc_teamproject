@@ -51,35 +51,60 @@ export default function useHeroMotion(sceneRef) {
         depth(select(['main-book', 'hand']), -10);
       });
 
-      const entrance = gsap.timeline({
-        paused: true,
-        defaults: { ease: 'power3.out' },
-        onComplete: context.startParallax,
+      const entrance = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+      let started = false;
+      let pending = layers.length;
+      const readiness = new Map(layers.map((target) => {
+        const image = target.querySelector('img');
+        return [target, image.decode().then(() => true, () => false)];
+      }));
+      const finish = () => {
+        if (!disposed && pending === 0) context.startParallax();
+      };
+      // Apply every starting pose before paint. Each decoded object joins the
+      // original sequence; a slow asset gets its full entrance, never a pop-in.
+      context.add('schedule', (target, from, to, offset) => {
+        gsap.set(target, from);
+        readiness.get(target).then((ready) => {
+          if (disposed) return;
+          if (!ready) {
+            pending -= 1;
+            finish();
+            return;
+          }
+          context.add(() => {
+            entrance.to(target, {
+              ...to,
+              onComplete: () => { pending -= 1; finish(); },
+            }, started ? Math.max(offset, entrance.time()) : offset);
+            if (started) entrance.play();
+          });
+        });
       });
-      entrance.fromTo(layer('background'),
-        { opacity: 0, scale: 1.018 },
+      const schedule = (names, from, to, offset, stagger = 0) => {
+        names.forEach((name, index) => context.schedule(layer(name), from, to, offset + index * stagger));
+      };
+      schedule(['background'], { opacity: 0, scale: 1.018 },
         { opacity: 1, scale: 1, duration: 1.5, ease: 'power2.out' }, 0);
-      entrance.fromTo(select(['flower-at-corner', 'hidden-books', 'scale']),
-        { opacity: 0 }, { opacity: 1, duration: 1.05, ease: 'power2.out' }, 0.25);
-      entrance.fromTo(select(['stationery', 'books-piled-up', 'perfume-still']),
-        { opacity: 0, y: () => scaled(10) },
-        { opacity: 1, y: 0, duration: 1 }, 0.35);
-      entrance.fromTo(select(['letter', 'book-and-perfume', 'pile-of-papers']),
-        { opacity: 0, y: () => scaled(12) },
-        { opacity: 1, y: 0, duration: 0.95 }, 0.45);
-      entrance.fromTo(select(decorativeObjects),
-        { opacity: 0, y: () => scaled(18) },
-        { opacity: 1, y: 0, duration: 0.9, stagger: 0.14 }, 0.7);
-      entrance.fromTo(layer('main-book'),
-        { opacity: 0, scale: 0.97, y: () => scaled(15) },
-        { opacity: 1, scale: 1, y: 0, duration: 1.15 }, 1.8);
-      entrance.fromTo(layer('hand'),
-        { opacity: 0, y: () => scaled(12) },
-        { opacity: 1, y: 0, duration: 0.85 }, 2.05);
+      schedule(['flower-at-corner', 'hidden-books', 'scale'], { opacity: 0 },
+        { opacity: 1, duration: 1.05, ease: 'power2.out' }, 0.05);
+      schedule(['stationery', 'books-piled-up', 'perfume-still'],
+        { opacity: 0, y: () => scaled(10) }, { opacity: 1, y: 0, duration: 1 }, 0.15);
+      schedule(['letter', 'book-and-perfume', 'pile-of-papers'],
+        { opacity: 0, y: () => scaled(12) }, { opacity: 1, y: 0, duration: 0.95 }, 0.25);
+      schedule(decorativeObjects, { opacity: 0, y: () => scaled(18) },
+        { opacity: 1, y: 0, duration: 0.9 }, 0.5, 0.14);
+      schedule(['main-book'], { opacity: 0, scale: 0.97, y: () => scaled(15) },
+        { opacity: 1, scale: 1, y: 0, duration: 1.15, ease: 'power2.out' }, 0.05);
+      schedule(['hand'], { opacity: 0, y: () => scaled(12) },
+        { opacity: 1, y: 0, duration: 0.85 }, 1.85);
 
-      // Reveal decoded images, including on a cold visit; never restart after unmount.
-      Promise.allSettled([...scene.querySelectorAll('img')].map((image) => image.decode()))
-        .then(() => { if (!disposed) entrance.play(); });
+      // Only the backdrop and first visible group gate the Hero's clock.
+      Promise.all(['background', 'flower-at-corner', 'hidden-books', 'scale']
+        .map((name) => readiness.get(layer(name))))
+        .then(() => {
+          if (!disposed) { started = true; entrance.play(); }
+        });
 
       return () => { disposed = true; };
     });

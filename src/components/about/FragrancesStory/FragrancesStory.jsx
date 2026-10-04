@@ -35,7 +35,7 @@ export default function FragrancesStory() {
             style={{ left: `${x / 1920 * 100}%`, top: `${y / 1080 * 100}%`, width: `${width / 1920 * 100}%`, height: `${height / 1080 * 100}%` }}
           >
             <div className="fragrances-story__object" style={{ width: `${imageWidth / width * 100}%`, height: `${imageHeight / height * 100}%`, transform: `rotate(${rotation}deg)${flipY ? ' scaleY(-1)' : ''}` }}>
-              <StoryImage mobileSrc={name === 'hand' ? mobileHand : src} className="fragrances-story__image" src={src} alt="" aria-hidden="true" draggable="false" width={imageWidth} height={imageHeight} fetchPriority={name === 'main-book' ? 'high' : 'auto'} style={crop} />
+              <StoryImage mobileSrc={name === 'hand' ? mobileHand : src} className="fragrances-story__image" src={src} alt="" aria-hidden="true" draggable="false" width={imageWidth} height={imageHeight} loading="eager" fetchPriority={['background', 'flower-at-corner', 'hidden-books', 'scale'].includes(name) ? 'high' : 'auto'} style={crop} />
             </div>
           </div>
         ))}

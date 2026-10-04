@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import useStoryTypographyMotion from './useStoryTypographyMotion';
 import man from './assets/con4-man.png';
 import cabinet from './assets/con4-cabinet.png';
 import clock from './assets/con4-clock.png';
@@ -9,6 +10,7 @@ import './Con4.css';
 
 export default function Con4() {
   const sceneRef = useRef(null);
+  useStoryTypographyMotion(sceneRef, 'con4', 'title-the', 'title-34');
 
   useEffect(() => {
     const scene = sceneRef.current;
