@@ -1,4 +1,4 @@
-/* Figma web_top 2580:2046; Hero 2778:2093: x 1738, y 927, 80 × 76. */
+/* Hero 3869:11454: x 1767.85, y 976, 80.145 × 76 on 1920 × 1080. */
 .fragrances-story__top {
   position: fixed;
   right: max(var(--page-padding), env(safe-area-inset-right));
@@ -12,6 +12,8 @@
   background: transparent;
   color: var(--color-text-inverse);
   cursor: pointer;
+  --top-arrow-color: #f7f6f4;
+  transition: color .3s ease;
 }
 
 .fragrances-story__top-icon {
@@ -36,7 +38,7 @@
 }
 
 /* Figma bk text is a presentation variable, distinct from the ink icon. */
-.fragrances-story__top--bk { color: #171714; }
+.fragrances-story__top--bk { color: #171714; --top-arrow-color: #222222; }
 .fragrances-story__top--bk .fragrances-story__top-icon { top: 11.325px; }
 .fragrances-story__top--bk .fragrances-story__top-label { top: 55px; }
 .fragrances-story__top:focus-visible {
@@ -44,7 +46,7 @@
   outline-offset: var(--space-1);
 }
 
-/* No hover variant is defined in Figma; preserve both original appearances. */
+/* Keep the existing mobile design and touch target. */
 @media (width < 768px) {
   /* Figma 2778:2213: (369, 791), 40 × 43 on the 430 × 935 frame.
      Inner starts at y=52; its bottom gap is 49px, full viewport gap 101px. */
@@ -86,12 +88,54 @@
   }
 }
 
+.fragrances-story__top-desktop { display: none; }
 @media (min-width: 768px) {
-  .fragrances-story__top { bottom: var(--space-6); }
-}
-@media (min-width: 1024px) {
   .fragrances-story__top {
-    right: calc(102 / 1920 * 100vw);
-    bottom: calc(77 / 1080 * 100vh);
+    width: 80.145px;
+    right: calc(72.005 / 1920 * 100vw);
+    bottom: calc(28 / 1080 * 100vh);
+  }
+  .fragrances-story__top-mobile { display: none; }
+  .fragrances-story__top-desktop { display: block; }
+  .fragrances-story__top-circle,
+  .fragrances-story__top-stem,
+  .fragrances-story__top-chevron { position: absolute; max-width: none; pointer-events: none; }
+  .fragrances-story__top-circle { left: 5px; top: 3px; }
+  .fragrances-story__top-stem { mask-image: url('./assets/top-hero-stem.svg'); left: 39.32px; top: 17.32px; width: 1.35px; height: 24.8993px; }
+  .fragrances-story__top-chevron { mask-image: url('./assets/top-hero-chevron.svg'); left: 30.87px; top: 17.32px; width: 18.2514px; height: 9.37817px; }
+  .fragrances-story__top-stem,
+  .fragrances-story__top-chevron {
+    background-color: var(--top-arrow-color);
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    transition: background-color .3s ease;
+  }
+  .fragrances-story__top .fragrances-story__top-label {
+    left: 26px;
+    top: 46.03px;
+    width: 28px;
+    height: 18px;
+    font-family: var(--font-family-display, 'EB Garamond', serif);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: normal;
+    opacity: .7;
+    transition: opacity .3s ease, color .3s ease;
+  }
+}
+@media (hover: hover) {
+  .fragrances-story__top:hover .fragrances-story__top-label { opacity: 1; }
+}
+
+@media (width < 768px) {
+  .fragrances-story__top-icon {
+    mask-image: url('./assets/mobile-top-wh.svg');
+    width: 13px;
+    height: 17px;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    background-color: var(--top-arrow-color);
+    transition: background-color .3s ease;
   }
 }
