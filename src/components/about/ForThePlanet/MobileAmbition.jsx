@@ -21,7 +21,7 @@ export function Decorations({ items }) {
           ...position(x, y, w, h), opacity,
           transform: `rotate(${rotate}deg) scaleY(${flip})`,
           "--drift-opacity": opacity,
-          "--drift-duration": `${15.7 + (index % 5) * 3}s`,
+          "--drift-duration": `${10.7 + (index % 5) * 3}s`,
           "--drift-delay": `${-index * 3.7}s`,
           "--drift-sway": `${(index % 2 ? -1 : 1) * (8 + (index % 4) * 3)}px`,
         }} />)}
