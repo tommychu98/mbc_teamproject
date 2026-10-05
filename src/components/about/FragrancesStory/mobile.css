@@ -671,6 +671,12 @@
   .fragrances-con9__background { height: calc(884px * var(--mobile-flow-scale)); bottom: auto; }
   .fragrances-con9__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
   .fragrances-con9__perfume { left: calc(22 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(387 / 430 * 100%); height: calc(206px * var(--mobile-scale)); }
+  /* Figma's 430px frame shows 300px of the table at y=635, cropping the
+     314px slot before its transparent lower edge between the legs.
+     Scale that crop depth on phones; keep all note and artwork positions. */
+  .fragrances-story > .fragrances-con9 > .fragrances-con9__scene {
+    height: calc(635px * var(--mobile-flow-scale) + 300px * var(--mobile-scale));
+  }
   .fragrances-con9__scene { clip-path: inset(0); }
   /* Con9 retains its separate bottle asset and original mobile slot. */
   :is(.fragrances-con3__main-perfume, .fragrances-con6__main-perfume, .fragrances-con9__main-perfume) { display: block; }
