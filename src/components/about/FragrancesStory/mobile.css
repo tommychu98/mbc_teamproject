@@ -289,21 +289,22 @@
   .fragrances-con9__notes { top: calc(414px * var(--mobile-flow-scale)); color: var(--color-text-inverse); }
   .fragrances-con6__note-name { font-size: var(--text-mobile-body-r2-size); letter-spacing: 0.06em; }
   .fragrances-con6__note:last-child .fragrances-con6__note-name { letter-spacing: 0.02em; }
-  /* NOTES measured from 2857:3023: BG_Main height 883 / 2 - 100.5 = y341.
-     Preserve Con9's existing note and artwork slots independently of this title. */
+  /* Align NOTES with mobile Con6; keep Con9's note and artwork slots. */
   .fragrances-con9__title {
     display: block;
     position: absolute;
-    left: calc(102 / 430 * 100%);
-    top: calc(341px * var(--mobile-flow-scale));
+    left: calc(101 / 430 * 100%);
+    top: calc(296px * var(--mobile-scale));
     width: calc(228 / 430 * 100%);
+    height: calc(27px * var(--mobile-scale));
     margin: 0;
     z-index: 3;
     color: #2f2e38;
-    font-family: 'Fragrances Con3 Batang', var(--font-family-serif-kr);
-    font-size: calc(26px * var(--mobile-scale));
+    /* Same EB Garamond Regular; this existing subset also contains NOTES. */
+    font-family: 'Fragrances Con6 Garamond', var(--font-family-display);
+    font-size: calc(32px * var(--mobile-scale));
     font-weight: 400;
-    line-height: 1.3;
+    line-height: 1.1;
     letter-spacing: 0;
     text-align: center;
   }
@@ -341,12 +342,12 @@
     left: calc(8px * var(--mobile-scale));
     width: 0.3px;
     height: calc(42px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
     pointer-events: none;
   }
   .fragrances-con9__note:last-child::before {
     left: calc(7px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
   }
   :is(.fragrances-con3__table-image, .fragrances-con6__table-image, .fragrances-con9__table-image) { width: 100%; height: 100%; object-fit: cover; }
   /* Keep the room behind the table in the latest mobile composition. */
@@ -454,14 +455,15 @@
     display: block;
     position: absolute;
     left: calc(101 / 430 * 100%);
-    top: calc(256px * var(--mobile-scale));
+    top: calc(296px * var(--mobile-scale));
     width: calc(228 / 430 * 100%);
+    height: calc(27px * var(--mobile-scale));
     margin: 0;
     z-index: 3;
     color: #2f2e38;
     /* Same EB Garamond Regular; this existing subset also contains NOTES. */
     font-family: 'Fragrances Con6 Garamond', var(--font-family-display);
-    font-size: calc(50px * var(--mobile-scale));
+    font-size: calc(32px * var(--mobile-scale));
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: 0;
@@ -540,16 +542,18 @@
   .fragrances-con6__title {
     display: block;
     position: absolute;
-    left: calc(103 / 430 * 100%);
-    top: calc(341px * var(--mobile-scale));
+    left: calc(101 / 430 * 100%);
+    top: calc(296px * var(--mobile-scale));
     width: calc(228 / 430 * 100%);
+    height: calc(27px * var(--mobile-scale));
     margin: 0;
     z-index: 3;
     color: #2f2e38;
-    font-family: 'Fragrances Con3 Batang', var(--font-family-serif-kr);
-    font-size: calc(26px * var(--mobile-scale));
+    /* Same EB Garamond Regular; this existing subset also contains NOTES. */
+    font-family: 'Fragrances Con6 Garamond', var(--font-family-display);
+    font-size: calc(32px * var(--mobile-scale));
     font-weight: 400;
-    line-height: 1.3;
+    line-height: 1.1;
     letter-spacing: 0;
     text-align: center;
   }
@@ -587,12 +591,12 @@
     left: calc(8px * var(--mobile-scale));
     width: 0.3px;
     height: calc(42px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
     pointer-events: none;
   }
   .fragrances-con6__note:last-child::before {
     left: calc(7px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
   }
   .fragrances-con6__scene { clip-path: inset(0); }
   .fragrances-con9__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
