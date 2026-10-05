@@ -108,7 +108,7 @@ export default function useCon9NoteInteraction(sceneRef) {
       active = -1; buttons.forEach(button => button.setAttribute('aria-pressed', 'false'));
       if (artwork) gsap.to(artwork.levels, { galbanum: 1, jasmine: 1, tonka: 1, duration: 0.65, ease: 'sine.inOut', overwrite: true, onUpdate: artwork.render,
         onComplete: () => { if (active === -1) { image.style.removeProperty('opacity'); artwork.canvas.style.visibility = 'hidden'; } } });
-      typography.forEach(text => gsap.to(text, { color: text.closest('.fragrances-con9__note').dataset.originalColor,
+      if (!window.matchMedia('(width < 768px)').matches) typography.forEach(text => gsap.to(text, { color: text.closest('.fragrances-con9__note').dataset.originalColor,
         textShadow: 'none', duration: 0.65, ease: 'sine.inOut', overwrite: true }));
     };
     const activate = (index, replay = false) => {
@@ -122,7 +122,8 @@ export default function useCon9NoteInteraction(sceneRef) {
         image.style.opacity = '0';
       }
       const mobile = window.matchMedia('(width < 768px)').matches;
-      notes.forEach((note, i) => {
+      // Mobile pairs use aria-pressed CSS; preserve desktop GSAP typography.
+      if (!mobile) notes.forEach((note, i) => {
         const selected = i === index;
         for (const [selector, isName] of [['dt', false], ['dd', true]]) {
           gsap.to(note.querySelector(selector), {

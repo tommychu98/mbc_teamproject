@@ -1,5 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
+import ingredientSource from './assets/con6-ingredients.png';
 
 const inactiveBrightness = 0.85;
 const inactiveSaturation = 0.50;
@@ -21,15 +22,44 @@ function inside(x, y, points) {
 
 // Partition the existing PNG pixels. Tone and saturation affect RGB only;
 // original alpha, texture and geometry are preserved throughout.
-function ingredientLayers(image, buttons) {
+function ingredientLayers(image, buttons, bottleImage, cleanIngredients) {
   const source = document.createElement('canvas');
   const mobile = window.matchMedia('(width < 768px)').matches;
   // Keep mobile compositing at the rendered Retina resolution, not full export size.
-  source.width = mobile ? Math.min(image.naturalWidth, Math.ceil(image.clientWidth * Math.min(window.devicePixelRatio || 1, 2))) : image.naturalWidth;
+  source.width = mobile ? Math.min(image.naturalWidth, Math.ceil(image.clientWidth * 2)) : image.naturalWidth;
   source.height = Math.round(image.naturalHeight * source.width / image.naturalWidth);
   const ctx = source.getContext('2d', { willReadFrequently: true });
   ctx.drawImage(image, 0, 0, source.width, source.height);
   const pixels = ctx.getImageData(0, 0, source.width, source.height);
+  // The mobile export includes the product. Use the existing isolated bottle's
+  // alpha silhouette to exclude it from ingredient tone changes, including edges.
+  let bottleMask;
+  let productCanvas;
+  if (mobile) {
+    const mask = document.createElement('canvas');
+    mask.width = source.width; mask.height = source.height;
+    const maskCtx = mask.getContext('2d', { willReadFrequently: true });
+    // Align the isolated source crop with its slot in the 1024 × 549 composite.
+    maskCtx.drawImage(bottleImage, 600, 16, 518, 882,
+      438 / 1024 * source.width, 169 / 549 * source.height,
+      146 / 1024 * source.width, 261 / 549 * source.height);
+    bottleMask = maskCtx.getImageData(0, 0, source.width, source.height).data;
+    productCanvas = document.createElement('canvas');
+    productCanvas.width = source.width; productCanvas.height = source.height;
+    productCanvas.className = 'fragrances-con6__mobile-product';
+    productCanvas.setAttribute('aria-hidden', 'true');
+    const product = ctx.createImageData(source.width, source.height);
+    const clean = document.createElement('canvas');
+    clean.width = source.width; clean.height = source.height;
+    clean.getContext('2d').drawImage(cleanIngredients, 0, 0, source.width, source.height);
+    const behind = clean.getContext('2d').getImageData(0, 0, source.width, source.height);
+    for (let p = 0; p < pixels.data.length; p += 4) {
+      if (!bottleMask[p+3]) continue;
+      product.data.set(pixels.data.subarray(p, p+4), p);
+      pixels.data.set(behind.data.subarray(p, p+4), p);
+    }
+    productCanvas.getContext('2d').putImageData(product, 0, 0);
+  }
   const layers = Array.from({ length: 4 }, (_, index) => {
     const canvas = document.createElement('canvas');
     canvas.width = source.width; canvas.height = source.height;
@@ -88,7 +118,7 @@ function ingredientLayers(image, buttons) {
     canvas.dataset.focusLevels = JSON.stringify(Object.fromEntries(keys.map(key => [key, levels[key]])));
   };
   render();
-  return { canvas, levels, render };
+  return { canvas, levels, render, productCanvas, mobile };
 }
 
 export default function useCon6NoteInteraction(sceneRef) {
@@ -96,6 +126,9 @@ export default function useCon6NoteInteraction(sceneRef) {
     const scene = sceneRef.current;
     if (!scene) return undefined;
     const image = scene.querySelector('.fragrances-con6__perfume');
+    const bottleImage = scene.querySelector('.fragrances-con6__main-perfume-image');
+    const cleanIngredients = new Image();
+    cleanIngredients.src = ingredientSource;
     const targets = scene.querySelector('.fragrances-con6__ingredient-targets');
     const buttons = [...targets.querySelectorAll('button')];
     const notes = [...scene.querySelectorAll('.fragrances-con6__note')];
@@ -105,8 +138,8 @@ export default function useCon6NoteInteraction(sceneRef) {
     const restore = () => {
       active = -1; buttons.forEach(button => button.setAttribute('aria-pressed', 'false'));
       if (artwork) gsap.to(artwork.levels, { juniper: 1, tuberose: 1, sandalwood: 1, duration: 0.65, ease: 'sine.inOut', overwrite: true, onUpdate: artwork.render,
-        onComplete: () => { if (active === -1) { image.style.removeProperty('opacity'); artwork.canvas.style.visibility = 'hidden'; } } });
-      typography.forEach(text => gsap.to(text, { color: text.closest('.fragrances-con6__note').dataset.originalColor,
+        onComplete: () => { if (active === -1 && !artwork.mobile) { image.style.removeProperty('opacity'); artwork.canvas.style.visibility = 'hidden'; } } });
+      if (!window.matchMedia('(width < 768px)').matches) typography.forEach(text => gsap.to(text, { color: text.closest('.fragrances-con6__note').dataset.originalColor,
         textShadow: 'none', duration: 0.65, ease: 'sine.inOut', overwrite: true }));
     };
     const activate = (index, replay = false) => {
@@ -120,7 +153,8 @@ export default function useCon6NoteInteraction(sceneRef) {
         image.style.opacity = '0';
       }
       const mobile = window.matchMedia('(width < 768px)').matches;
-      notes.forEach((note, i) => {
+      // Mobile pair typography follows aria-pressed in CSS.
+      if (!mobile) notes.forEach((note, i) => {
         const selected = i === index;
         for (const [selector, isName] of [['dt', false], ['dd', true]]) {
           gsap.to(note.querySelector(selector), {
@@ -142,14 +176,22 @@ export default function useCon6NoteInteraction(sceneRef) {
       const current = image.currentSrc || image.src;
       if (source === current) return;
       const version = ++generation;
-      try { await image.decode(); } catch { return; }
+      try {
+        await image.decode();
+        if (window.matchMedia('(width < 768px)').matches) {
+          await bottleImage.decode();
+          await cleanIngredients.decode();
+        }
+      } catch { return; }
       if (disposed || version !== generation) return;
-      const next = ingredientLayers(image, buttons);
-      if (artwork) { gsap.killTweensOf(artwork.levels); artwork.canvas.remove(); }
+      const next = ingredientLayers(image, buttons, bottleImage, cleanIngredients);
+      if (artwork) { gsap.killTweensOf(artwork.levels); artwork.canvas.remove(); artwork.productCanvas?.remove(); }
       artwork = next; source = current;
       ['juniper','tuberose','sandalwood'].forEach((key, i) => { artwork.levels[key] = active < 0 || i === active ? 1 : inactiveBrightness; });
-      artwork.render(); artwork.canvas.style.visibility = active < 0 ? 'hidden' : 'visible'; targets.prepend(artwork.canvas);
-      if (active >= 0) image.style.opacity = '0';
+      artwork.render(); artwork.canvas.style.visibility = active < 0 && !artwork.mobile ? 'hidden' : 'visible'; targets.prepend(artwork.canvas);
+      if (artwork.productCanvas) bottleImage.parentElement.append(artwork.productCanvas);
+      if (active >= 0 || artwork.mobile) image.style.opacity = '0';
+      else image.style.removeProperty('opacity');
     };
     notes.forEach(note => { note.dataset.originalColor = getComputedStyle(note).color; });
     const handlers = buttons.map((button, index) => {
@@ -193,7 +235,7 @@ export default function useCon6NoteInteraction(sceneRef) {
       gsap.killTweensOf(notes); gsap.killTweensOf(typography); if (artwork) gsap.killTweensOf(artwork.levels); handlers.forEach(cleanup => cleanup());
       preparation.disconnect(); resize.disconnect(); resetOnExit.disconnect(); image.removeEventListener('load', place);
       document.removeEventListener('pointerdown', outside); scene.removeEventListener('keydown', escape);
-      artwork?.canvas.remove(); image.style.removeProperty('opacity'); targets.removeAttribute('style');
+      artwork?.canvas.remove(); artwork?.productCanvas?.remove(); image.style.removeProperty('opacity'); targets.removeAttribute('style');
       typography.forEach(text => text.removeAttribute('style'));
       notes.forEach(note => { note.removeAttribute('style'); delete note.dataset.originalColor; });
       buttons.forEach(button => button.setAttribute('aria-pressed', 'false'));

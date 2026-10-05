@@ -18,14 +18,14 @@ export default function useCon9BottleEntrance(sceneRef) {
       if (!conditions.motion) return;
       const bottle = scene.querySelector('.fragrances-con9__main-perfume');
       // The mobile bottle uses its own Figma slot; preserve the desktop 120px rise.
-      gsap.set(bottle, { y: conditions.desktop ? 120 : 32 * scene.clientWidth / 430 });
+      gsap.set(bottle, { y: conditions.desktop ? 120 : 80 * scene.clientWidth / 430 });
       const entrance = gsap.timeline({ paused: true })
         .to(bottle, { y: 0, duration: 1.7, ease: 'power2.out',
           onComplete: () => gsap.set(bottle, { clearProps: 'transform' }) });
       const trigger = ScrollTrigger.create({
         id: 'fragrances-con9-bottle-materialization',
-        trigger: bottle,
-        start: 'top 85%',
+        trigger: conditions.desktop ? bottle : scene,
+        start: conditions.desktop ? 'top 85%' : 'top 75%',
         once: true,
         onEnter: () => entrance.play(),
       });
