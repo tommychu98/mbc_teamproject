@@ -289,21 +289,22 @@
   .fragrances-con9__notes { top: calc(414px * var(--mobile-flow-scale)); color: var(--color-text-inverse); }
   .fragrances-con6__note-name { font-size: var(--text-mobile-body-r2-size); letter-spacing: 0.06em; }
   .fragrances-con6__note:last-child .fragrances-con6__note-name { letter-spacing: 0.02em; }
-  /* NOTES measured from 2857:3023: BG_Main height 883 / 2 - 100.5 = y341.
-     Preserve Con9's existing note and artwork slots independently of this title. */
+  /* Align NOTES with mobile Con6; keep Con9's note and artwork slots. */
   .fragrances-con9__title {
     display: block;
     position: absolute;
-    left: calc(102 / 430 * 100%);
-    top: calc(341px * var(--mobile-flow-scale));
+    left: calc(101 / 430 * 100%);
+    top: calc(296px * var(--mobile-scale));
     width: calc(228 / 430 * 100%);
+    height: calc(27px * var(--mobile-scale));
     margin: 0;
     z-index: 3;
     color: #2f2e38;
-    font-family: 'Fragrances Con3 Batang', var(--font-family-serif-kr);
-    font-size: calc(26px * var(--mobile-scale));
+    /* Same EB Garamond Regular; this existing subset also contains NOTES. */
+    font-family: 'Fragrances Con6 Garamond', var(--font-family-display);
+    font-size: calc(32px * var(--mobile-scale));
     font-weight: 400;
-    line-height: 1.3;
+    line-height: 1.1;
     letter-spacing: 0;
     text-align: center;
   }
@@ -341,12 +342,12 @@
     left: calc(8px * var(--mobile-scale));
     width: 0.3px;
     height: calc(42px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
     pointer-events: none;
   }
   .fragrances-con9__note:last-child::before {
     left: calc(7px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
   }
   :is(.fragrances-con3__table-image, .fragrances-con6__table-image, .fragrances-con9__table-image) { width: 100%; height: 100%; object-fit: cover; }
   /* Keep the room behind the table in the latest mobile composition. */
@@ -402,28 +403,93 @@
 
 /* Independent mobile object geometry, measured from the Figma child screens. */
 @media (width < 768px) {
-  .fragrances-con1__intro { left: calc(119 / 430 * 100%); top: calc(323px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  /* Mobile Con1 2778:2223: scale the complete 430 × 935 frame, including
+     text, artwork and its bottom crop. Keep height independent of browser chrome. */
+  .fragrances-story > .fragrances-con1 > .fragrances-con1__scene {
+    --mobile-flow-scale: var(--mobile-scale);
+    height: calc(935px * var(--mobile-scale));
+  }
+  .fragrances-con1__title {
+    width: calc(359 / 430 * 100%);
+    height: calc(83px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-title-b1-size) * var(--mobile-scale));
+  }
+  .fragrances-con1__chapter {
+    width: calc(60 / 430 * 100%);
+    height: calc(22px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+    text-align: center;
+  }
+  .fragrances-con1__intro { left: calc(119 / 430 * 100%); top: calc(323px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); gap: calc(14px * var(--mobile-scale)); }
+  .fragrances-con1__subtitle {
+    width: calc(294px * var(--mobile-scale));
+    max-width: calc(294px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+  }
+  .fragrances-con1__text { font-size: calc(var(--text-mobile-body-r2-do-size) * var(--mobile-scale)); }
   .fragrances-con1__text--body1 { left: calc(222 / 430 * 100%); top: calc(499px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con1__text--body2 { left: calc(222 / 430 * 100%); top: calc(669px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con1__cloud--left { left: calc(16 / 430 * 100%); top: calc(478px * var(--mobile-flow-scale)); width: calc(150 / 430 * 100%); height: calc(75px * var(--mobile-scale)); }
-  .fragrances-con1__pillar { left: calc(182 / 430 * 100%); top: calc(334px * var(--mobile-flow-scale)); width: calc(232 / 430 * 100%); height: calc(618px * var(--mobile-scale)); }
+  .fragrances-con1__pillar { left: calc(200 / 430 * 100%); top: calc(333px * var(--mobile-flow-scale)); width: calc(232 / 430 * 100%); height: calc(618px * var(--mobile-scale)); }
   .fragrances-con1__butterfly--right { left: calc(257 / 430 * 100%); top: calc(814px * var(--mobile-flow-scale)); width: calc(38 / 430 * 100%); height: calc(32px * var(--mobile-scale)); }
   .fragrances-con1__butterfly-left { left: calc(16 / 430 * 100%); top: calc(235px * var(--mobile-flow-scale)); width: calc(88.685 / 430 * 100%); height: calc(88.324px * var(--mobile-scale)); }
-  .fragrances-con1__couple { left: calc(16 / 430 * 100%); top: calc(623px * var(--mobile-flow-scale)); width: calc(208 / 430 * 100%); height: calc(312px * var(--mobile-scale)); }
-  .fragrances-con4__intro { left: calc(16 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  .fragrances-con1__couple { left: calc(16 / 430 * 100%); top: calc(623px * var(--mobile-flow-scale)); bottom: auto; width: calc(208 / 430 * 100%); height: calc(312px * var(--mobile-scale)); }
+  /* Mobile Con4 2817:4861: preserve the complete 430 × 935 composition.
+     The full-width 430 × 346 tailor/table slot ends at the frame bottom. */
+  .fragrances-story > .fragrances-con4 > .fragrances-con4__scene {
+    --mobile-flow-scale: var(--mobile-scale);
+    height: calc(935px * var(--mobile-scale));
+  }
+  .fragrances-con4__title {
+    width: calc(190 / 430 * 100%);
+    height: calc(83px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-title-b1-size) * var(--mobile-scale));
+  }
+  .fragrances-con4__chapter {
+    width: calc(65 / 430 * 100%);
+    height: calc(22px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+    text-align: center;
+  }
+  .fragrances-con4__intro { left: calc(16 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); gap: calc(14px * var(--mobile-scale)); }
+  .fragrances-con4__subtitle {
+    width: calc(400px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+  }
+  .fragrances-con4__text { font-size: calc(var(--text-mobile-body-r2-do-size) * var(--mobile-scale)); }
   .fragrances-con4__text--body1 { left: calc(223 / 430 * 100%); top: calc(402px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con4__text--body2 { left: calc(16 / 430 * 100%); top: calc(526px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
-  .fragrances-con4__man { left: calc(16 / 430 * 100%); top: calc(613px * var(--mobile-flow-scale)); width: calc(399.536 / 430 * 100%); height: calc(321px * var(--mobile-scale)); }
-  .fragrances-con4__cabinet { left: calc(16 / 430 * 100%); top: calc(597px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(303px * var(--mobile-scale)); }
-  .fragrances-con4__clock { left: calc(271 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(143 / 430 * 100%); height: calc(218px * var(--mobile-scale)); }
+  .fragrances-con4__man { left: 0; top: calc(589px * var(--mobile-flow-scale)); bottom: auto; width: 100%; height: calc(346px * var(--mobile-scale)); }
+  .fragrances-con4__cabinet { left: 0; top: calc(597px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(303px * var(--mobile-scale)); }
+  .fragrances-con4__clock { left: calc(267 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(143 / 430 * 100%); height: calc(218px * var(--mobile-scale)); }
+  .fragrances-con4__clock-image { left: calc(17px * var(--mobile-scale)); }
   .fragrances-con4__drawing--second { left: calc(283 / 430 * 100%); top: calc(560px * var(--mobile-flow-scale)); width: calc(45 / 430 * 100%); height: calc(59px * var(--mobile-scale)); }
   .fragrances-con4__drawing--first { left: calc(223 / 430 * 100%); top: calc(580px * var(--mobile-flow-scale)); width: calc(44 / 430 * 100%); height: calc(55px * var(--mobile-scale)); }
-  .fragrances-con7__intro { left: calc(16 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  /* Mobile Con7 2817:5015: scale the complete 430 × 935 frame together.
+     The chair/table slot extends to y=954 and is cropped at the frame bottom. */
+  .fragrances-story > .fragrances-con7 > .fragrances-con7__scene {
+    --mobile-flow-scale: var(--mobile-scale);
+    height: calc(935px * var(--mobile-scale));
+  }
+  .fragrances-con7__title {
+    width: calc(241 / 430 * 100%);
+    height: calc(83px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-title-b1-size) * var(--mobile-scale));
+  }
+  .fragrances-con7__chapter {
+    width: calc(71 / 430 * 100%);
+    height: calc(22px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+    text-align: center;
+  }
+  .fragrances-con7__intro { left: calc(16 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); gap: calc(14px * var(--mobile-scale)); }
+  .fragrances-con7__subtitle { width: calc(400px * var(--mobile-scale)); font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale)); }
+  .fragrances-con7__text { font-size: calc(var(--text-mobile-body-r2-do-size) * var(--mobile-scale)); }
   .fragrances-con7__text--body { left: calc(223 / 430 * 100%); top: calc(510px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con7__musicians { left: calc(127 / 430 * 100%); top: calc(658px * var(--mobile-flow-scale)); width: calc(213 / 430 * 100%); height: calc(122px * var(--mobile-scale)); }
   .fragrances-con7__dancers { left: calc(223 / 430 * 100%); top: calc(658px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(256px * var(--mobile-scale)); }
-  .fragrances-con7__chandelier { left: calc(120 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(294 / 430 * 100%); height: calc(196px * var(--mobile-scale)); }
-  .fragrances-con7__furniture { left: calc(16 / 430 * 100%); top: calc(667px * var(--mobile-flow-scale)); width: calc(185 / 430 * 100%); height: calc(280px * var(--mobile-scale)); }
+  .fragrances-con7__chandelier { left: calc(136 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(294 / 430 * 100%); height: calc(196px * var(--mobile-scale)); }
+  .fragrances-con7__furniture { left: 0; top: calc(666px * var(--mobile-flow-scale)); width: calc(190 / 430 * 100%); height: calc(288px * var(--mobile-scale)); }
   .fragrances-con1__chapter { top: calc(139px * var(--mobile-flow-scale)); }
   .fragrances-con1__title { top: calc(161px * var(--mobile-flow-scale)); }
   /* Both rotated paper PNGs have a 25%-alpha final source row.
@@ -438,8 +504,11 @@
     height: calc((var(--mobile-paper-height) + 2px) * var(--mobile-flow-scale));
     bottom: auto;
   }
-  .fragrances-con8__background { left: calc(0 / 430 * 100%); top: calc(52px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
-  .fragrances-con8__background { height: calc(883px * var(--mobile-flow-scale)); bottom: auto; }
+  /* Start Con8's paper at the Con7 boundary instead of leaving a 52px ivory band.
+     Crop the rotated PNG's translucent edge as for Con2/Con5; keep its bottom
+     at y=935 without moving the section, title, card rail or pagination. */
+  .fragrances-con8__background { left: calc(0 / 430 * 100%); top: calc(-2px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con8__background { height: calc(937px * var(--mobile-flow-scale)); bottom: auto; }
   /* Mobile_Con3 3138:16881 replaces 3750:13947; reference frame 430 × 935.
      Scale this composition as one scene; all other Con flow scales stay intact. */
   .fragrances-story > .fragrances-con3 > .fragrances-con3__scene {
@@ -454,14 +523,15 @@
     display: block;
     position: absolute;
     left: calc(101 / 430 * 100%);
-    top: calc(256px * var(--mobile-scale));
+    top: calc(296px * var(--mobile-scale));
     width: calc(228 / 430 * 100%);
+    height: calc(27px * var(--mobile-scale));
     margin: 0;
     z-index: 3;
     color: #2f2e38;
     /* Same EB Garamond Regular; this existing subset also contains NOTES. */
     font-family: 'Fragrances Con6 Garamond', var(--font-family-display);
-    font-size: calc(50px * var(--mobile-scale));
+    font-size: calc(32px * var(--mobile-scale));
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: 0;
@@ -540,16 +610,18 @@
   .fragrances-con6__title {
     display: block;
     position: absolute;
-    left: calc(103 / 430 * 100%);
-    top: calc(341px * var(--mobile-scale));
+    left: calc(101 / 430 * 100%);
+    top: calc(296px * var(--mobile-scale));
     width: calc(228 / 430 * 100%);
+    height: calc(27px * var(--mobile-scale));
     margin: 0;
     z-index: 3;
     color: #2f2e38;
-    font-family: 'Fragrances Con3 Batang', var(--font-family-serif-kr);
-    font-size: calc(26px * var(--mobile-scale));
+    /* Same EB Garamond Regular; this existing subset also contains NOTES. */
+    font-family: 'Fragrances Con6 Garamond', var(--font-family-display);
+    font-size: calc(32px * var(--mobile-scale));
     font-weight: 400;
-    line-height: 1.3;
+    line-height: 1.1;
     letter-spacing: 0;
     text-align: center;
   }
@@ -587,18 +659,24 @@
     left: calc(8px * var(--mobile-scale));
     width: 0.3px;
     height: calc(42px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
     pointer-events: none;
   }
   .fragrances-con6__note:last-child::before {
     left: calc(7px * var(--mobile-scale));
-    background: var(--color-text-inverse);
+    background: #4b4b4b;
   }
   .fragrances-con6__scene { clip-path: inset(0); }
   .fragrances-con9__background { left: calc(0 / 430 * 100%); top: calc(0px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
   .fragrances-con9__background { height: calc(884px * var(--mobile-flow-scale)); bottom: auto; }
   .fragrances-con9__table { left: calc(-26 / 430 * 100%); top: calc(635px * var(--mobile-flow-scale)); width: calc(483 / 430 * 100%); height: calc(314px * var(--mobile-scale)); }
   .fragrances-con9__perfume { left: calc(22 / 430 * 100%); top: calc(518px * var(--mobile-flow-scale)); width: calc(387 / 430 * 100%); height: calc(206px * var(--mobile-scale)); }
+  /* Figma's 430px frame shows 300px of the table at y=635, cropping the
+     314px slot before its transparent lower edge between the legs.
+     Scale that crop depth on phones; keep all note and artwork positions. */
+  .fragrances-story > .fragrances-con9 > .fragrances-con9__scene {
+    height: calc(635px * var(--mobile-flow-scale) + 300px * var(--mobile-scale));
+  }
   .fragrances-con9__scene { clip-path: inset(0); }
   /* Con9 retains its separate bottle asset and original mobile slot. */
   :is(.fragrances-con3__main-perfume, .fragrances-con6__main-perfume, .fragrances-con9__main-perfume) { display: block; }
