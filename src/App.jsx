@@ -66,6 +66,7 @@ const protectedMyPage = (element, active) => protectedPage(
 export default function App() {
     const { pathname } = useLocation();
     const isHistoryPage = pathname === '/history' || pathname === '/about/history';
+    const hasPageFooter = pathname === '/about/fragrances-story';
     const handleIntroComplete = useCallback(() => {
         if (pathname !== '/') return;
 
@@ -173,7 +174,7 @@ export default function App() {
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </div>
-            <GalerieFooter />
+            {!hasPageFooter && <GalerieFooter />}
             <div className="page-transition-overlay" aria-hidden="true" />
         </div>
     );
