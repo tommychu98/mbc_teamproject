@@ -112,15 +112,6 @@
   46% { transform: rotate(-2deg) scale(0.98, 0.99); }
   72% { transform: rotate(5deg) scale(1.01, 1.04); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .history-scent-scroll[data-lighting-active='true'] .history-scent-lighting__glow {
-    animation: none;
-  }
-  /* Keep the requested small, anchored flame movement without broad light pulses. */
-  .history-scent__flame > span {
-    animation: scent-flame-sway 4.5s ease-in-out infinite !important;
-  }
-}
 
 .history-scent {
   position: relative;

@@ -17,37 +17,65 @@ export default function DiptyqueHistory() {
   const titleRef = useRef(null);
   useEffect(() => {
     const title = titleRef.current;
+    const opening = title.closest('.diptyque-history__opening');
     let cancelled = false;
     let fontsReady = false;
     let inView = false;
     let played = false;
     let writingTimer;
+    let scrollLocked = true;
+    let touchY = null;
     const animations = [];
     const letters = [...title.querySelectorAll('.diptyque-history__title-letter')];
+    const unlockScroll = () => {
+      scrollLocked = false;
+      touchY = null;
+    };
+    const isInteractive = (target) => target instanceof Element
+      && Boolean(target.closest('input, textarea, select, button, a, [contenteditable="true"]'));
+    const onWheel = (event) => {
+      if (scrollLocked && event.deltaY > 0 && event.cancelable) event.preventDefault();
+    };
+    const onTouchStart = (event) => {
+      touchY = event.touches.length === 1 ? event.touches[0].clientY : null;
+    };
+    const onTouchMove = (event) => {
+      if (!scrollLocked || touchY === null || event.touches.length !== 1) return;
+      if (event.touches[0].clientY < touchY && event.cancelable) event.preventDefault();
+    };
+    const onKeyDown = (event) => {
+      if (!scrollLocked || isInteractive(event.target)) return;
+      const movesDown = ['ArrowDown', 'PageDown', 'End'].includes(event.key)
+        || (event.key === ' ' && !event.shiftKey);
+      if (movesDown) event.preventDefault();
+    };
+    const holdOpening = () => {
+      if (!scrollLocked) return;
+      const limit = opening.offsetTop;
+      if (window.scrollY > limit) window.scrollTo({ top: limit, behavior: 'instant' });
+    };
     const startWhenVisible = () => {
       if (cancelled || played || !fontsReady || !inView || document.hidden) return;
       const intro = document.querySelector('.intro-video');
       if (intro && getComputedStyle(intro).display !== 'none') return;
       played = true;
       title.dataset.writing = 'waiting';
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       letters.forEach((letter) => {
         animations.push(letter.animate(
-          reduced
-            ? [{ opacity: 0 }, { opacity: 1 }]
-            : [{ opacity: 0, clipPath: 'inset(0 100% 0 0)' },
-              { opacity: 1, clipPath: 'inset(0 0 0 0)' }],
+          ([{ opacity: 0, clipPath: 'inset(0 100% 0 0)' },
+              { opacity: 1, clipPath: 'inset(0 0 0 0)' }]),
           {
-            delay: 900 + Number(letter.dataset.letterIndex) * 60,
-            duration: 280,
-            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            delay: 140 + Number(letter.dataset.letterIndex) * 23,
+            duration: 210,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
             fill: 'both',
           },
         ));
       });
       writingTimer = window.setTimeout(() => {
         title.dataset.writing = 'writing';
-      }, 900);
+      }, 140);
       Promise.all(animations.map((animation) => animation.finished)).then(() => {
         if (cancelled) return;
         letters.forEach((letter) => {
@@ -56,7 +84,10 @@ export default function DiptyqueHistory() {
         });
         animations.forEach((animation) => animation.cancel());
         title.dataset.writing = 'complete';
-      }).catch(() => { /* Unmount/StrictMode cancels the pending sequence. */ });
+        unlockScroll();
+      }).catch(() => {
+        if (!cancelled) unlockScroll();
+      });
       mutations.disconnect();
       intersection.disconnect();
     };
@@ -68,6 +99,11 @@ export default function DiptyqueHistory() {
     mutations.observe(document.body, { childList: true, subtree: true });
     intersection.observe(title);
     document.addEventListener('visibilitychange', startWhenVisible);
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true });
+    window.addEventListener('touchstart', onTouchStart, { passive: true, capture: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
+    window.addEventListener('keydown', onKeyDown, true);
+    window.addEventListener('scroll', holdOpening, { passive: true });
     document.fonts.ready.then(() => {
       fontsReady = true;
       startWhenVisible();
@@ -83,6 +119,11 @@ export default function DiptyqueHistory() {
       mutations.disconnect();
       intersection.disconnect();
       document.removeEventListener('visibilitychange', startWhenVisible);
+      window.removeEventListener('wheel', onWheel, true);
+      window.removeEventListener('touchstart', onTouchStart, true);
+      window.removeEventListener('touchmove', onTouchMove, true);
+      window.removeEventListener('keydown', onKeyDown, true);
+      window.removeEventListener('scroll', holdOpening);
       delete title.dataset.writing;
     };
   }, []);

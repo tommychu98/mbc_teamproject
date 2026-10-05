@@ -1,27 +1,33 @@
 import { useEffect, useRef } from 'react';
+import { createDampedValue } from '../../../utils/scrollMotion';
 import './HistoryCollectMobile.css';
 
 export default function HistoryCollectMobile() {
   const ref = useRef(null);
   useEffect(() => {
     let frame;
-    const update = () => {
+    const motion = createDampedValue();
+
+    const update = now => {
       frame = undefined;
       const root = ref.current;
       const panel = root.querySelector('.history-collect-mobile__viewport');
       if (!panel.offsetHeight) return;
-      const progress = Math.max(0, Math.min(1, -root.getBoundingClientRect().top / panel.offsetHeight));
+      const target = Math.max(0, Math.min(1, -root.getBoundingClientRect().top / panel.offsetHeight));
+      const progress = motion.update(target, now, false);
       root.style.setProperty('--transform-progress', progress);
       root.style.setProperty('--collect-copy-opacity', Math.max(0, 1 - progress / .45));
       root.style.setProperty('--transform-copy-opacity', Math.max(0, (progress - .45) / .55));
       root.querySelector('.history-collect-mobile__copy--collect').setAttribute('aria-hidden', progress >= .5);
       root.querySelector('.history-collect-mobile__copy--transform').setAttribute('aria-hidden', progress < .5);
+      if (motion.moving) frame = requestAnimationFrame(update);
     };
     const schedule = () => { if (frame === undefined) frame = requestAnimationFrame(update); };
-    update();
+    schedule();
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule); };
+
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', schedule); window.removeEventListener('resize', schedule);  };
   }, []);
   return <section ref={ref} className="history-collect-mobile" aria-label="Collect and transform">
     <div className="history-collect-mobile__viewport">

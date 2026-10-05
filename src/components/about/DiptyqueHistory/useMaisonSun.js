@@ -62,7 +62,7 @@ export default function useMaisonSun(rootRef) {
         trigger: outro,
         start: () => geometry.start,
         end: () => geometry.end,
-        scrub: .45,
+        scrub: 0.9,
         invalidateOnRefresh: true,
         onRefreshInit: measure,
         onRefresh: render,
@@ -87,7 +87,7 @@ export default function useMaisonSun(rootRef) {
         { xPercent: 0, yPercent: 0, autoAlpha: 1, duration, ease: 'power3.out' },
         at,
       );
-      if (sway && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (sway) {
         // A small, damped two-way settle around the rooted base.
         // Timeline values are scroll-derived, so reverse never restarts a loop.
         const img = layer.querySelector('img');
@@ -109,7 +109,7 @@ export default function useMaisonSun(rootRef) {
         root.getBoundingClientRect().top + window.scrollY + root.offsetHeight
           - Math.min(window.innerHeight, finale.offsetHeight),
       ),
-      scrub: .45,
+      scrub: 0.8,
       onRefresh: (self) => finaleTimeline.totalProgress(self.progress),
     });
     finaleTrigger.refresh();
