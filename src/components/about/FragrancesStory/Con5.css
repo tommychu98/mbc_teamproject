@@ -13,6 +13,22 @@
   color: var(--color-black);
 }
 
+@media (min-width: 768px) {
+  .fragrances-con5__pin-stage { min-height: 100vh; }
+}
+
+/* Preserve the existing mobile scene rule through the desktop pin wrapper. */
+@media (width < 768px) {
+  .fragrances-con5__pin-stage { width: 100%; }
+  .fragrances-con5 .fragrances-con5__scene {
+    --mobile-scale: calc(100cqw / 430px);
+    --mobile-flow-scale: max(1, var(--mobile-scale));
+    aspect-ratio: auto;
+    height: calc(935px * var(--mobile-flow-scale));
+    overflow: clip;
+  }
+}
+
 .fragrances-con5__scene {
   --con5-scale: calc(100cqw / 1920px);
   position: relative;

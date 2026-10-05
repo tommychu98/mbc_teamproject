@@ -4,7 +4,6 @@ import mobileCard1 from './assets/mobile-velvet-woods.png';
 import mobileCard2 from './assets/mobile-afterglow.png';
 const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
-import useCon2Swipe from './useCon2Swipe';
 import { useRef } from 'react';
 import useCon5InkDrawing from './useCon5InkDrawing';
 import background from './assets/con5-background.png';
@@ -39,35 +38,36 @@ const cards = [
 
 export default function Con5() {
   const { railRef, active } = useMobileCards();
-  const nextCard = useCon2Swipe(railRef);
   const sectionRef = useRef(null);
   useCon5InkDrawing(sectionRef);
   return (
     <section ref={sectionRef} className="fragrances-con5" aria-labelledby="fragrances-con5-title">
-      <div className="fragrances-con5__scene">
-        <img className="fragrances-con5__background" src={background} alt="" width="1920" height="1080" draggable="false" />
-        <h2 className="fragrances-con5__title" id="fragrances-con5-title">A BOUTIQUE CAPTURED IN SCENT</h2>
-        <div ref={railRef} className="fragrances-con5__cards">
-          {cards.map(({ number, title, image, alt, lines }, index) => (
-            <article className="fragrances-con5__card" key={number}>
-              <div className="fragrances-con5__card-artwork">
-                <div className="fragrances-con5__ink-original">
-                  <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con5__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+      <div className="fragrances-con5__pin-stage">
+        <div className="fragrances-con5__scene">
+          <img className="fragrances-con5__background" src={background} alt="" width="1920" height="1080" draggable="false" />
+          <h2 className="fragrances-con5__title" id="fragrances-con5-title">A BOUTIQUE CAPTURED IN SCENT</h2>
+          <div ref={railRef} className="fragrances-con5__cards">
+            {cards.map(({ number, title, image, alt, lines }, index) => (
+              <article className="fragrances-con5__card" key={number}>
+                <div className="fragrances-con5__card-artwork">
+                  <div className="fragrances-con5__ink-original">
+                    <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con5__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+                  </div>
                 </div>
-              </div>
-              <div className="fragrances-con5__card-content">
-                <h3 className="fragrances-con5__card-heading">
-                  <span>{number}</span>
-                  <span>{title}</span>
-                </h3>
-                <p className="fragrances-con5__card-description">
-                  {lines.map((line) => <span key={line}>{line}</span>)}
-                </p>
-              </div>
-            </article>
-          ))}
+                <div className="fragrances-con5__card-content">
+                  <h3 className="fragrances-con5__card-heading">
+                    <span>{number}</span>
+                    <span>{title}</span>
+                  </h3>
+                  <p className="fragrances-con5__card-description">
+                    {lines.map((line) => <span key={line}>{line}</span>)}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="fragrances-story__pagination" aria-live="polite" aria-atomic="true">{active}/3</p>
         </div>
-        <button type="button" className="fragrances-story__pagination fragrances-con5__pagination" onClick={nextCard} aria-label={`향 이야기 ${active}/3. 다음 카드 보기`} aria-live="polite" aria-atomic="true">{active}/3</button>
       </div>
     </section>
   );
