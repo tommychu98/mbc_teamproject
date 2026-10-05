@@ -19,7 +19,7 @@ function DesktopMainFilm() {
         let isVisible = false;
 
         const syncPlayback = () => {
-            if (reducedMotion.matches || !isVisible) {
+            if (reducedMotion.matches || !isVisible || document.hidden) {
                 video.pause();
                 return;
             }
@@ -31,15 +31,17 @@ function DesktopMainFilm() {
                 isVisible = entry.isIntersecting;
                 syncPlayback();
             },
-            { threshold: 0.1 }
+            { threshold: 0, rootMargin: '0px 0px -10% 0px' }
         );
 
         observer.observe(video);
         reducedMotion.addEventListener('change', syncPlayback);
+        document.addEventListener('visibilitychange', syncPlayback);
 
         return () => {
             observer.disconnect();
             reducedMotion.removeEventListener('change', syncPlayback);
+            document.removeEventListener('visibilitychange', syncPlayback);
             video.pause();
         };
     }, []);
@@ -56,7 +58,7 @@ function DesktopMainFilm() {
                         muted
                         playsInline
                         loop
-                        preload="none"
+                        preload="metadata"
                         aria-hidden="true"
                     />
                     <img
@@ -65,6 +67,8 @@ function DesktopMainFilm() {
                         alt=""
                         aria-hidden="true"
                     />
+                    <div className="home-main-film__reveal" aria-hidden="true" />
+                    <div className="home-main-film__night-fade" aria-hidden="true" />
                 </div>
             </div>
         </section>

@@ -2,6 +2,7 @@
     position: relative;
     z-index: 1;
     width: 100%;
+    height: calc(var(--film-stage-height, 56.25vw) + 100svh);
     margin-top: var(--film-day-lead, 0px);
     margin-bottom: var(--film-night-lead, 0px);
     background: #222;
@@ -29,7 +30,8 @@
 }
 
 .home-main-film__stage {
-    position: relative;
+    position: sticky;
+    top: calc((100svh - var(--film-stage-height, 56.25vw)) / 2);
     width: 100%;
     aspect-ratio: 1920 / 1080;
     overflow: hidden;
@@ -51,7 +53,7 @@
 }
 .home-main-film__frame::before {
     top: 0;
-    height: 36.666667%;
+    height: calc(42% * var(--film-day-fade, 1));
     /* Slow initial reveal; broad offset feathers soften the shared horizontal onset. */
     background:
         radial-gradient(ellipse 85% 95% at 78% 0%,
@@ -77,8 +79,14 @@
 }
 .home-main-film__frame::after {
     bottom: 0;
-    height: 45.185185%;
-    background: linear-gradient(to top, #222, rgb(34 34 34 / 0));
+    height: calc(55% * var(--film-night-fade, 0));
+    background: linear-gradient(to top,
+        #222 0%,
+        rgb(34 34 34 / 98%) 12%,
+        rgb(34 34 34 / 85%) 30%,
+        rgb(34 34 34 / 55%) 55%,
+        rgb(34 34 34 / 20%) 80%,
+        rgb(34 34 34 / 0%) 100%);
 }
 
 .home-main-film__frame {
@@ -95,6 +103,30 @@
 }
 
 .home-main-film__still { display: none; }
+
+.home-main-film__reveal,
+.home-main-film__night-fade {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.home-main-film__reveal {
+    background: linear-gradient(to bottom,
+        #f7f6f4 0%,
+        rgb(247 246 244 / 96%) 15%,
+        rgb(247 246 244 / 78%) 32%,
+        rgb(247 246 244 / 48%) 52%,
+        rgb(247 246 244 / 18%) 75%,
+        rgb(247 246 244 / 0%) 100%);
+    opacity: var(--film-day-fade, 1);
+}
+
+.home-main-film__night-fade {
+    background: linear-gradient(to top, #222 0%, rgb(34 34 34 / 98%) 35%, rgb(34 34 34 / 75%) 70%, rgb(34 34 34 / 35%) 100%);
+    opacity: var(--film-night-fade, 0);
+}
 
 @media (prefers-reduced-motion: reduce) {
     .home-main-film__video { display: none; }

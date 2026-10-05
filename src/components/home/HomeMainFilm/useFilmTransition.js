@@ -7,23 +7,58 @@ const FILM_HEIGHT = 1080;
 const NIGHT_TOP = 3709;
 const NIGHT_INTRO_TOP = 1461;
 const EXISTING_NIGHT_INTRO_TOP = 342;
+const NIGHT_GAP_REDUCTION = 180;
 
-// Retains the approved Day/Video/Night spacing; no scroll animation.
+// Reveal the film as it enters the viewport between Day and Night.
 export default function useFilmTransition(sectionRef) {
     useLayoutEffect(() => {
         const section = sectionRef.current;
+        const stage = section.querySelector('.home-main-film__stage');
         const day = section.previousElementSibling;
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let frame = 0;
+        const reveal = () => {
+            frame = 0;
+            const bounds = stage.getBoundingClientRect();
+            const viewport = window.innerHeight;
+            const centerOffset = bounds.top + bounds.height / 2 - viewport / 2;
+            // Keep a small clear interval around the center, then ease into each gradient.
+            const fade = (distance) => {
+                const progress = Math.max(0, Math.min(1, (distance - viewport * .08) / (viewport * .55)));
+                return progress * progress * (3 - 2 * progress);
+            };
+            // Keep the Day gradient while its illustration is still above the film.
+            // Only clear it as the film approaches the viewport center.
+            const dayProgress = Math.max(0, Math.min(1, centerOffset / (viewport * .35)));
+            const dayFade = reducedMotion.matches ? 0 : dayProgress * dayProgress * (3 - 2 * dayProgress);
+            const nightFade = reducedMotion.matches ? 0 : fade(-centerOffset);
+            section.style.setProperty('--film-day-fade', String(dayFade));
+            section.style.setProperty('--film-night-fade', String(nightFade));
+        };
+        const scheduleReveal = () => {
+            if (!frame) frame = window.requestAnimationFrame(reveal);
+        };
         const measure = () => {
             const designScale = section.clientWidth / DESIGN_WIDTH;
-            const dayLead = Math.max(0, FILM_TOP * designScale - (day?.offsetHeight || 0));
-            const nightLead = (NIGHT_TOP + NIGHT_INTRO_TOP - FILM_TOP - FILM_HEIGHT - EXISTING_NIGHT_INTRO_TOP) * designScale;
-            section.style.setProperty('--film-day-lead', `${dayLead}px`);
+            section.style.setProperty('--film-stage-height', `${FILM_HEIGHT * designScale}px`);
+            const nightLead = Math.max(0, NIGHT_TOP + NIGHT_INTRO_TOP - FILM_TOP - FILM_HEIGHT - EXISTING_NIGHT_INTRO_TOP - NIGHT_GAP_REDUCTION) * designScale;
+            section.style.setProperty('--film-day-lead', '0px');
             section.style.setProperty('--film-night-lead', `${nightLead}px`);
+            scheduleReveal();
         };
         const observer = new ResizeObserver(measure);
         observer.observe(section);
         if (day) observer.observe(day);
         measure();
-        return () => observer.disconnect();
+        window.addEventListener('scroll', scheduleReveal, { passive: true });
+        window.addEventListener('resize', scheduleReveal);
+        reducedMotion.addEventListener('change', scheduleReveal);
+        return () => {
+            observer.disconnect();
+            window.cancelAnimationFrame(frame);
+            window.removeEventListener('scroll', scheduleReveal);
+            window.removeEventListener('resize', scheduleReveal);
+            reducedMotion.removeEventListener('change', scheduleReveal);
+        };
     }, [sectionRef]);
 }
