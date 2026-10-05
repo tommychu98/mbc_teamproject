@@ -46,6 +46,7 @@ import MyPageInquiryPage from './pages/mypage/community/inquiry';
 import MyPageProductInquiryPage from './pages/mypage/community/product-inquiry';
 import './App.css';
 import './components/mypage/MyPageSpacing.css';
+import useVerticalScroll from './utils/useVerticalScroll';
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -65,6 +66,7 @@ const protectedMyPage = (element, active) => protectedPage(
 
 export default function App() {
     const { pathname } = useLocation();
+    useVerticalScroll(pathname);
     const isHistoryPage = pathname === '/history' || pathname === '/about/history';
     const hasPageFooter = pathname === '/about/fragrances-story';
     const handleIntroComplete = useCallback(() => {
