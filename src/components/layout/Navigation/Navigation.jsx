@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { useCartStore } from '../../../store/useCartStore';
+import { TEST_USER } from '../../../data/testUser';
 import './Navigation.css';
 
 const navItems = [
@@ -72,7 +73,8 @@ export default function Header() {
   const hideTimeoutRef = useRef(null);
   const dropdownCloseTimeoutRef = useRef(null);
   const isHeaderHoveredRef = useRef(false);
-  const { isAuthenticated, logout } = useAuthStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
+  const isTestUser = isAuthenticated && user?.id === TEST_USER.id;
   const cartCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
   const navigate = useNavigate();
 
@@ -216,7 +218,15 @@ export default function Header() {
         <div className="header__mobile-auth">{isAuthenticated ? <button type="button" onClick={handleLogout}>LOG OUT</button> : <><Link to="/login" onClick={closeMenu}>LOGIN</Link><Link to="/signup" onClick={closeMenu}>JOIN</Link></>}</div>
       </nav>
       <div className="header__utilities">
-        <Link className="header__account" to={isAuthenticated ? '/mypage' : '/login'} aria-label={isAuthenticated ? '마이페이지' : '로그인'}>{isAuthenticated ? <span className="header__profile-avatar"><img className="header__profile-image" src="/images/common/nav-botanical-avatar.png" alt="" /></span> : <img src="/images/common/icon-profile.svg" alt="" />}</Link>
+        <Link className="header__account" to={isAuthenticated ? '/mypage' : '/login'} aria-label={isAuthenticated ? '마이페이지' : '로그인'}>
+          {isAuthenticated ? <span className="header__profile-avatar">
+            <img
+              className={`header__profile-image${isTestUser ? ' header__profile-image--test' : ''}`}
+              src={isTestUser ? '/images/common/nav-test-profile-flower.svg' : '/images/common/nav-botanical-avatar.png'}
+              alt=""
+            />
+          </span> : <img src="/images/common/icon-profile.svg" alt="" />}
+        </Link>
         <Link className="header__search" to="/search" aria-label="검색"><img src="/images/common/icon-search.svg" alt="" /></Link>
         <Link className="header__cart" to="/cart" aria-label={`장바구니 ${cartCount}개`}><img src="/images/common/icon-bag.svg" alt="" />{cartCount > 0 && <span>{cartCount}</span>}</Link>
       </div>

@@ -42,6 +42,7 @@
 .header__account { display: none !important; }
 .header__profile-avatar { display: block; width: 24px; height: 24px; border-radius: 50%; overflow: hidden; }
 .header__account .header__profile-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transform: scale(2.75); transform-origin: 73% 18%; }
+.header__account .header__profile-image--test { box-sizing: border-box; padding: 1px; object-fit: contain; transform: none; }
 .header__cart { position: relative; }
 .header__cart span { position: absolute; top: 2px; right: 0; display: grid; min-width: 16px; height: 16px; place-items: center; border-radius: 50%; background: var(--color-ink-black); color: var(--color-white); font-family: var(--font-family-sans); font-size: 9px; }
 
