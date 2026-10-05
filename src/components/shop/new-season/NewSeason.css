@@ -17,8 +17,8 @@
 .new-season__hero--autumn > .new-season__canvas > img { opacity: .8; }
 .new-season__autumn-overlay { position: absolute; z-index: 1; inset: 0; background: rgba(65, 38, 28, .1); pointer-events: none; }
 .new-season__autumn-label, .new-season__hero--autumn h2 { z-index: 2; color: #f7f6f4; font-family: var(--font-family-display); font-weight: 500; white-space: nowrap; }
-.new-season__autumn-label { position: absolute; top: 801px; left: 317.5px; transform: translateX(-50%); font-size: 42px; line-height: 1.5; letter-spacing: .21em; }
-.new-season__hero--autumn h2 { position: absolute; top: 864px; left: 88px; font-size: 110px; line-height: 1; }
+.new-season__autumn-label { position: absolute; top: 801px; left: 207px; font-size: 42px; line-height: 1.5; letter-spacing: .21em; }
+.new-season__hero--autumn h2 { position: absolute; top: 864px; left: 207px; font-size: 110px; line-height: 1; }
 .new-season__after-image { position: absolute; top: 115px; left: 128px; width: 760px; height: 850px; overflow: hidden; }
 .new-season__after-image img { position: absolute; top: 5.24%; left: 0; width: 100%; height: 89.41%; object-fit: contain; }
 .new-season__after-copy { position: absolute; top: calc(50% + .25px); left: 1121px; display: flex; width: 599px; flex-direction: column; align-items: flex-start; transform: translateY(-50%); }

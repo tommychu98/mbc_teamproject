@@ -120,14 +120,14 @@ export function getProductDescription(product) {
                     : '손과 몸을 씻는 클렌징 젤로 만나보세요.';
     return scent ? `${scent.split('. ')[0]}. ${type}` : undefined;
   }
-  if (product.catalogCategory === 'candles-home') {
+  if (product.catalogCategory === 'candles-home' && name.includes('캔들')) {
     if (name.includes('미니캔들세트')) return '작은 캔들 다섯 개로 여러 향을 만나보는 세트입니다. 그날의 기분과 공간에 어울리는 향을 골라, 서로 다른 분위기를 즐겨보세요.';
     if (name.includes('스몰캔들세트')) return '베이, 휘기에, 로즈를 함께 만나는 스몰 캔들 세트입니다. 열매와 나무, 꽃이 그리는 세 가지 풍경을 일상에서 즐겨보세요.';
     if (name.includes('라드로게리')) return '집 안을 돌보는 라 드로게리 컬렉션의 캔들입니다. 일상의 공간에 향을 더해 편안한 분위기를 만들어 보세요.';
     const scent = matchEntry(name, HOME_SCENTS);
     return scent ? `${scent} ${name.includes('리필') ? '프리미엄 캔들 용기에 채워 향의 시간을 이어가는 리필입니다.' : '불을 밝히고 공간에 펼쳐지는 향의 풍경을 즐겨보세요.'}` : undefined;
   }
-  if (product.catalogCategory === 'home-decor') {
+  if (['candles-home', 'home-decor'].includes(product.catalogCategory)) {
     if (name.includes('유리병')) return '딥티크의 홈 프래그런스를 담는 리드 디퓨저 유리 용기입니다. 원하는 향의 리필과 함께 나만의 공간에 어울리는 향의 오브제를 완성해 보세요.';
     if (name.includes('마개')) return '100ml와 200ml 리드 디퓨저 용기를 위한 마개입니다. 유리 용기와 함께 사용하는 전용 액세서리로 디퓨저의 형태를 완성합니다.';
     if (name.includes('세라믹')) return '시더우드 향을 담은 옷장용 세라믹입니다. 울과 섬세한 소재의 옷을 보관하는 공간에 은은한 나무 향을 더합니다.';
