@@ -1,4 +1,5 @@
 import { useId, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import usePerfumeHistoryScroll from './usePerfumeHistoryScroll';
 import photo1 from './assets/3-1.png';
 import photo2 from './assets/3-2.png';
@@ -30,6 +31,19 @@ export default function HomePerfumeHistory() {
     const goTo = usePerfumeHistoryScroll(sectionRef, stageRef, photoTrackRef, logoTrackRef, SLIDES, setStoryState);
 
     const activeSlide = SLIDES[activeIndex];
+
+    const moveFragranceCursor = (event) => {
+        if (event.pointerType === 'touch') return;
+        const link = event.currentTarget;
+        const bounds = link.getBoundingClientRect();
+        link.style.setProperty('--cursor-x', `${event.clientX - bounds.left}px`);
+        link.style.setProperty('--cursor-y', `${event.clientY - bounds.top}px`);
+        link.dataset.cursorVisible = 'true';
+    };
+
+    const hideFragranceCursor = (event) => {
+        event.currentTarget.dataset.cursorVisible = 'false';
+    };
 
     return (
         <section
@@ -103,6 +117,22 @@ export default function HomePerfumeHistory() {
                         <button className="home-perfume-history__button home-perfume-history__button--prev" type="button" onClick={() => goTo(activeIndex - 1)} disabled={activeIndex === 0 || isTransitioning} aria-label="Previous perfume">Prev</button>
                         <button className="home-perfume-history__button home-perfume-history__button--next" type="button" onClick={() => goTo(activeIndex + 1)} disabled={activeIndex === SLIDES.length - 1 || isTransitioning} aria-label="Next perfume">Next</button>
                     </div>
+
+                    <Link
+                        className="home-perfume-history__fragrance-link"
+                        to="/about/fragrances-story"
+                        aria-label="Fragrances Story 보기"
+                        onPointerEnter={moveFragranceCursor}
+                        onPointerMove={moveFragranceCursor}
+                        onPointerLeave={hideFragranceCursor}
+                        onPointerCancel={hideFragranceCursor}
+                        onBlur={hideFragranceCursor}
+                    >
+                        <span className="home-perfume-history__fragrance-cursor" aria-hidden="true">
+                            <span>EXPLORE</span>
+                            <span className="home-perfume-history__fragrance-arrow">↗</span>
+                        </span>
+                    </Link>
 
                     <p className="home-perfume-history__status" id={statusId} aria-live="polite" aria-atomic="true">{activeIndex + 1} / {SLIDES.length}: {activeSlide.name}</p>
                 </div>
