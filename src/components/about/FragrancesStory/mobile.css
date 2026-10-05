@@ -434,12 +434,35 @@
   .fragrances-con1__butterfly--right { left: calc(257 / 430 * 100%); top: calc(814px * var(--mobile-flow-scale)); width: calc(38 / 430 * 100%); height: calc(32px * var(--mobile-scale)); }
   .fragrances-con1__butterfly-left { left: calc(16 / 430 * 100%); top: calc(235px * var(--mobile-flow-scale)); width: calc(88.685 / 430 * 100%); height: calc(88.324px * var(--mobile-scale)); }
   .fragrances-con1__couple { left: calc(16 / 430 * 100%); top: calc(623px * var(--mobile-flow-scale)); bottom: auto; width: calc(208 / 430 * 100%); height: calc(312px * var(--mobile-scale)); }
-  .fragrances-con4__intro { left: calc(16 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  /* Mobile Con4 2817:4861: preserve the complete 430 × 935 composition.
+     The full-width 430 × 346 tailor/table slot ends at the frame bottom. */
+  .fragrances-story > .fragrances-con4 > .fragrances-con4__scene {
+    --mobile-flow-scale: var(--mobile-scale);
+    height: calc(935px * var(--mobile-scale));
+  }
+  .fragrances-con4__title {
+    width: calc(190 / 430 * 100%);
+    height: calc(83px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-title-b1-size) * var(--mobile-scale));
+  }
+  .fragrances-con4__chapter {
+    width: calc(65 / 430 * 100%);
+    height: calc(22px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+    text-align: center;
+  }
+  .fragrances-con4__intro { left: calc(16 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); gap: calc(14px * var(--mobile-scale)); }
+  .fragrances-con4__subtitle {
+    width: calc(400px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+  }
+  .fragrances-con4__text { font-size: calc(var(--text-mobile-body-r2-do-size) * var(--mobile-scale)); }
   .fragrances-con4__text--body1 { left: calc(223 / 430 * 100%); top: calc(402px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con4__text--body2 { left: calc(16 / 430 * 100%); top: calc(526px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
-  .fragrances-con4__man { left: calc(16 / 430 * 100%); top: calc(613px * var(--mobile-flow-scale)); width: calc(399.536 / 430 * 100%); height: calc(321px * var(--mobile-scale)); }
-  .fragrances-con4__cabinet { left: calc(16 / 430 * 100%); top: calc(597px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(303px * var(--mobile-scale)); }
-  .fragrances-con4__clock { left: calc(271 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(143 / 430 * 100%); height: calc(218px * var(--mobile-scale)); }
+  .fragrances-con4__man { left: 0; top: calc(589px * var(--mobile-flow-scale)); bottom: auto; width: 100%; height: calc(346px * var(--mobile-scale)); }
+  .fragrances-con4__cabinet { left: 0; top: calc(597px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(303px * var(--mobile-scale)); }
+  .fragrances-con4__clock { left: calc(267 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(143 / 430 * 100%); height: calc(218px * var(--mobile-scale)); }
+  .fragrances-con4__clock-image { left: calc(17px * var(--mobile-scale)); }
   .fragrances-con4__drawing--second { left: calc(283 / 430 * 100%); top: calc(560px * var(--mobile-flow-scale)); width: calc(45 / 430 * 100%); height: calc(59px * var(--mobile-scale)); }
   .fragrances-con4__drawing--first { left: calc(223 / 430 * 100%); top: calc(580px * var(--mobile-flow-scale)); width: calc(44 / 430 * 100%); height: calc(55px * var(--mobile-scale)); }
   .fragrances-con7__intro { left: calc(16 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
