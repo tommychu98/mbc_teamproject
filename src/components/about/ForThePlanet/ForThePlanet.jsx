@@ -144,14 +144,14 @@ function ArchScene({ variant, first = false }) {
   const object = isCoast
     ? {
         vessel: {
-          x: 155 + (139 - 155) * progress,
-          y: 515 + (177 - 515) * progress,
+          x: 155 + (140 - 155) * progress,
+          y: 515 + (178 - 515) * progress,
           w: 278 + (488 - 278) * progress,
           h: 370 + (650 - 370) * progress,
         },
         candle: {
-          x: 847 + (526 - 847) * progress,
-          y: 570 + (353 - 570) * progress,
+          x: 847 + (527 - 847) * progress,
+          y: 570 + (354 - 570) * progress,
           w: 223 + (395 - 223) * progress,
           h: 298 + (526 - 298) * progress,
         },
@@ -183,6 +183,13 @@ function ArchScene({ variant, first = false }) {
     backgroundStart[2] + (1920 - backgroundStart[2]) * progress,
     backgroundStart[3] + (1080 - backgroundStart[3]) * progress
   );
+  // End in Figma's 1920px-wide coordinate system rather than compressing
+  // the objects vertically to fit a shorter browser viewport.
+  const coastObjectPosition = ({ x, y, w, h }) => ({
+    ...canvasPosition(x, y, w, h),
+    top: `calc(${y / 1080 * 100}% * ${1 - progress} + ${y / 1920 * 100}cqw * ${progress} + ${120 * progress}px)`,
+    height: `calc(${h / 1080 * 100}% * ${1 - progress} + ${h / 1920 * 100}cqw * ${progress})`,
+  });
   const sideCrop = (x, y, w, h) => ({
     left: `${(x / 429) * 100}%`,
     top: `${(y / 611) * 100}%`,
@@ -409,26 +416,16 @@ function ArchScene({ variant, first = false }) {
             {isCoast ? (
               <>
                 <img
-                  className="ftp-expanding-object"
+                  className="ftp-expanding-object ftp-expanding-object--coast"
                   src={vessel}
                   alt="딥티크 크리스털 오브제"
-                  style={canvasPosition(
-                    object.vessel.x,
-                    object.vessel.y,
-                    object.vessel.w,
-                    object.vessel.h
-                  )}
+                  style={coastObjectPosition(object.vessel)}
                 />
                 <img
-                  className="ftp-expanding-object"
+                  className="ftp-expanding-object ftp-expanding-object--coast"
                   src={candle}
                   alt="딥티크 캔들"
-                  style={canvasPosition(
-                    object.candle.x,
-                    object.candle.y,
-                    object.candle.w,
-                    object.candle.h
-                  )}
+                  style={coastObjectPosition(object.candle)}
                 />
               </>
             ) : (
@@ -909,7 +906,7 @@ function StoryBackground({ kind }) {
       {pieces.map(([src, x, y, w, h], i) => (
         <img key={i} src={src} alt="" style={{
           ...worldPosition(x, y, w, h),
-          "--drift-duration": `${15.7 + (i % 5) * 3}s`,
+          "--drift-duration": `${10.7 + (i % 5) * 3}s`,
           "--drift-delay": `${-i * 3.7}s`,
           "--drift-sway": `${(i % 2 ? -1 : 1) * (18 + (i % 4) * 6)}px`,
         }} />
