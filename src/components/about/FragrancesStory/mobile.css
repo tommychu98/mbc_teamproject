@@ -465,12 +465,31 @@
   .fragrances-con4__clock-image { left: calc(17px * var(--mobile-scale)); }
   .fragrances-con4__drawing--second { left: calc(283 / 430 * 100%); top: calc(560px * var(--mobile-flow-scale)); width: calc(45 / 430 * 100%); height: calc(59px * var(--mobile-scale)); }
   .fragrances-con4__drawing--first { left: calc(223 / 430 * 100%); top: calc(580px * var(--mobile-flow-scale)); width: calc(44 / 430 * 100%); height: calc(55px * var(--mobile-scale)); }
-  .fragrances-con7__intro { left: calc(16 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
+  /* Mobile Con7 2817:5015: scale the complete 430 × 935 frame together.
+     The chair/table slot extends to y=954 and is cropped at the frame bottom. */
+  .fragrances-story > .fragrances-con7 > .fragrances-con7__scene {
+    --mobile-flow-scale: var(--mobile-scale);
+    height: calc(935px * var(--mobile-scale));
+  }
+  .fragrances-con7__title {
+    width: calc(241 / 430 * 100%);
+    height: calc(83px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-title-b1-size) * var(--mobile-scale));
+  }
+  .fragrances-con7__chapter {
+    width: calc(71 / 430 * 100%);
+    height: calc(22px * var(--mobile-scale));
+    font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
+    text-align: center;
+  }
+  .fragrances-con7__intro { left: calc(16 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); gap: calc(14px * var(--mobile-scale)); }
+  .fragrances-con7__subtitle { width: calc(400px * var(--mobile-scale)); font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale)); }
+  .fragrances-con7__text { font-size: calc(var(--text-mobile-body-r2-do-size) * var(--mobile-scale)); }
   .fragrances-con7__text--body { left: calc(223 / 430 * 100%); top: calc(510px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con7__musicians { left: calc(127 / 430 * 100%); top: calc(658px * var(--mobile-flow-scale)); width: calc(213 / 430 * 100%); height: calc(122px * var(--mobile-scale)); }
   .fragrances-con7__dancers { left: calc(223 / 430 * 100%); top: calc(658px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(256px * var(--mobile-scale)); }
-  .fragrances-con7__chandelier { left: calc(120 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(294 / 430 * 100%); height: calc(196px * var(--mobile-scale)); }
-  .fragrances-con7__furniture { left: calc(16 / 430 * 100%); top: calc(667px * var(--mobile-flow-scale)); width: calc(185 / 430 * 100%); height: calc(280px * var(--mobile-scale)); }
+  .fragrances-con7__chandelier { left: calc(136 / 430 * 100%); top: calc(307px * var(--mobile-flow-scale)); width: calc(294 / 430 * 100%); height: calc(196px * var(--mobile-scale)); }
+  .fragrances-con7__furniture { left: 0; top: calc(666px * var(--mobile-flow-scale)); width: calc(190 / 430 * 100%); height: calc(288px * var(--mobile-scale)); }
   .fragrances-con1__chapter { top: calc(139px * var(--mobile-flow-scale)); }
   .fragrances-con1__title { top: calc(161px * var(--mobile-flow-scale)); }
   /* Both rotated paper PNGs have a 25%-alpha final source row.
@@ -485,8 +504,11 @@
     height: calc((var(--mobile-paper-height) + 2px) * var(--mobile-flow-scale));
     bottom: auto;
   }
-  .fragrances-con8__background { left: calc(0 / 430 * 100%); top: calc(52px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
-  .fragrances-con8__background { height: calc(883px * var(--mobile-flow-scale)); bottom: auto; }
+  /* Start Con8's paper at the Con7 boundary instead of leaving a 52px ivory band.
+     Crop the rotated PNG's translucent edge as for Con2/Con5; keep its bottom
+     at y=935 without moving the section, title, card rail or pagination. */
+  .fragrances-con8__background { left: calc(0 / 430 * 100%); top: calc(-2px * var(--mobile-flow-scale)); width: calc(430 / 430 * 100%); }
+  .fragrances-con8__background { height: calc(937px * var(--mobile-flow-scale)); bottom: auto; }
   /* Mobile_Con3 3138:16881 replaces 3750:13947; reference frame 430 × 935.
      Scale this composition as one scene; all other Con flow scales stay intact. */
   .fragrances-story > .fragrances-con3 > .fragrances-con3__scene {

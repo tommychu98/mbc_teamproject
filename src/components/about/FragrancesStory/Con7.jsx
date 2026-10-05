@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import useStoryTypographyMotion from './useStoryTypographyMotion';
 import useContinuousArtwork from './useContinuousArtwork';
 import StoryImage from './StoryImage';
-import mobilefurniture from './assets/mobile-chair.png';
+import mobilefurniture from './assets/mobile-con7-furniture.png';
 import musicians from './assets/con7-musicians.png';
 import dancers from './assets/con7-dancers.png';
 import furniture from './assets/con7-furniture.png';
