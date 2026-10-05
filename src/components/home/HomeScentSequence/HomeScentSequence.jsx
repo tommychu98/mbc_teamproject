@@ -1,6 +1,6 @@
 import { Fragment, useLayoutEffect, useRef } from 'react';
+import { createDampedValue } from '../../../utils/scrollMotion';
 import './HomeScentSequence.css';
-
 
 const scenes = [
     { id: '2863:8192', text: 'See the scent.' },
@@ -16,14 +16,14 @@ export default function HomeScentSequence() {
         const stage = root.querySelector('.scent-sequence__stage');
         const lines = [...root.querySelectorAll('.scent-sequence__line')];
         const letters = lines.map(line => [...line.querySelectorAll('.scent-sequence__char')]);
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         const clamp = value => Math.max(0, Math.min(1, value));
         const ease = value => {
             const t = clamp(value);
             return t * t * (3 - 2 * t);
         };
         let frame = 0;
-        let previousTime = 0;
+        const motion = createDampedValue();
         let current = null;
 
         const render = now => {
@@ -33,10 +33,7 @@ export default function HomeScentSequence() {
             const distance = Math.max(1, root.offsetHeight - stage.offsetHeight);
             const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
             const target = clamp((stickyTop - root.getBoundingClientRect().top) / distance);
-            const elapsed = previousTime ? Math.min(64, now - previousTime) : 16;
-            previousTime = now;
-            if (current === null || reduced.matches) current = target;
-            else current += (target - current) * (1 - Math.exp(-elapsed / 110));
+            current = motion.update(target, now, false);
             const time = current * 9.45;
 
             letters.forEach((characters, scene) => {
@@ -49,13 +46,13 @@ export default function HomeScentSequence() {
                     const erased = ease((time - exit - (1 - order) * 0.65) / 0.65);
                     const opacity = written * (1 - erased);
                     character.style.opacity = opacity.toFixed(4);
-                    const x = reduced.matches ? 0 : erased * (7 + Math.sin(index * 1.7) * 3);
-                    const y = reduced.matches ? 0 : (1 - written) * 5 - erased * (4 + index % 3 * 2);
+                    const x = (erased * (7 + Math.sin(index * 1.7) * 3));
+                    const y = ((1 - written) * 5 - erased * (4 + index % 3 * 2));
                     character.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
-                    character.style.filter = reduced.matches ? 'none' : 'blur(' + ((1 - written) * 4 + erased * 6) + 'px)';
+                    character.style.filter = ('blur(' + ((1 - written) * 4 + erased * 6) + 'px)');
                 });
             });
-            if (Math.abs(target - current) > 0.00005) frame = requestAnimationFrame(render);
+            if (motion.moving) frame = requestAnimationFrame(render);
         };
         const schedule = () => {
             if (!frame) frame = requestAnimationFrame(render);
@@ -64,14 +61,14 @@ export default function HomeScentSequence() {
         [...root.parentElement.children].forEach(section => observer.observe(section));
         window.addEventListener('scroll', schedule, { passive: true });
         window.addEventListener('resize', schedule);
-        reduced.addEventListener('change', schedule);
+
         schedule();
         return () => {
             cancelAnimationFrame(frame);
             observer.disconnect();
             window.removeEventListener('scroll', schedule);
             window.removeEventListener('resize', schedule);
-            reduced.removeEventListener('change', schedule);
+
         };
     }, []);
 

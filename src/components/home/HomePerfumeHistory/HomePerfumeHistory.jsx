@@ -85,7 +85,7 @@ export default function HomePerfumeHistory() {
                                     aria-hidden={index !== activeIndex}
                                     data-pair={`3-${index + 1}`}
                                 >
-                                    <img className="home-perfume-history__photo-image" src={slide.photo} alt="" width="1086" height="1448" draggable="false" />
+                                    <img loading="lazy" decoding="async" fetchPriority="low" className="home-perfume-history__photo-image" src={slide.photo} alt="" width="1086" height="1448" draggable="false" />
                                     <h2 className="home-perfume-history__title" style={{ filter: `url(#${innerShadowId})` }}>
                                         {index === 1 ? <><span>34 Boulevard</span><span>Saint-Germain</span></> : slide.name}
                                     </h2>
@@ -102,7 +102,7 @@ export default function HomePerfumeHistory() {
                                     <div className="home-perfume-history__logo-slide" key={slide.name} style={{ left: slide.logoX }} aria-hidden={index !== activeIndex} data-pair={`3-logo${index + 1}`}>
                                         <picture>
                                             <source media="(max-width: 767px)" srcSet={MOBILE_LOGOS[index]} />
-                                            <img className="home-perfume-history__logo-image" src={slide.logo} alt={`${slide.name} illustration`} width="380" height="510" draggable="false" />
+                                            <img loading="lazy" decoding="async" fetchPriority="low" className="home-perfume-history__logo-image" src={slide.logo} alt={`${slide.name} illustration`} width="380" height="510" draggable="false" />
                                         </picture>
                                     </div>
                                 ))}
@@ -111,8 +111,8 @@ export default function HomePerfumeHistory() {
 
                         <p className="home-perfume-history__mobile-caption">diptyque 34 boulevard saint germain paris</p>
 
-                        <img className="home-perfume-history__oval-text home-perfume-history__oval-text--top" src={ovalTextTop} alt="" width="445.493" height="283.76" draggable="false" />
-                        <img className="home-perfume-history__oval-text home-perfume-history__oval-text--bottom" src={ovalTextBottom} alt="" width="444.97" height="277.488" draggable="false" />
+                        <img loading="lazy" decoding="async" fetchPriority="low" className="home-perfume-history__oval-text home-perfume-history__oval-text--top" src={ovalTextTop} alt="" width="445.493" height="283.76" draggable="false" />
+                        <img loading="lazy" decoding="async" fetchPriority="low" className="home-perfume-history__oval-text home-perfume-history__oval-text--bottom" src={ovalTextBottom} alt="" width="444.97" height="277.488" draggable="false" />
 
                         <button className="home-perfume-history__button home-perfume-history__button--prev" type="button" onClick={() => goTo(activeIndex - 1)} disabled={activeIndex === 0 || isTransitioning} aria-label="Previous perfume">Prev</button>
                         <button className="home-perfume-history__button home-perfume-history__button--next" type="button" onClick={() => goTo(activeIndex + 1)} disabled={activeIndex === SLIDES.length - 1 || isTransitioning} aria-label="Next perfume">Next</button>

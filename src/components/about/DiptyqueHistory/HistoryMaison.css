@@ -120,35 +120,10 @@
 .history-maison__story-03-visual-02 { --cloud-period: 8.5s; --cloud-delay: -8.5s; --cloud-x: max(-3.2vw, -61px); }
 .history-maison__story-03-visual-03 { --cloud-period: 9s; --cloud-delay: -9.8s; }
 .history-maison__story-03-visual-04 { --cloud-period: 10s; --cloud-delay: -11.1s; --cloud-x: max(-3.2vw, -61px); }
-@media (prefers-reduced-motion: reduce) {
-  .history-maison__story-02-visual-02,
-  .history-maison__story-02-visual-03,
-  .history-maison__story-02-visual-05,
-  .history-maison__story-02-visual-07,
-  .history-maison__story-02-visual-08,
-  .history-maison__story-03-visual-01,
-  .history-maison__story-03-visual-02,
-  .history-maison__story-03-visual-03,
-  .history-maison__story-03-visual-04 {
-    --cloud-x: 0px;
-    --cloud-y: min(.8vw, 15px);
-    animation-duration: 12s !important;
-    animation-iteration-count: infinite !important;
-  }
-}
 
 @keyframes history-maison-cloud-drift {
   0%, 100% { transform: translate3d(0, 0, 0); }
   50% { transform: translate3d(var(--cloud-x), calc(var(--cloud-y) * -1), 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .history-maison__cloud {
-    --cloud-x: 0px;
-    --cloud-y: min(.6vw, 10px);
-    animation-duration: 12s !important;
-    animation-iteration-count: infinite !important;
-  }
 }
 
 .history-maison__image,
@@ -301,17 +276,6 @@
   25% { transform: translate3d(var(--float-x), 0, 0); }
   50% { transform: translate3d(0, calc(var(--float-y) * -1), 0); }
   75% { transform: translate3d(calc(var(--float-x) * -1), 0, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  /* Keep the requested float gentle when the system reduces motion.
-     The global accessibility rule otherwise completes it in .01ms. */
-  .history-maison__main > [class*="history-maison__floating-"] {
-    --float-x: 0px;
-    --float-y: min(.6vw, 10px);
-    animation-duration: 12s !important;
-    animation-iteration-count: infinite !important;
-  }
 }
 
 .history-maison__floating-01 img,

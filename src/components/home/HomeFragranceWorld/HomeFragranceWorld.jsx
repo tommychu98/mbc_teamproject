@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { createDampedValue, MOTION_RESPONSE } from '../../../utils/scrollMotion';
 import { Link } from 'react-router-dom';
 import background from './assets/261ea.png';
 import orange from './assets/9acfd.png';
@@ -63,12 +64,16 @@ export default function HomeFragranceWorld() {
         const stage = root.querySelector('.fragrance-world__stage');
         const copies = [...root.querySelectorAll('.fragrance-world__copy')];
         const pictures = [...root.querySelectorAll('.fragrance-world__picture')];
-        const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
         const mobile = matchMedia('(max-width: 767px)');
         let frame = 0;
         let progress = null;
         const imageProgress = images.map(() => null);
-        let previous = 0;
+        const sceneMotion = createDampedValue({ response: MOTION_RESPONSE.background, maxLag: 0.05 });
+        const imageMotion = images.map(item => createDampedValue({
+            response: MOTION_RESPONSE.foreground - (item.damping - 190) / 3000, maxLag: 0.12,
+        }));
+        let measured = '';
         const render = now => {
             frame = 0;
             const width = stage.clientWidth;
@@ -76,51 +81,36 @@ export default function HomeFragranceWorld() {
             // Keep the 1920 × 1200 Figma canvas at its authored scale and crop
             // only outside the viewport, instead of shrinking the entire scene.
             const scale = mobile.matches ? width / 430 : Math.max(width / 1920, height / 1200);
-            root.style.setProperty('--world-scale', scale);
-            // Fit only the botanical background; preserve copy and motion geometry.
-            root.style.setProperty('--world-background-scale', mobile.matches ? 1 : Math.min(width / 1920, height / 1200) / scale);
-            root.style.setProperty('--world-mobile-height', `${height / scale}px`);
+            const layoutKey = `${width}:${height}:${mobile.matches}`;
+            if (measured !== layoutKey) {
+                measured = layoutKey;
+                root.style.setProperty('--world-scale', scale);
+                root.style.setProperty('--world-background-scale', mobile.matches ? 1 : Math.min(width / 1920, height / 1200) / scale);
+                root.style.setProperty('--world-mobile-height', `${height / scale}px`);
+                pictures.forEach((picture, index) => {
+                    const item = mobile.matches ? { ...images[index], ...mobileImages[index] } : images[index];
+                    picture.style.left = `${item.x}px`;
+                    picture.style.width = `${item.width}px`;
+                    picture.style.height = `${item.height}px`;
+                });
+            }
             const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
             const target = clamp((stickyTop - root.getBoundingClientRect().top) / Math.max(1, root.offsetHeight - height));
-            const elapsed = previous ? Math.min(64, now - previous) : 16;
-            previous = now;
-            if (progress === null) {
-                progress = target;
-            } else {
-                // Keep global lag short on fast wheels while preserving a soft stop.
-                const difference = target - progress;
-                if (Math.abs(difference) > 0.05) progress = target - Math.sign(difference) * 0.05;
-                progress += (target - progress) * (1 - Math.exp(-elapsed / 145));
-                if (Math.abs(target - progress) < 0.00005) progress = target;
-            }
+            progress = sceneMotion.update(target, now, false);
             const time = progress * 14.8;
             const fade = [1 - smooth((time - 6.5) / 0.6), smooth((time - 7.2) / 0.7)];
             copies.forEach((copy, index) => {
                 copy.style.opacity = fade[index];
                 copy.style.visibility = fade[index] > 0 ? 'visible' : 'hidden';
-                copy.style.filter = reduced.matches ? 'none' : `blur(${(1 - fade[index]) * 5}px)`;
-                copy.style.transform = `translateY(${reduced.matches ? 0 : (1 - fade[index]) * (index ? 5 : -5)}px)`;
+                copy.style.filter = `blur(${(1 - fade[index]) * 5}px)`;
+                copy.style.transform = `translateY(${((1 - fade[index]) * (index ? 5 : -5))}px)`;
                 copy.setAttribute('aria-hidden', fade[index] < 0.5 ? 'true' : 'false');
             });
             pictures.forEach((picture, index) => {
                 const item = mobile.matches ? { ...images[index], ...mobileImages[index] } : images[index];
-                picture.style.left = `${item.x}px`;
-                picture.style.width = `${item.width}px`;
-                picture.style.height = `${item.height}px`;
-                const desired = clamp((time - item.start) / item.duration);
-                if (imageProgress[index] === null) {
-                    imageProgress[index] = desired;
-                } else {
-                    let difference = desired - imageProgress[index];
-                    // Per-image damping gives each asset its own weight. Cap the
-                    // lag so fast scrolling and reverse scrolling stay controlled.
-                    if (Math.abs(difference) > 0.2) {
-                        imageProgress[index] = desired - Math.sign(difference) * 0.2;
-                        difference = desired - imageProgress[index];
-                    }
-                    imageProgress[index] += difference * (1 - Math.exp(-elapsed / item.damping));
-                    if (Math.abs(desired - imageProgress[index]) < 0.0005) imageProgress[index] = desired;
-                }
+                // Each layer follows raw progress once, avoiding stacked damping.
+                const desired = clamp((target * 14.8 - item.start) / item.duration);
+                imageProgress[index] = imageMotion[index].update(desired, now, false);
                 const t = clamp(imageProgress[index]);
                 const path = floatCurve(t);
                 // Offscreen bounds account for letterboxing at any viewport ratio.
@@ -130,30 +120,28 @@ export default function HomeFragranceWorld() {
                 const slotOffset = mobile.matches ? item.y - (883 - item.height) / 2 : 0;
                 const y = bottom + 80 - path * (bottom - top + item.height + 160) + slotOffset * 4 * path * (1 - path);
                 const envelope = Math.sin(t * Math.PI);
-                const motionStrength = (reduced.matches ? 0.35 : 1) * (mobile.matches ? .35 : 1);
+                const motionStrength = (1) * (mobile.matches ? .35 : 1);
                 const drift = Math.sin(t * Math.PI * 1.65 + item.phase) * item.drift * envelope * motionStrength;
                 const rotation = Math.sin(t * Math.PI * 1.2 + item.phase) * item.turn * envelope * motionStrength;
                 const imageScale = 1 + Math.sin(t * Math.PI) * item.swell * motionStrength;
                 picture.style.visibility = t > 0 && t < 1 ? 'visible' : 'hidden';
                 picture.style.transform = `translate3d(${drift}px, ${y}px, 0) rotate(${rotation}deg) scale(${imageScale})`;
             });
-            const imagesMoving = imageProgress.some((value, index) => value !== null
-                && Math.abs(clamp((time - images[index].start) / images[index].duration) - value) > 0.00005);
-            if (Math.abs(target - progress) > 0.00005 || imagesMoving) frame = requestAnimationFrame(render);
+            if (sceneMotion.moving || imageMotion.some(motion => motion.moving)) frame = requestAnimationFrame(render);
         };
         const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
         const observer = new ResizeObserver(schedule);
         [...root.parentElement.children].forEach(child => observer.observe(child));
         window.addEventListener('scroll', schedule, { passive: true });
         window.addEventListener('resize', schedule);
-        reduced.addEventListener('change', schedule);
+
         schedule();
         return () => {
             cancelAnimationFrame(frame);
             observer.disconnect();
             window.removeEventListener('scroll', schedule);
             window.removeEventListener('resize', schedule);
-            reduced.removeEventListener('change', schedule);
+
         };
     }, []);
 
@@ -161,17 +149,17 @@ export default function HomeFragranceWorld() {
         <section ref={rootRef} className="fragrance-world" data-node-id="2863:8173" aria-label="Explore the world of fragrance">
             <div className="fragrance-world__stage">
                 <div className="fragrance-world__canvas">
-                    <img className="fragrance-world__background" src={background} alt="" />
+                    <img loading="lazy" decoding="async" fetchPriority="low" className="fragrance-world__background" src={background} alt="" />
                     {states.map(({ id, label, lines }, index) => (
                         <div className="fragrance-world__copy" key={id} data-node-id={id} data-state={index}>
                             <p className="fragrance-world__label"><span /><span className="fragrance-world__desktop-label">{label}</span><span className="fragrance-world__mobile-label">Explore the scent that SUITS YOU</span></p>
                             <div className="fragrance-world__text"><div className="fragrance-world__desktop-lines">{lines.map(line => <p key={line}>{line}</p>)}</div><div className="fragrance-world__mobile-lines">{mobileLines[index].map(line => <p key={line}>{line}</p>)}</div></div>
-                            <Link to="/galerie" className="fragrance-world__link">Explore Scents<picture><source media="(max-width: 767px)" srcSet={mobileArrow} /><img src={arrow} alt="" /></picture></Link>
+                            <Link to="/galerie" className="fragrance-world__link">Explore Scents<picture><source media="(max-width: 767px)" srcSet={mobileArrow} /><img loading="lazy" decoding="async" fetchPriority="low" src={arrow} alt="" /></picture></Link>
                         </div>
                     ))}
                     {images.map(item => (
                         <div key={item.id} data-node-id={item.id} className="fragrance-world__picture" style={{ left: item.x, width: item.width, height: item.height }} aria-hidden="true">
-                            <div className="fragrance-world__crop"><img className={item.crop ? 'fragrance-world__bottle-crop' : ''} src={item.src} alt="" draggable="false" /></div>
+                            <div className="fragrance-world__crop"><img loading="lazy" decoding="async" fetchPriority="low" className={item.crop ? 'fragrance-world__bottle-crop' : ''} src={item.src} alt="" draggable="false" /></div>
                         </div>
                     ))}
                 </div>

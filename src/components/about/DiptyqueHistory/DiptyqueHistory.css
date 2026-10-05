@@ -167,6 +167,11 @@
 .diptyque-history__title-letter {
   display: inline-block;
   opacity: 0;
+  will-change: opacity, clip-path;
+}
+
+.diptyque-history__title[data-writing='complete'] .diptyque-history__title-letter {
+  will-change: auto;
 }
 
 .diptyque-history__fabric-transition {

@@ -527,13 +527,6 @@
   transform: rotate(30deg);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .history-objects__detail-visual-02 {
-    /* Keep this explicitly requested, one-shot clock movement. */
-    transition: transform 1.2s cubic-bezier(.22, 1, .36, 1) !important;
-  }
-}
-
 .history-objects__detail-visual-02 img {
   width: 93.37%;
   height: auto;

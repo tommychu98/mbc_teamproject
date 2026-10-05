@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect, useRef } from 'react';
+import { createDampedValue, MOTION_RESPONSE } from '../../../utils/scrollMotion';
 
 const HOLD_VIEWPORTS = 0.65;
 const TRANSITION_VIEWPORTS = 0.85;
@@ -13,13 +14,15 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
     useLayoutEffect(() => {
         const section = sectionRef.current;
         const stage = stageRef.current;
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         const mobile = window.matchMedia('(max-width: 767px)');
         let frameId = 0;
         let previousIndex = -1;
         let previousTransition = null;
+        const photoMotion = createDampedValue({ response: MOTION_RESPONSE.scene, maxLag: 12, epsilon: 0.001 });
+        const logoMotion = createDampedValue({ response: MOTION_RESPONSE.foreground, maxLag: 12, epsilon: 0.001 });
 
-        const paint = () => {
+        const paint = now => {
             frameId = 0;
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
             const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
@@ -33,7 +36,7 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             // endpoints so a button landing on a hold is never left disabled.
             const epsilon = 1 / (scrollUnitRef.current * TRANSITION_VIEWPORTS);
             const transition = rawTransition < epsilon ? 0 : rawTransition > 1 - epsilon ? 1 : rawTransition;
-            const eased = reducedMotion.matches ? Math.round(transition) : smoothstep(transition);
+            const eased = smoothstep(transition);
             const next = Math.min(slides.length - 1, segment + 1);
             const interpolate = (property) => {
                 const from = parseFloat(slides[segment][property]);
@@ -41,13 +44,14 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
                 return from + (to - from) * eased;
             };
 
-            // Drive the original opposing horizontal tracks directly. There is
-            // no wheel interception or trailing CSS transition after release.
+            // Preserve the original paths; the two tracks settle with different weights.
             const mobileShift = (segment + eased) * 100;
-            photoTrackRef.current.style.transform = `translate3d(${mobile.matches ? mobileShift : interpolate('photoShift')}cqw, 0, 0)`;
-            logoTrackRef.current.style.transform = `translate3d(${mobile.matches ? -mobileShift : interpolate('logoShift')}cqw, 0, 0)`;
+            const photoShift = photoMotion.update(mobile.matches ? mobileShift : interpolate('photoShift'), now, false);
+            const logoShift = logoMotion.update(mobile.matches ? -mobileShift : interpolate('logoShift'), now, false);
+            photoTrackRef.current.style.transform = `translate3d(${photoShift}cqw, 0, 0)`;
+            logoTrackRef.current.style.transform = `translate3d(${logoShift}cqw, 0, 0)`;
             const activeIndex = segment + (eased >= 0.5 && next !== segment ? 1 : 0);
-            const isTransitioning = transition > 0 && transition < 1;
+            const isTransitioning = (transition > 0 && transition < 1) || photoMotion.moving || logoMotion.moving;
             section.dataset.scrollProgress = progress.toFixed(6);
             section.dataset.slideProgress = (segment + eased).toFixed(6);
             if (activeIndex !== previousIndex || isTransitioning !== previousTransition) {
@@ -55,6 +59,7 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
                 previousTransition = isTransitioning;
                 setStoryState({ activeIndex, isTransitioning });
             }
+            if (photoMotion.moving || logoMotion.moving) frameId = requestAnimationFrame(paint);
         };
 
         const schedulePaint = () => {
@@ -66,14 +71,14 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             scrollUnitRef.current = unit;
             section.style.setProperty('--history-stage-height', `${stageHeight}px`);
             section.style.setProperty('--history-scroll-distance', `${unit * totalDistance}px`);
-            paint();
+            schedulePaint();
         };
 
         const observer = new ResizeObserver(measure);
         observer.observe(stage);
         window.addEventListener('scroll', schedulePaint, { passive: true });
         window.addEventListener('resize', measure);
-        reducedMotion.addEventListener('change', schedulePaint);
+
         measure();
 
         return () => {
@@ -81,7 +86,7 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             observer.disconnect();
             window.removeEventListener('scroll', schedulePaint);
             window.removeEventListener('resize', measure);
-            reducedMotion.removeEventListener('change', schedulePaint);
+
         };
     }, [sectionRef, stageRef, photoTrackRef, logoTrackRef, slides, setStoryState, totalDistance]);
 
@@ -94,7 +99,7 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const position = index * (HOLD_VIEWPORTS + TRANSITION_VIEWPORTS);
         window.scrollTo({
             top: start - (parseFloat(getComputedStyle(stageRef.current).top) || 0) + position * scrollUnitRef.current,
-            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+            behavior: 'smooth',
         });
     }, [sectionRef, stageRef, slides]);
 }

@@ -16,13 +16,21 @@ function DesktopMainFilm() {
     useEffect(() => {
         const video = videoRef.current;
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         let isVisible = false;
+        const loadSource = () => {
+            if (video.getAttribute('src')) return;
+            video.poster = '/videos/home-main-poster.png';
+            video.preload = 'metadata';
+            video.src = '/videos/home-main.mp4';
+        };
 
         const syncPlayback = () => {
             if (reducedMotion.matches || !isVisible || document.hidden) {
                 video.pause();
                 return;
             }
+            loadSource();
             video.play().catch(() => {});
         };
 
@@ -34,12 +42,19 @@ function DesktopMainFilm() {
             { threshold: 0, rootMargin: '0px 0px -10% 0px' }
         );
 
+        const preload = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            loadSource();
+            preload.disconnect();
+        }, { rootMargin: '900px' });
+        preload.observe(video);
         observer.observe(video);
         reducedMotion.addEventListener('change', syncPlayback);
         document.addEventListener('visibilitychange', syncPlayback);
 
         return () => {
             observer.disconnect();
+            preload.disconnect();
             reducedMotion.removeEventListener('change', syncPlayback);
             document.removeEventListener('visibilitychange', syncPlayback);
             video.pause();
@@ -53,15 +68,13 @@ function DesktopMainFilm() {
                     <video
                         ref={videoRef}
                         className="home-main-film__video"
-                        src="/videos/home-main.mp4"
-                        poster="/videos/home-main-poster.png"
                         muted
                         playsInline
                         loop
                         preload="metadata"
                         aria-hidden="true"
                     />
-                    <img
+                    <img loading="lazy" decoding="async" fetchPriority="low"
                         className="home-main-film__still"
                         src="/videos/home-main-poster.png"
                         alt=""

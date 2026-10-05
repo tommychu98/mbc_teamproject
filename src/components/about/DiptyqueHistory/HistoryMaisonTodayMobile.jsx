@@ -26,6 +26,7 @@ export default function HistoryMaisonTodayMobile() {
         const start = top + initialCenter - innerHeight * .25;
         const end = Math.max(start + 1, top + finalCenter - innerHeight * .55);
         geometry = { rise: finalCenter - initialCenter, start, end, lineHeight: 1037 * scale };
+        line.style.height = `${geometry.lineHeight}px`;
       };
       const render = () => {
         const { rise, start, end, lineHeight } = geometry;
@@ -34,14 +35,14 @@ export default function HistoryMaisonTodayMobile() {
         // Same viewport-space easing as the desktop useMaisonSun hook.
         const shift = -rise + (end - start) * p + (rise - (end - start)) * eased;
         gsap.set(sun, { y: shift });
-        line.style.height = `${Math.max(0, lineHeight + shift)}px`;
+        line.style.scale = `1 ${Math.max(0, lineHeight + shift) / lineHeight}`;
       };
       measure();
       const tween = gsap.to(state, {
         progress: 1, ease: 'none', onUpdate: render,
         scrollTrigger: {
           trigger: root, start: () => geometry.start, end: () => geometry.end,
-          scrub: .45, invalidateOnRefresh: true,
+          scrub: 0.8, invalidateOnRefresh: true,
           onRefreshInit: measure, onRefresh: render,
         },
       });
@@ -54,6 +55,7 @@ export default function HistoryMaisonTodayMobile() {
         tween.kill();
         gsap.set(sun, { clearProps: 'transform' });
         line.style.removeProperty('height');
+        line.style.removeProperty('scale');
       };
     });
     return () => media.revert();
