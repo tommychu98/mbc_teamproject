@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import createDraperyMesh from './createDraperyMesh';
 
-const DURATION = 3100;
+const DURATION = 1100;
 const clamp = value => Math.max(0, Math.min(1, value));
 // One continuous easing with zero endpoint velocity and acceleration.
 const ease = value => { const t = clamp(value); return t * t * t * (t * (t * 6 - 15) + 10); };
@@ -11,8 +11,8 @@ export default function useDraperyPull(sectionRef, draperyRef) {
     useLayoutEffect(() => {
         const section = sectionRef.current;
         const fabric = draperyRef.current;
-        const mesh = createDraperyMesh(fabric.querySelector('canvas'), fabric.querySelector('img'));
-        const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+        let mesh = null;
+
         const motion = motionRef.current;
         let frame = 0;
         let previous = 0;
@@ -52,16 +52,7 @@ export default function useDraperyPull(sectionRef, draperyRef) {
         };
         const check = () => {
             const target = window.scrollY >= threshold ? 1 : 0;
-            if (reduced.matches) {
-                cancelAnimationFrame(frame);
-                frame = 0;
-                previous = 0;
-                motion.target = target;
-                motion.progress = target;
-                motion.velocity = 0;
-                draw();
-                return;
-            }
+
             if (target === motion.target) return;
             motion.target = target;
             if (!frame) frame = requestAnimationFrame(paint);
@@ -75,24 +66,34 @@ export default function useDraperyPull(sectionRef, draperyRef) {
             fabric.dataset.draperyTrigger = threshold.toFixed(2);
             check();
             draw();
-            if (!reduced.matches && motion.progress !== motion.target && !frame) {
+            if ((motion.progress !== motion.target) && !frame) {
                 previous = 0;
                 frame = requestAnimationFrame(paint);
             }
         };
+        // Defer the WebGL context and texture upload until this lower section
+        // approaches the viewport; its static artwork keeps the same layout.
+        const warmup = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            mesh = createDraperyMesh(fabric.querySelector('canvas'), fabric.querySelector('img'));
+            draw();
+            warmup.disconnect();
+        }, { rootMargin: '900px' });
+        warmup.observe(section);
         const observer = new ResizeObserver(measure);
         observer.observe(section);
         if (section.parentElement) observer.observe(section.parentElement);
         window.addEventListener('scroll', check, { passive: true });
         window.addEventListener('resize', measure);
-        reduced.addEventListener('change', measure);
+
         measure();
         return () => {
             cancelAnimationFrame(frame);
             observer.disconnect();
+            warmup.disconnect();
             window.removeEventListener('scroll', check);
             window.removeEventListener('resize', measure);
-            reduced.removeEventListener('change', measure);
+
             mesh?.dispose();
             fabric.style.removeProperty('transform');
             fabric.style.removeProperty('will-change');

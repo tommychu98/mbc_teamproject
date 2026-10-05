@@ -97,11 +97,6 @@
     0%, 100% { transform: translateY(0) rotate(-.35deg); }
     50% { transform: translateY(-6px) rotate(.35deg); }
 }
-
-@media (prefers-reduced-motion: reduce) {
-    .home-day-ritual__bird,
-    .home-day-ritual__top-lemon { animation: none; }
-}
 .home-day-ritual__bath-objects { position: absolute; left: 521px; top: 2218px; width: 354px; height: 236px; object-fit: cover; }
 
 .home-day-ritual__morning-copy,

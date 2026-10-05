@@ -19,7 +19,6 @@ export default function HomePerfume3D() {
         let syncPlayback = () => {};
         const modelRequest = new AbortController();
         const stage = stageRef.current;
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
         async function init() {
             if (started) return;
@@ -136,12 +135,12 @@ export default function HomePerfume3D() {
                     lastTime = time;
                     if (!visible || document.hidden) return;
                     elapsed += delta;
-                    const t = reducedMotion.matches ? 1 : Math.min(elapsed / 5.5, 1);
+                    const t = Math.min(elapsed / 5.5, 1);
                     const ease = 1 - Math.pow(1 - t, 3);
                     const settling = t > 0.8 ? Math.sin((t - 0.8) / 0.2 * Math.PI) * 0.075 : 0;
                     pivot.position.y = (1 - ease) * 3.4 + settling - 0.22;
                     pivot.scale.setScalar(0.16 + ease * 0.84);
-                    pivot.rotation.y = reducedMotion.matches ? 0 : ease * Math.PI * 4 + Math.max(0, elapsed - 5.5) * 0.38;
+                    pivot.rotation.y = (ease * Math.PI * 4 + Math.max(0, elapsed - 5.5) * 0.38);
                     pivot.rotation.z = Math.sin(t * Math.PI * 2) * (1 - t) * 0.11;
                     shadow.style.opacity = String(0.05 + ease * 0.17);
                     shadow.style.transform = `translateX(-50%) scale(${0.45 + ease * 0.55})`;
@@ -170,20 +169,10 @@ export default function HomePerfume3D() {
         document.addEventListener('visibilitychange', onVisibilityChange);
         preload.observe(sectionRef.current);
         visibility.observe(sectionRef.current);
-        // Give the hero priority, then prepare the model during idle time. The
-        // entrance animation still starts only when the perfume becomes visible.
-        let idleTask;
-        const warmupTimer = window.setTimeout(() => {
-            if ('requestIdleCallback' in window) {
-                idleTask = window.requestIdleCallback(() => { void init(); }, { timeout: 2000 });
-            } else {
-                void init();
-            }
-        }, 2000);
+        // The existing proximity observer warms this scene before it appears.
+        // A time-based warmup competes with the hero's first movie download.
         return () => {
             disposed = true;
-            window.clearTimeout(warmupTimer);
-            if (idleTask !== undefined) window.cancelIdleCallback(idleTask);
             modelRequest.abort();
             preload.disconnect();
             visibility.disconnect();
@@ -209,7 +198,7 @@ export default function HomePerfume3D() {
             </div>
             <button className="home-perfume-3d__replay" disabled={status !== 'ready'} onClick={() => replayRef.current?.()}>
                 <span>View Again</span>
-                <img src={replayArrow} alt="" aria-hidden="true" />
+                <img loading="lazy" decoding="async" fetchPriority="low" src={replayArrow} alt="" aria-hidden="true" />
             </button>
         </section>
     );

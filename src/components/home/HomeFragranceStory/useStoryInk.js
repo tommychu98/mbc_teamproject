@@ -1,4 +1,5 @@
 import { useLayoutEffect } from 'react';
+import { createDampedValue } from '../../../utils/scrollMotion';
 
 const clamp = (value) => Math.min(1, Math.max(0, value));
 const INK_START = 0.2;
@@ -17,7 +18,6 @@ const DESCRIPTION_START_DISTANCE = ENGLISH_END_DISTANCE + BREATHING_DISTANCE;
 const DESCRIPTION_END_DISTANCE = DESCRIPTION_START_DISTANCE + DESCRIPTION_DISTANCE;
 const TOTAL_DISTANCE = DESCRIPTION_END_DISTANCE + HOLD_DISTANCE + RELEASE_DISTANCE;
 const DESCRIPTION_END_PROGRESS = DESCRIPTION_END_DISTANCE / TOTAL_DISTANCE;
-const INK_LERP = 0.045;
 const smoothstep = (value) => value * value * (3 - 2 * value);
 
 export default function useStoryInk(sectionRef, stageRef, titleRef) {
@@ -29,26 +29,23 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
         const title = titleRef.current;
         const characters = title.querySelectorAll('.home-fragrance-story__character');
         const characterCount = characters.length;
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         let frameId = 0;
         let renderedProgress = null;
-        let previousTime = 0;
+        const motion = createDampedValue({ maxLag: 0.06 });
 
         const paint = (now) => {
             frameId = 0;
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
             const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
             const progress = distance > 0 ? clamp((stickyTop - section.getBoundingClientRect().top) / distance) : 0;
-            const elapsed = previousTime ? Math.min(64, now - previousTime) : 1000 / 60;
-            previousTime = now;
-            const damping = 1 - Math.pow(1 - INK_LERP, elapsed / (1000 / 60));
-            if (renderedProgress === null || reducedMotion.matches) renderedProgress = progress;
-            else renderedProgress += (progress - renderedProgress) * damping;
+            renderedProgress = motion.update(progress, now, false);
             // Bound forward inertia and taper it to zero at Korean completion.
             // Even a fast wheel gesture finishes both texts before Con3 enters;
             // no timed transition is left running after sticky releases.
             const remainingReveal = clamp((DESCRIPTION_END_PROGRESS - progress) / (DESCRIPTION_DISTANCE / TOTAL_DISTANCE));
-            renderedProgress = Math.max(renderedProgress, progress - remainingReveal * 0.06);
+            renderedProgress = Math.max(progress - remainingReveal * 0.06,
+                Math.min(progress + remainingReveal * 0.06, renderedProgress));
             if (Math.abs(progress - renderedProgress) < 0.00001) renderedProgress = progress;
 
             const renderedDistance = renderedProgress * TOTAL_DISTANCE;
@@ -64,7 +61,6 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
             section.dataset.renderProgress = renderedProgress.toFixed(6);
             section.dataset.descriptionProgress = smoothstep(clamp((renderedDistance - DESCRIPTION_START_DISTANCE) / DESCRIPTION_DISTANCE)).toFixed(6);
             if (renderedProgress !== progress) frameId = requestAnimationFrame(paint);
-            else previousTime = 0;
         };
 
         const schedulePaint = () => {
@@ -83,7 +79,7 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
         observer.observe(stage);
         window.addEventListener('scroll', schedulePaint, { passive: true });
         window.addEventListener('resize', measure);
-        reducedMotion.addEventListener('change', schedulePaint);
+
         measure();
 
         return () => {
@@ -91,7 +87,7 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
             observer.disconnect();
             window.removeEventListener('scroll', schedulePaint);
             window.removeEventListener('resize', measure);
-            reducedMotion.removeEventListener('change', schedulePaint);
+
         };
     }, [sectionRef, stageRef, titleRef]);
 }

@@ -18,7 +18,6 @@
     object-fit: cover;
     object-position: center;
     opacity: 0;
-    filter: blur(12px);
     transform: scale(1.03);
     transform-origin: center;
 }
@@ -48,7 +47,6 @@
     object-fit: cover;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    will-change: transform;
 }
 
 .home-intro__story {
@@ -81,7 +79,6 @@
     object-fit: cover;
     opacity: 0.7;
     transform-origin: 50% 90%;
-    will-change: transform, opacity;
 }
 
 .home-intro__story-leaf {
@@ -95,7 +92,6 @@
     height: 521.177px;
     overflow: hidden;
     transform-origin: 55% 55%;
-    will-change: transform, opacity;
 }
 
 .home-intro__story-leaf img {
@@ -120,7 +116,6 @@
     line-height: 1.3;
     text-align: center;
     white-space: nowrap;
-    will-change: transform, opacity;
 }
 
 .home-intro__story-year {
@@ -156,7 +151,6 @@
     padding-bottom: 18px;
     margin-bottom: -18px;
     white-space: nowrap;
-    will-change: clip-path, transform;
 }
 
 .home-intro__story-title span {
@@ -177,61 +171,15 @@
     height: 300.361px;
     margin: 0;
     transform-origin: 50% 50%;
-    will-change: transform, opacity;
 }
 
 .home-intro__story-photo img {
     position: absolute;
-    top: 25.58px;
-    left: 31.82px;
+    inset: 0;
     display: block;
-    width: 212.105px;
-    height: 249.208px;
-    object-fit: cover;
-}
-
-.home-intro__story-photo-caption,
-.home-intro__story-photo-code,
-.home-intro__story-photo-number {
-    position: absolute;
-    color: #000;
-    line-height: normal;
-    transform: rotate(-6.19deg);
-    transform-origin: left top;
-}
-
-.home-intro__story-photo-caption {
-    top: 214px;
-    left: 67px;
-    width: 142px;
-    height: 18.517px;
-    font-family: 'KoPubWorldDotum Pro', Pretendard, sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    line-height: normal;
-    white-space: nowrap;
-}
-
-.home-intro__story-photo-code {
-    top: 253px;
-    left: 104px;
-    width: 36.334px;
-    height: 10.72px;
-    font-family: Pretendard, sans-serif;
-    font-size: 8px;
-    font-weight: 300;
-    line-height: normal;
-    white-space: nowrap;
-}
-
-.home-intro__story-photo-number {
-    top: 217px;
-    left: 211px;
-    width: 16.766px;
-    height: 10.72px;
-    font-family: Pretendard, sans-serif;
-    font-size: 8px;
-    font-weight: 300;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .home-intro__story-button {
@@ -248,7 +196,6 @@
     line-height: 1;
     text-decoration: none;
     pointer-events: auto;
-    will-change: transform, opacity;
 }
 
 .home-intro__story-button span {

@@ -17,7 +17,7 @@ export default function useAmbientWind(rootRef, mobile = false) {
     useEffect(() => {
         const root = rootRef.current;
         const sharedMobileScene = mobile ? root.closest('.night-journey__mobile') : null;
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         const desktop = window.matchMedia(mobile ? '(max-width: 767px)' : '(min-width: 768px)');
         // Connected branches share one wind field in useCon6Wind, including
         // the adjoining Night artwork. Do not add an independent second sway.
@@ -50,7 +50,7 @@ export default function useAmbientWind(rootRef, mobile = false) {
         let previousTime = null;
         let elapsed = 0;
 
-        const enabled = () => visible && !document.hidden && desktop.matches && !reducedMotion.matches;
+        const enabled = () => (visible && !document.hidden && desktop.matches);
         const reset = () => {
             petals.forEach((particle) => {
                 particle.element.style.transform = '';
@@ -65,7 +65,7 @@ export default function useAmbientWind(rootRef, mobile = false) {
             frame = 0;
             if (!enabled()) {
                 previousTime = null;
-                if (reducedMotion.matches || !desktop.matches) reset();
+                if ((!desktop.matches)) reset();
                 return;
             }
             const delta = previousTime === null ? 0 : Math.min((now - previousTime) / 1000, 0.1);
@@ -195,7 +195,7 @@ export default function useAmbientWind(rootRef, mobile = false) {
             if (frame) window.cancelAnimationFrame(frame);
             frame = 0;
             previousTime = null;
-            if (reducedMotion.matches || !desktop.matches) {
+            if ((!desktop.matches)) {
                 reset();
             }
             // Preserve the shared clock through category changes and visibility pauses.
@@ -207,13 +207,13 @@ export default function useAmbientWind(rootRef, mobile = false) {
         });
         observer.observe(sharedMobileScene || root.querySelector('.night-journey__stage') || root);
         document.addEventListener('visibilitychange', sync);
-        reducedMotion.addEventListener('change', sync);
+
         desktop.addEventListener('change', sync);
 
         return () => {
             observer.disconnect();
             document.removeEventListener('visibilitychange', sync);
-            reducedMotion.removeEventListener('change', sync);
+
             desktop.removeEventListener('change', sync);
             if (frame) window.cancelAnimationFrame(frame);
             reset();

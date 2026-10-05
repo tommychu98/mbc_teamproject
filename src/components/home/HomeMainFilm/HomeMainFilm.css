@@ -95,8 +95,3 @@
 }
 
 .home-main-film__still { display: none; }
-
-@media (prefers-reduced-motion: reduce) {
-    .home-main-film__video { display: none; }
-    .home-main-film__still { display: block; }
-}
