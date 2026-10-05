@@ -7,6 +7,22 @@
   color: var(--color-black);
 }
 
+@media (min-width: 768px) {
+  .fragrances-con8__pin-stage { min-height: 100vh; }
+}
+
+/* Preserve the existing mobile scene geometry through the pin wrapper. */
+@media (width < 768px) {
+  .fragrances-con8__pin-stage { width: 100%; }
+  .fragrances-con8 .fragrances-con8__scene {
+    --mobile-scale: calc(100cqw / 430px);
+    --mobile-flow-scale: max(1, var(--mobile-scale));
+    aspect-ratio: auto;
+    height: calc(935px * var(--mobile-flow-scale));
+    overflow: clip;
+  }
+}
+
 .fragrances-con8__scene {
   --con8-scale: calc(100cqw / 1920px);
   position: relative;

@@ -51,17 +51,23 @@ function makeLines(frame, image, namespace) {
   return canvas;
 }
 
-export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints }) {
+export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints, desktopPin = false }) {
   useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return undefined;
     const media = gsap.matchMedia();
-    media.add('(prefers-reduced-motion: no-preference)', () => {
+    media.add({ motion: '(prefers-reduced-motion: no-preference)', desktop: '(min-width: 768px)' }, ({ conditions }) => {
+      if (!conditions.motion) return;
+      const pinned = desktopPin && conditions.desktop;
+      // Keep the following section below the viewport until the pin releases.
+      // Artwork retains its original aspect ratio and coordinates.
+      if (pinned) gsap.set(section, { minHeight: '100vh' });
       let disposed = false;
       let sequence;
       let trigger;
       let states = [];
       let resizeFrame;
+      let builtWidth;
       const frames = [...section.querySelectorAll(`.${namespace}__card-artwork`)];
       const cleanLayers = () => {
         states.forEach(({ original, trace, lines }) => {
@@ -76,6 +82,7 @@ export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints 
         const images = frames.map(frame => frame.querySelector('img'));
         try { await Promise.all(images.map(image => image.decode())); } catch { return; }
         if (disposed) return;
+        builtWidth = section.clientWidth;
         const oldProgress = sequence?.progress();
         const wasReversed = sequence?.reversed();
         trigger?.kill(); sequence?.kill(); cleanLayers();
@@ -112,19 +119,40 @@ export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints 
         render();
         trigger = ScrollTrigger.create({
           id: `${namespace}-ink-drawing`, trigger: section,
-          start: 'top 55%', end: 'bottom top', animation: sequence,
-          toggleActions: 'play none none reverse',
-          onRefresh: self => {
-            if (self.scroll() >= self.start) sequence.play();
-            else sequence.reverse();
-          },
+          ...(pinned ? {
+            start: 'top top',
+            end: () => `+=${Math.round(window.innerHeight * sequence.duration())}`,
+            animation: sequence,
+            pin: true,
+            pinSpacing: true,
+            scrub: true,
+            // Preserve the zero-valued tween origins across pin refreshes.
+            onUpdate: self => {
+              sequence.progress(gsap.utils.clamp(0, 1, (self.scroll() - self.start) / (self.end - self.start)));
+              render();
+            },
+            onRefresh: self => {
+              sequence.progress(gsap.utils.clamp(0, 1, (self.scroll() - self.start) / (self.end - self.start)));
+              render();
+            },
+          } : {
+            start: 'top 55%', end: 'bottom top', animation: sequence,
+            toggleActions: 'play none none reverse',
+            onRefresh: self => {
+              if (self.scroll() >= self.start) sequence.play();
+              else sequence.reverse();
+            },
+          }),
         });
+        if (pinned) { sequence.progress(trigger.progress); render(); }
       };
       setup();
       const resize = new ResizeObserver(() => {
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(() => {
-          if (states.length && states.some(state => Math.abs(state.lines.clientWidth - state.lines.width / Math.min(window.devicePixelRatio || 1, 2)) > 1)) setup();
+          if (states.length && (pinned
+            ? Math.abs(section.clientWidth - builtWidth) > 1
+            : states.some(state => Math.abs(state.lines.clientWidth - state.lines.width / Math.min(window.devicePixelRatio || 1, 2)) > 1))) setup();
           else trigger?.refresh();
         });
       });
@@ -136,5 +164,5 @@ export default function useStoryInkDrawing(sectionRef, { namespace, focalPoints 
       };
     });
     return () => media.revert();
-  }, [sectionRef, namespace, focalPoints]);
+  }, [sectionRef, namespace, focalPoints, desktopPin]);
 }

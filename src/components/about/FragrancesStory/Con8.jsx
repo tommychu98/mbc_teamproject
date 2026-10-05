@@ -44,32 +44,34 @@ export default function Con8() {
   useCon8InkDrawing(sectionRef);
   return (
     <section ref={sectionRef} className="fragrances-con8" aria-labelledby="fragrances-con8-title">
-      <div className="fragrances-con8__scene">
-        <StoryImage mobileSrc={mobileBackground} className="fragrances-con8__background" src={background} alt="" width="1920" height="1080" draggable="false" />
-        <h2 className="fragrances-con8__title" id="fragrances-con8-title">A MEMORY OF PARIS AFTER DARK</h2>
-        <div ref={railRef} className="fragrances-con8__cards">
-          {cards.map(({ number, title, image, alt, lines }, index) => (
-            <article className="fragrances-con8__card" key={number}>
-              <div className="fragrances-con8__card-artwork">
-                <div className="fragrances-con8__ink-original">
-                  <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con8__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+      <div className="fragrances-con8__pin-stage">
+        <div className="fragrances-con8__scene">
+          <StoryImage mobileSrc={mobileBackground} className="fragrances-con8__background" src={background} alt="" width="1920" height="1080" draggable="false" />
+          <h2 className="fragrances-con8__title" id="fragrances-con8-title">A MEMORY OF PARIS AFTER DARK</h2>
+          <div ref={railRef} className="fragrances-con8__cards">
+            {cards.map(({ number, title, image, alt, lines }, index) => (
+              <article className="fragrances-con8__card" key={number}>
+                <div className="fragrances-con8__card-artwork">
+                  <div className="fragrances-con8__ink-original">
+                    <StoryImage mobileSrc={mobileCards[index]} className="fragrances-con8__card-image" src={image} alt={alt} width="340" height="360" draggable="false" />
+                  </div>
                 </div>
-              </div>
-              <div className="fragrances-con8__card-content">
-                <h3 className="fragrances-con8__card-heading">
-                  <span>{number}</span>
-                  <span>{title}</span>
-                </h3>
-                <p className="fragrances-con8__card-description">
-                  {lines.map((line) => <span key={line}>{line}</span>)}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-        <p className="fragrances-story__pagination" aria-live="polite" aria-atomic="true">{active}/3</p>
-        <div className="fragrances-con8__instrument" aria-hidden="true">
-          <img className="fragrances-con8__instrument-image" src={instrument} alt="" width="683.474" height="455.649" draggable="false" />
+                <div className="fragrances-con8__card-content">
+                  <h3 className="fragrances-con8__card-heading">
+                    <span>{number}</span>
+                    <span>{title}</span>
+                  </h3>
+                  <p className="fragrances-con8__card-description">
+                    {lines.map((line) => <span key={line}>{line}</span>)}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="fragrances-story__pagination" aria-live="polite" aria-atomic="true">{active}/3</p>
+          <div className="fragrances-con8__instrument" aria-hidden="true">
+            <img className="fragrances-con8__instrument-image" src={instrument} alt="" width="683.474" height="455.649" draggable="false" />
+          </div>
         </div>
       </div>
     </section>
