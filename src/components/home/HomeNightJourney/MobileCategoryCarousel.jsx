@@ -30,6 +30,7 @@ const PARTICLES = [
 
 export default function MobileCategoryCarousel() {
     const rootRef = useRef(null);
+    const stageRef = useRef(null);
     const viewportRef = useRef(null);
     const activeRef = useRef(0);
     const [activeIndex, setActiveIndex] = useState(0);
@@ -37,14 +38,33 @@ export default function MobileCategoryCarousel() {
     useLayoutEffect(() => {
         const root = rootRef.current;
         const viewport = viewportRef.current;
+        let menuFrame = 0;
+        const syncMenu = () => {
+            menuFrame = 0;
+            const bounds = root.getBoundingClientRect();
+            root.dataset.menuActive = String(bounds.top <= 52 && bounds.bottom > 52);
+        };
+        const scheduleMenu = () => {
+            if (!menuFrame) menuFrame = requestAnimationFrame(syncMenu);
+        };
         const measure = () => {
-            root.style.setProperty('--mobile-category-scale', root.clientWidth / 430);
+            const scale = Math.min(root.clientWidth / 430, stageRef.current.clientHeight / 831);
+            root.style.setProperty('--mobile-category-scale', scale);
             viewport.scrollLeft = activeRef.current * viewport.clientWidth;
+            scheduleMenu();
         };
         const observer = new ResizeObserver(measure);
         observer.observe(root);
+        observer.observe(stageRef.current);
         measure();
-        return () => observer.disconnect();
+        window.addEventListener('scroll', scheduleMenu, { passive: true });
+        window.addEventListener('resize', scheduleMenu);
+        return () => {
+            observer.disconnect();
+            cancelAnimationFrame(menuFrame);
+            window.removeEventListener('scroll', scheduleMenu);
+            window.removeEventListener('resize', scheduleMenu);
+        };
     }, []);
     const onScroll = () => {
         const viewport = viewportRef.current;
@@ -56,21 +76,22 @@ export default function MobileCategoryCarousel() {
         if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
         event.preventDefault();
         const next = Math.max(0, Math.min(3, activeRef.current + (event.key === 'ArrowRight' ? 1 : -1)));
-        viewportRef.current.scrollTo({ left: next * viewportRef.current.clientWidth, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+        viewportRef.current.scrollTo({ left: next * viewportRef.current.clientWidth, behavior: 'smooth' });
     };
     return <section className="mobile-categories" ref={rootRef} data-node-id="2452:12423" data-active-index={activeIndex} aria-label="Diptyque categories" aria-roledescription="carousel">
+        <div className="mobile-categories__stage" ref={stageRef}>
         <div className="mobile-categories__ambient night-journey__canvas" aria-hidden="true">
-            {PARTICLES.map(([src,x,y,w,h,iw,ih,angle,type],index) => <span className="mobile-categories__particle" key={index} style={{left:x,top:y,width:w,height:h,opacity:.6}}><span className="night-journey__wind" data-motion-type={type}><img src={src} alt="" style={{width:iw,height:ih,transform:`rotate(${angle}deg)`}} /></span></span>)}
+            {PARTICLES.map(([src,x,y,w,h,iw,ih,angle,type],index) => <span className="mobile-categories__particle" key={index} style={{left:x,top:y,width:w,height:h,opacity:.6}}><span className="night-journey__wind" data-motion-type={type}><img loading="lazy" decoding="async" fetchPriority="low" src={src} alt="" style={{width:iw,height:ih,transform:`rotate(${angle}deg)`}} /></span></span>)}
         </div>
         <div className="mobile-categories__viewport" ref={viewportRef} onScroll={onScroll} onKeyDown={onKeyDown} tabIndex={0} aria-label="카테고리 좌우 스와이프">
             {CATEGORIES.map((category,index) => <article className="mobile-categories__slide" key={category.number} aria-label={`${index+1} of 4: ${category.title}`} aria-roledescription="slide">
                 <div className="mobile-categories__canvas">
                     <div className="mobile-categories__card">
-                        <img className="mobile-categories__image" src={category.image} alt={category.alt} />
+                        <img loading="lazy" decoding="async" fetchPriority="low" className="mobile-categories__image" src={category.image} alt={category.alt} />
                         <div className="mobile-categories__copy">
                             <div><p className="mobile-categories__number">{category.number}</p><h3>{category.title}</h3></div>
                             <p className="mobile-categories__description">{DESCRIPTIONS[index][0]}<br />{DESCRIPTIONS[index][1]}</p>
-                            <Link className="mobile-categories__link" to={category.href} tabIndex={index === activeIndex ? 0 : -1}><span>View More</span><img src={arrow} alt="" /></Link>
+                            <Link className="mobile-categories__link" to={category.href} tabIndex={index === activeIndex ? 0 : -1}><span>View More</span><img loading="lazy" decoding="async" fetchPriority="low" src={arrow} alt="" /></Link>
                         </div>
                         <p className="mobile-categories__counter">{index+1}/4</p>
                     </div>
@@ -78,5 +99,6 @@ export default function MobileCategoryCarousel() {
             </article>)}
         </div>
         <span className="mobile-categories__announcement" aria-live="polite">{activeIndex+1}/4 {CATEGORIES[activeIndex].title}</span>
+        </div>
     </section>;
 }

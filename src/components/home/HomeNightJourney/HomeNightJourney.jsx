@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef } from 'react';
+import { createDampedValue, MOTION_RESPONSE } from '../scrollMotion';
 import { Link } from 'react-router-dom';
 import columns from '../HomeNightRitual/assets/columns.png';
 import foregroundFlowers from '../HomeNightRitual/assets/foreground-flowers.png';
@@ -22,7 +23,7 @@ function ViewMore({ href }) {
     return (
         <Link className="night-journey__view-more" to={href}>
             <span>View More</span>
-            <img src={buttonArrow} alt="" />
+            <img loading="lazy" decoding="async" fetchPriority="low" src={buttonArrow} alt="" />
         </Link>
     );
 }
@@ -30,7 +31,7 @@ function ViewMore({ href }) {
 function Category({ category, mobile = false }) {
     return (
         <div className={mobile ? 'night-journey__category night-journey__category--mobile' : 'night-journey__category'}>
-            <img className="night-journey__window" src={category.image} alt={category.alt} />
+            <img loading="lazy" decoding="async" fetchPriority="low" className="night-journey__window" src={category.image} alt={category.alt} />
             <div className="night-journey__category-copy">
                 <div className="night-journey__category-heading">
                     <p className="night-journey__category-number">{category.number}</p>
@@ -46,7 +47,7 @@ function Category({ category, mobile = false }) {
 function Particle({ particle, panelIndex, index }) {
     const attached = panelIndex === 0 && particle.motionType === 'botanical';
     const artwork = (
-        <img
+        <img loading="lazy" decoding="async" fetchPriority="low"
             src={particle.src}
             alt=""
             style={{ width: particle.imageWidth, height: particle.imageHeight, transform: `rotate(${particle.rotation}deg)` }}
@@ -84,7 +85,7 @@ export default function HomeNightJourney() {
     useLayoutEffect(() => {
         const root = rootRef.current;
         const track = trackRef.current;
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         const desktop = window.matchMedia('(min-width: 768px)');
         const particles = [...root.querySelectorAll('[data-night-particle]')].map((element, index) => ({
             element,
@@ -98,12 +99,19 @@ export default function HomeNightJourney() {
             stagger: (((index * 7) % 11) - 5) * 0.025,
         }));
         let frame = 0;
+        const camera = createDampedValue({ response: MOTION_RESPONSE.background, maxLag: 0.12 });
+        const foreground = createDampedValue({ response: MOTION_RESPONSE.foreground, maxLag: 0.12 });
+        const entryMotion = createDampedValue({ response: MOTION_RESPONSE.foreground });
+        let measuredWidth = 0;
+        let measuredHeight = 0;
 
-        const render = () => {
+        const render = now => {
             frame = 0;
             if (!desktop.matches) {
                 root.style.height = '';
                 track.style.transform = '';
+                measuredWidth = 0;
+                measuredHeight = 0;
                 return;
             }
 
@@ -114,23 +122,20 @@ export default function HomeNightJourney() {
             // Centering or height-fitting this canvas breaks the split botanical
             // artwork at the section boundary on non-16:9 viewports.
             const scale = width / DESIGN_WIDTH;
-            root.style.height = `${viewportHeight + travel}px`;
-            root.style.setProperty('--night-journey-scale', scale);
-
-            const top = root.getBoundingClientRect().top;
-            const shift = clamp(-top, 0, travel);
-            track.style.transform = `translate3d(${-shift}px, 0, 0)`;
-
-            if (reducedMotion.matches) {
-                particles.forEach(({ element, baseOpacity }) => {
-                    element.style.transform = '';
-                    element.style.opacity = baseOpacity;
-                });
-                return;
+            if (width !== measuredWidth || viewportHeight !== measuredHeight) {
+                measuredWidth = width;
+                measuredHeight = viewportHeight;
+                root.style.height = `${viewportHeight + travel}px`;
+                root.style.setProperty('--night-journey-scale', scale);
             }
 
-            const panelProgress = Math.min(shift, travel) / width;
-            const entry = clamp((viewportHeight - top) / viewportHeight, 0, 1);
+            const top = root.getBoundingClientRect().top;
+            const target = clamp(-top, 0, travel) / width;
+            const shift = camera.update(target, now, false) * width;
+            track.style.transform = `translate3d(${-shift}px, 0, 0)`;
+
+            const panelProgress = foreground.update(target, now, false);
+            const entry = entryMotion.update(clamp((viewportHeight - top) / viewportHeight, 0, 1), now, false);
 
             particles.forEach(({ element, panel, baseOpacity, phase, depth, driftX, driftY, spin, stagger }) => {
                 // Con6 is revealed by normal vertical scroll, then settles at its
@@ -150,6 +155,7 @@ export default function HomeNightJourney() {
                 element.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${angle.toFixed(2)}deg) scale(${size.toFixed(3)})`;
                 element.style.opacity = (baseOpacity * fadeIn * fadeOut).toFixed(3);
             });
+            if (camera.moving || foreground.moving || entryMotion.moving) frame = requestAnimationFrame(render);
         };
 
         const schedule = () => {
@@ -160,15 +166,15 @@ export default function HomeNightJourney() {
         window.addEventListener('scroll', schedule, { passive: true });
         window.addEventListener('resize', schedule);
         desktop.addEventListener('change', schedule);
-        reducedMotion.addEventListener('change', schedule);
-        render();
+
+        schedule();
 
         return () => {
             observer.disconnect();
             window.removeEventListener('scroll', schedule);
             window.removeEventListener('resize', schedule);
             desktop.removeEventListener('change', schedule);
-            reducedMotion.removeEventListener('change', schedule);
+
             if (frame) window.cancelAnimationFrame(frame);
         };
     }, []);
@@ -183,9 +189,9 @@ export default function HomeNightJourney() {
                             <div className="night-journey__canvas">
                                 {panelIndex === 0 && (
                                     <>
-                                        <div className="night-journey__columns"><img src={columns} alt="" /></div>
+                                        <div className="night-journey__columns"><img loading="lazy" decoding="async" fetchPriority="low" src={columns} alt="" /></div>
                                         <div className="night-journey__foreground-flowers">
-                                            <span className="night-journey__wind night-journey__wind--branch" data-motion-type="branch"><img src={foregroundFlowers} alt="" /></span>
+                                            <span className="night-journey__wind night-journey__wind--branch" data-motion-type="branch"><img loading="lazy" decoding="async" fetchPriority="low" src={foregroundFlowers} alt="" /></span>
                                         </div>
                                     </>
                                 )}

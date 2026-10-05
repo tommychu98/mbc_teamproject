@@ -166,10 +166,6 @@
     50% { transform: rotate(-106.57deg); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .home-night-ritual__rose img { animation: none; }
-}
-
 .home-night-ritual__columns {
     left: calc(-437 * var(--night-unit));
     top: calc(1404 * var(--night-unit));

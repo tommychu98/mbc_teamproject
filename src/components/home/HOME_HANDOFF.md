@@ -1,3 +1,24 @@
+# Commit verification: 2026-10-06
+
+User authorized a home-only commit after additional checks. Repeated home ESLint and production build passed. Rechecked mobile autoplay, five viewport sizes, history settling, touch swipe, category pin, TOP and leaf exit in Chrome. Shared navigation/global changes are excluded from the commit. Physical iPhone Safari and exact Figma comparison remain unverified. No push requested.
+
+# HOME review: 2026-10-06
+
+- Current branch: feature/home. Origin: https://github.com/tommychu98/mbc_teamproject.git.
+- Preserved unfinished main work in stash, switched to the existing feature/home branch and restored the working files. Backup stash retained. No pull, staging, commit or push performed.
+- Reviewed every file under home, including hidden verification material, imports and binary asset integrity. No deletions or renames.
+- Added the missing scrollMotion helper and hero video/poster assets inside home so this branch can load them without outside edits.
+- Updated mobile autoplay after logo reveal, hidden mobile EXPLORE, viewport sizing and history settling, sticky swipe categories and dark menu, slower Day leaf exit and immediate faster 3D rotation.
+- Outside home, existing Navigation.jsx, Navigation.css and styles/global.css changes remain exactly preserved. Team lead must review shared navigation integration. Submit home paths only.
+- Installed dependencies match lockfile: npm ci unnecessary. Home ESLint, production build and whitespace checks pass. Existing large bundle warning remains.
+- Actual Chrome checks: mobile 320x568, 390x844, 430x932, 590x1263 and 767x900; desktop 768x1024, 1920x1080 and 2560x1600. Checked viewport bounds, no horizontal overflow, autoplay, slides, TOP, 3D loading and View Again. No runtime exceptions observed.
+- Not verified: physical iPhone Safari/low-power autoplay restrictions, deployment, precise Figma comparison and unrelated pages. Native controls are available if autoplay is blocked.
+- Preview: npm run dev -- --host 127.0.0.1; http://127.0.0.1:5173/ . Check hero, history settling, category pin/swipe and 3D replay.
+
+---
+
+Previous work records below; use the current review above for Git and validation status.
+
 # HOME 인수인계
 
 ## 2026-10-05 현재 작업 검토

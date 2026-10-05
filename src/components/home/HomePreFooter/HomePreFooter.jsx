@@ -61,7 +61,7 @@ export default function HomePreFooter() {
                 {services.map(service => (
                     <article className="home-pre-footer__service" data-node-id={service.id} key={service.title}>
                         <div className="home-pre-footer__image" data-node-id={service.imageId}>
-                            <img src={service.image} alt="" loading="lazy" draggable="false" />
+                            <img decoding="async" fetchPriority="low" src={service.image} alt="" loading="lazy" draggable="false" />
                         </div>
                         <div className="home-pre-footer__copy">
                             <h3>{service.title}</h3>

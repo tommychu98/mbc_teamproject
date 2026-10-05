@@ -7,18 +7,18 @@ export default function NightBackground() {
     const [moving, setMoving] = useState(false);
 
     useEffect(() => {
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         let visible = false;
-        const update = () => setMoving(visible && !reduced.matches);
+        const update = () => setMoving(visible);
         const observer = new IntersectionObserver(([entry]) => {
             visible = entry.isIntersecting;
             update();
         });
         observer.observe(imageRef.current);
-        reduced.addEventListener('change', update);
+
         return () => {
             observer.disconnect();
-            reduced.removeEventListener('change', update);
+
         };
     }, []);
 
@@ -42,7 +42,7 @@ export default function NightBackground() {
                     </filter>
                 </defs>
             </svg>
-            <img ref={imageRef} className="home-night-ritual__background" src={background} alt="" style={{ filter: moving ? `url(#${filterId})` : 'none' }} />
+            <img loading="lazy" decoding="async" fetchPriority="low" ref={imageRef} className="home-night-ritual__background" src={background} alt="" style={{ filter: moving ? `url(#${filterId})` : 'none' }} />
         </>
     );
 }

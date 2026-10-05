@@ -38,9 +38,9 @@ export default function MobileNightWind() {
     useAmbientWind(rootRef, true);
     return <div className="home-mobile-wind" ref={rootRef} data-node-id="2452:12489" aria-hidden="true">
         <div className="home-mobile-wind__canvas night-journey__canvas">
-            <div className="home-mobile-wind__branch"><img src={flowers} alt="" /></div>
+            <div className="home-mobile-wind__branch"><img loading="lazy" decoding="async" fetchPriority="low" src={flowers} alt="" /></div>
             {PARTICLES.map(([src,x,y,w,h,iw,ih,angle,opacity,type],index) => <span className="home-mobile-wind__particle" key={index} style={{left:x,top:y,width:w,height:h,opacity}}>
-                <span className="night-journey__wind" data-motion-type={type}><img src={src} alt="" style={{width:iw,height:ih,transform:`rotate(${angle}deg)`}} /></span>
+                <span className="night-journey__wind" data-motion-type={type}><img loading="lazy" decoding="async" fetchPriority="low" src={src} alt="" style={{width:iw,height:ih,transform:`rotate(${angle}deg)`}} /></span>
             </span>)}
         </div>
     </div>;

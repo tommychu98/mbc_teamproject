@@ -9,7 +9,7 @@ export default function HomeTopButton() {
             aria-label="홈 맨 위로 이동"
             onClick={() => window.scrollTo({
                 top: 0,
-                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+                behavior: 'smooth',
             })}
         >
             <img src={topArrow} alt="" aria-hidden="true" width="13" height="17" />

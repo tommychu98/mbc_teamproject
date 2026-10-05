@@ -27,7 +27,6 @@
 .home-mobile-night__collection img { position: absolute; left: 46px; top: 19px; }
 .home-mobile-night__collection:focus-visible { outline: 2px solid #f7f6f4; outline-offset: 4px; }
 @keyframes home-mobile-night-sway { 0%,100% { transform: rotate(-.7deg); } 50% { transform: rotate(1deg); } }
-@media (prefers-reduced-motion: reduce) { .home-mobile-night__rose, .home-mobile-night__flowers { animation: none; } }
 @media (max-width: 767px) {
     body.home-mobile-night-active .header--home { background: #222; color: #f7f6f4; }
     body.home-mobile-night-active .header--home .header__inner img { filter: invert(1); }

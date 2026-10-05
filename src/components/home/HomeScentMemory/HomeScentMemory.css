@@ -41,8 +41,8 @@
 
 .home-scent-memory__copy {
     position: absolute;
-    /* Center the block within the visible portion of the unchanged sticky frame. */
-    top: min(50%, 50svh);
+    /* Center the block within the visible portion of the sticky frame. */
+    top: min(50%, 50dvh);
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40cqw;
@@ -61,10 +61,21 @@
 
 .home-scent-memory__line { display: block; }
 
+@media (min-width: 768px) {
+    .home-scent-memory__stage {
+        min-height: 100dvh;
+    }
+    .home-scent-memory__lemon {
+        /* Keep the same image size and cut line as Day's 1920px canvas. */
+        top: calc(100% - 16.145833cqw);
+        height: 48.75cqw;
+    }
+}
+
 @media (max-width: 767px) {
     .home-scent-memory__stage {
         top: calc(52px + env(safe-area-inset-top, 0px));
-        height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+        height: calc(100dvh - 52px - env(safe-area-inset-top, 0px));
         aspect-ratio: auto;
     }
     .home-scent-memory__copy {

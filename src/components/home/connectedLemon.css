@@ -10,8 +10,3 @@
     0%, 100% { transform: rotate(-.8deg); }
     50% { transform: rotate(1.1deg); }
 }
-
-@media (prefers-reduced-motion: reduce) {
-    .home-scent-memory__lemon,
-    .home-day-ritual__top-lemon { animation: none; }
-}

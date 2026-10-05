@@ -40,7 +40,8 @@ export default function useFilmTransition(sectionRef) {
         };
         const measure = () => {
             const designScale = section.clientWidth / DESIGN_WIDTH;
-            section.style.setProperty('--film-stage-height', `${FILM_HEIGHT * designScale}px`);
+            const stageHeight = Math.max(FILM_HEIGHT * designScale, window.innerHeight);
+            section.style.setProperty('--film-stage-height', `${stageHeight}px`);
             const nightLead = Math.max(0, NIGHT_TOP + NIGHT_INTRO_TOP - FILM_TOP - FILM_HEIGHT - EXISTING_NIGHT_INTRO_TOP - NIGHT_GAP_REDUCTION) * designScale;
             section.style.setProperty('--film-day-lead', '0px');
             section.style.setProperty('--film-night-lead', `${nightLead}px`);
@@ -51,13 +52,13 @@ export default function useFilmTransition(sectionRef) {
         if (day) observer.observe(day);
         measure();
         window.addEventListener('scroll', scheduleReveal, { passive: true });
-        window.addEventListener('resize', scheduleReveal);
+        window.addEventListener('resize', measure);
         reducedMotion.addEventListener('change', scheduleReveal);
         return () => {
             observer.disconnect();
             window.cancelAnimationFrame(frame);
             window.removeEventListener('scroll', scheduleReveal);
-            window.removeEventListener('resize', scheduleReveal);
+            window.removeEventListener('resize', measure);
             reducedMotion.removeEventListener('change', scheduleReveal);
         };
     }, [sectionRef]);

@@ -209,7 +209,7 @@
 @media (max-width: 767px) {
     .night-journey { height: auto !important; }
     .night-journey__stage { display: none; }
-    .night-journey__mobile { display: block; position: relative; overflow: hidden; isolation: isolate; }
+    .night-journey__mobile { display: block; position: relative; overflow: clip; isolation: isolate; }
     .night-journey__mobile-con6 { position: relative; height: 260px; overflow: hidden; }
     .night-journey__mobile-con6 img {
         position: absolute;

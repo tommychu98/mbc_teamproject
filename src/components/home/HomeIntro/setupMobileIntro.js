@@ -1,45 +1,68 @@
 import gsap from 'gsap';
 
+const PLAYBACK_REVEAL_START = 1;
+
 export default function setupMobileIntro({ root, video, logo, mist, overlay, topButton, downButton }) {
     let started = false;
     let consumeGesture = false;
     let disposed = false;
+    let visible = false;
+    let playPending = false;
+    // Set the media properties explicitly for muted inline autoplay on iOS.
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.controls = false;
+    // Gate presentation in onPlay, without cancelling initial media buffering.
     const reveal = { progress: 0 };
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const paint = () => {
         const p = gsap.parseEase('power2.inOut')(reveal.progress);
         const diffusion = p * p * (3 - 2 * p);
         const settle = gsap.utils.clamp(0, 1, (p - .62) / .38);
-        gsap.set(mist, {
-            attr: { transform: `translate(${960 - 55 * diffusion} ${540 - 35 * diffusion}) scale(${.18 + diffusion * 3.7} ${.24 + diffusion * 3.1})` },
-            opacity: gsap.utils.clamp(0, 1, p / .35),
-        });
+        gsap.set(mist, { attr: { transform: `translate(${960 - 55 * diffusion} ${540 - 35 * diffusion}) scale(${.18 + diffusion * 3.7} ${.24 + diffusion * 3.1})` }, opacity: gsap.utils.clamp(0, 1, p / .35) });
         gsap.set(overlay, { opacity: 1 - settle * settle * (3 - 2 * settle), visibility: p === 1 ? 'hidden' : 'visible' });
         gsap.set([logo, topButton], { autoAlpha: 1 - diffusion });
         gsap.set(topButton, { pointerEvents: p === 1 ? 'none' : 'auto' });
         gsap.set(downButton, { autoAlpha: p === 1 ? .8 : 0, pointerEvents: p === 1 ? 'auto' : 'none' });
-        gsap.set(video, { opacity: Math.min(1, p / .75), filter: p === 1 ? 'none' : `blur(${12 * (1 - diffusion)}px)` });
+        gsap.set(video, { opacity: Math.min(1, p / .75) });
+        syncPlayback();
     };
+    const syncPlayback = () => {
+        if (disposed || video.ended) return;
+        if (!visible || reveal.progress < PLAYBACK_REVEAL_START || document.hidden) { if (!video.paused) video.pause(); return; }
+        if (!video.paused || playPending) return;
+        playPending = true;
+        video.play().catch(error => {
+            if (!disposed && error.name === 'NotAllowedError') video.controls = true;
+        }).finally(() => { playPending = false; });
+    };
+    const onPlay = () => {
+        if (!visible || reveal.progress < PLAYBACK_REVEAL_START || document.hidden) video.pause();
+    };
+    const onPlaying = () => { video.controls = false; root.dataset.videoState = 'playing'; };
+    const visibility = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; syncPlayback(); });
+    visibility.observe(root);
+    video.addEventListener('play', onPlay);
+    video.addEventListener('playing', onPlaying);
+    video.addEventListener('loadeddata', syncPlayback);
+    video.addEventListener('canplay', syncPlayback);
+    document.addEventListener('visibilitychange', syncPlayback);
     let timeline;
     const context = gsap.context(() => {
         gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0 });
         paint();
         timeline = gsap.timeline({ paused: true }).to(reveal, {
-            progress: 1,
-            duration: reduced ? .2 : 1.3,
-            ease: 'none',
-            onUpdate: paint,
-            onComplete: () => video.play().catch(() => { if (!disposed) video.controls = true; }),
+            progress: 1, duration: 1.3, ease: 'none', onUpdate: paint,
+            onComplete: syncPlayback,
         });
     }, root);
-    // Include the reveal duration in the two-second automatic start window.
     let autoStartTimer;
     const start = () => {
         if (started || disposed || document.querySelector('.intro-video')) return;
         started = true;
         clearTimeout(autoStartTimer);
         observer.disconnect();
-        video.play().catch(() => { if (!disposed) video.controls = true; });
         timeline.play();
     };
     const scheduleStart = () => {
@@ -51,14 +74,13 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
     const isControl = target => target instanceof Element && !!target.closest('button, a, input');
     const onTouchStart = event => {
         consumeGesture = false;
+        syncPlayback();
         if ((started && reveal.progress === 1) || event.touches.length !== 1 || isControl(event.target)) return;
         consumeGesture = true;
         if (event.cancelable) event.preventDefault();
         start();
     };
-    const onTouchMove = event => {
-        if (consumeGesture && event.cancelable) event.preventDefault();
-    };
+    const onTouchMove = event => { if (consumeGesture && event.cancelable) event.preventDefault(); };
     const onTouchEnd = () => { consumeGesture = false; };
     const onWheel = event => {
         if ((started && reveal.progress === 1) || !event.deltaY || isControl(event.target)) return;
@@ -66,6 +88,7 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
         start();
     };
     const onPointerDown = event => {
+        syncPlayback();
         if (event.pointerType !== 'touch' && !isControl(event.target)) start();
     };
     const onKeyDown = event => {
@@ -84,6 +107,12 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
     return () => {
         disposed = true;
         observer.disconnect();
+        visibility.disconnect();
+        video.removeEventListener('play', onPlay);
+        video.removeEventListener('playing', onPlaying);
+        video.removeEventListener('loadeddata', syncPlayback);
+        video.removeEventListener('canplay', syncPlayback);
+        document.removeEventListener('visibilitychange', syncPlayback);
         clearTimeout(autoStartTimer);
         root.removeEventListener('touchstart', onTouchStart);
         root.removeEventListener('touchmove', onTouchMove);
@@ -92,7 +121,7 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
         root.removeEventListener('wheel', onWheel);
         root.removeEventListener('pointerdown', onPointerDown);
         window.removeEventListener('keydown', onKeyDown);
-        video.pause();
+        if (!video.paused) video.pause();
         context.revert();
     };
 }

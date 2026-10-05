@@ -11,13 +11,13 @@ const groups = [
     { name: 'D1', assets: ['element-28.png'], shift: 15, lift: 15, bend: -1, angle: 2.6, tilt: .2, point: [1660, 690], pivot: [1601, 649] },
     { name: 'D2', assets: ['element-07.png'], shift: 16, lift: 17, bend: -1, angle: 2.9, tilt: .22, point: [1780, 650], pivot: [1733, 589] },
 ];
-const waveDuration = .65;
+const waveDuration = .3;
 
 export default function useCon6Wind(rootRef, mobile = false) {
     useEffect(() => {
         const root = rootRef.current;
         const panel = root.querySelector('[data-node-id="2863:8195"]');
-        const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
         const desktop = matchMedia('(min-width: 768px)');
         const fragments = [...panel.querySelectorAll('.night-journey__botanical-response')];
         const foreground = panel.querySelector('.night-journey__foreground-flowers');
@@ -58,7 +58,7 @@ export default function useCon6Wind(rootRef, mobile = false) {
         const impulse = { forward: 0, reverse: 0 };
         const wind = { forward: 0, reverse: 0 };
         const history = [];
-        const enabled = () => visibleElements.size > 0 && desktop.matches && !reduced.matches && !document.hidden;
+        const enabled = () => (visibleElements.size > 0 && desktop.matches) && !document.hidden;
         const clear = () => {
             cancelAnimationFrame(frame);
             frame = 0;
@@ -77,8 +77,8 @@ export default function useCon6Wind(rootRef, mobile = false) {
             previousTime = now;
             elapsed += dt;
             for (const direction of ['forward', 'reverse']) {
-                impulse[direction] *= Math.exp(-dt / 0.8);
-                wind[direction] += (impulse[direction] - wind[direction]) * (1 - Math.exp(-dt / 0.28));
+                impulse[direction] *= Math.exp(-dt / 0.35);
+                wind[direction] += (impulse[direction] - wind[direction]) * (1 - Math.exp(-dt / 0.16));
             }
             history.push({ time: now, ...wind });
             while (history.length > 2 && history[1].time < now - (waveDuration + .2) * 1000) history.shift();
@@ -106,7 +106,7 @@ export default function useCon6Wind(rootRef, mobile = false) {
                     + .075 * Math.sin(time * .83 + .7)) * envelope;
                 const target = Math.max(-.5, Math.min(.5, breeze + (forward - reverse) * .2));
                 // Exact critically damped response: continuous velocity, no overshoot/bounce.
-                const stiffness = 2.2;
+                const stiffness = 5.5;
                 const displacement = object.value - target;
                 const combined = object.velocity + stiffness * displacement;
                 const decay = Math.exp(-stiffness * dt);
@@ -169,13 +169,13 @@ export default function useCon6Wind(rootRef, mobile = false) {
         if (adjoining) observer.observe(adjoining);
         addEventListener('scroll', onScroll, { passive: true });
         document.addEventListener('visibilitychange', onAvailability);
-        reduced.addEventListener('change', onAvailability);
+
         desktop.addEventListener('change', onAvailability);
         return () => {
             observer.disconnect();
             removeEventListener('scroll', onScroll);
             document.removeEventListener('visibilitychange', onAvailability);
-            reduced.removeEventListener('change', onAvailability);
+
             desktop.removeEventListener('change', onAvailability);
             clear();
             objects.forEach(object => object.elements.forEach(({ element, original }) => {

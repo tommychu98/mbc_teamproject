@@ -1,7 +1,8 @@
 import { useLayoutEffect, useRef } from 'react';
+import { easeInOut } from '../scrollMotion';
 
 const clamp = (value) => Math.min(1, Math.max(0, value));
-const FLIGHT_DURATION_MS = 850;
+const FLIGHT_DURATION_MS = 1400;
 const PATH_SAMPLES = 128;
 // One cubic Bezier, with opposing control-point offsets forming one S bend.
 const curvePoint = (t, distance, rise) => {
@@ -21,9 +22,9 @@ const measureCurve = (distance, rise) => {
     return lengths;
 };
 const pathParameter = (progress, lengths) => {
-    // A single gentle acceleration, with nonzero initial momentum. Arc-length
-    // mapping prevents the S bend from slowing the leaf down in the middle.
-    const momentum = 0.85 * progress + 0.15 * progress * progress;
+    // Ease both ends while arc-length mapping keeps the S bend from introducing
+    // an unintended slowdown in the middle.
+    const momentum = easeInOut(progress);
     const target = momentum * lengths[PATH_SAMPLES];
     let low = 0;
     let high = PATH_SAMPLES;
@@ -41,7 +42,7 @@ export default function useLeafExit(sectionRef, leafRef, scale) {
     useLayoutEffect(() => {
         const section = sectionRef.current;
         const leaf = leafRef.current;
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
         let frameId = 0;
         let start = 0;
         let exitDistance = 0;
@@ -88,7 +89,7 @@ export default function useLeafExit(sectionRef, leafRef, scale) {
             // Scroll only selects playback direction when the same boundary is
             // crossed. The clock, not scroll distance or velocity, drives motion.
             const beyondTrigger = window.scrollY >= start;
-            if (reducedMotion.matches || beyondTrigger === flightState.beyondTrigger) return;
+            if ((beyondTrigger === flightState.beyondTrigger)) return;
             const now = performance.now();
             flightState.anchorProgress = advanceClock(now);
             flightState.beyondTrigger = beyondTrigger;
@@ -121,14 +122,14 @@ export default function useLeafExit(sectionRef, leafRef, scale) {
         if (section.parentElement) observer.observe(section.parentElement);
         window.addEventListener('scroll', checkTrigger, { passive: true });
         window.addEventListener('resize', measure);
-        reducedMotion.addEventListener('change', measure);
+
         measure();
         return () => {
             cancelAnimationFrame(frameId);
             observer.disconnect();
             window.removeEventListener('scroll', checkTrigger);
             window.removeEventListener('resize', measure);
-            reducedMotion.removeEventListener('change', measure);
+
             properties.forEach((property) => leaf.style.removeProperty(property));
             leaf.style.willChange = '';
         };

@@ -20,13 +20,7 @@
 .home-mobile-story__object img { width: 32px; height: 49px; opacity: .7; }
 .home-mobile-story__photo { position: absolute; left: -34px; top: 82px; width: 150.884px; height: 165.935px; margin: 0; }
 .home-mobile-story__photo-image { display: grid; place-items: center; width: 100%; height: 100%; }
-.home-mobile-story__photo-image img { width: 119.63px; height: 140.556px; object-fit: cover; transform: rotate(-14.43deg); }
-.home-mobile-story__photo figcaption,
-.home-mobile-story__photo-code,
-.home-mobile-story__photo-number { position: absolute; color: #000; transform: rotate(-20.62deg); transform-origin: center; line-height: normal; }
-.home-mobile-story__photo figcaption { left: 44.9px; top: 101.58px; width: 97.249px; font: 700 6px 'HomeDayRitual Dotum', sans-serif; }
-.home-mobile-story__photo-code { left: 48.92px; top: 139.73px; width: 20.493px; font: 300 4px sans-serif; }
-.home-mobile-story__photo-number { left: 131.06px; top: 112.48px; width: 9.456px; font: 300 5px sans-serif; }
+.home-mobile-story__photo-image img { width: 100%; height: 100%; object-fit: contain; }
 .home-mobile-story__house { position: absolute; left: 84px; top: 228px; width: 262px; height: 223px; overflow: hidden; }
 .home-mobile-story__house img { position: absolute; width: 181.43%; height: 119.9%; left: 2.71%; top: -7.46%; }
 .home-mobile-story__leaf { position: absolute; left: 218.11px; top: 398.93px; width: 345.222px; height: 244.052px; display: grid; place-items: center; }

@@ -34,4 +34,3 @@
     .home-mobile-day__collection:focus-visible { outline: 2px solid #4b4b4b; outline-offset: 4px; }
 }
 @keyframes home-mobile-day-sway { 0%, 100% { transform: rotate(-.8deg); } 50% { transform: rotate(1.1deg); } }
-@media (prefers-reduced-motion: reduce) { .home-mobile-day__left, .home-mobile-day__floral { animation: none; } }
