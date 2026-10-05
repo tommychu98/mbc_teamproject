@@ -4,7 +4,6 @@ import mobileCard1 from './assets/mobile-velvet-woods.png';
 import mobileCard2 from './assets/mobile-afterglow.png';
 const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
-import useCon2Swipe from './useCon2Swipe';
 import { useRef } from 'react';
 import useCon5InkDrawing from './useCon5InkDrawing';
 import background from './assets/con5-background.png';
@@ -39,7 +38,15 @@ const cards = [
 
 export default function Con5() {
   const { railRef, active } = useMobileCards();
-  const nextCard = useCon2Swipe(railRef);
+  const nextCard = () => {
+    const rail = railRef.current;
+    if (!rail || !window.matchMedia('(width < 768px)').matches) return;
+    const step = rail.children[1].offsetLeft - rail.children[0].offsetLeft;
+    rail.scrollTo({
+      left: (active % cards.length) * step,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    });
+  };
   const sectionRef = useRef(null);
   useCon5InkDrawing(sectionRef);
   return (
