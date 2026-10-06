@@ -1,92 +1,95 @@
 import { useEffect, useRef, useState } from 'react';
 import './HistoryObjects.css';
+import { singlePlayGif } from './FabricPickupOnce';
 
 const asset = (name) => `/images/history/objects/${name}`;
 
-// 151 frames at 40ms per frame in objects-walking-figure.gif.
-const WALKING_DURATION_MS = 6040;
+const WALKING_HAT_TOP_RATIO = 170 / 2494;
+let walkingPlaybackPromise;
+
+const loadWalkingGif = () => {
+  if (!walkingPlaybackPromise) {
+    walkingPlaybackPromise = fetch(asset('objects-walking-figure.gif'))
+      .then((response) => {
+        if (!response.ok) throw new Error('Unable to load walking animation');
+        return response.arrayBuffer();
+      })
+      .then(singlePlayGif);
+  }
+  return walkingPlaybackPromise;
+};
 
 function WalkingFigure() {
   const containerRef = useRef(null);
-  const canvasRef = useRef(null);
   const timerRef = useRef(null);
   const [status, setStatus] = useState('waiting');
-  const canDecodeFrames = typeof window.ImageDecoder === 'function';
+  const [frameReady, setFrameReady] = useState(false);
+  const [playbackUrl, setPlaybackUrl] = useState(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
+    let frame;
+    let started = false;
+    let lastScrollY = window.scrollY;
+    loadWalkingGif().catch(() => {});
+    const scheduleCheck = () => {
+      if (frame === undefined) frame = window.requestAnimationFrame(checkHat);
+    };
+    const checkHat = () => {
+      frame = undefined;
+      if (started) return;
+      const currentScrollY = window.scrollY;
+      const movingDown = currentScrollY >= lastScrollY;
+      lastScrollY = currentScrollY;
+      if (!movingDown) return;
+      const bounds = containerRef.current.getBoundingClientRect();
+      const hatTop = bounds.top + bounds.height * WALKING_HAT_TOP_RATIO;
+      if (hatTop > window.innerHeight || bounds.bottom <= 0) return;
+      started = true;
       setStatus('playing');
-      observer.disconnect();
-    }, { threshold: 0.1 });
-    observer.observe(containerRef.current);
+    };
+    const resetPlayback = () => {
+      started = false;
+      lastScrollY = window.scrollY;
+      setFrameReady(false);
+      setStatus('waiting');
+    };
+    checkHat();
+    window.addEventListener('scroll', scheduleCheck, { passive: true });
+    window.addEventListener('resize', scheduleCheck);
+    window.addEventListener('diptyque-history:reset-objects-walking', resetPlayback);
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', scheduleCheck);
+      window.removeEventListener('resize', scheduleCheck);
+      window.removeEventListener('diptyque-history:reset-objects-walking', resetPlayback);
+      if (frame !== undefined) window.cancelAnimationFrame(frame);
       window.clearTimeout(timerRef.current);
     };
   }, []);
 
   useEffect(() => {
-    if (status !== 'playing' || !canDecodeFrames) return;
-    const controller = new AbortController();
-    let decoder;
-    let cancelled = false;
-    let frameTimer;
-
-    const playOnce = async () => {
-      try {
-        const response = await fetch(asset('objects-walking-figure.gif'), {
-          signal: controller.signal,
-        });
-        if (!response.ok) throw new Error('Unable to load walking animation');
-        const data = await response.arrayBuffer();
-        if (cancelled) return;
-        decoder = new window.ImageDecoder({ data, type: 'image/gif' });
-        await decoder.tracks.ready;
-        const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
-        const frameCount = decoder.tracks.selectedTrack.frameCount;
-
-        const drawFrame = async (frameIndex) => {
-          try {
-            if (cancelled) return;
-            if (frameIndex === frameCount) {
-              context.clearRect(0, 0, canvas.width, canvas.height);
-              setStatus('finished');
-              return;
-            }
-            const { image } = await decoder.decode({ frameIndex });
-            if (cancelled) { image.close(); return; }
-            if (canvas.width !== image.displayWidth || canvas.height !== image.displayHeight) {
-              canvas.width = image.displayWidth;
-              canvas.height = image.displayHeight;
-            }
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            context.drawImage(image, 0, 0);
-            const duration = image.duration / 1000 || 40;
-            image.close();
-            frameTimer = window.setTimeout(() => drawFrame(frameIndex + 1), duration);
-          } catch {
-            if (!cancelled) setStatus('finished');
-          }
-        };
-        await drawFrame(0);
-      } catch {
-        if (!cancelled) setStatus('finished');
-      }
-    };
-    playOnce();
+    if (status !== 'playing') return undefined;
+    let disposed = false;
+    let objectUrl;
+    loadWalkingGif().then(({ blob }) => {
+      if (disposed) return;
+      objectUrl = URL.createObjectURL(blob);
+      setPlaybackUrl(objectUrl);
+    }).catch(() => {
+      if (!disposed) setStatus('finished');
+    });
     return () => {
-      cancelled = true;
-      controller.abort();
-      window.clearTimeout(frameTimer);
-      decoder?.close();
+      disposed = true;
+      window.clearTimeout(timerRef.current);
+      setPlaybackUrl(null);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [status, canDecodeFrames]);
+  }, [status]);
 
-  const finishAfterPlayback = () => {
+  const beginPlaybackTimer = async () => {
+    const { duration } = await loadWalkingGif();
+    setFrameReady(true);
     window.clearTimeout(timerRef.current);
-    timerRef.current = window.setTimeout(() => setStatus('finished'), WALKING_DURATION_MS);
+    timerRef.current = window.setTimeout(() => setStatus('finished'), duration);
   };
 
   return (
@@ -94,16 +97,24 @@ function WalkingFigure() {
       ref={containerRef}
       className="history-objects__asset history-objects__walking-figure"
       aria-hidden="true"
+      data-objects-playback={status}
       style={{ visibility: status === 'finished' ? 'hidden' : undefined }}
     >
-      {status === 'playing' && canDecodeFrames && (
-        <canvas ref={canvasRef} style={{ display: 'block', width: '100%', height: '100%' }} />
-      )}
-      {status === 'playing' && !canDecodeFrames && (
+      {(status === 'waiting' || (status === 'playing' && !frameReady)) && (
         <img
-          src={asset('objects-walking-figure.gif')}
+          src={asset('objects-walking-figure.png')}
           alt=""
-          onLoad={finishAfterPlayback}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+        />
+      )}
+      {status === 'playing' && playbackUrl && (
+        <img
+          src={playbackUrl}
+          alt=""
+          style={{ visibility: frameReady ? 'visible' : 'hidden' }}
+          onLoad={beginPlaybackTimer}
           onError={() => setStatus('finished')}
         />
       )}

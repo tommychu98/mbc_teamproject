@@ -68,7 +68,7 @@
   transform: translate(-50%, -50%);
   font-family: var(--font-family-sans);
   font-size: min(.833333vw, var(--text-web-body-l2-do-size));
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-regular);
   line-height: var(--text-web-body-l2-do-line-height);
   letter-spacing: var(--text-web-body-l2-do-letter-spacing);
   text-align: center;

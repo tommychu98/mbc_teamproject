@@ -8,7 +8,7 @@
  .history-candle-mobile__image { position: absolute; max-width: none; object-fit: fill; }
  .history-candle-mobile__copy { position: absolute; z-index: 3; left: 39.767442cqw; top: calc(9.302326cqw + 52px); width: 49.302326cqw; }
  .history-candle-mobile__copy h2 { margin: 0 0 5.813953cqw; font: 400 9.302326cqw/1.1 var(--font-family-display); letter-spacing: 0; }
- .history-candle-mobile__copy p { margin: 0; font: 300 3.255814cqw/1.4 'KoPubWorldDotum Pro',sans-serif; letter-spacing: .065116cqw; }
+ .history-candle-mobile__copy p { margin: 0; font: 400 3.255814cqw/1.4 'KoPubWorldDotum Pro',sans-serif; letter-spacing: .065116cqw; }
  .history-candle-mobile__copy p + p { margin-top: 4.651163cqw; }
  .history-candle-mobile__light { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
  /* Flame grows upwards from the image's wick (50%, 22.3%), never away from it. */
@@ -22,7 +22,7 @@
  .history-scent-space-mobile__people { position: absolute; z-index: 1; left: 2.55814cqw; top: 88.837209cqw; width: 102.093023cqw; height: 136.511628cqw; max-width: none; object-fit: fill; }
  .history-scent-space-mobile__copy { position: absolute; z-index: 3; left: 46.046512cqw; top: 21.395349cqw; width: 49.302326cqw; }
  .history-scent-space-mobile__copy h2 { margin: 0 0 5.813953cqw; font: 400 9.302326cqw/1.1 var(--font-family-display); letter-spacing: 0; }
- .history-scent-space-mobile__copy p { margin: 0; font: 300 3.255814cqw/1.4 'KoPubWorldDotum Pro',sans-serif; letter-spacing: .065116cqw; }
+ .history-scent-space-mobile__copy p { margin: 0; font: 400 3.255814cqw/1.4 'KoPubWorldDotum Pro',sans-serif; letter-spacing: .065116cqw; }
  .history-scent-space-mobile__copy p + p { margin-top: 4.651163cqw; }
  .history-scent-space-mobile__fireworks { position: absolute; z-index: 2; left: -1.162791cqw; top: 34.186047cqw; width: 101.200698cqw; height: 56.925349cqw; max-width: none; object-fit: fill; pointer-events: none; }
  .diptyque-history__scent-transition { display: none; }

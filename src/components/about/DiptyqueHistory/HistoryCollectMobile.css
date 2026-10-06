@@ -18,6 +18,6 @@
   .history-collect-mobile__scene::after { content: ''; position: absolute; inset: 0; background: rgb(75 75 75 / 70%); }
   .history-collect-mobile__copy { position: absolute; top: calc(50% + .5px); left: calc(50% - .5px); transform: translate(-50%, -50%); width: max-content; text-align: center; }
   .history-collect-mobile__copy h2 { margin: 0 0 25px; font: 700 36px/1.3 'History Collect Batang', serif; letter-spacing: 0; }
-  .history-collect-mobile__copy p { margin: 0; font: 300 14px/1.4 'KoPubWorldDotum Pro', sans-serif; letter-spacing: .28px; }
+  .history-collect-mobile__copy p { margin: 0; font: 400 14px/1.4 'KoPubWorldDotum Pro', sans-serif; letter-spacing: .28px; }
   .history-collect-mobile__copy p + p { margin-top: 20px; }
 }

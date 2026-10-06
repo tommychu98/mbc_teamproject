@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import './HistoryFabric.css';
+import { singlePlayGif } from './FabricPickupOnce';
 
 const asset = (name) => `/images/history/fabric/${name}`;
+// Survives React remounts, but a full browser refresh creates a new page load.
+let pickupPlayedThisPageLoad = false;
 
 function ImageAsset({ className, name }) {
   return (
@@ -11,32 +14,80 @@ function ImageAsset({ className, name }) {
   );
 }
 
-const PICK_UP_FABRIC_DURATION_MS = 4000;
-
 function FabricPickupAnimation() {
   const containerRef = useRef(null);
-  const hasPlayedRef = useRef(false);
-  const [animationState, setAnimationState] = useState('idle');
-  const [playbackCount, setPlaybackCount] = useState(0);
+  const hasPlayedRef = useRef(pickupPlayedThisPageLoad);
+  const [animationState, setAnimationState] = useState(
+    () => (pickupPlayedThisPageLoad ? 'finished' : 'idle'),
+  );
+  const [playbackUrl, setPlaybackUrl] = useState(null);
 
   useEffect(() => {
+    const abort = new AbortController();
+    let disposed = false;
     let frameId;
+    let hideTimer;
+    let objectUrl;
+    let gifData;
+    let gifPromise;
+    let playbackGeneration = 0;
+    let lastScrollY = window.scrollY;
+    const loadGif = async () => {
+      if (gifData) return gifData;
+      if (!gifPromise) {
+        gifPromise = fetch(asset('fabric-pick-up.gif'), { signal: abort.signal })
+          .then((response) => {
+            if (!response.ok) throw new Error('Fabric pickup GIF could not be loaded');
+            return response.arrayBuffer();
+          })
+          .then((buffer) => {
+            gifData = singlePlayGif(buffer);
+            return gifData;
+          });
+      }
+      return gifPromise;
+    };
+    const finishPlayback = () => {
+      if (disposed) return;
+      setAnimationState('finished');
+      setPlaybackUrl(null);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      objectUrl = undefined;
+    };
+    const startPlayback = async () => {
+      if (hasPlayedRef.current) return;
+      hasPlayedRef.current = true;
+      pickupPlayedThisPageLoad = true;
+      const generation = playbackGeneration;
+      try {
+        const { blob, duration } = await loadGif();
+        if (disposed || generation !== playbackGeneration) return;
+        objectUrl = URL.createObjectURL(blob);
+        setPlaybackUrl(objectUrl);
+        setAnimationState('playing');
+        hideTimer = window.setTimeout(finishPlayback, duration);
+      } catch (error) {
+        if (!disposed && error.name !== 'AbortError') {
+          console.error('Fabric pickup:', error);
+          setAnimationState('finished');
+        }
+      }
+    };
     const checkPosition = () => {
       frameId = undefined;
       const element = containerRef.current;
       if (!element || hasPlayedRef.current) return;
-
-      const bounds = element.getBoundingClientRect();
-      const elementCenter = bounds.top + bounds.height / 2;
-      const isAtViewportMiddle =
-        elementCenter >= window.innerHeight * 0.42 &&
-        elementCenter <= window.innerHeight * 0.58;
-
-      if (isAtViewportMiddle) {
-        hasPlayedRef.current = true;
-        setPlaybackCount((count) => count + 1);
-        setAnimationState('playing');
-      }
+      const currentScrollY = window.scrollY;
+      const movingDown = currentScrollY >= lastScrollY;
+      lastScrollY = currentScrollY;
+      if (!movingDown) return;
+      const image = element.querySelector('img');
+      if (!image) return;
+      const bounds = image.getBoundingClientRect();
+      const visibleHeight = Math.max(0, Math.min(bounds.bottom, window.innerHeight)
+        - Math.max(bounds.top, 0));
+      const visibleCapacity = Math.min(bounds.height, window.innerHeight);
+      if (visibleCapacity > 0 && visibleHeight / visibleCapacity >= 0.9) startPlayback();
     };
     const scheduleCheck = () => {
       if (frameId === undefined) frameId = window.requestAnimationFrame(checkPosition);
@@ -45,24 +96,33 @@ function FabricPickupAnimation() {
     checkPosition();
     window.addEventListener('scroll', scheduleCheck, { passive: true });
     window.addEventListener('resize', scheduleCheck);
+    const resetPlayback = () => {
+      playbackGeneration += 1;
+      hasPlayedRef.current = false;
+      lastScrollY = window.scrollY;
+      pickupPlayedThisPageLoad = false;
+      window.clearTimeout(hideTimer);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+      objectUrl = undefined;
+      setPlaybackUrl(null);
+      setAnimationState('idle');
+    };
+    window.addEventListener('diptyque-history:reset-fabric-pickup', resetPlayback);
+    loadGif().catch((error) => {
+      if (!disposed && error.name !== 'AbortError') console.error('Fabric pickup:', error);
+    });
 
     return () => {
+      disposed = true;
+      abort.abort();
+      window.clearTimeout(hideTimer);
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
       window.removeEventListener('scroll', scheduleCheck);
       window.removeEventListener('resize', scheduleCheck);
+      window.removeEventListener('diptyque-history:reset-fabric-pickup', resetPlayback);
       if (frameId !== undefined) window.cancelAnimationFrame(frameId);
     };
   }, []);
-
-  useEffect(() => {
-    if (animationState !== 'playing') return undefined;
-
-    const hideTimer = window.setTimeout(
-      () => setAnimationState('finished'),
-      PICK_UP_FABRIC_DURATION_MS,
-    );
-
-    return () => window.clearTimeout(hideTimer);
-  }, [animationState]);
 
   return (
     <div
@@ -78,10 +138,9 @@ function FabricPickupAnimation() {
           decoding="async"
         />
       )}
-      {animationState === 'playing' && (
+      {animationState === 'playing' && playbackUrl && (
         <img
-          key={playbackCount}
-          src={`${asset('fabric-pick-up.gif')}#play-${playbackCount}`}
+          src={playbackUrl}
           alt=""
           loading="eager"
           decoding="async"

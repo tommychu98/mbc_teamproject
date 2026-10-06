@@ -3,6 +3,8 @@ import './HistoryTopButton.css';
 export default function HistoryTopButton() {
   const scrollToTop = () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.dispatchEvent(new Event('diptyque-history:reset-fabric-pickup'));
+    window.dispatchEvent(new Event('diptyque-history:reset-objects-walking'));
     window.scrollTo({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' });
   };
 
