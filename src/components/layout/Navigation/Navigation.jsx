@@ -34,11 +34,11 @@ const navItems = [
   ] },
   { label: 'GALERIE', to: '/galerie' },
   { label: 'CONTACT US', to: '/contact/notices', groups: [
-    { label: '공지사항', to: '/contact/notices' },
+    { label: '공지사항', to: '/contact/notices', lang: 'ko' },
     { label: 'MEMBERSHIP', to: '/contact/membership' },
     { label: 'FAQ', to: '/contact/faq' },
-    { label: '1:1 문의', to: '/inquiries' },
-   { label: '상품문의', to: '/contact/product-inquiry' },
+    { label: '1:1 문의', to: '/inquiries', lang: 'ko' },
+   { label: '상품문의', to: '/contact/product-inquiry', lang: 'ko' },
   ] },
   {
     label: 'MY PAGE', to: '/mypage', variant: 'mypage', groups: [
@@ -245,7 +245,7 @@ export default function Header() {
           <NavLink to={item.to} end={item.to === '/'} onClick={closeMenu}>{item.label}</NavLink>
           {item.groups && <div className={`header__submenu header__submenu--${item.variant || 'standard'}`}>
             {item.groups.map((group) => <section className="header__submenu-group" key={group.label}>
-              <Link className="header__submenu-title" to={group.to} onClick={closeMenu}>{group.label}</Link>
+              <Link className="header__submenu-title" lang={group.lang} to={group.to} onClick={closeMenu}>{group.label}</Link>
               {group.items && <div className="header__submenu-links">{group.items.map((child) => <span key={child.label}>{renderMenuItem(child)}</span>)}</div>}
             </section>)}
           </div>}

@@ -115,6 +115,7 @@
   .header__submenu-group { align-content: start; gap: 18px; }
   .header__submenu--shop .header__submenu-group + .header__submenu-group { padding-left: 36px; border-left: 1px solid var(--color-border-default); }
   .header__submenu-title { min-height: 0; font-family: var(--font-family-display); font-size: 16px; font-weight: 500; transition: color 180ms var(--ease-standard), transform 180ms var(--ease-standard); }
+  .header__submenu-title[lang='ko'] { font-family: NoticeKoPub, var(--font-family-sans); }
   .header__submenu--standard .header__submenu-title { min-height: 20px; }
   .header__submenu-links { gap: 12px; }
   .header__submenu-links a, .header__submenu-action { min-height: 20px; padding: 0; background: transparent; transition: color 180ms var(--ease-standard), opacity 180ms var(--ease-standard), transform 180ms var(--ease-standard); }
