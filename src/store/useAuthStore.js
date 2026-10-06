@@ -1,10 +1,9 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { TEST_USER } from '../data/testUser';
 
 const memoryAccounts = [];
 
-export const useAuthStore = create(persist((set) => ({
+export const useAuthStore = create((set) => ({
   user: null,
   isAuthenticated: false,
   authError: null,
@@ -28,4 +27,4 @@ export const useAuthStore = create(persist((set) => ({
   updateProfile: (updates) => set((state) => ({ user: { ...state.user, ...updates } })),
   logout: () => set({ user: null, isAuthenticated: false, authError: null }),
   clearAuthError: () => set({ authError: null }),
-}), { name: 'diptyque-auth', partialize: ({ user, isAuthenticated }) => ({ user, isAuthenticated }) }));
+}));

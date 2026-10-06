@@ -46,7 +46,8 @@
   color: var(--color-text-inverse);
 }
 .app:has(.fragrances-story) .header__logo img,
-.app:has(.fragrances-story) .header__utilities a > img:not(.header__profile-image) {
+.app:has(.fragrances-story) .header__utilities a > img,
+.app:has(.fragrances-story) .header__utilities > button > img {
   filter: brightness(0) invert(1);
 }
 

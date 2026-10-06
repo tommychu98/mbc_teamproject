@@ -49,15 +49,14 @@
 }
 
 .header__logo img { width: 100%; height: 100%; object-fit: contain; }
-.header__menu-button, .header__utilities a { display: grid; width: 44px; height: 44px; place-items: center; background: transparent; color: inherit; }
+.header__menu-button, .header__utilities a, .header__utilities > button { display: grid; width: 44px; height: 44px; place-items: center; background: transparent; color: inherit; }
 .header__menu-button svg { width: 20px; }
 .header__utilities { display: flex; align-items: center; gap: 2px; }
 .header__utilities a > img { width: 24px; height: 24px; object-fit: contain; }
 .header__account { display: none !important; }
-.header__profile-avatar { display: block; width: 24px; height: 24px; border-radius: 50%; overflow: hidden; }
-.header__profile-avatar--flower { border-radius: 0; overflow: visible; }
-.header__account .header__profile-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transform: scale(2.75); transform-origin: 73% 18%; }
-.header__account .header__profile-image--test { box-sizing: border-box; padding: 0; object-fit: contain; transform: scale(.88); transform-origin: center; }
+.header__logout { cursor: pointer; pointer-events: auto; transition: opacity var(--duration-fast) var(--ease-standard); }
+.header__logout:hover, .header__logout:focus-visible { opacity: .58; }
+.header__logout img { display: block; width: 17.5px; height: 17.5px; object-fit: contain; pointer-events: none; }
 .header__cart { position: relative; }
 .header__cart span { position: absolute; top: 2px; right: 0; display: grid; min-width: 16px; height: 16px; place-items: center; border-radius: 50%; background: var(--color-ink-black); color: var(--color-white); font-family: var(--font-family-sans); font-size: 9px; }
 
@@ -102,7 +101,7 @@
   .header__nav-item > a::after { position: absolute; right: 0; bottom: 30px; left: 0; height: 1px; background: currentColor; content: ''; transform: scaleX(0); transform-origin: left center; transition: transform 220ms var(--ease-standard); }
   .header__nav-item--open > a::after { transform: scaleX(1); }
   .header__utilities { position: absolute; top: 43px; right: clamp(48px, 4.0625%, 78px); gap: 24px; transform: none; }
-  .header__utilities a { width: 24px; height: 24px; }
+  .header__utilities a, .header__utilities > button { width: 24px; height: 24px; }
   .header__utilities .header__search img { width: 16.8px; height: 16.8px; }
   .header__account { display: grid !important; }
   .header__submenu { position: absolute; top: calc(100% + 8px); left: 0; display: grid; width: min(250px, calc(100vw - 48px)); height: auto; gap: 20px; padding: 26px 30px; visibility: hidden; border: 1px solid var(--color-border-default); border-radius: 2px; background: var(--color-surface); box-shadow: 0 18px 40px rgb(0 0 0 / .08); opacity: 0; pointer-events: none; transform: translateY(-6px); transition: opacity 220ms var(--ease-standard), transform 220ms var(--ease-standard), visibility 0s linear 220ms; }
