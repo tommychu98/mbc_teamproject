@@ -80,7 +80,7 @@ export function getProductEnglishName(product) {
   if (product.catalogCategory === 'exclusive') {
     return scentName(name.replace(/^오 드 퍼퓸\s*/, ''));
   }
-  if (product.catalogCategory === 'candles-home') {
+  if (product.catalogCategory === 'candles-home' && name.includes('캔들')) {
     if (name.startsWith('미니캔들 세트')) return 'MINI CANDLE SET';
     if (name.startsWith('스몰캔들 세트')) return 'SMALL CANDLE SET';
     if (name.startsWith('라드로게리 캔들')) return 'LA DROGUERIE CANDLE';
@@ -96,7 +96,7 @@ export function getProductEnglishName(product) {
       if (scent) return `${scent} ${type}`;
     }
   }
-  if (product.catalogCategory === 'home-decor') {
+  if (['candles-home', 'home-decor'].includes(product.catalogCategory)) {
     if (HOME_NAMES[name]) return HOME_NAMES[name];
     if (/^차량용\s*방향제 세트/.test(name)) {
       const scent = scentName(name.match(/캡슐 (.+)\)$/)?.[1] ?? '');

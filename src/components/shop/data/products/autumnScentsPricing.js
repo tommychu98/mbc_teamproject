@@ -1,5 +1,5 @@
 import { CANDLE_HOME_PRODUCTS } from './candleHomeProducts';
-import { HOME_DECOR_PRODUCTS } from './homeDecorProducts';
+import { HOME_FRAGRANCE_PRODUCTS } from './homeFragranceProducts';
 
 // Exact product/form matches: never substitute refills, smaller candles or sets.
 const EXISTING_NAMES = {
@@ -26,7 +26,7 @@ const EXISTING_NAMES = {
   'Pomander - Classic Candle': '클래식 캔들 포맨더',
 };
 
-const existingProducts = [...CANDLE_HOME_PRODUCTS, ...HOME_DECOR_PRODUCTS];
+const existingProducts = [...CANDLE_HOME_PRODUCTS, ...HOME_FRAGRANCE_PRODUCTS];
 
 const KOREAN_NAMES = {
   ...EXISTING_NAMES,
