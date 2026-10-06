@@ -146,5 +146,6 @@
 }
 .fragrances-con8__pagination { padding: 0; border: 0; background: none; cursor: pointer; }
 @media (width < 768px) {
-  .fragrances-con8 .fragrances-con8__cards { touch-action: pan-y pinch-zoom; scroll-snap-type: none; }
+  .fragrances-con8 .fragrances-con8__cards { touch-action: auto; scroll-snap-type: x mandatory; }
+  .fragrances-con8 .fragrances-con8__card { scroll-snap-stop: always; }
 }
