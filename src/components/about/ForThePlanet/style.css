@@ -444,7 +444,7 @@ body.ftp-route.ftp-header-hidden .header {
   }
   .ftp-mobile-intro__products {
     position: absolute;
-    top: calc(467 / 935 * 100% - 50px);
+    top: calc(467 / 935 * 100% - 30px);
     left: calc(16 / 430 * 100%);
     width: calc(354 / 430 * 100%);
     height: calc(266 / 935 * 100%);
