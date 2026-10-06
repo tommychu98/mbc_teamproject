@@ -9,6 +9,7 @@ import HistoryCollectMobile from './HistoryCollectMobile';
 import HistoryScent from './HistoryScent';
 import HistoryScentMobile from './HistoryScentMobile';
 import HistoryMaison from './HistoryMaison';
+import HistoryTopButton from './HistoryTopButton';
 
 const OPENING_TEXT = 'BEFORE SCENT, THERE WAS CREATION.';
 const OPENING_WORDS = [...OPENING_TEXT.matchAll(/\S+/g)];
@@ -166,6 +167,7 @@ export default function DiptyqueHistory() {
         <HistoryScent />
       </div>
       <HistoryMaison />
+      <HistoryTopButton />
     </main>
   );
 }

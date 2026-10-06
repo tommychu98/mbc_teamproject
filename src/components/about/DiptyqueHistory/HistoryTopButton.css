@@ -1,0 +1,74 @@
+.diptyque-history__top {
+  position: fixed;
+  right: 5.3125%;
+  bottom: 6.4167%;
+  z-index: calc(var(--z-header, 200) + 2);
+  width: 80px;
+  height: 76px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  mix-blend-mode: difference;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.diptyque-history__top-arrow {
+  position: absolute;
+  top: 12.325px;
+  left: 34.325px;
+  width: 13.35px;
+  height: 18.35px;
+  background: currentColor;
+  mask: url('/ForThePlanet/top-desktop.svg') center / contain no-repeat;
+}
+
+.diptyque-history__top > span:last-child {
+  position: absolute;
+  top: 37px;
+  left: 29px;
+  width: 23px;
+  font-family: 'KoPubWorldDotum Pro', var(--font-family-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: .02em;
+  text-align: center;
+  opacity: .7;
+}
+
+.diptyque-history__top:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 767px) {
+  .diptyque-history__top {
+    right: calc(clamp(16px, 4.65vw, 36px) + env(safe-area-inset-right, 0px));
+    bottom: calc(clamp(20px, 4.1vh, 48px) + env(safe-area-inset-bottom, 0px));
+    bottom: calc(clamp(20px, 4.1dvh, 48px) + env(safe-area-inset-bottom, 0px));
+    width: 44px;
+    height: 44px;
+  }
+
+  .diptyque-history__top-arrow {
+    position: static;
+    display: block;
+    width: 12px;
+    height: 16px;
+    margin: 5px auto 0;
+    mask-image: url('/ForThePlanet/top-mobile.svg');
+  }
+
+  .diptyque-history__top > span:last-child {
+    position: static;
+    display: block;
+    width: auto;
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+}
