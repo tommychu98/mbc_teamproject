@@ -71,17 +71,6 @@
     --text-mobile-sub-title-r1-weight: 400;
     --text-mobile-sub-title-r1-letter-spacing: 0;
   }
-  /* Reuse the existing navigation, with the mobile Figma's 52px ivory bar.
-     These selectors affect this page only; menu/search behavior stays shared. */
-  .app:has(.fragrances-story) .header { height: 52px; background: #f7f6f4; color: #222222; }
-  .app:has(.fragrances-story) .header__inner { box-sizing: border-box; position: relative; display: flex; justify-content: space-between; padding-inline: calc(26.5 / 430 * 100%) calc(23.5 / 430 * 100%); }
-  .app:has(.fragrances-story) .header__logo { position: absolute; left: 50%; width: 85px; height: 34px; transform: translateX(-50%); }
-  .app:has(.fragrances-story) .header__logo img,
-  .app:has(.fragrances-story) .header__utilities a > img:not(.header__profile-image) { filter: none; }
-  .app:has(.fragrances-story) .header__menu-button svg { width: 24px; height: 24px; }
-  .app:has(.fragrances-story) .header__utilities .header__search img { width: 16.8px; height: 16.8px; }
-  .app:has(.fragrances-story) .header__cart { display: none; }
-  .app:has(.fragrances-story) .header__nav { top: 52px; }
   .fragrances-story__desktop-copy { display: none; }
   .fragrances-story__mobile-copy { display: inline; }
   .fragrances-story__mobile-break { display: block; }

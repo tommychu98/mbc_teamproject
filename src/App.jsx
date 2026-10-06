@@ -46,6 +46,7 @@ import MyPageInquiryPage from './pages/mypage/community/inquiry';
 import MyPageProductInquiryPage from './pages/mypage/community/product-inquiry';
 import './App.css';
 import './components/mypage/MyPageSpacing.css';
+import './components/layout/Navigation/MobileNavigation.css';
 import useVerticalScroll from './utils/useVerticalScroll';
 
 function ScrollToTop() {

@@ -53,7 +53,7 @@
 }
 .home-main-film__frame::before {
     top: 0;
-    height: calc(42% * var(--film-day-fade, 1));
+    height: calc(30% * var(--film-day-fade, 1));
     /* Slow initial reveal; broad offset feathers soften the shared horizontal onset. */
     background:
         radial-gradient(ellipse 85% 95% at 78% 0%,
@@ -115,11 +115,11 @@
 .home-main-film__reveal {
     background: linear-gradient(to bottom,
         #f7f6f4 0%,
-        rgb(247 246 244 / 96%) 15%,
-        rgb(247 246 244 / 78%) 32%,
-        rgb(247 246 244 / 48%) 52%,
-        rgb(247 246 244 / 18%) 75%,
-        rgb(247 246 244 / 0%) 100%);
+        rgb(247 246 244 / 96%) 10%,
+        rgb(247 246 244 / 78%) 23%,
+        rgb(247 246 244 / 48%) 37%,
+        rgb(247 246 244 / 18%) 54%,
+        rgb(247 246 244 / 0%) 72%);
     opacity: var(--film-day-fade, 1);
 }
 

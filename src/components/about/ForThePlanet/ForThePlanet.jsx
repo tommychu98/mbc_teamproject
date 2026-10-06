@@ -1328,7 +1328,7 @@ function usePageNavigation() {
       const headerHeight = window.innerWidth >= 1180 ? 110 : 72;
       const menuOpen = Boolean(document.querySelector(".header__nav--open"));
 
-      if (y <= headerHeight || menuOpen || y < lastY - 3) {
+      if (window.innerWidth <= 767 || y <= headerHeight || menuOpen || y < lastY - 3) {
         body.classList.add("ftp-header-shown");
         body.classList.remove("ftp-header-hidden");
       } else if (y > lastY + 3) {

@@ -5,13 +5,13 @@
   font-display: swap;
 }
 
-body.ftp-route.ftp-header-shown .header {
+body.ftp-route.ftp-header-shown .header:not(.header--mobile) {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
-body.ftp-route.ftp-header-hidden .header {
+body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
   opacity: 0;
   transform: translateY(-100%);
   pointer-events: none;

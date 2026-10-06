@@ -65,6 +65,7 @@ const HEADER_HIDE_DELAY = 240;
 const DROPDOWN_CLOSE_DELAY = 140;
 
 export default function Header() {
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 767px)').matches);
   const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [homeIntroReady, setHomeIntroReady] = useState(false);
@@ -80,8 +81,15 @@ export default function Header() {
   const cartCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const homeIntroHeaderVisible = pathname !== '/' || homeIntroReady;
-  const forceHomeIntroHeader = pathname === '/' && homeIntroHeaderLocked;
+  const homeIntroHeaderVisible = isMobile || pathname !== '/' || homeIntroReady;
+  const forceHomeIntroHeader = !isMobile && pathname === '/' && homeIntroHeaderLocked;
+
+  useEffect(() => {
+    const viewport = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobile(viewport.matches);
+    viewport.addEventListener('change', update);
+    return () => viewport.removeEventListener('change', update);
+  }, []);
 
   useEffect(() => {
     if (pathname !== '/') return undefined;
@@ -147,11 +155,12 @@ export default function Header() {
 
   const scheduleHeaderHide = () => {
     clearHideTimeout();
-    if (window.scrollY === 0 || open || isHeaderHoveredRef.current) return;
+    if (isMobile || window.scrollY === 0 || open || isHeaderHoveredRef.current) return;
     hideTimeoutRef.current = window.setTimeout(() => setIsVisible(false), HEADER_HIDE_DELAY);
   };
 
   useEffect(() => {
+    if (isMobile) return undefined;
     lastScrollYRef.current = window.scrollY;
 
     const handleScroll = () => {
@@ -180,8 +189,9 @@ export default function Header() {
       window.removeEventListener('scroll', handleScroll);
       clearHideTimeout();
       if (animationFrameRef.current) window.cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
     };
-  }, [open]);
+  }, [open, isMobile]);
 
   useEffect(() => {
     const handleEscape = (event) => {
@@ -216,7 +226,7 @@ export default function Header() {
       onMouseLeave={scheduleHeaderHide}
     />
     <header
-      className={`header ${homeIntroHeaderVisible && (forceHomeIntroHeader || isVisible || open) ? 'header--visible' : 'header--hidden'}${homeIntroHeaderVisible ? '' : ' header--home-intro-hidden'}${forceHomeIntroHeader ? ' header--home-intro-locked' : ''}`}
+      className={`header${isMobile ? ' header--mobile' : ''}${pathname === '/' ? ' header--home' : ''} ${homeIntroHeaderVisible && (isMobile || forceHomeIntroHeader || isVisible || open) ? 'header--visible' : 'header--hidden'}${homeIntroHeaderVisible ? '' : ' header--home-intro-hidden'}${forceHomeIntroHeader ? ' header--home-intro-locked' : ''}`}
       onMouseEnter={() => { isHeaderHoveredRef.current = true; showHeader(); }}
       onMouseLeave={() => { isHeaderHoveredRef.current = false; scheduleHeaderHide(); }}
     >
