@@ -18,10 +18,10 @@ export default function InquiryListPage() {
   const [page, setPage] = useState(1);
   const pageSize = 5;
   const filtered = useMemo(() => inquiries
-    .filter((item) => item.userId === user.id)
+    .filter((item) => user && item.userId === user.id)
     .filter((item) => item.title.toLowerCase().includes(query.toLowerCase()))
     .filter((item) => status === 'ALL' || item.status === status)
-    .sort((a, b) => sort === 'oldest' ? new Date(a.createdAt) - new Date(b.createdAt) : new Date(b.createdAt) - new Date(a.createdAt)), [inquiries, query, sort, status, user.id]);
+    .sort((a, b) => sort === 'oldest' ? new Date(a.createdAt) - new Date(b.createdAt) : new Date(b.createdAt) - new Date(a.createdAt)), [inquiries, query, sort, status, user]);
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const visible = filtered.slice((page - 1) * pageSize, page * pageSize);
   const changeFilter = (setter) => (event) => { setter(event.target.value); setPage(1); };

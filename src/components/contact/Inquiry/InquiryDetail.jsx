@@ -13,8 +13,8 @@ export default function InquiryDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const inquiry = getById(inquiryId);
-  if (!inquiry || inquiry.userId !== user.id) return <main className="inquiry-page container"><div className="empty-state"><p>문의가 없거나 조회 권한이 없습니다.</p><Link className="button" to="/inquiries">목록으로</Link></div></main>;
-  const remove = () => { if (window.confirm('고객문의를 삭제하시겠습니까?\n삭제한 문의는 복구할 수 없습니다.')) { deleteInquiry(inquiry.id, user.id); navigate('/inquiries', { state: { message: '문의가 삭제되었습니다.' } }); } };
+  if (!user || !inquiry || inquiry.userId !== user.id) return <main className="inquiry-page container"><div className="empty-state"><p>문의가 없거나 조회 권한이 없습니다.</p><Link className="button" to="/inquiries">목록으로</Link></div></main>;
+  const remove = () => { if (window.confirm('고객문의를 삭제하시겠습니까?\n삭제한 문의는 복구할 수 없습니다.')) { deleteInquiry(inquiry.id, user?.id); navigate('/inquiries', { state: { message: '문의가 삭제되었습니다.' } }); } };
   return <main className="inquiry-page container"><article className="inquiry-detail">
     <p className="eyebrow">{categoryLabels[inquiry.category]}</p><h1 className="page-title">{inquiry.title}</h1>
     {location.state?.message && <p role="status">{location.state.message}</p>}

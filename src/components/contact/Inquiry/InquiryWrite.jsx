@@ -12,13 +12,13 @@ export default function InquiryWritePage() {
   const user = useAuthStore((state) => state.user);
   const { addInquiry, updateInquiry, getById } = useInquiryStore();
   const existing = inquiryId ? getById(inquiryId) : null;
-  const [form, setForm] = useState(() => existing?.userId === user.id
+  const [form, setForm] = useState(() => user && existing?.userId === user.id
     ? { category: existing.category, title: existing.title, content: existing.content, orderNumber: existing.orderNumber || '', notify: true }
     : { category: searchParams.get('category') || 'PRODUCT', title: '', content: '', orderNumber: '', notify: true });
   const [errors, setErrors] = useState({});
   const [files, setFiles] = useState([]);
 
-  if (inquiryId && (!existing || existing.userId !== user.id)) return <main className="inquiry-page container"><div className="empty-state"><p>문의가 없거나 조회 권한이 없습니다.</p><Link className="button" to="/inquiries">목록으로</Link></div></main>;
+  if (inquiryId && (!user || !existing || existing.userId !== user.id)) return <main className="inquiry-page container"><div className="empty-state"><p>문의가 없거나 조회 권한이 없습니다.</p><Link className="button" to="/inquiries">목록으로</Link></div></main>;
   if (existing?.status === 'ANSWERED') return <main className="inquiry-page container"><div className="empty-state"><p>답변 완료 문의는 수정할 수 없습니다.</p><Link className="button" to={`/inquiries/${existing.id}`}>문의 보기</Link></div></main>;
 
   const update = (event) => setForm((value) => ({ ...value, [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value }));
@@ -31,8 +31,8 @@ export default function InquiryWritePage() {
     if (form.orderNumber && !/^DP-\d{8}-\d{3}$/.test(form.orderNumber)) next.orderNumber = '주문번호 형식은 DP-YYYYMMDD-000입니다.';
     setErrors(next);
     if (Object.keys(next).length) return;
-    const payload = { userId: user.id, category: form.category, title: form.title.trim(), content: form.content.trim(), orderNumber: form.orderNumber.trim(), notify: form.notify };
-    if (existing) { updateInquiry(existing.id, user.id, payload); navigate(`/inquiries/${existing.id}`, { state: { message: '문의가 수정되었습니다.' } }); }
+    const payload = { userId: user?.id, category: form.category, title: form.title.trim(), content: form.content.trim(), orderNumber: form.orderNumber.trim(), notify: form.notify };
+    if (existing) { updateInquiry(existing.id, user?.id, payload); navigate(`/inquiries/${existing.id}`, { state: { message: '문의가 수정되었습니다.' } }); }
     else { const id = addInquiry(payload); navigate(`/inquiries/${id}`, { state: { message: '문의가 등록되었습니다.' } }); }
   };
   const pickFiles = (event) => {

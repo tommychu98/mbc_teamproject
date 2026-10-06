@@ -1,17 +1,32 @@
+import { useEffect, useRef } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import NoticeDetail from "./NoticeDetail";
+import { notices, noticesPerPage } from "./noticeData";
 import "./Notice.css";
 
-const notices = [
-  "추석 연휴 배송 일정 안내",
-  "공식 온라인 스토어 이용 안내",
-  "개인정보 처리방침 변경 안내",
-  "배송 일정",
-  "배송 일정",
-  "배송 일정",
-];
-
 export default function Notice() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageCount = Math.ceil(notices.length / noticesPerPage);
+  const requestedPage = Number(searchParams.get("page"));
+  const selectedNotice = notices.find((notice) => notice.id === Number(searchParams.get("notice")));
+  const currentPage = Number.isInteger(requestedPage) && requestedPage >= 1 && requestedPage <= pageCount
+    ? requestedPage
+    : selectedNotice ? Math.ceil(selectedNotice.id / noticesPerPage) : 1;
+  const visibleNotices = notices.slice((currentPage - 1) * noticesPerPage, currentPage * noticesPerPage);
+  const previousSelectionRef = useRef(selectedNotice?.id);
+  const listTitleRef = useRef(null);
+
+  useEffect(() => {
+    if (previousSelectionRef.current && !selectedNotice) {
+      listTitleRef.current?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+    previousSelectionRef.current = selectedNotice?.id;
+  }, [selectedNotice]);
+
   return (
-    <main className="notice-page" aria-labelledby="notice-title">
+    <main className={`notice-page${selectedNotice ? " notice-page--detail" : ""}`} aria-labelledby="notice-title">
+      {!selectedNotice && <>
       <img
         className="notice-page__botanical"
         src="/images/contact/notice/botanical.png"
@@ -24,15 +39,24 @@ export default function Notice() {
         alt=""
         aria-hidden="true"
       />
+      </>}
       <header className="notice-page__heading">
         <p className="notice-page__eyebrow">Contact us</p>
-        <h1 id="notice-title">공지사항</h1>
+        <h1 id="notice-title" ref={listTitleRef} tabIndex={-1}>공지사항</h1>
         <p className="notice-page__description">
           딥디크의 새로운 소식과 서비스 안내
         </p>
       </header>
-      <table className="notice-page__table">
-        <caption className="sr-only">공지사항 목록</caption>
+      {selectedNotice ? (
+        <NoticeDetail
+          notice={selectedNotice}
+          previousNotice={notices[selectedNotice.id - 2]}
+          nextNotice={notices[selectedNotice.id]}
+          listPage={currentPage}
+        />
+      ) : <>
+      <table id="notice-list" className="notice-page__table">
+        <caption className="sr-only">공지사항 목록 — {currentPage}페이지</caption>
         <colgroup>
           <col className="notice-page__number-column" />
           <col />
@@ -46,25 +70,42 @@ export default function Notice() {
           </tr>
         </thead>
         <tbody>
-          {notices.map((title, index) => (
-            <tr key={index}>
+          {visibleNotices.map((notice) => (
+            <tr key={notice.id}>
               <td className="notice-page__number">
-                {index === 0 ? (
+                {notice.isNew ? (
                   <span className="notice-page__badge" aria-label="새 공지">
                     NEW
                   </span>
                 ) : (
-                  index + 1
+                  notice.id
                 )}
               </td>
-              <td className="notice-page__subject">{title}</td>
+              <td className="notice-page__subject"><Link className="notice-page__subject-link" to={`?page=${currentPage}&notice=${notice.id}`}>{notice.title}</Link></td>
               <td className="notice-page__date">
-                <time dateTime="2026-09-17">2026. 9. 17.</time>
+                <time dateTime={notice.date}>{notice.displayDate}</time>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <nav className="notice-page__pagination" aria-label="공지사항 페이지">
+        {Array.from({ length: pageCount }, (_, index) => (
+          <button
+            key={index}
+            type="button"
+            className="notice-page__page-button"
+            aria-label={`${index + 1}페이지`}
+            aria-current={currentPage === index + 1 ? "page" : undefined}
+            aria-controls="notice-list"
+            onClick={() => setSearchParams({ page: String(index + 1) })}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </nav>
+      <p className="sr-only" role="status">{currentPage}페이지, 공지사항 {visibleNotices.length}개</p>
+      </>}
     </main>
   );
 }

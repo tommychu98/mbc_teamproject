@@ -5,12 +5,12 @@
 .inquiry-table { width: 100%; border-collapse: collapse; background: var(--color-surface); }
 .inquiry-table th, .inquiry-table td { padding: 18px 16px; border-bottom: 1px solid var(--color-border-default); text-align: left; }
 .inquiry-table th { color: var(--color-text-muted); font-size: 12px; letter-spacing: .08em; }
-.status-badge { display: inline-flex; padding: 5px 9px; background: var(--color-gray-100); font-size: 12px; font-weight: 700; }
-.status-badge--ANSWERED { background: var(--color-green-50); color: var(--color-success); }
-.status-badge--IN_REVIEW { background: var(--color-yellow-50); color: var(--color-warning); }
-.pagination { display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
-.pagination button { min-width: 40px; height: 40px; border: 1px solid var(--color-border-default); }
-.pagination button[aria-current='page'] { border-color: var(--color-ink-black); background: var(--color-ink-black); color: white; }
+.inquiry-page .status-badge { display: inline-flex; padding: 5px 9px; background: var(--color-gray-100); font-size: 12px; font-weight: 700; }
+.inquiry-page .status-badge--ANSWERED { background: var(--color-green-50); color: var(--color-success); }
+.inquiry-page .status-badge--IN_REVIEW { background: var(--color-yellow-50); color: var(--color-warning); }
+.inquiry-page .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
+.inquiry-page .pagination button { min-width: 40px; height: 40px; border: 1px solid var(--color-border-default); }
+.inquiry-page .pagination button[aria-current='page'] { border-color: var(--color-ink-black); background: var(--color-ink-black); color: white; }
 .inquiry-form { display: grid; gap: 22px; max-width: 760px; padding: 32px; background: var(--color-surface); }
 .inquiry-form textarea { min-height: 220px; resize: vertical; }
 .inquiry-form__actions, .inquiry-detail__actions { display: flex; flex-wrap: wrap; gap: 10px; }

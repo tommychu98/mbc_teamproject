@@ -12,7 +12,7 @@
 .product-inquiry__heading > p:first-child { font-size: 14px; font-weight: 500; line-height: 1.6; padding-bottom: .865px; color: var(--color-text-secondary); }
 .product-inquiry__heading h1 { margin-top: 15px; font: 400 90px/1 ProductInquiryBatang, var(--font-family-serif-kr); letter-spacing: 0; }
 .product-inquiry__heading > p:last-child { margin-top: 32.13px; font-size: 16px; line-height: 24px; }
-.product-inquiry__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 838px; height: 46px; margin: 66.636px auto 40px; }
+.product-inquiry__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 838px; height: 46px; margin: 66.636px auto 15px; }
 .product-inquiry__filters { display: flex; gap: 20px; }
 .product-inquiry__filters button { width: 125px; height: 36px; border: 1px solid rgba(107,102,95,.5); border-radius: 50px; background: var(--color-white); color: var(--color-text-secondary); font: inherit; font-size: 14px; cursor: pointer; }
 .product-inquiry__filters button:first-child { width: 95px; }
@@ -23,20 +23,24 @@
 .product-inquiry__search input::placeholder { color: rgba(75,75,75,.4); }
 .product-inquiry__search:focus-within { outline: 2px solid var(--color-accent-highlight); outline-offset: 3px; }
 .product-inquiry__search input:focus { outline: none; }
-.product-inquiry__board { background: var(--color-white); }
+.product-inquiry__board { margin-top: 30px; background: var(--color-white); }
+.product-inquiry__search-icon img { width: 16.8px; height: 16.8px; }
+.product-inquiry__lock img { width: 24px; height: 24px; }
 .product-inquiry__columns, .product-inquiry__row { display: grid; grid-template-columns: 120fr 580fr 120fr 180fr 200fr; align-items: center; width: 100%; min-height: 69px; border: 0; border-bottom: 1.25px solid var(--color-border-default); text-align: center; }
 .product-inquiry__columns { background: rgba(242,233,218,.2); font-size: 16px; }
 .product-inquiry__columns > :nth-child(-n+2) { font-size: 18px; }
 .product-inquiry__row { padding: 0; background: transparent; color: inherit; font: inherit; font-size: 16px; cursor: pointer; }
 .product-inquiry__row:hover { background: rgba(242,233,218,.15); }
 .product-inquiry__number { font-size: 18px; }
-.product-inquiry__subject { display: flex; align-items: center; gap: 27px; padding: 16px 16px 16px 40px; transform: translateY(-4px); text-align: left; font-size: 18px; font-weight: 500; }
+.product-inquiry__subject { display: flex; align-items: center; gap: 27px; padding: 16px 16px 16px 40px; text-align: left; font-size: 18px; font-weight: 500; }
+.product-inquiry__row { min-height: 70px; }
+.product-inquiry__columns > :nth-child(2) { font-weight: 500; }
 .product-inquiry__lock { display: flex; flex: 0 0 24px; }
 .product-inquiry__author, .product-inquiry__row time { color: var(--color-text-secondary); }
 .product-inquiry__state { display: flex; align-items: center; justify-content: center; position: relative; padding-right: 10px; }
 .product-inquiry__state > svg { position: absolute; right: 20px; transition: transform .15s; }
 .product-inquiry__row[aria-expanded='true'] .product-inquiry__state > svg { transform: rotate(90deg); }
-.product-inquiry__badge { padding: 5px 10px; border-radius: 5px; background: var(--color-paper-ivory); color: var(--color-text-secondary); line-height: 24px; }
+.product-inquiry__badge { display: inline-flex; align-items: center; justify-content: center; width: 70px; height: 25px; border-radius: 5px; background: var(--color-paper-ivory); color: var(--color-text-secondary); font-size: 14px; line-height: 1.6; }
 .product-inquiry__badge--answered { background: var(--color-deep-sage); color: var(--color-white); }
 .product-inquiry__answer { padding: 28px 60px 28px 210px; background: rgba(242,233,218,.2); font-size: 16px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
 .product-inquiry__answer p + p { margin-top: 16px; }
@@ -46,16 +50,16 @@
 .product-inquiry__actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 24px; border: 1px solid var(--color-border-strong); background: var(--color-white); border-radius: 5px; color: inherit; text-decoration: none; }
 .product-inquiry a:focus-visible { outline: 2px solid var(--color-accent-highlight); outline-offset: 3px; }
 .product-inquiry__empty { padding: 70px 24px; text-align: center; }
-.product-inquiry__notice { display: grid; grid-template-columns: 549fr 648fr; align-items: center; min-height: 136px; margin: 46px 0 0 1px; border: 1px solid rgba(140,140,140,.3); border-radius: 10px; background: var(--color-white); }
+.product-inquiry__notice { display: grid; grid-template-columns: 549fr 648fr; align-items: center; min-height: 136px; margin: 0 0 0 1px; border: 1px solid rgba(140,140,140,.3); border-radius: 10px; background: var(--color-white); }
 .product-inquiry__notice-title { display: flex; align-items: center; min-height: 98px; position: relative; padding: 0 20px 0 194px; gap: 12px; }
 .product-inquiry__notice-image { position: absolute; left: 22px; top: -13px; width: 120px; height: 120px; opacity: .8; }
 .product-inquiry__warning-icon { flex: none; width: 60px; height: 60px; }
 .product-inquiry__notice-divider { position: absolute; right: 0; top: 0; max-width: none; }
 .product-inquiry__notice h2 { font: 400 22px/1.3 ProductInquiryBatang, var(--font-family-serif-kr); letter-spacing: .06em; }
 .product-inquiry__notice ul { padding: 20px 20px 20px 80px; list-style: disc; color: var(--color-text-secondary); font-size: 14px; line-height: 1.6; transform: translateY(-5px); }
-.product-inquiry__pagination { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-.product-inquiry__pagination button { min-width: 36px; height: 36px; border: 1px solid var(--color-border-default); background: var(--color-white); cursor: pointer; }
-.product-inquiry__pagination button[aria-current] { background: var(--color-paper-ivory); }
+.product-inquiry__pagination { display: flex; justify-content: center; flex-wrap: wrap; gap: 17px; margin-top: 32px; }
+.product-inquiry__pagination button { width: 40px; height: 40px; border: 1px solid var(--color-border-default); background: var(--color-white); color: var(--color-text-secondary); font: 500 14px/1.6 ProductInquiryDotum, var(--font-family-sans); cursor: pointer; }
+.product-inquiry__pagination button[aria-current] { border-color: var(--color-accent-highlight); color: var(--color-accent-highlight); background: var(--color-paper-ivory); }
 .product-inquiry button:focus-visible { outline: 2px solid var(--color-accent-highlight); outline-offset: -3px; }
 @media (max-width: 1100px) {
   .product-inquiry__subject { padding-left: 16px; gap: 12px; }

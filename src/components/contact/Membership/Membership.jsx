@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useAuthStore } from '../../../store/useAuthStore';
+import { TEST_USER } from '../../../data/testUser';
 import essential from './assets/이미지1.png';
 import signature from './assets/이미지2.png';
 import prestige from './assets/이미지3.png';
@@ -24,12 +26,14 @@ const benefits = [
     { icon: bag, title: '회원 전용 서비스', description: '회원만을 위한 특별한 서비스를 제공합니다.' },
 ];
 
-export default function Membership({ membership = { grade: '일반회원', points: 0, coupons: 0 } }) {
+export default function Membership({ membership }) {
+    const user = useAuthStore((state) => state.user);
+    const membershipInfo = membership ?? { grade: '일반회원', points: user?.id === TEST_USER.id ? 2026 : 0, coupons: 0 };
     const [selectedTier, setSelectedTier] = useState('SIGNATURE');
     const summary = [
-        { icon: crown, label: '현재 등급', value: membership.grade },
-        { icon: coins, label: '보유 포인트', value: `${Number(membership.points ?? 0).toLocaleString('ko-KR')} P` },
-        { icon: ticket, label: '보유 쿠폰', value: `${Number(membership.coupons ?? 0).toLocaleString('ko-KR')} 장` },
+        { icon: crown, label: '현재 등급', value: membershipInfo.grade },
+        { icon: coins, label: '보유 포인트', value: `${Number(membershipInfo.points ?? 0).toLocaleString('ko-KR')} P` },
+        { icon: ticket, label: '보유 쿠폰', value: `${Number(membershipInfo.coupons ?? 0).toLocaleString('ko-KR')} 장` },
     ];
     return (
         <main className="membership">
