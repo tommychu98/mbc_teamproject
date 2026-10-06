@@ -64,10 +64,30 @@ body.ftp-route.ftp-header-hidden .header {
 }
 .ftp-back-to-top > span:not(.ftp-back-to-top__arrow) { position: absolute; top: 55px; left: 26px; font: 300 16px/1.5 PlanetKoPub, sans-serif; letter-spacing: .32px; }
 .ftp-back-to-top:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 4px; }
+@media (min-width: 900px) {
+  .ftp-back-to-top__arrow {
+    top: 11.325px;
+    left: 33.325px;
+    width: 13.35px;
+    height: 18.35px;
+    background: #222;
+    mask-image: url('./assets/top-desktop.svg');
+  }
+  .ftp-back-to-top[data-backdrop="dark"] .ftp-back-to-top__arrow { background: #f7f6f4; }
+  .ftp-back-to-top > span:not(.ftp-back-to-top__arrow) {
+    top: 36px;
+    left: 29px;
+    width: 23px;
+    font: 500 12px/1.6 PlanetKoPub, sans-serif;
+    letter-spacing: .24px;
+    text-align: center;
+  }
+}
 @media (max-width: 899px) {
-  .ftp-back-to-top { right: 20px; width: 40px; height: 43px; }
-  .ftp-back-to-top__arrow { top: 7.5px; left: 13.5px; width: 13px; height: 17px; mask-image: url('/ForThePlanet/top-mobile.svg'); }
-  .ftp-back-to-top > span:not(.ftp-back-to-top__arrow) { top: 29px; left: 9px; font-size: 11px; line-height: 1.3; letter-spacing: .22px; }
+  .ftp-back-to-top { right: 20px; width: 40px; height: 43px; color: #171714; }
+  .ftp-back-to-top__arrow { top: 7.5px; left: 13.5px; width: 13px; height: 17px; background: #222; mask-image: url('./assets/top-mobile.svg'); }
+  .ftp-back-to-top[data-backdrop="dark"] .ftp-back-to-top__arrow { background: #f7f6f4; }
+  .ftp-back-to-top > span:not(.ftp-back-to-top__arrow) { top: 29px; left: 9px; width: 22px; font-size: 11px; line-height: 1.3; letter-spacing: .22px; text-align: center; }
 }
 
 .for-the-planet {
@@ -401,7 +421,7 @@ body.ftp-route.ftp-header-hidden .header {
     aspect-ratio: 1086 / 1448;
     transform: translateX(-50%);
     object-fit: cover;
-    box-shadow: 0 8px 8px rgb(0 0 0 / .5);
+    filter: drop-shadow(0 8px 8px rgb(0 0 0 / .5));
   }
   .ftp-mobile-intro__expanded {
     position: absolute;
@@ -426,10 +446,10 @@ body.ftp-route.ftp-header-hidden .header {
   .ftp-mobile-intro__background--forest { height: calc(930 / 935 * 100%); }
   .ftp-mobile-intro__hamster {
     position: absolute;
-    top: calc(653 / 935 * 100%);
+    top: calc(653 / 935 * 100% + 20px);
     left: calc(332 / 430 * 100%);
-    width: calc(56 / 430 * 100%);
-    height: calc(56 / 935 * 100%);
+    width: 76px;
+    height: 76px;
     opacity: .9;
     object-fit: cover;
   }

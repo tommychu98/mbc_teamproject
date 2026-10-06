@@ -387,6 +387,7 @@ function ArchScene({ variant, first = false }) {
                   height: "16.69%",
                   filter: "none",
                   opacity: 0.92,
+                  translate: "10px -10px",
                 }}
               />
             )}
@@ -435,12 +436,12 @@ function ArchScene({ variant, first = false }) {
                   className="ftp-expanding-object ftp-expanding-object--no-shadow"
                   src={hamster}
                   alt="숲속 햄스터"
-                  style={canvasPosition(
+                  style={{ ...canvasPosition(
                     object.hamster.x,
                     object.hamster.y,
                     object.hamster.w,
                     object.hamster.h
-                  )}
+                  ), translate: "10px -10px" }}
                 />
               </>
             )}
