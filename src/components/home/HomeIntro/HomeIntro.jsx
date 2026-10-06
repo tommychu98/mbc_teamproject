@@ -50,6 +50,8 @@ export default function HomeIntro() {
     useLayoutEffect(() => {
         const root = rootRef.current;
         const video = videoRef.current;
+        root.dataset.storyState = 'pending';
+        window.dispatchEvent(new CustomEvent('home-intro-header-visibility', { detail: { visible: false, locked: false } }));
         video.defaultPlaybackRate = HERO_PLAYBACK_RATE;
         video.playbackRate = HERO_PLAYBACK_RATE;
         const context = gsap.context(() => {
@@ -122,6 +124,8 @@ export default function HomeIntro() {
                     const timeline = storyTimelineRef.current;
                     if (!timeline || timeline.isActive() || timeline.progress() === 1) return;
                     timeline.eventCallback('onComplete', () => {
+                        root.dataset.storyState = 'ready';
+                        window.dispatchEvent(new CustomEvent('home-intro-header-visibility', { detail: { visible: true, locked: true } }));
                         root.dispatchEvent(new Event('home-intro-story-complete'));
                     });
                     timeline.play();
@@ -129,6 +133,7 @@ export default function HomeIntro() {
             });
         const cleanupPlaybackRate = setupScrollPlaybackRate({ root, video });
         return () => {
+            window.dispatchEvent(new CustomEvent('home-intro-header-visibility', { detail: { visible: true, locked: false } }));
             cleanupPlaybackRate();
             cleanupPlayback();
             context.revert();

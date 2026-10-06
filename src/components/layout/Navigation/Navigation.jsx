@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { useCartStore } from '../../../store/useCartStore';
@@ -67,6 +67,8 @@ const DROPDOWN_CLOSE_DELAY = 140;
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [homeIntroReady, setHomeIntroReady] = useState(false);
+  const [homeIntroHeaderLocked, setHomeIntroHeaderLocked] = useState(false);
   const [desktopOpenMenu, setDesktopOpenMenu] = useState(null);
   const lastScrollYRef = useRef(0);
   const animationFrameRef = useRef(null);
@@ -77,6 +79,29 @@ export default function Header() {
   const isTestUser = isAuthenticated && user?.id === TEST_USER.id;
   const cartCount = useCartStore((state) => state.items.reduce((sum, item) => sum + item.quantity, 0));
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const homeIntroHeaderVisible = pathname !== '/' || homeIntroReady;
+  const forceHomeIntroHeader = pathname === '/' && homeIntroHeaderLocked;
+
+  useEffect(() => {
+    if (pathname !== '/') return undefined;
+    const syncFrame = window.requestAnimationFrame(() => {
+      const intro = document.querySelector('.home-intro');
+      const ready = intro?.dataset.storyState === 'ready';
+      const bounds = intro?.getBoundingClientRect();
+      setHomeIntroReady(ready);
+      setHomeIntroHeaderLocked(Boolean(ready && bounds && bounds.bottom > 0 && bounds.top < window.innerHeight));
+    });
+    const updateHomeIntroHeader = (event) => {
+      setHomeIntroReady(Boolean(event.detail?.visible));
+      setHomeIntroHeaderLocked(Boolean(event.detail?.locked));
+    };
+    window.addEventListener('home-intro-header-visibility', updateHomeIntroHeader);
+    return () => {
+      window.cancelAnimationFrame(syncFrame);
+      window.removeEventListener('home-intro-header-visibility', updateHomeIntroHeader);
+    };
+  }, [pathname]);
 
   const clearDropdownCloseTimeout = () => {
     if (dropdownCloseTimeoutRef.current) {
@@ -191,7 +216,7 @@ export default function Header() {
       onMouseLeave={scheduleHeaderHide}
     />
     <header
-      className={`header ${isVisible || open ? 'header--visible' : 'header--hidden'}`}
+      className={`header ${homeIntroHeaderVisible && (forceHomeIntroHeader || isVisible || open) ? 'header--visible' : 'header--hidden'}${homeIntroHeaderVisible ? '' : ' header--home-intro-hidden'}${forceHomeIntroHeader ? ' header--home-intro-locked' : ''}`}
       onMouseEnter={() => { isHeaderHoveredRef.current = true; showHeader(); }}
       onMouseLeave={() => { isHeaderHoveredRef.current = false; scheduleHeaderHide(); }}
     >
@@ -219,7 +244,7 @@ export default function Header() {
       </nav>
       <div className="header__utilities">
         <Link className="header__account" to={isAuthenticated ? '/mypage' : '/login'} aria-label={isAuthenticated ? '마이페이지' : '로그인'}>
-          {isAuthenticated ? <span className="header__profile-avatar">
+          {isAuthenticated ? <span className={`header__profile-avatar${isTestUser ? ' header__profile-avatar--flower' : ''}`}>
             <img
               className={`header__profile-image${isTestUser ? ' header__profile-image--test' : ''}`}
               src={isTestUser ? '/images/common/nav-test-profile-flower.svg' : '/images/common/nav-botanical-avatar.png'}

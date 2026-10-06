@@ -52,7 +52,7 @@
   display: block;
   max-width: none;
   height: auto;
-  animation: history-maison-cloud-drift var(--cloud-period) ease-in-out var(--cloud-delay) infinite;
+  animation: history-maison-cloud-drift calc(var(--cloud-period) * 1.25) ease-in-out var(--cloud-delay) infinite;
 }
 
 /* Backfill the central opening, including the full drift range of the front clouds. */
@@ -106,7 +106,7 @@
 .history-maison__story-03-visual-02,
 .history-maison__story-03-visual-03,
 .history-maison__story-03-visual-04 {
-  animation: history-maison-cloud-drift var(--cloud-period, 13s) ease-in-out var(--cloud-delay, -3s) infinite;
+  animation: history-maison-cloud-drift calc(var(--cloud-period, 13s) * 1.25) ease-in-out var(--cloud-delay, -3s) infinite;
   --cloud-x: min(3vw, 58px);
   --cloud-y: min(2vw, 38px);
 }
@@ -123,7 +123,7 @@
 
 @keyframes history-maison-cloud-drift {
   0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(var(--cloud-x), calc(var(--cloud-y) * -1), 0); }
+  50% { transform: translate3d(calc(var(--cloud-x) * .52), calc(var(--cloud-y) * -.52), 0); }
 }
 
 .history-maison__image,
@@ -252,9 +252,9 @@
 
 /* Move the cropped letter as a whole, preserving its inner artwork transforms. */
 .history-maison__main > [class*="history-maison__floating-"] {
-  --float-x: min(1.2vw, 23px);
-  --float-y: min(4vw, 77px);
-  animation: history-maison-float calc(var(--float-duration, 11s) * .55) ease-in-out
+  --float-x: min(.6vw, 12px);
+  --float-y: min(1.8vw, 35px);
+  animation: history-maison-float calc(var(--float-duration, 11s) * 1.05) ease-in-out
     var(--float-delay, -3s) infinite;
   transform-origin: 50% 55%;
   pointer-events: none;

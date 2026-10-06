@@ -98,8 +98,8 @@
 }
 
 @keyframes history-maison-mobile-float {
-  from { translate: calc(var(--float-x) * -1) calc(var(--float-y) * -1); }
-  to { translate: var(--float-x) var(--float-y); }
+  from { translate: calc(var(--float-x) * -.55) calc(var(--float-y) * -.55); }
+  to { translate: calc(var(--float-x) * .55) calc(var(--float-y) * .55); }
 }
 
 @keyframes history-maison-mobile-cloud {
@@ -114,28 +114,28 @@
 
 @keyframes history-maison-word-piece-float {
   0%, 100% { translate: 0 0; }
-  35% { translate: var(--float-x) var(--float-y); }
-  70% { translate: calc(var(--float-x) * -.65) calc(var(--float-y) * -.65); }
+  35% { translate: calc(var(--float-x) * .5) calc(var(--float-y) * .5); }
+  70% { translate: calc(var(--float-x) * -.32) calc(var(--float-y) * -.32); }
 }
 
 @keyframes history-maison-word-cloud-float {
   0%, 100% { translate: 0 0; }
-  50% { translate: var(--cloud-x) var(--cloud-y); }
+  50% { translate: calc(var(--cloud-x) * .55) calc(var(--cloud-y) * .55); }
 }
 
 @keyframes history-maison-word-angel-float {
   0%, 100% { translate: 0 0; rotate: 0deg; }
-  50% { translate: -1.1cqw .7cqw; rotate: -.45deg; }
+  50% { translate: -.55cqw .35cqw; rotate: -.2deg; }
 }
 
 @keyframes history-maison-today-cloud {
   0%, 100% { translate: 0 0; }
-  50% { translate: var(--cloud-x) var(--cloud-y); }
+  50% { translate: calc(var(--cloud-x) * .55) calc(var(--cloud-y) * .55); }
 }
 
 @keyframes history-maison-today-rider {
   0%, 100% { translate: 0 0; rotate: 0deg; }
-  50% { translate: var(--float-x) var(--float-y); rotate: .25deg; }
+  50% { translate: calc(var(--float-x) * .55) calc(var(--float-y) * .55); rotate: .12deg; }
 }
 
 @keyframes history-maison-today-sun {

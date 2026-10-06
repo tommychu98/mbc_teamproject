@@ -14,6 +14,19 @@
 
 .header--hidden { pointer-events: none; opacity: 0; transform: translateY(-100%); }
 .header--visible { pointer-events: auto; opacity: 1; transform: translateY(0); }
+.header--home-intro-hidden { visibility: hidden; }
+.header--home-intro-locked {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0);
+  transition: none;
+  animation: home-intro-header-reveal 480ms var(--ease-standard) both;
+}
+@keyframes home-intro-header-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 .header-hover-zone { position: fixed; z-index: calc(var(--z-header) - 1); top: 0; right: 0; left: 0; height: var(--space-16); }
 .header a { color: inherit; text-decoration: none; }
 .header button { margin: 0; padding: 0; border: 0; appearance: none; background: transparent; color: inherit; font: inherit; box-shadow: none; }
@@ -42,8 +55,9 @@
 .header__utilities a > img { width: 24px; height: 24px; object-fit: contain; }
 .header__account { display: none !important; }
 .header__profile-avatar { display: block; width: 24px; height: 24px; border-radius: 50%; overflow: hidden; }
+.header__profile-avatar--flower { border-radius: 0; overflow: visible; }
 .header__account .header__profile-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transform: scale(2.75); transform-origin: 73% 18%; }
-.header__account .header__profile-image--test { box-sizing: border-box; padding: 1px; object-fit: contain; transform: none; }
+.header__account .header__profile-image--test { box-sizing: border-box; padding: 0; object-fit: contain; transform: scale(.88); transform-origin: center; }
 .header__cart { position: relative; }
 .header__cart span { position: absolute; top: 2px; right: 0; display: grid; min-width: 16px; height: 16px; place-items: center; border-radius: 50%; background: var(--color-ink-black); color: var(--color-white); font-family: var(--font-family-sans); font-size: 9px; }
 

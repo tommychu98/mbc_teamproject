@@ -1,0 +1,178 @@
+@font-face {
+    font-family: SignupDisplay;
+    src: url('../home/HomeScentMemory/assets/eb-garamond-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+/* Figma 4658:11716: 1920 × 1200, card (675, 218), 570 × 830.
+   Normal-flow spacing preserves those coordinates and lets errors expand the card. */
+.auth-page.auth-page--signup {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(0, 570px);
+    justify-content: center;
+    align-content: start;
+    min-height: calc(100svh - 72px);
+    padding: 108px 24px 152px;
+    overflow: clip;
+    background: #f7f6f4;
+    color: #222;
+    font-family: AuthDotum, sans-serif;
+}
+.auth-page--signup *,
+.auth-page--signup *::before,
+.auth-page--signup *::after { box-sizing: border-box; }
+.auth-page--signup .signup-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-width: 0;
+    min-height: 830px;
+    padding: 48px 45px 46px 53px;
+    border: 1px solid rgb(75 75 75 / .5);
+    border-radius: 20px;
+    background: rgb(255 255 255 / .5);
+}
+.signup-card__header { margin: 0 0 46px -6px; }
+.signup-card__header p {
+    margin: 0 0 5px;
+    color: #4b4b4b;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: .32px;
+}
+.auth-page--signup .signup-card__header h1 {
+    margin: 0;
+    font: 400 64px/70px SignupDisplay, var(--font-family-display);
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+.auth-page--signup .signup-form { display: flex; flex-direction: column; gap: 0; min-width: 0; }
+.auth-page--signup .login-field { display: grid; min-width: 0; gap: 5px; }
+.auth-page--signup .login-field + .login-field { margin-top: 16px; }
+.auth-page--signup .login-field:nth-of-type(3) { margin-top: 23px; }
+.auth-page--signup .field__label { font: 700 18px/27px AuthDotum, sans-serif; letter-spacing: .36px; }
+.auth-page--signup .field__input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 74px;
+    min-height: 74px;
+    padding: 3px 14px 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    background: #fff;
+    color: #222;
+    font: 300 16px/24px AuthDotum, sans-serif;
+    letter-spacing: .32px;
+}
+.auth-page--signup .field__input::placeholder { color: rgb(34 34 34 / .3); opacity: 1; }
+.auth-page--signup .field__input:focus {
+    border-color: #4b4b4b;
+    outline: 2px solid rgb(75 75 75 / .15);
+    outline-offset: 1px;
+}
+.auth-page--signup .field__input[aria-invalid="true"] { border-color: var(--color-error); }
+.auth-page--signup .login-field__control { min-width: 0; }
+.auth-page--signup .login-field__control .field__input { padding-right: 64px; }
+.auth-page--signup .login-field__visibility { right: 19px; }
+.auth-page--signup .login-field__visibility img { width: 20.7263px; height: 17.5px; }
+.auth-page--signup .field__error { position: static; font: 300 12px/18px AuthDotum, sans-serif; overflow-wrap: anywhere; }
+.auth-page--signup .auth-form__error { margin: 8px 0 0; font: 300 13px/20px AuthDotum, sans-serif; }
+.auth-page--signup .login-card__button {
+    display: flex;
+    width: 100%;
+    height: 45px;
+    min-height: 45px;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0 10px;
+    border: 1px solid rgb(75 75 75 / .5);
+    border-radius: 10px;
+    color: #222;
+    font: 500 14px/22px AuthDotum, sans-serif;
+    letter-spacing: .28px;
+    text-transform: none;
+    cursor: pointer;
+}
+.auth-page--signup .signup-card__submit {
+    margin-top: 24px;
+    border-color: rgb(75 75 75 / .3);
+    background: #222;
+    color: #f7f6f4;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    letter-spacing: .32px;
+}
+.auth-page--signup .signup-card__cancel { margin-top: 15px; background: #fff; }
+.auth-page--signup .signup-card__submit:hover { background: #4b4b4b; }
+.auth-page--signup .signup-card__cancel:hover { background: #f7f6f4; }
+.signup-card__divider {
+    display: grid;
+    grid-template-columns: minmax(0, 215fr) 24px minmax(0, 206fr);
+    align-items: center;
+    gap: 13px;
+    height: 24px;
+    margin: 15px 0 19px -1px;
+    color: rgb(34 34 34 / .3);
+    font: 300 16px/24px AuthDotum, sans-serif;
+    letter-spacing: .32px;
+}
+.signup-card__rule { position: relative; display: block; height: 1px; overflow: hidden; }
+.signup-card__rule img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    max-width: none;
+    transform: rotate(-90deg) translateX(-1px);
+    transform-origin: 0 0;
+}
+.auth-page--signup .signup-card__kakao { gap: 5px; background: #fee500; }
+.auth-page--signup .signup-card__kakao img { display: block; flex: none; width: 24px; height: 24px; }
+.signup-decoration {
+    position: absolute;
+    z-index: 2;
+    top: 3px;
+    left: calc(50% - 515px);
+    display: block;
+    width: 284px;
+    height: 355px;
+    max-width: none;
+    object-fit: cover;
+    opacity: .6;
+    pointer-events: none;
+    user-select: none;
+}
+@media (min-width: 1180px) {
+    .auth-page.auth-page--signup { min-height: max(1090px, calc(100svh - 110px)); }
+}
+@media (min-width: 768px) and (max-width: 1179px) {
+    .signup-decoration {
+        left: max(0px, calc(50% - 440px));
+        width: clamp(120px, calc((100vw - 570px) * .55), 210px);
+        height: auto;
+        aspect-ratio: 284 / 355;
+        top: 3px;
+    }
+}
+/* The linked design supplies a desktop frame; compact layouts keep its hierarchy. */
+@media (max-width: 767px) {
+    .auth-page.auth-page--signup { padding: 92px 16px 56px; }
+    .auth-page--signup .signup-card { min-height: 0; padding: 34px 20px 32px; border-radius: 16px; }
+    .signup-card__header { margin: 0 0 32px; }
+    .signup-card__header p { font-size: 14px; }
+    .auth-page--signup .signup-card__header h1 { font-size: clamp(38px, 10.5vw, 56px); line-height: 1.1; }
+    .auth-page--signup .field__label { font-size: 16px; line-height: 24px; }
+    .auth-page--signup .field__input { height: 60px; min-height: 60px; }
+    .auth-page--signup .login-field__visibility { right: 8px; }
+    .auth-page--signup .login-field:nth-of-type(3) { margin-top: 16px; }
+    .signup-decoration { top: -12px; left: max(0px, calc(50% - 285px)); width: 120px; height: 150px; }
+}

@@ -4,10 +4,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 const SCROLL_DISTANCE = 3600;
 const REVEAL_END = 0.4;
-const PLAYBACK_REVEAL_START = 0.04;
+const PLAYBACK_REVEAL_START = 0.18;
+const VIDEO_REVEAL_SECONDS = 2.4;
 const CAMERA_END = 6 / 14;
 // First step out of the doorway in the desktop film (media seconds).
 const STORY_START_TIME = 11.3;
+const MAX_LOCKED_SCROLL_STEP = 160;
+const INITIAL_REVEAL_DURATION = 0.9;
 const smoothstep = p => p * p * (3 - 2 * p);
 
 // Scroll controls only the existing reveal/pin. The media clock owns playback;
@@ -19,13 +22,18 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
     let disposed = false;
     let visible = false;
     let revealProgress = 0;
+    let scrollRevealProgress = 0;
+    let revealCanOnlyAdvance = false;
     let lastReveal = -1;
     let frame = 0;
     let storyStarted = false;
     let storyAnimating = false;
     let additionalPinDistance = 0;
     let touchY = null;
+    let initialRevealStarted = false;
+    let revealTween;
     let trigger;
+    const loadingIsActive = () => Boolean(document.querySelector('.intro-video'));
     // Keep the browser's initial autoplay buffering priority. onPlay below
     // pauses before presentation if the logo reveal is still covering it.
 
@@ -41,11 +49,16 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
         gsap.set(logo, { y: -760 * camera });
         return p < CAMERA_END;
     };
+    const paintMediaReveal = mediaTime => {
+        const mediaReveal = gsap.utils.clamp(0, 1, mediaTime / VIDEO_REVEAL_SECONDS) * REVEAL_END;
+        paintReveal(Math.max(scrollRevealProgress, mediaReveal));
+    };
     const scheduleCamera = () => {
         if (frame || disposed || video.paused || document.hidden) return;
         const next = (_now, metadata) => {
             frame = 0;
             const mediaTime = metadata?.mediaTime ?? video.currentTime;
+            paintMediaReveal(mediaTime);
             const cameraMoving = paintCamera(mediaTime);
             beginStory(mediaTime);
             if (cameraMoving || !storyStarted) scheduleCamera();
@@ -87,6 +100,7 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
     };
     const onPlaying = () => {
         if (!canPlay()) { video.pause(); return; }
+        revealCanOnlyAdvance = true;
         video.controls = false;
         root.dataset.videoState = 'playing';
         scheduleCamera();
@@ -105,7 +119,8 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
     };
     const paintReveal = progress => {
         if (storyAnimating) return;
-        revealProgress = storyStarted ? 1 : revealEase(gsap.utils.clamp(0, 1, progress / REVEAL_END));
+        const nextReveal = storyStarted ? 1 : revealEase(gsap.utils.clamp(0, 1, progress / REVEAL_END));
+        revealProgress = revealCanOnlyAdvance ? Math.max(revealProgress, nextReveal) : nextReveal;
         if (revealProgress === lastReveal) return;
         lastReveal = revealProgress;
         const diffusion = smoothstep(revealProgress);
@@ -119,6 +134,22 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
         gsap.set(video, { opacity: smoothstep(gsap.utils.clamp(0, 1, revealProgress / 0.75)), scale: 1.03 - diffusion * 0.03 });
         syncPlayback();
     };
+    const startInitialReveal = () => {
+        if (initialRevealStarted || storyStarted || disposed) return;
+        initialRevealStarted = true;
+        // The first downward intent starts one continuous reveal. It must not
+        // stop halfway merely because the wheel/touch gesture was short.
+        revealCanOnlyAdvance = true;
+        const revealState = { progress: Math.max(scrollRevealProgress, revealProgress * REVEAL_END) };
+        revealTween = gsap.to(revealState, {
+            progress: REVEAL_END,
+            duration: INITIAL_REVEAL_DURATION,
+            ease: 'power2.inOut',
+            overwrite: true,
+            onUpdate: () => paintReveal(revealState.progress),
+            onComplete: () => paintReveal(REVEAL_END),
+        });
+    };
     const context = gsap.context(() => {
         gsap.set(logo, { xPercent: -50, yPercent: -50, x: 0, y: 0, autoAlpha: 1 });
         const state = { progress: 0 };
@@ -128,11 +159,24 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
             scrub: 0.8, invalidateOnRefresh: true,
         } });
         trigger = timeline.scrollTrigger;
-        timeline.fromTo(state, { progress: 0 }, { progress: 1, duration: 1, ease: 'none', onUpdate: () => paintReveal(state.progress) });
+        timeline.fromTo(state, { progress: 0 }, {
+            progress: 1,
+            duration: 1,
+            ease: 'none',
+            onUpdate: () => {
+                scrollRevealProgress = state.progress;
+                paintReveal(scrollRevealProgress);
+            },
+        });
         paintReveal(0);
     }, root);
     const visibility = new IntersectionObserver(([entry]) => {
         visible = entry.isIntersecting;
+        if (storyStarted) {
+            window.dispatchEvent(new CustomEvent('home-intro-header-visibility', {
+                detail: { visible: true, locked: visible },
+            }));
+        }
         syncPlayback();
     }, { threshold: 0 });
     visibility.observe(root);
@@ -140,18 +184,58 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
     size.observe(root);
     resize();
     const onWheel = event => {
-        if (!storyAnimating || event.ctrlKey) return;
+        if (loadingIsActive()) {
+            if (event.cancelable) event.preventDefault();
+            return;
+        }
+        if (event.ctrlKey || event.metaKey || event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+        if (!storyStarted && visible && event.deltaY > 0) {
+            if (event.cancelable) event.preventDefault();
+            startInitialReveal();
+            const maxScroll = Math.max(trigger?.start ?? 0, (trigger?.end ?? 0) - 1);
+            const step = Math.min(event.deltaY, MAX_LOCKED_SCROLL_STEP);
+            window.scrollTo({ top: Math.min(window.scrollY + step, maxScroll), behavior: 'instant' });
+            return;
+        }
+        if (!storyAnimating) return;
         if (event.deltaY < 0) finishStory();
         else if (event.deltaY > 0 && event.cancelable) event.preventDefault();
     };
-    const onTouchStart = event => { touchY = event.touches.length === 1 ? event.touches[0].clientY : null; };
+    const onTouchStart = event => {
+        touchY = loadingIsActive() ? null : (event.touches.length === 1 ? event.touches[0].clientY : null);
+    };
     const onTouchMove = event => {
-        if (!storyAnimating || touchY === null) return;
-        if (event.touches[0]?.clientY > touchY) finishStory();
-        else if (event.touches[0]?.clientY < touchY && event.cancelable) event.preventDefault();
+        if (loadingIsActive()) {
+            if (event.cancelable) event.preventDefault();
+            touchY = null;
+            return;
+        }
+        if (touchY === null) return;
+        const nextY = event.touches[0]?.clientY;
+        if (!storyStarted && visible && nextY < touchY) {
+            if (event.cancelable) event.preventDefault();
+            startInitialReveal();
+            const maxScroll = Math.max(trigger?.start ?? 0, (trigger?.end ?? 0) - 1);
+            const step = Math.min(touchY - nextY, MAX_LOCKED_SCROLL_STEP);
+            window.scrollTo({ top: Math.min(window.scrollY + step, maxScroll), behavior: 'instant' });
+        } else if (storyAnimating && nextY > touchY) finishStory();
+        else if (storyAnimating && nextY < touchY && event.cancelable) event.preventDefault();
+        touchY = nextY;
     };
     const onKey = event => {
-        if (!storyAnimating || event.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+        if (event.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+        if (loadingIsActive() && [' ', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End'].includes(event.key)) {
+            event.preventDefault();
+            return;
+        }
+        if (!storyStarted && visible && [' ', 'ArrowDown', 'PageDown', 'End'].includes(event.key) && !(event.key === ' ' && event.shiftKey)) {
+            event.preventDefault();
+            startInitialReveal();
+            const maxScroll = Math.max(trigger?.start ?? 0, (trigger?.end ?? 0) - 1);
+            window.scrollTo({ top: Math.min(window.scrollY + MAX_LOCKED_SCROLL_STEP, maxScroll), behavior: 'instant' });
+            return;
+        }
+        if (!storyAnimating) return;
         if (['ArrowUp', 'PageUp', 'Home'].includes(event.key) || (event.key === ' ' && event.shiftKey)) finishStory();
         else if ([' ', 'ArrowDown', 'PageDown', 'End'].includes(event.key)) event.preventDefault();
     };
@@ -171,6 +255,7 @@ export default function setupDesktopVideo({ root, video, logo, mist, overlay, to
         disposed = true;
         visibility.disconnect();
         size.disconnect();
+        revealTween?.kill();
         cancelCamera();
         video.removeEventListener('play', onPlay);
         video.removeEventListener('playing', onPlaying);

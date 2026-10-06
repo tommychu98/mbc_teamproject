@@ -4,7 +4,6 @@ import replayArrow from './assets/replay-arrow.svg';
 import modelUrl from './assets/orpheon-custom.bin?url';
 import loadCompressedModel from './loadCompressedModel';
 
-const ENTRANCE_DURATION_SECONDS = 4.8;
 const ROTATION_SPEED = 0.5;
 
 export default function HomePerfume3D() {
@@ -124,10 +123,12 @@ export default function HomePerfume3D() {
                 model.scale.set(scale, scale, scale * depthRatio);
                 model.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale * depthRatio);
                 pivot.add(model);
-                // Prepare shaders and upload textures before the section is seen,
-                // without advancing the entrance animation.
-                pivot.position.y = 3.18;
-                pivot.scale.setScalar(0.16);
+                // Show the perfume at its final size and position from the first frame.
+                pivot.position.y = -0.22;
+                pivot.scale.setScalar(1);
+                pivot.rotation.z = 0;
+                shadow.style.opacity = '0.22';
+                shadow.style.transform = 'translateX(-50%) scale(1)';
                 await renderer.compileAsync(scene, camera);
                 if (disposed) return;
                 renderer.render(scene, camera);
@@ -138,19 +139,11 @@ export default function HomePerfume3D() {
                     lastTime = time;
                     if (!visible || document.hidden) return;
                     elapsed += delta;
-                    const t = Math.min(elapsed / ENTRANCE_DURATION_SECONDS, 1);
-                    const ease = 1 - Math.pow(1 - t, 3);
-                    const settling = t > 0.8 ? Math.sin((t - 0.8) / 0.2 * Math.PI) * 0.075 : 0;
-                    pivot.position.y = (1 - ease) * 3.4 + settling - 0.22;
-                    pivot.scale.setScalar(0.16 + ease * 0.84);
-                    pivot.rotation.y = ease * Math.PI * 4 + elapsed * ROTATION_SPEED;
-                    pivot.rotation.z = Math.sin(t * Math.PI * 2) * (1 - t) * 0.11;
-                    shadow.style.opacity = String(0.05 + ease * 0.17);
-                    shadow.style.transform = `translateX(-50%) scale(${0.45 + ease * 0.55})`;
+                    pivot.rotation.y = elapsed * ROTATION_SPEED;
                     renderer.render(scene, camera);
                 };
                 syncPlayback = () => {
-                    // Preserve elapsed entrance time across visibility pauses.
+                    // Preserve the rotation angle across visibility pauses.
                     lastTime = 0;
                     renderer.setAnimationLoop(visible && !document.hidden ? render : null);
                 };
