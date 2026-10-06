@@ -2,7 +2,7 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    height: calc(var(--film-stage-height, 56.25vw) + 100svh);
+    height: calc(var(--film-stage-height, max(56.25vw, 100dvh)) + 100dvh);
     margin-top: var(--film-day-lead, 0px);
     margin-bottom: var(--film-night-lead, 0px);
     background: #222;
@@ -31,9 +31,9 @@
 
 .home-main-film__stage {
     position: sticky;
-    top: calc((100svh - var(--film-stage-height, 56.25vw)) / 2);
+    top: calc((100dvh - var(--film-stage-height, max(56.25vw, 100dvh))) / 2);
     width: 100%;
-    aspect-ratio: 1920 / 1080;
+    height: var(--film-stage-height, max(56.25vw, 100dvh));
     overflow: hidden;
 }
 

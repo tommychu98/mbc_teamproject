@@ -224,8 +224,8 @@
         --intro-safe-left: env(safe-area-inset-left, 0px);
         --intro-safe-right: env(safe-area-inset-right, 0px);
         height: 100svh;
-        /* The app reserves 72px for its mobile header; this hero fills the viewport. */
-        margin-top: -72px;
+        /* Offset the 52px mobile header reservation to fill the viewport. */
+        margin-top: -52px;
         z-index: calc(var(--z-header, 200) - 1);
     }
     .home-intro__logo {

@@ -17,14 +17,14 @@
 .home-perfume-history {
     position: relative;
     width: 100%;
-    height: calc(var(--history-stage-height, 100svh) + var(--history-scroll-distance, 0px));
+    height: calc(var(--history-stage-height, 100dvh) + var(--history-scroll-distance, 0px));
     background: #f7f6f4;
 }
 
 .home-perfume-history__stage {
     position: sticky;
     top: 0;
-    min-height: 100svh;
+    min-height: 100dvh;
     background: #f7f6f4;
 }
 
@@ -288,18 +288,47 @@
     font-weight: 300;
     font-display: swap;
 }
+@media (min-width: 768px) {
+    .home-perfume-history__canvas {
+        min-height: 100dvh;
+    }
+    /* Keep the illustration and oval lettering together as the frame grows. */
+    .home-perfume-history__logo-window {
+        top: calc(50% - 12.552083cqw);
+        height: 26.5625cqw;
+    }
+    .home-perfume-history__oval-text--top {
+        top: calc(50% - 15.416667cqw);
+    }
+    .home-perfume-history__oval-text--bottom {
+        top: calc(50% + .989583cqw);
+    }
+    .home-perfume-history__button {
+        top: calc(50% - .625cqw);
+    }
+}
+
 @media (max-width: 767px) {
+    /* This stage reserves the menu's height, so keep the menu visible while pinned. */
+    .app:has(.home-perfume-history[data-pinned='true']) .header {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
     .home-perfume-history__stage {
         top: calc(52px + env(safe-area-inset-top, 0px));
-        min-height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+        height: calc(100dvh - 52px - env(safe-area-inset-top, 0px));
+        min-height: 0;
     }
     .home-perfume-history__canvas {
-        display: block;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 74.6fr) minmax(0, 25.4fr);
         aspect-ratio: auto;
-        height: 205.348837vw;
-        min-height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+        height: 100%;
+        min-height: 0;
     }
-    .home-perfume-history__photo { height: 144.186047cqw; width: 100%; }
+    .home-perfume-history__photo { height: 100%; min-height: 0; width: 100%; }
     .home-perfume-history__photo-slide:nth-child(1) { left: 0 !important; }
     .home-perfume-history__photo-slide:nth-child(2) { left: -100cqw !important; }
     .home-perfume-history__photo-slide:nth-child(3) { left: -200cqw !important; }
@@ -310,19 +339,27 @@
     .home-perfume-history__photo-slide--2 .home-perfume-history__title span:last-child { margin-top: -2.55814cqw; }
     .home-perfume-history__photo-slide--3 .home-perfume-history__title { top: calc(50% - 7.44186cqw); font-size: 14.883721cqw; }
     .home-perfume-history__logo-panel {
-        position: absolute;
+        position: relative;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr) auto;
         left: 0;
-        top: max(calc(144.186047cqw + 3.395349cqw), calc(60% + 26.790698cqw));
+        top: auto;
         width: 100%;
-        height: 43.255814cqw;
+        height: 100%;
+        min-height: 0;
+        box-sizing: border-box;
+        padding: clamp(6px, 1.5dvh, 14px) 12px calc(clamp(20px, 3dvh, 28px) + env(safe-area-inset-bottom, 0px));
+        gap: 6px;
     }
-    .home-perfume-history__logo-window { left: 0; top: 6.604651cqw; width: 100%; height: 30.232558cqw; }
+    .home-perfume-history__logo-window { position: relative; left: 0; top: auto; width: 100%; height: auto; flex: 1; min-height: 0; }
+    .home-perfume-history__logo-slide picture { display: block; height: 100%; }
     .home-perfume-history__logo-slide:nth-child(1) { left: 0 !important; }
     .home-perfume-history__logo-slide:nth-child(2) { left: 100cqw !important; }
     .home-perfume-history__logo-slide:nth-child(3) { left: 200cqw !important; }
-    .home-perfume-history__logo-image { width: 22.55814cqw; height: 30.232558cqw; margin: 0 auto; }
+    .home-perfume-history__logo-image { width: min(97px, 22.55814cqw); height: 100%; max-height: 130px; margin: auto; }
     .home-perfume-history__mobile-count { display: block; margin: 0; color: #6b665f; font: 300 16px/1.4 'HomePerfumeHistory Mobile Dotum', sans-serif; letter-spacing: .96px; text-align: center; }
-    .home-perfume-history__mobile-caption { display: block; position: absolute; top: 36.837209cqw; width: 100%; margin: 0; color: #222; font: 400 3.72093cqw/1 'HomePerfumeHistory Regular', Georgia, serif; text-align: center; }
+    .home-perfume-history__mobile-caption { display: block; position: relative; top: auto; width: 100%; margin: 0; color: #222; font: 400 3.72093cqw/1 'HomePerfumeHistory Regular', Georgia, serif; text-align: center; }
+    .home-perfume-history .home-perfume-history__fragrance-cursor { display: none; }
     .home-perfume-history__oval-text,
     .home-perfume-history__button { display: none; }
 }

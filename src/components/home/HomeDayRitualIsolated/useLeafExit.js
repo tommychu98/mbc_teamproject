@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import { easeInOut } from '../../../utils/scrollMotion';
 
 const clamp = (value) => Math.min(1, Math.max(0, value));
-const FLIGHT_DURATION_MS = 850;
+const FLIGHT_DURATION_MS = 1400;
 const PATH_SAMPLES = 128;
 // One cubic Bezier, with opposing control-point offsets forming one S bend.
 const curvePoint = (t, distance, rise) => {

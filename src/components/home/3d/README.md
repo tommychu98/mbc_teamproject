@@ -13,7 +13,7 @@
 - 경량 압축 파일: 35,611,735 bytes (약 53% 감소)
 - 복원된 경량 GLB SHA256: `9e55a62ee9439eaaf5aa3b022e7dc086357a13891a62b14a806be673f1cecf3b`
 
-홈 마운트 후 2초부터 idle 시간에 모델과 Three.js 모듈을 병렬로 준비합니다.
+The model and Three.js preload when this section is within 600px of the viewport.
 셰이더 컴파일 및 첫 텍스처 업로드도 미리 수행하며, 등장 애니메이션 시간은
 실제로 해당 구간이 보일 때부터 흐릅니다. Meshopt 디코더는 설치된 Three.js의
 로컬 모듈을 사용하므로 외부 CDN과 추가 패키지 설정이 필요하지 않습니다.

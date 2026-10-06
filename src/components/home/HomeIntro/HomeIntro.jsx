@@ -12,6 +12,12 @@ import setupMobileIntro from './setupMobileIntro';
 import setupDesktopVideo from './setupDesktopVideo';
 import setupScrollPlaybackRate from './setupScrollPlaybackRate';
 import MobileIntroStory from './MobileIntroStory';
+import desktopPoster from './assets/hero-desktop-poster.webp';
+import desktopMp4 from './assets/hero-desktop.mp4';
+import desktopWebm from './assets/hero-desktop.webm';
+import mobilePoster from './assets/hero-mobile-poster.webp';
+import mobileMp4 from './assets/hero-mobile.mp4';
+import mobileWebm from './assets/hero-mobile.webm';
 import './HomeIntro.css';
 
 const HERO_WIDTH = 1920;
@@ -133,7 +139,7 @@ export default function HomeIntro() {
         <><section ref={rootRef} className="home-intro" data-node-id="1991:658">
             <video key={isMobile ? 'mobile' : 'desktop'} ref={videoRef}
                 className={isMobile ? 'home-intro__mobile-film' : 'home-intro__video'}
-                poster={`/videos/hero/${isMobile ? 'mobile' : 'desktop'}-poster.webp`}
+                poster={isMobile ? mobilePoster : desktopPoster}
                 autoPlay preload="auto" muted playsInline loop={false}
                 aria-label="Diptyque hero film"
                 onCanPlayThrough={() => setStoryMediaReady(true)}
@@ -144,8 +150,8 @@ export default function HomeIntro() {
                     if (!root || root.getBoundingClientRect().bottom <= headerHeight) return;
                     downButtonRef.current?.click();
                 }}>
-                <source src={`/videos/hero/${isMobile ? 'mobile' : 'desktop'}.mp4`} type="video/mp4" />
-                <source src={`/videos/hero/${isMobile ? 'mobile' : 'desktop'}.webm`} type="video/webm" />
+                <source src={isMobile ? mobileMp4 : desktopMp4} type="video/mp4" />
+                <source src={isMobile ? mobileWebm : desktopWebm} type="video/webm" />
             </video>
             {isMobile && <button
                 ref={downButtonRef}

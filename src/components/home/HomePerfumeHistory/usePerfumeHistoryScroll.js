@@ -19,6 +19,8 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         let frameId = 0;
         let previousIndex = -1;
         let previousTransition = null;
+        let settleTimer = 0;
+        let touching = false;
         const photoMotion = createDampedValue({ response: MOTION_RESPONSE.scene, maxLag: 12, epsilon: 0.001 });
         const logoMotion = createDampedValue({ response: MOTION_RESPONSE.foreground, maxLag: 12, epsilon: 0.001 });
 
@@ -28,6 +30,7 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
             const offset = stickyTop - section.getBoundingClientRect().top;
             const progress = distance > 0 ? clamp(offset / distance) : 0;
+            section.dataset.pinned = String(offset >= 0 && offset <= distance);
             const position = Math.min(totalDistance, Math.max(0, offset / scrollUnitRef.current));
             const segment = Math.min(slides.length - 1, Math.floor(position / (HOLD_VIEWPORTS + TRANSITION_VIEWPORTS)));
             const localPosition = position - segment * (HOLD_VIEWPORTS + TRANSITION_VIEWPORTS);
@@ -65,6 +68,36 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const schedulePaint = () => {
             if (!frameId) frameId = requestAnimationFrame(paint);
         };
+        const settleSlide = () => {
+            clearTimeout(settleTimer);
+            if (!mobile.matches || touching || !scrollUnitRef.current) return;
+            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+            const offset = stickyTop - section.getBoundingClientRect().top;
+            const unit = scrollUnitRef.current;
+            const position = offset / unit;
+            if (position < 0 || position >= totalDistance) return;
+            const segmentLength = HOLD_VIEWPORTS + TRANSITION_VIEWPORTS;
+            const segment = Math.floor(position / segmentLength);
+            const localPosition = position - segment * segmentLength;
+            // Only settle a partial transition; leave the reading holds and
+            // section entry/exit free for ordinary vertical scrolling.
+            if (segment >= slides.length - 1 || localPosition <= HOLD_VIEWPORTS) return;
+            const transition = (localPosition - HOLD_VIEWPORTS) / TRANSITION_VIEWPORTS;
+            const index = segment + (transition >= 0.5 ? 1 : 0);
+            const hold = index === slides.length - 1 ? FINAL_HOLD_VIEWPORTS : HOLD_VIEWPORTS;
+            const targetOffset = (index * segmentLength + hold / 2) * unit;
+            window.scrollTo({
+                top: window.scrollY + targetOffset - offset,
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+            });
+        };
+        const scheduleSettle = () => {
+            clearTimeout(settleTimer);
+            if (mobile.matches && !touching) settleTimer = setTimeout(settleSlide, 180);
+        };
+        const onScroll = () => { schedulePaint(); scheduleSettle(); };
+        const onTouchStart = () => { touching = true; clearTimeout(settleTimer); };
+        const onTouchEnd = () => { touching = false; scheduleSettle(); };
         const measure = () => {
             const stageHeight = stage.offsetHeight;
             const unit = Math.max(window.innerHeight, stageHeight);
@@ -76,7 +109,11 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
 
         const observer = new ResizeObserver(measure);
         observer.observe(stage);
-        window.addEventListener('scroll', schedulePaint, { passive: true });
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('scrollend', settleSlide);
+        window.addEventListener('touchstart', onTouchStart, { passive: true });
+        window.addEventListener('touchend', onTouchEnd, { passive: true });
+        window.addEventListener('touchcancel', onTouchEnd, { passive: true });
         window.addEventListener('resize', measure);
 
         measure();
@@ -84,7 +121,12 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         return () => {
             cancelAnimationFrame(frameId);
             observer.disconnect();
-            window.removeEventListener('scroll', schedulePaint);
+            clearTimeout(settleTimer);
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('scrollend', settleSlide);
+            window.removeEventListener('touchstart', onTouchStart);
+            window.removeEventListener('touchend', onTouchEnd);
+            window.removeEventListener('touchcancel', onTouchEnd);
             window.removeEventListener('resize', measure);
 
         };

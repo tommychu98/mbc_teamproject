@@ -1,12 +1,18 @@
 import gsap from 'gsap';
 
-const PLAYBACK_REVEAL_START = 0.04;
+const PLAYBACK_REVEAL_START = 1;
 
 export default function setupMobileIntro({ root, video, logo, mist, overlay, topButton, downButton }) {
     let started = false;
     let consumeGesture = false;
     let disposed = false;
     let visible = false;
+    let playPending = false;
+    // Set the media properties explicitly for muted inline autoplay on iOS.
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.controls = false;
     // Gate presentation in onPlay, without cancelling initial media buffering.
     const reveal = { progress: 0 };
 
@@ -25,7 +31,11 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
     const syncPlayback = () => {
         if (disposed || video.ended) return;
         if (!visible || reveal.progress < PLAYBACK_REVEAL_START || document.hidden) { if (!video.paused) video.pause(); return; }
-        video.play().catch(error => { if (!disposed && error.name === 'NotAllowedError') video.controls = true; });
+        if (!video.paused || playPending) return;
+        playPending = true;
+        video.play().catch(error => {
+            if (!disposed && error.name === 'NotAllowedError') video.controls = true;
+        }).finally(() => { playPending = false; });
     };
     const onPlay = () => {
         if (!visible || reveal.progress < PLAYBACK_REVEAL_START || document.hidden) video.pause();
@@ -35,6 +45,8 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
     visibility.observe(root);
     video.addEventListener('play', onPlay);
     video.addEventListener('playing', onPlaying);
+    video.addEventListener('loadeddata', syncPlayback);
+    video.addEventListener('canplay', syncPlayback);
     document.addEventListener('visibilitychange', syncPlayback);
     let timeline;
     const context = gsap.context(() => {
@@ -62,6 +74,7 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
     const isControl = target => target instanceof Element && !!target.closest('button, a, input');
     const onTouchStart = event => {
         consumeGesture = false;
+        syncPlayback();
         if ((started && reveal.progress === 1) || event.touches.length !== 1 || isControl(event.target)) return;
         consumeGesture = true;
         if (event.cancelable) event.preventDefault();
@@ -74,7 +87,10 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
         if (event.cancelable) event.preventDefault();
         start();
     };
-    const onPointerDown = event => { if (event.pointerType !== 'touch' && !isControl(event.target)) start(); };
+    const onPointerDown = event => {
+        syncPlayback();
+        if (event.pointerType !== 'touch' && !isControl(event.target)) start();
+    };
     const onKeyDown = event => {
         if ((started && reveal.progress === 1) || isControl(event.target) || !['Enter', ' ', 'ArrowDown', 'PageDown'].includes(event.key)) return;
         event.preventDefault();
@@ -94,6 +110,8 @@ export default function setupMobileIntro({ root, video, logo, mist, overlay, top
         visibility.disconnect();
         video.removeEventListener('play', onPlay);
         video.removeEventListener('playing', onPlaying);
+        video.removeEventListener('loadeddata', syncPlayback);
+        video.removeEventListener('canplay', syncPlayback);
         document.removeEventListener('visibilitychange', syncPlayback);
         clearTimeout(autoStartTimer);
         root.removeEventListener('touchstart', onTouchStart);
