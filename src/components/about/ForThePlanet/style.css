@@ -108,6 +108,16 @@ body.ftp-route.ftp-header-hidden .header {
   transform: translate(-50%, -50%);
 }
 .ftp-arch-decoration { position: absolute; inset: 0; pointer-events: none; }
+@media (min-width: 900px) {
+  /* Scale the entire Con1 composition together, including its background crop. */
+  .for-the-planet .ftp-arch-canvas--coast {
+    width: calc(min(100%, 177.777778svh) * (1 - var(--arch-expand, 0)) + max(100%, 177.777778svh) * var(--arch-expand, 0));
+    height: calc(min(56.25vw, 100svh) * (1 - var(--arch-expand, 0)) + max(56.25vw, 100svh) * var(--arch-expand, 0));
+  }
+  .for-the-planet .ftp-arch-canvas--coast .ftp-expanding-arch__background {
+    object-fit: fill;
+  }
+}
 .ftp-arch-decoration img { position: absolute; object-fit: contain; opacity: 1; border-radius: 0; filter: none; }
 .ftp-arch-decoration__left { left: -6.59%; top: 7.27%; width: 25.94%; height: 57.69%; transform: rotate(90deg); }
 .ftp-arch-decoration__right { left: 42.92%; top: 16.85%; width: 65.31%; height: 116.11%; }
