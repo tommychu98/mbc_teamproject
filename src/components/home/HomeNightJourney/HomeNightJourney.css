@@ -143,7 +143,6 @@
     letter-spacing: .02em;
     white-space: nowrap;
 }
-.night-journey__serif { font-family: 'HomeNight Garamond', var(--font-family-display); font-weight: 400; }
 
 .night-journey__view-more {
     position: relative;

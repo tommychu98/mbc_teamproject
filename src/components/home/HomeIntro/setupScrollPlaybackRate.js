@@ -3,7 +3,7 @@ import gsap from 'gsap';
 // Change playback speed only; the media clock still drives the camera/story cues.
 export default function setupScrollPlaybackRate({ root, video }) {
     const baseRate = video.defaultPlaybackRate;
-    const fastRate = baseRate * 2;
+    const fastRate = baseRate * 2 * 1.7;
     let target = baseRate;
     let tween;
     let releaseTimer;

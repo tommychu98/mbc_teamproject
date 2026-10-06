@@ -107,7 +107,7 @@ export const nightJourneyPanels = [
         name: 'Con7-3',
         category: {
             number: 'CATEGORY 03', title: 'BATH & BODY',
-            description: <>Body Care , Hand Care ,<br /><span className="night-journey__serif">Refillable </span>C<span className="night-journey__serif">are</span></>,
+            description: <>Body Care , Hand Care ,<br />Refillable Care</>,
             image: body, alt: 'Lemon scented body care', href: '/shop?category=bath-body',
         },
         particles: [
@@ -125,7 +125,7 @@ export const nightJourneyPanels = [
         name: 'Con7-4',
         category: {
             number: 'CATEGORY 04', title: 'HOME DECOR',
-            description: <>Candle Holder &amp; Lids , <span className="night-journey__serif">Stands</span><br /><span className="night-journey__serif">Others</span></>,
+            description: <>Candle Holder &amp; Lids , Stands<br />Others</>,
             image: decor, alt: 'Baies candle holder', href: '/shop?category=home-decor',
         },
         particles: [
