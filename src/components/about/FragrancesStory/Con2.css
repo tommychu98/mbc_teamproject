@@ -7,6 +7,10 @@
   background: var(--color-bg-primary);
   color: var(--color-black);
 }
+/* Remove only the measured rounding remainder in this section's pin spacer. */
+.pin-spacer:has(> .fragrances-con2) {
+  margin-bottom: var(--con2-spacer-correction, 0px) !important;
+}
 .fragrances-con2__scene {
   --con2-scale: calc(100cqw / 1920px);
   position: relative;
