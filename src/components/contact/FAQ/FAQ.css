@@ -52,19 +52,21 @@
 }
 @media (max-width: 767px) {
   .contact-faq__content { width: calc(100% - 32px); padding: 64px 0 150px; }
-  .contact-faq__intro h1 { font-size: 64px; }
-  .contact-faq__description { margin-top: 18px; font-size: 14px; }
-  .contact-faq__description p + p { font-size: 16px; }
+  .contact-faq__intro h1 { font-size: 36px; }
+  .contact-faq__eyebrow { font-size: 12px; }
+  .contact-faq__description { margin-top: 12px; font-size: 14px; }
+  .contact-faq__description p + p { font-size: 14px; }
   .contact-faq__controls { margin-top: 32px; }
-  .contact-faq__search { gap: 8px; padding-inline: 16px; }
+  .contact-faq__search { width: min(346px, 100%); margin-inline: auto; height: 40px; gap: 8px; padding-inline: 16px; }
   .contact-faq__search input { font-size: 14px; }
-  .contact-faq__categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .contact-faq__categories button { width: 100%; font-size: 12px; }
-  .contact-faq__question { grid-template-columns: 44px 1fr 44px; min-height: 72px; padding-block: 16px; font-size: 14px; }
+  .contact-faq__categories { display: grid; grid-template-columns: repeat(3, minmax(0, 110px)); gap: 8px; }
+  .contact-faq__categories button { width: 100%; height: 32px; font-size: 12px; }
+  .contact-faq__question { grid-template-columns: 44px 1fr 44px; min-height: 54px; padding-block: 5px; font-size: 14px; }
   .contact-faq__question-text { padding-inline: 8px; word-break: keep-all; }
   .contact-faq__answer { min-height: 0; padding: 20px 24px 24px 52px; font-size: 14px; }
-  .contact-faq__pagination { margin-top: 40px; gap: 8px; }
-  .contact-faq__page-button { width: var(--size-touch-min); height: var(--size-touch-min); }
+  .contact-faq__pagination { margin-top: 32px; gap: 4px; }
+  .contact-faq__page-button { box-sizing: border-box; width: 30px; height: 30px; font-size: 14px; }
+  .contact-faq__page-button svg { width: 16px; height: 16px; }
   .contact-faq__background--left { left: -280px; }
   .contact-faq__background--right { left: -200px; }
 }

@@ -61,20 +61,35 @@
 }
 @media (max-width: 767px) {
   .contact-inquiry { padding: 54px 16px 40px; min-height: 0; }
-  .contact-inquiry__heading h1 { font-size: 56px; }
-  .contact-inquiry__heading > div { font-size: 14px; }
-  .contact-inquiry__panel { grid-template-columns: minmax(0, 1fr); margin-top: 36px; padding: 24px 18px; gap: 36px; }
-  .contact-inquiry__identity { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .contact-inquiry__fields { margin-left: 0; width: 100%; gap: 20px; }
-  .contact-inquiry__fields textarea { padding: 12px 14px; }
-  .contact-inquiry__form-heading p { font-size: 13px; }
-  .contact-inquiry__file-row { align-items: flex-start; margin-top: 6px; }
-  .contact-inquiry__file-names { font-size: 13px; padding: 6px 10px; }
-  .contact-inquiry__file-names small { font-size: 10px; flex-basis: 100%; text-align: left; }
-  .contact-inquiry__support { padding: 28px 0 0; border-top: 1px solid var(--color-border-default); }
+  .contact-inquiry__heading h1 { font-size: 36px; }
+  .contact-inquiry__heading > p { font-size: 12px; }
+  .contact-inquiry__heading > div { margin-top: 14px; font-size: 14px; }
+  .contact-inquiry__panel { grid-template-columns: minmax(0, 1fr); min-height: 0; margin-top: 28px; padding: 20px 16px; gap: 24px; border-radius: 12px; }
+  .contact-inquiry__form { min-width: 0; }
+  .contact-inquiry h2 { font-size: 18px; line-height: 1.5; letter-spacing: .02em; }
+  .contact-inquiry__identity { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .contact-inquiry__fields { margin: 20px 0 0; width: 100%; gap: 16px; }
+  .contact-inquiry__fields label { gap: 6px; font-size: 14px; line-height: 1.5; }
+  .contact-inquiry__fields input, .contact-inquiry__fields select, .contact-inquiry__fields textarea { height: 44px; padding: 10px 12px; border-radius: 8px; font-size: 16px; line-height: 1.4; }
+  .contact-inquiry__fields select { padding-right: 40px; background-position: calc(100% - 23px) 18px, calc(100% - 16px) 18px; }
+  .contact-inquiry__fields textarea { height: 144px; min-height: 144px; padding: 12px; }
+  .contact-inquiry__form-heading p { font-size: 12px; line-height: 1.6; }
+  .contact-inquiry__attachment { margin-top: 16px; font-size: 14px; line-height: 1.5; }
+  .contact-inquiry__attachment > label { min-height: 0; margin-left: 0; }
+  .contact-inquiry__file-row { flex-wrap: wrap; align-items: stretch; gap: 8px; margin-top: 8px; }
+  .contact-inquiry__file-button { justify-content: center; min-height: 40px; padding: 8px 12px; border-radius: 8px; font-size: 13px; }
+  .contact-inquiry__file-names { flex-basis: 100%; gap: 6px; font-size: 12px; padding: 10px 12px; border-radius: 8px; }
+  .contact-inquiry__file-names small { font-size: 12px; flex-basis: 100%; text-align: left; color: var(--color-text-secondary); font-weight: 300; }
+  .contact-inquiry__submit { min-height: 44px; margin-top: 20px; border-radius: 8px; font-size: 14px; }
+  .contact-inquiry__support { min-width: 0; padding: 24px 0 0; border-top: 1px solid var(--color-border-default); }
+  .contact-inquiry__support dl { gap: 16px; margin-top: 20px; }
+  .contact-inquiry__support dt { font-size: 14px; line-height: 1.5; }
+  .contact-inquiry__support dd { font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
   .contact-inquiry__vertical-divider { display: none; }
-  .contact-inquiry__faq { margin-top: 30px; }
-  .contact-inquiry__faq a { margin-left: 0; }
+  .contact-inquiry__faq { margin-top: 24px; }
+  .contact-inquiry__faq .contact-inquiry__horizontal-divider { margin-bottom: 20px; }
+  .contact-inquiry__faq p { font-size: 13px; line-height: 1.6; }
+  .contact-inquiry__faq a { width: 100%; min-height: 44px; margin: 16px 0 0; border-radius: 8px; font-size: 14px; }
   .contact-inquiry__background--left { width: 400px; height: 400px; left: -150px; }
   .contact-inquiry__background--right { width: 420px; height: 525px; left: auto; right: -160px; top: -72px; }
 }

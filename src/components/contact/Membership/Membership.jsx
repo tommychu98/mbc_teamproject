@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { TEST_USER } from '../../../data/testUser';
 import essential from './assets/이미지1.png';
@@ -21,9 +22,9 @@ const tiers = [
     { name: 'PRESTIGE', label: '프레스티지', image: prestige, lines: ['가장 특별한 고객님을 위한', '단 하나의 멤버십입니다.'] },
 ];
 const benefits = [
-    { icon: coins, title: '구매 적립', description: '구매 시 포인트가 적립됩니다.' },
-    { icon: gift, title: '생일 혜택', description: '생일을 맞이한 회원님께 특별한 혜택을 드립니다.' },
-    { icon: bag, title: '회원 전용 서비스', description: '회원만을 위한 특별한 서비스를 제공합니다.' },
+    { icon: coins, title: '구매 적립', description: '구매 시 포인트가 적립됩니다.', guideLabels: ['포인트'] },
+    { icon: gift, title: '생일 혜택', description: '생일을 맞이한 회원님께 특별한 혜택을 드립니다.', guideLabels: ['생일의 선물'] },
+    { icon: bag, title: '회원 전용 서비스', description: '회원만을 위한 특별한 서비스를 제공합니다.', guideLabels: ['웰컴 쿠폰', '시즌 쿠폰', '배송', '향의 발견', '선물의 예술', '특별한 초대'] },
 ];
 
 // Proposed benefits for this renewal project, not official Diptyque policy.
@@ -66,9 +67,21 @@ const tierGuides = {
 };
 
 export default function Membership({ membership }) {
-    const user = useAuthStore((state) => state.user);
-    const membershipInfo = membership ?? { grade: '일반회원', points: user?.id === TEST_USER.id ? 2026 : 0, coupons: 0 };
-    const [selectedTier, setSelectedTier] = useState('SIGNATURE');
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+    const userId = useAuthStore((state) => state.user?.id);
+    const accountMembership = useAuthStore((state) => state.user?.membership);
+    const balances = membership ?? accountMembership ?? (userId === TEST_USER.id
+        ? { grade: 'SIGNATURE', points: 2026, coupons: 1 }
+        : { grade: 'ESSENTIAL', points: 0, coupons: isAuthenticated ? 1 : 0 });
+    const currentTier = tiers.find((tier) => tier.name === balances?.grade || tier.label === balances?.grade)
+        ?? tiers.find((tier) => tier.name === 'ESSENTIAL');
+    const membershipInfo = {
+        grade: currentTier.label,
+        points: balances?.points ?? 0,
+        coupons: balances?.coupons ?? 0,
+    };
+    const [selectedTier, setSelectedTier] = useState(currentTier.name);
+    const [selectedBenefit, setSelectedBenefit] = useState(null);
     const [isGuideOpen, setIsGuideOpen] = useState(false);
     const guideRef = useRef(null);
     const guideId = useId();
@@ -86,7 +99,12 @@ export default function Membership({ membership }) {
         };
     }, [isGuideOpen]);
     const openGuide = (name) => {
+        setSelectedBenefit(null);
         setSelectedTier(name);
+        setIsGuideOpen(true);
+    };
+    const openBenefitGuide = (benefit) => {
+        setSelectedBenefit(benefit);
         setIsGuideOpen(true);
     };
     const summary = [
@@ -107,6 +125,18 @@ export default function Membership({ membership }) {
                 <p className="membership__lead">딥디크의 특별한 혜택과 회원 서비스를 만나보세요</p>
             </header>
             <div className="membership__content">
+                <section className="membership__mobile-account" aria-label="나의 멤버십">
+                    {isAuthenticated ? <>
+                        <div className="membership__grade-card">
+                            <div><p>MY MEMBERSHIP · 현재 등급</p><h2>{currentTier.name}</h2><span>{currentTier.label}</span></div>
+                            <img src={currentTier.image} alt="" />
+                            <button type="button" onClick={() => openGuide(currentTier.name)} aria-haspopup="dialog" aria-controls={guideId}>내 등급 혜택 보기<span className="membership__grade-arrow" aria-hidden="true">&gt;</span></button>
+                        </div>
+                        <dl className="membership__mobile-balances">
+                            {summary.slice(1).map((item) => <div key={item.label}><img src={item.icon} alt="" /><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
+                        </dl>
+                    </> : <div className="membership__login-notice"><p>로그인 후 나의 멤버십 등급과 혜택을 확인해 보세요.</p><Link className="membership__login-link" to="/login">로그인하기</Link></div>}
+                </section>
                 <section className="membership__tiers" aria-labelledby="membership-tiers-title">
                     <div className="membership__section-heading">
                         <p>Profile · Information</p>
@@ -114,15 +144,17 @@ export default function Membership({ membership }) {
                     </div>
                     <div className="membership__tier-grid" aria-label="멤버십 등급 선택">
                         {tiers.map((tier) => (
-                            <button key={tier.name} type="button" className={`membership__tier${selectedTier === tier.name ? ' membership__tier--selected' : ''}`} aria-pressed={selectedTier === tier.name} aria-haspopup="dialog" aria-controls={guideId} onClick={() => openGuide(tier.name)}>
+                            <button key={tier.name} type="button" className={`membership__tier${(isGuideOpen ? selectedTier === tier.name : isAuthenticated && currentTier.name === tier.name) ? ' membership__tier--selected' : ''}`} aria-pressed={isGuideOpen ? selectedTier === tier.name : isAuthenticated && currentTier.name === tier.name} aria-haspopup="dialog" aria-controls={guideId} onClick={() => openGuide(tier.name)}>
                                 <span className="membership__tier-name">{tier.name}</span>
                                 <span className="membership__tier-label">{tier.label}</span>
+                                {isAuthenticated && currentTier.name === tier.name && <span className="membership__current-badge">현재 등급</span>}
                                 <span className="membership__tier-rule"><img src={divider} alt="" /></span>
                                 <span className="membership__tier-description">{tier.lines.map((line) => <span key={line}>{line}</span>)}</span>
                                 <span className={`membership__tier-image membership__tier-image--${tier.name.toLowerCase()}`}><img src={tier.image} alt="" /></span>
                             </button>
                         ))}
                     </div>
+                    <p className="membership__mobile-qualification">{isAuthenticated ? tierGuides[currentTier.name].qualification : '최근 12개월 구매금액에 따라 등급이 정해집니다.'}</p>
                 </section>
                 <section className="membership__benefits" aria-labelledby="membership-benefits-title">
                     <div className="membership__section-heading">
@@ -130,21 +162,32 @@ export default function Membership({ membership }) {
                         <h2 id="membership-benefits-title">회원만을 위한 혜택</h2>
                     </div>
                     <div className="membership__benefit-grid">
-                        {benefits.map((benefit) => <article className="membership__benefit" key={benefit.title}>
+                        {benefits.map((benefit) => <button type="button" className="membership__benefit" key={benefit.title} aria-haspopup="dialog" aria-controls={guideId} onClick={() => openBenefitGuide(benefit)}>
                             <span className="membership__icon"><img src={benefit.icon} alt="" /></span>
                             <h3>{benefit.title}</h3>
                             <p>{benefit.description}</p>
-                        </article>)}
+                        </button>)}
+                    </div>
+                    <div className="membership__mobile-perks">
+                        {benefits.map((benefit) => (
+                            <button type="button" className="membership__perk" key={benefit.title} aria-haspopup="dialog" aria-controls={guideId} onClick={() => openBenefitGuide(benefit)}>
+                                <span className="membership__icon"><img src={benefit.icon} alt="" /></span>
+                                <h3>{benefit.title}</h3><p>{benefit.description}</p>
+                            </button>
+                        ))}
                     </div>
                     <section className="membership__summary" aria-labelledby="membership-summary-title">
                         <h2 id="membership-summary-title">MY MEMBERSHIP</h2>
-                        <dl className="membership__summary-grid">
+                        {isAuthenticated ? <dl className="membership__summary-grid">
                             {summary.map((item) => <div className="membership__summary-item" key={item.label}>
                                 <img className="membership__summary-divider" src={divider} alt="" />
                                 <span className="membership__icon"><img src={item.icon} alt="" /></span>
                                 <div><dt>{item.label}</dt><dd>{item.value}</dd></div>
                             </div>)}
-                        </dl>
+                        </dl> : <div className="membership__login-notice">
+                            <p>로그인 후 멤버십 등급과 보유 포인트, 쿠폰을 확인하실 수 있습니다.</p>
+                            <Link className="membership__login-link" to="/login">로그인하기</Link>
+                        </div>}
                     </section>
                 </section>
             </div>
@@ -163,21 +206,32 @@ export default function Membership({ membership }) {
                 }}
             >
                 <div className="membership__guide-content">
-                    <button className="membership__guide-close" type="button" aria-label="등급 안내 닫기" onClick={() => setIsGuideOpen(false)}>×</button>
+                    <button className="membership__guide-close" type="button" aria-label="혜택 안내 닫기" onClick={() => setIsGuideOpen(false)}>×</button>
                     <p className="membership__eyebrow">MEMBERSHIP GUIDE</p>
-                    <h2 id={`${guideId}-title`}>{activeTier.label} 등급 안내</h2>
-                    <p className="membership__guide-name">{activeTier.name}</p>
+                    <h2 id={`${guideId}-title`}>{selectedBenefit ? `${selectedBenefit.title} 안내` : `${activeTier.label} 등급 안내`}</h2>
+                    {!selectedBenefit && <p className="membership__guide-name">{activeTier.name}</p>}
                     <p className="membership__guide-notice" id={`${guideId}-notice`}>
                         <span>* 리뉴얼 프로젝트용 가상 정책입니다.</span>
                         <span>딥디크 공식 혜택이 아니며 실제 제공되지 않습니다.</span>
                     </p>
-                    <p id={`${guideId}-description`} className="membership__guide-description">{activeGuide.invitation}</p>
+                    <p id={`${guideId}-description`} className="membership__guide-description">{selectedBenefit ? '세 가지 멤버십 등급의 혜택을 비교해 보세요.' : activeGuide.invitation}</p>
+                    {selectedBenefit ? <div className="membership__benefit-comparison">
+                        {tiers.map((tier) => <section key={tier.name} aria-label={`${tier.label} 혜택`}>
+                            <h3>{tier.label} <span>{tier.name}</span></h3>
+                            <dl className="membership__guide-benefits">
+                                {tierGuides[tier.name].benefits.filter(([label]) => selectedBenefit.guideLabels.includes(label)).map(([label, description]) => (
+                                    <div key={label}><dt>{label}</dt><dd>{description}</dd></div>
+                                ))}
+                            </dl>
+                        </section>)}
+                    </div> : <>
                     <p className="membership__guide-qualification">{activeGuide.qualification}</p>
                     <dl className="membership__guide-benefits">
                         {activeGuide.benefits.map(([label, description]) => (
                             <div key={label}><dt>{label}</dt><dd>{description}</dd></div>
                         ))}
                     </dl>
+                    </>}
                     <button className="membership__guide-confirm" type="button" onClick={() => setIsGuideOpen(false)}>확인</button>
                 </div>
             </dialog>

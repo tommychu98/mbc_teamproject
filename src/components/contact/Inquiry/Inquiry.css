@@ -21,6 +21,10 @@
 .inquiry-detail__answer h2 { margin-bottom: 16px; font-family: var(--font-family-display); font-size: 28px; }
 .inquiry-detail__actions { margin-top: 28px; }
 .inquiry-card-list { display: none; }
+@media (max-width: 767px) {
+  .inquiry-page .pagination { gap: 4px; }
+  .inquiry-page .pagination button { box-sizing: border-box; min-width: 30px; height: 30px; padding: 0 4px; font-size: 14px; }
+}
 @media (max-width: 700px) {
   .inquiry-page { padding-block: 48px 80px; }
   .inquiry-page__head { align-items: flex-start; flex-direction: column; }

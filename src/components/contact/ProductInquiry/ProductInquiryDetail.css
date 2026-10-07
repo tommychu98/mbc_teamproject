@@ -24,12 +24,23 @@
 .product-inquiry-detail__back > span { margin-left: 34px; }
 .product-inquiry-detail__back > img { position: absolute; top: 28px; left: 0; transform: rotate(180deg) scaleY(-1); }
 @media (max-width: 767px) {
-  .product-inquiry-detail { padding-top: 40px; padding-bottom: 80px; }
-  .product-inquiry-detail__header h1 { font-size: 23px; }
-  .product-inquiry-detail__meta { flex-wrap: wrap; }
-  .product-inquiry-detail__card { margin-top: 40px; padding: 70px 20px 30px; }
-  .product-inquiry-detail--answered .product-inquiry-detail__card { margin-top: 40px; }
-  .product-inquiry-detail__edit { right: 20px; top: 24px; }
-  .product-inquiry-detail__question, .product-inquiry-detail__waiting { padding: 24px 16px; font-size: 14px; }
-  .product-inquiry-detail__waiting { min-height: 200px; }
+  .product-inquiry.product-inquiry-detail { min-height: calc(100svh - 72px); padding: 32px 16px 48px; }
+  .product-inquiry-detail__header > p { font-size: 12px; margin-bottom: 6px; }
+  .product-inquiry-detail__header h1 { font-size: 20px; line-height: 1.4; word-break: keep-all; }
+  .product-inquiry-detail__meta { flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .product-inquiry-detail__meta time { font-size: 12px; }
+  .product-inquiry-detail__meta .product-inquiry__badge { height: 22px; padding: 2px 8px; font-size: 11px; }
+  .product-inquiry-detail__card { margin-top: 24px; padding: 20px 16px; border-radius: 12px; }
+  .product-inquiry-detail--answered .product-inquiry-detail__card { margin-top: 24px; }
+  .product-inquiry-detail__edit { position: static; justify-content: flex-end; min-height: 32px; margin-bottom: 12px; gap: 6px; font-size: 12px; }
+  .product-inquiry-detail__section-title { gap: 12px; font-size: 16px; line-height: 1.5; }
+  .product-inquiry-detail__question { display: block; min-height: 0; margin-top: 12px; padding: 4px 0; font-size: 14px; line-height: 1.7; }
+  .product-inquiry-detail__card section + section { margin-top: 24px; }
+  .product-inquiry-detail__waiting { display: block; min-height: 0; margin-top: 12px; padding: 16px; border-radius: 8px; color: var(--color-text-secondary); font-size: 14px; line-height: 1.7; }
+  .product-inquiry-detail--answered .product-inquiry-detail__waiting { padding: 16px; }
+  .product-inquiry-detail__answer-date { position: static; display: block; margin-bottom: 12px; font-size: 12px; color: var(--color-text-secondary); }
+  .product-inquiry-detail__bottom-line { margin-top: 24px; }
+  .product-inquiry-detail__back { width: 100px; height: 28px; margin: 20px auto 0; font-size: 12px; line-height: 18px; }
+  .product-inquiry-detail__back > span { margin-left: 16px; }
+  .product-inquiry-detail__back > img { top: 20px; width: 90px; height: auto; }
 }
