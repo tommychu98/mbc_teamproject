@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { useCartStore } from '../../../store/useCartStore';
 import './Navigation.css';
+import MobileMenu from './MobileMenu';
 
 const navItems = [
   { label: 'HOME', to: '/' },
@@ -223,6 +224,7 @@ export default function Header() {
   };
 
   return <>
+    {isMobile && open && <MobileMenu items={navItems} authenticated={isAuthenticated} onClose={closeMenu} onLogout={handleLogout} cartCount={cartCount} />}
     <div
       className={`header-hover-zone${pathname === '/' ? ' header-hover-zone--home' : ''}`}
       aria-hidden="true"

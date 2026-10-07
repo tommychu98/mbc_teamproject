@@ -21,11 +21,33 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         let previousTransition = null;
         let settleTimer = 0;
         let touching = false;
+        let mobileIndex = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let horizontalGesture = false;
+        let verticalGesture = false;
+        let verticalDelta = 0;
+        let wheelLocked = false;
         const photoMotion = createDampedValue({ response: MOTION_RESPONSE.scene, maxLag: 12, epsilon: 0.001 });
         const logoMotion = createDampedValue({ response: MOTION_RESPONSE.foreground, maxLag: 12, epsilon: 0.001 });
 
+        const paintMobile = (index, animate = true) => {
+            mobileIndex = Math.min(slides.length - 1, Math.max(0, index));
+            photoTrackRef.current.dataset.animate = String(animate);
+            logoTrackRef.current.dataset.animate = String(animate);
+            photoTrackRef.current.style.transform = `translate3d(${mobileIndex * 100}cqw, 0, 0)`;
+            logoTrackRef.current.style.transform = `translate3d(${-mobileIndex * 100}cqw, 0, 0)`;
+            section.dataset.slideProgress = String(mobileIndex);
+            setStoryState({ activeIndex: mobileIndex, isTransitioning: false });
+        };
+
         const paint = now => {
             frameId = 0;
+            if (mobile.matches) {
+                const bounds = section.getBoundingClientRect();
+                section.dataset.pinned = String(bounds.top <= stage.offsetTop && bounds.bottom > stage.offsetTop);
+                return;
+            }
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
             const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
             const offset = stickyTop - section.getBoundingClientRect().top;
@@ -96,14 +118,61 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             if (mobile.matches && !touching) settleTimer = setTimeout(settleSlide, 180);
         };
         const onScroll = () => { schedulePaint(); scheduleSettle(); };
-        const onTouchStart = () => { touching = true; clearTimeout(settleTimer); };
-        const onTouchEnd = () => { touching = false; scheduleSettle(); };
+        const onTouchStart = (event) => {
+            touching = true;
+            clearTimeout(settleTimer);
+            if (!mobile.matches || event.touches.length !== 1) return;
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+            horizontalGesture = false;
+            verticalGesture = false;
+            verticalDelta = 0;
+        };
+        const onTouchMove = (event) => {
+            if (!mobile.matches || event.touches.length !== 1) return;
+            const deltaX = event.touches[0].clientX - touchStartX;
+            const deltaY = event.touches[0].clientY - touchStartY;
+            if (!horizontalGesture && !verticalGesture && Math.max(Math.abs(deltaX), Math.abs(deltaY)) > 10) {
+                horizontalGesture = Math.abs(deltaX) > Math.abs(deltaY);
+                verticalGesture = !horizontalGesture;
+            }
+            verticalDelta = deltaY;
+            if ((horizontalGesture || verticalGesture) && event.cancelable) event.preventDefault();
+        };
+        const onTouchEnd = (event) => {
+            touching = false;
+            if (mobile.matches && horizontalGesture) {
+                const endX = event.changedTouches[0]?.clientX ?? touchStartX;
+                const deltaX = endX - touchStartX;
+                if (Math.abs(deltaX) >= 42) paintMobile(mobileIndex + (deltaX < 0 ? 1 : -1));
+                horizontalGesture = false;
+                return;
+            }
+            if (mobile.matches && verticalGesture && Math.abs(verticalDelta) >= 36) {
+                const destination = verticalDelta < 0 ? section.nextElementSibling : section.previousElementSibling;
+                destination?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                verticalGesture = false;
+                return;
+            }
+            scheduleSettle();
+        };
+        const onWheel = (event) => {
+            if (!mobile.matches || wheelLocked || Math.abs(event.deltaY) <= Math.abs(event.deltaX) || Math.abs(event.deltaY) < 8) return;
+            if (event.cancelable) event.preventDefault();
+            const destination = event.deltaY > 0 ? section.nextElementSibling : section.previousElementSibling;
+            wheelLocked = true;
+            destination?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window.setTimeout(() => { wheelLocked = false; }, 700);
+        };
         const measure = () => {
             const stageHeight = stage.offsetHeight;
             const unit = Math.max(window.innerHeight, stageHeight);
             scrollUnitRef.current = unit;
             section.style.setProperty('--history-stage-height', `${stageHeight}px`);
-            section.style.setProperty('--history-scroll-distance', `${unit * totalDistance}px`);
+            // Retain a full pinned viewport on mobile, while vertical input is
+            // handled above as one smooth jump to the adjacent section.
+            section.style.setProperty('--history-scroll-distance', mobile.matches ? `${unit}px` : `${unit * totalDistance}px`);
+            if (mobile.matches) paintMobile(mobileIndex, false);
             schedulePaint();
         };
 
@@ -111,9 +180,11 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         observer.observe(stage);
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('scrollend', settleSlide);
-        window.addEventListener('touchstart', onTouchStart, { passive: true });
-        window.addEventListener('touchend', onTouchEnd, { passive: true });
-        window.addEventListener('touchcancel', onTouchEnd, { passive: true });
+        stage.addEventListener('touchstart', onTouchStart, { passive: true });
+        stage.addEventListener('touchmove', onTouchMove, { passive: false });
+        stage.addEventListener('touchend', onTouchEnd, { passive: true });
+        stage.addEventListener('touchcancel', onTouchEnd, { passive: true });
+        stage.addEventListener('wheel', onWheel, { passive: false });
         window.addEventListener('resize', measure);
 
         measure();
@@ -124,9 +195,11 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             clearTimeout(settleTimer);
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('scrollend', settleSlide);
-            window.removeEventListener('touchstart', onTouchStart);
-            window.removeEventListener('touchend', onTouchEnd);
-            window.removeEventListener('touchcancel', onTouchEnd);
+            stage.removeEventListener('touchstart', onTouchStart);
+            stage.removeEventListener('touchmove', onTouchMove);
+            stage.removeEventListener('touchend', onTouchEnd);
+            stage.removeEventListener('touchcancel', onTouchEnd);
+            stage.removeEventListener('wheel', onWheel);
             window.removeEventListener('resize', measure);
 
         };
@@ -136,6 +209,14 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
     // keyboard scrolling, so they cannot desynchronise the story state.
     return useCallback((index) => {
         if (index < 0 || index >= slides.length) return;
+        if (window.matchMedia('(max-width: 767px)').matches) {
+            photoTrackRef.current.dataset.animate = 'true';
+            logoTrackRef.current.dataset.animate = 'true';
+            photoTrackRef.current.style.transform = `translate3d(${index * 100}cqw, 0, 0)`;
+            logoTrackRef.current.style.transform = `translate3d(${-index * 100}cqw, 0, 0)`;
+            setStoryState({ activeIndex: index, isTransitioning: false });
+            return;
+        }
         const section = sectionRef.current;
         const start = section.getBoundingClientRect().top + window.scrollY;
         const position = index * (HOLD_VIEWPORTS + TRANSITION_VIEWPORTS);
@@ -143,5 +224,5 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             top: start - (parseFloat(getComputedStyle(stageRef.current).top) || 0) + position * scrollUnitRef.current,
             behavior: 'smooth',
         });
-    }, [sectionRef, stageRef, slides]);
+    }, [sectionRef, stageRef, photoTrackRef, logoTrackRef, slides, setStoryState]);
 }

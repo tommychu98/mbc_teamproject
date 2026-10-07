@@ -316,9 +316,14 @@
         pointer-events: auto;
     }
     .home-perfume-history__stage {
+        position: sticky;
         top: calc(52px + env(safe-area-inset-top, 0px));
         height: calc(100dvh - 52px - env(safe-area-inset-top, 0px));
         min-height: 0;
+    }
+    .home-perfume-history__photo-track[data-animate='true'],
+    .home-perfume-history__logo-track[data-animate='true'] {
+        transition: transform .55s cubic-bezier(.22, .61, .36, 1);
     }
     .home-perfume-history__canvas {
         display: grid;
