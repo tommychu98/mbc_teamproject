@@ -340,7 +340,23 @@
   height: 31.205197%;
 }
 
-.history-fabric__floating-botanical-01 img { object-fit: cover; }
+.history-fabric__floating-botanical-01 img {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  filter: saturate(.85);
+}
+
+.history-fabric__botanical-leaves {
+  transform-origin: 49% 38%;
+  animation: history-fabric-plant-sway 5.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes history-fabric-plant-sway {
+  0%, 100% { transform: rotate(-.55deg); }
+  50% { transform: rotate(.55deg); }
+}
 
 .history-fabric__floating-object-04 {
   top: 39.426523%;

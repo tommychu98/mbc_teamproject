@@ -117,7 +117,7 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
 
 .ftp-arch-scroll { position: relative; height: 225svh; }
 .ftp-mobile-intro { display: none; }
-.ftp-arch-scroll--first { margin-top: -110px; }
+.ftp-arch-scroll--first { margin-top: -85px; }
 .ftp-arch-canvas {
   container-type: inline-size;
   position: absolute;
@@ -171,6 +171,36 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
 .ftp-expanding-object { position: absolute; z-index: 2; object-fit: contain; filter: drop-shadow(0 8px 8px rgb(0 0 0 / .5)); will-change: inset, width, height; }
 .ftp-expanding-object--coast { object-fit: cover; }
 .ftp-expanding-object--no-shadow { filter: none; }
+.ftp-hamster-trigger {
+  z-index: 8;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.ftp-hamster-trigger > img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.ftp-hamster-trigger:hover > img { filter: brightness(1.04) drop-shadow(0 5px 5px rgb(35 45 20 / .18)); }
+.ftp-hamster-trigger:focus-visible { outline: 2px solid rgb(62 76 35 / .72); outline-offset: 5px; border-radius: 50%; }
+
+.ftp-acorn-physics {
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ftp-acorn-physics__acorn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  opacity: 0;
+  transform-origin: 50% 54%;
+  filter: drop-shadow(0 4px 3px rgb(38 45 20 / .22));
+  will-change: transform;
+}
 .ftp-scroll-cue { position: absolute; z-index: 6; bottom: 22px; left: 50%; margin: 0; transform: translateX(-50%); font: 500 10px/1 var(--font-family-display); letter-spacing: .24em; }
 
 .ftp-story-scroll {

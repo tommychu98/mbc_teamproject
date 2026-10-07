@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 // Remove only the GIF loop extension; keep every original image frame intact.
 // This also supports mobile browsers without ImageDecoder.
-export function singlePlayGif(buffer) {
-  const bytes = new Uint8Array(buffer);
+export function singlePlayGif(buffer, playbackRate = 1) {
+  const bytes = new Uint8Array(buffer.slice(0));
   const parts = [];
   let offset = 13 + ((bytes[10] & 128) ? 3 * (2 ** ((bytes[10] & 7) + 1)) : 0);
   let start = 0, duration = 0, delay = 100;
@@ -20,7 +20,13 @@ export function singlePlayGif(buffer) {
     if (marker === 0x3b) break;
     if (marker === 0x21) {
       const label = bytes[offset++];
-      if (label === 0xf9) delay = Math.max(20, (bytes[offset + 2] | (bytes[offset + 3] << 8)) * 10);
+      if (label === 0xf9) {
+        const originalDelay = bytes[offset + 2] | (bytes[offset + 3] << 8);
+        const adjustedDelay = Math.max(2, Math.round(originalDelay / playbackRate));
+        bytes[offset + 2] = adjustedDelay & 0xff;
+        bytes[offset + 3] = adjustedDelay >> 8;
+        delay = adjustedDelay * 10;
+      }
       const application = label === 0xff
         ? new TextDecoder().decode(bytes.slice(offset + 1, offset + 12)) : '';
       skipBlocks();
@@ -56,7 +62,7 @@ export default function FabricPickupOnce({ sectionRef, style }) {
       try {
         const response = await fetch('/images/history/fabric/fabric-pick-up.gif', { signal: abort.signal });
         if (!response.ok) throw new Error('GIF could not be loaded');
-        const { blob, duration } = singlePlayGif(await response.arrayBuffer());
+        const { blob, duration } = singlePlayGif(await response.arrayBuffer(), 1.8);
         if (disposed) return;
         objectUrl = URL.createObjectURL(blob);
         setPlayback({ url: objectUrl, duration });

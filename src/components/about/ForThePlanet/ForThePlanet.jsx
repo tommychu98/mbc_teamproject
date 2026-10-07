@@ -76,6 +76,115 @@ const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const range = (value, start, end) => clamp((value - start) / (end - start));
 const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
 
+function AcornBurst() {
+  const layerRef = useRef(null);
+  const acornRefs = useRef([]);
+  const modelsRef = useRef(Array.from({ length: 1 }, () => ({
+    delay: Math.random() * 0.08,
+    xRatio: 0.035 + Math.random() * 0.91,
+    yOffset: Math.random() * 150,
+    sizeRatio: 0.018 + Math.random() * 0.012,
+    vxRatio: (Math.random() - 0.5) * 0.085,
+    rotation: Math.random() * 360,
+    angularVelocity: (Math.random() - 0.5) * 560,
+    restitution: 0.3 + Math.random() * 0.15,
+    bounces: 0,
+    active: false,
+    settled: false,
+  })));
+
+  useEffect(() => {
+    const layer = layerRef.current;
+    if (!layer) return undefined;
+    let frame = 0;
+    let previous = performance.now();
+    const started = previous;
+
+    const tick = (now) => {
+      const width = layer.clientWidth;
+      const height = layer.clientHeight;
+      if (!width || !height) {
+        frame = window.requestAnimationFrame(tick);
+        return;
+      }
+      const dt = Math.min((now - previous) / 1000, 0.032);
+      const elapsed = (now - started) / 1000;
+      previous = now;
+      let moving = false;
+
+      modelsRef.current.forEach((model, index) => {
+        const element = acornRefs.current[index];
+        if (!element) return;
+        const size = clamp(width * model.sizeRatio, 28, 56);
+        if (!model.active && elapsed >= model.delay) {
+          model.active = true;
+          model.x = model.xRatio * (width - size);
+          model.y = -size - model.yOffset;
+          model.vx = model.vxRatio * width;
+          model.vy = 0;
+          element.style.opacity = "1";
+        }
+        if (!model.active) {
+          moving = true;
+          return;
+        }
+        if (!model.settled) {
+          const floor = height - size * 0.78;
+          model.vy += height * 1.7 * dt;
+          model.x += model.vx * dt;
+          model.y += model.vy * dt;
+          model.rotation += model.angularVelocity * dt;
+
+          if (model.x <= 0 || model.x >= width - size) {
+            model.x = clamp(model.x, 0, width - size);
+            model.vx *= -0.62;
+            model.angularVelocity *= -0.72;
+          }
+          if (model.y >= floor) {
+            model.y = floor;
+            model.bounces += 1;
+            if (Math.abs(model.vy) > height * 0.075 && model.bounces < 5) {
+              model.vy = -model.vy * model.restitution;
+              model.vx *= 0.72;
+              model.angularVelocity *= 0.68;
+            } else {
+              model.vy = 0;
+              model.vx = 0;
+              model.angularVelocity = 0;
+              model.settled = true;
+            }
+          }
+          moving = true;
+        }
+
+        element.style.width = `${size}px`;
+        element.style.height = `${size}px`;
+        element.style.transform = `translate3d(${model.x}px, ${model.y}px, 0) rotate(${model.rotation}deg)`;
+      });
+
+      if (moving) frame = window.requestAnimationFrame(tick);
+    };
+
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  return (
+    <div className="ftp-acorn-physics" ref={layerRef} aria-hidden="true">
+      {modelsRef.current.map((_, index) => (
+        <img
+          key={index}
+          ref={(element) => { acornRefs.current[index] = element; }}
+          className="ftp-acorn-physics__acorn"
+          src="/ForThePlanet/acorn-sketch.png"
+          alt=""
+          draggable="false"
+        />
+      ))}
+    </div>
+  );
+}
+
 function useScrollProgress(adjustForHeader = false, enableMobile = false, endHoldScreens = 0) {
   const ref = useRef(null);
   const [progress, setProgress] = useState(0);
@@ -135,6 +244,8 @@ const canvasPosition = (x, y, width, height) => ({
 
 function ArchScene({ variant, first = false }) {
   const [ref, rawProgress] = useScrollProgress(first, true);
+  const [acorns, setAcorns] = useState([]);
+  const nextAcornId = useRef(0);
   const progress = ease(rawProgress);
   const isCoast = variant === "coast";
   const background = isCoast ? coast : forest;
@@ -191,6 +302,12 @@ function ArchScene({ variant, first = false }) {
     width: `${(w / 429) * 100}%`,
     height: `${(h / 611) * 100}%`,
   });
+
+  useEffect(() => {
+    const resetAcorns = () => setAcorns([]);
+    window.addEventListener("ftp-reset-interactions", resetAcorns);
+    return () => window.removeEventListener("ftp-reset-interactions", resetAcorns);
+  }, []);
 
   return (
     <section
@@ -404,6 +521,7 @@ function ArchScene({ variant, first = false }) {
               alt=""
               style={backgroundPosition}
             />
+            {!isCoast && acorns.map((id) => <AcornBurst key={id} />)}
             {isCoast ? (
               <>
                 <img
@@ -432,17 +550,24 @@ function ArchScene({ variant, first = false }) {
                     object.perfume.h
                   )}
                 />
-                <img
-                  className="ftp-expanding-object ftp-expanding-object--no-shadow"
-                  src={hamster}
-                  alt="숲속 햄스터"
+                <button
+                  className="ftp-expanding-object ftp-expanding-object--no-shadow ftp-hamster-trigger"
+                  type="button"
+                  aria-label="햄스터를 눌러 도토리 떨어뜨리기"
+                  onClick={() => {
+                    const id = nextAcornId.current;
+                    nextAcornId.current += 1;
+                    setAcorns((items) => [...items, id]);
+                  }}
                   style={{ ...canvasPosition(
                     object.hamster.x,
                     object.hamster.y,
                     object.hamster.w,
                     object.hamster.h
                   ), translate: "10px -10px" }}
-                />
+                >
+                  <img src={hamster} alt="숲속 햄스터" draggable="false" />
+                </button>
               </>
             )}
           </div>

@@ -69,6 +69,7 @@ export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
   const [homeIntroReady, setHomeIntroReady] = useState(false);
   const [homeIntroHeaderLocked, setHomeIntroHeaderLocked] = useState(false);
+  const [homeIntroHoverReveal, setHomeIntroHoverReveal] = useState(false);
   const [desktopOpenMenu, setDesktopOpenMenu] = useState(null);
   const lastScrollYRef = useRef(0);
   const animationFrameRef = useRef(null);
@@ -80,7 +81,12 @@ export default function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const homeIntroHeaderVisible = isMobile || pathname !== '/' || homeIntroReady;
-  const forceHomeIntroHeader = !isMobile && pathname === '/' && homeIntroHeaderLocked;
+  const homeIntroHoverOnly = !isMobile && pathname === '/'
+    && (!homeIntroReady || homeIntroHeaderLocked);
+  const canShowHomeIntroHeader = homeIntroHeaderVisible || homeIntroHoverReveal || open;
+  const shouldShowHeader = homeIntroHoverOnly
+    ? homeIntroHoverReveal || open
+    : isMobile || isVisible || open;
 
   useEffect(() => {
     const viewport = window.matchMedia('(max-width: 767px)');
@@ -166,7 +172,7 @@ export default function Header() {
 
       animationFrameRef.current = window.requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
-        const headerHeight = window.innerWidth >= 1180 ? 110 : 72;
+        const headerHeight = window.innerWidth >= 1180 ? 85 : 72;
 
         if (currentScrollY <= 0 || open) {
           clearHideTimeout();
@@ -218,15 +224,28 @@ export default function Header() {
 
   return <>
     <div
-      className="header-hover-zone"
+      className={`header-hover-zone${pathname === '/' ? ' header-hover-zone--home' : ''}`}
       aria-hidden="true"
-      onMouseEnter={showHeader}
-      onMouseLeave={scheduleHeaderHide}
+      onMouseEnter={() => {
+        if (!isMobile && pathname === '/') setHomeIntroHoverReveal(true);
+        showHeader();
+      }}
+      onMouseLeave={() => {
+        scheduleHeaderHide();
+      }}
     />
     <header
-      className={`header${isMobile ? ' header--mobile' : ''}${pathname === '/' ? ' header--home' : ''} ${homeIntroHeaderVisible && (isMobile || forceHomeIntroHeader || isVisible || open) ? 'header--visible' : 'header--hidden'}${homeIntroHeaderVisible ? '' : ' header--home-intro-hidden'}${forceHomeIntroHeader ? ' header--home-intro-locked' : ''}`}
-      onMouseEnter={() => { isHeaderHoveredRef.current = true; showHeader(); }}
-      onMouseLeave={() => { isHeaderHoveredRef.current = false; scheduleHeaderHide(); }}
+      className={`header${isMobile ? ' header--mobile' : ''}${pathname === '/' ? ' header--home' : ''} ${canShowHomeIntroHeader && shouldShowHeader ? 'header--visible' : 'header--hidden'}${canShowHomeIntroHeader ? '' : ' header--home-intro-hidden'}`}
+      onMouseEnter={() => {
+        isHeaderHoveredRef.current = true;
+        if (!isMobile && pathname === '/') setHomeIntroHoverReveal(true);
+        showHeader();
+      }}
+      onMouseLeave={() => {
+        isHeaderHoveredRef.current = false;
+        setHomeIntroHoverReveal(false);
+        scheduleHeaderHide();
+      }}
     >
     <div className="header__inner">
       <button className="header__menu-button" type="button" aria-label={open ? '메뉴 닫기' : '메뉴 열기'} aria-expanded={open} onClick={() => setOpen((value) => !value)}>{open ? <X /> : <Menu />}</button>
@@ -251,9 +270,8 @@ export default function Header() {
         <div className="header__mobile-auth">{isAuthenticated ? <button type="button" onClick={handleLogout}>LOG OUT</button> : <><Link to="/login" onClick={closeMenu}>LOGIN</Link><Link to="/signup" onClick={closeMenu}>JOIN</Link></>}</div>
       </nav>
       <div className="header__utilities">
-        {isAuthenticated
-          ? <button className="header__account header__logout" type="button" aria-label="로그아웃" onClick={handleLogout}><img src="/images/common/icon-logout.svg" alt="" /></button>
-          : <Link className="header__account" to="/login" aria-label="로그인"><img src="/images/common/icon-profile.svg" alt="" /></Link>}
+        {isAuthenticated && <button className="header__account header__logout" type="button" aria-label="로그아웃" onClick={handleLogout}><img src="/images/common/icon-logout.svg" alt="" /></button>}
+        <Link className="header__account" to={isAuthenticated ? '/mypage' : '/login'} aria-label={isAuthenticated ? '마이페이지' : '로그인'}><img src="/images/common/icon-profile.svg" alt="" /></Link>
         <Link className="header__search" to="/search" aria-label="검색"><img src="/images/common/icon-search.svg" alt="" /></Link>
         <Link className="header__cart" to="/cart" aria-label={`장바구니 ${cartCount}개`}><img src="/images/common/icon-bag.svg" alt="" />{cartCount > 0 && <span>{cartCount}</span>}</Link>
       </div>

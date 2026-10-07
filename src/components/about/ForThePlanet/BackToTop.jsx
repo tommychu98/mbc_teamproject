@@ -33,6 +33,7 @@ export default function BackToTop() {
       type="button"
       aria-label="페이지 맨 위로 이동"
       onClick={() => {
+        window.dispatchEvent(new CustomEvent("ftp-reset-interactions"));
         window.scrollTo({
           top: 0,
           behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches

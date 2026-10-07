@@ -7,10 +7,13 @@ export default function HomeTopButton() {
             className="home-top-button"
             type="button"
             aria-label="홈 맨 위로 이동"
-            onClick={() => window.scrollTo({
-                top: 0,
-                behavior: 'smooth',
-            })}
+            onClick={() => {
+                window.dispatchEvent(new CustomEvent('home-reset-interactions'));
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                });
+            }}
         >
             <img src={topArrow} alt="" aria-hidden="true" width="13" height="17" />
             <span aria-hidden="true">TOP</span>

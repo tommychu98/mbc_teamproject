@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import background from './assets/background.png';
 import woman from './assets/woman.png';
 import floralOverlay from './assets/floral-overlay.png';
@@ -7,6 +7,12 @@ import rightFloral from './assets/right-floral.png';
 import foregroundLeaf from './assets/leaf-flight.png';
 import topLemon from './assets/top-lemon.png';
 import bird from './assets/bird.png';
+import swanTakeoffExtra01 from './assets/swan-takeoff-extra-01.png';
+import swanTakeoffExtra02 from './assets/swan-takeoff-extra-02.png';
+import swanTakeoffExtra03 from './assets/swan-takeoff-extra-03.png';
+import swanTakeoff01 from './assets/swan-takeoff-01.png';
+import swanTakeoff02 from './assets/swan-takeoff-02.png';
+import swanTakeoff from './assets/swan-takeoff.png';
 import bathObjects from './assets/bath-objects.png';
 import morningRule from './assets/rule-morning.svg';
 import sensorialRule from './assets/rule-sensorial.svg';
@@ -24,6 +30,7 @@ export default function HomeDayRitual({ collectionHref = '/shop/new-season/les-r
     const leafRef = useRef(null);
     const lemonRef = useRef(null);
     const [scale, setScale] = useState(1);
+    const [swanState, setSwanState] = useState('idle');
     useLeafExit(containerRef, leafRef, scale);
     useLemonReveal(containerRef, lemonRef);
 
@@ -34,6 +41,12 @@ export default function HomeDayRitual({ collectionHref = '/shop/new-season/les-r
         observer.observe(container);
         measure();
         return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const resetSwan = () => setSwanState('idle');
+        window.addEventListener('home-reset-interactions', resetSwan);
+        return () => window.removeEventListener('home-reset-interactions', resetSwan);
     }, []);
 
     return (
@@ -55,7 +68,24 @@ export default function HomeDayRitual({ collectionHref = '/shop/new-season/les-r
                 <div className="home-day-ritual__foreground-leaf" ref={leafRef} data-node-id="2863:8288" data-name="leaf"><img loading="lazy" decoding="async" fetchPriority="low" src={foregroundLeaf} alt="" draggable="false" /></div>
 
                 <img loading="lazy" decoding="async" fetchPriority="low" className="home-day-ritual__top-lemon" ref={lemonRef} src={topLemon} alt="" draggable="false" />
-                <img loading="lazy" decoding="async" fetchPriority="low" className="home-day-ritual__bird" src={bird} alt="" draggable="false" />
+                <button
+                    className={`home-day-ritual__bird home-day-ritual__bird--${swanState}`}
+                    type="button"
+                    aria-label="백조 날려 보내기"
+                    aria-disabled={swanState !== 'idle'}
+                    onClick={() => { if (swanState === 'idle') setSwanState('flying'); }}
+                    onAnimationEnd={(event) => {
+                        if (event.animationName === 'home-day-swan-flight-path') setSwanState('gone');
+                    }}
+                >
+                    <img className="home-day-ritual__bird-resting" loading="lazy" decoding="async" fetchPriority="low" src={bird} alt="" draggable="false" />
+                    <img className="home-day-ritual__bird-flight-frame home-day-ritual__bird-opening-extra-01" loading="lazy" decoding="async" fetchPriority="low" src={swanTakeoffExtra01} alt="" draggable="false" />
+                    <img className="home-day-ritual__bird-flight-frame home-day-ritual__bird-opening-01" loading="lazy" decoding="async" fetchPriority="low" src={swanTakeoff01} alt="" draggable="false" />
+                    <img className="home-day-ritual__bird-flight-frame home-day-ritual__bird-opening-extra-02" loading="lazy" decoding="async" fetchPriority="low" src={swanTakeoffExtra02} alt="" draggable="false" />
+                    <img className="home-day-ritual__bird-flight-frame home-day-ritual__bird-opening-02" loading="lazy" decoding="async" fetchPriority="low" src={swanTakeoff02} alt="" draggable="false" />
+                    <img className="home-day-ritual__bird-flight-frame home-day-ritual__bird-opening-extra-03" loading="lazy" decoding="async" fetchPriority="low" src={swanTakeoffExtra03} alt="" draggable="false" />
+                    <img className="home-day-ritual__bird-flight-frame home-day-ritual__bird-airborne" loading="lazy" decoding="async" fetchPriority="low" src={swanTakeoff} alt="" draggable="false" />
+                </button>
                 <img loading="lazy" decoding="async" fetchPriority="low" className="home-day-ritual__bath-objects" src={bathObjects} alt="" draggable="false" />
 
                 <div className="home-day-ritual__morning-copy">

@@ -81,11 +81,81 @@
     top: 1523px;
     width: 560px;
     height: 373px;
-    object-fit: cover;
-    opacity: .7;
+    z-index: 3;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
     transform-origin: 50% 70%;
     animation: home-day-swan-drift 18s ease-in-out infinite,
         home-day-swan-bob 5.5s ease-in-out infinite;
+}
+
+.home-day-ritual__bird img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: .7;
+    transition: filter 240ms ease;
+}
+
+.home-day-ritual__bird .home-day-ritual__bird-flight-frame {
+    inset: 15% 16%;
+    width: 68%;
+    height: 68%;
+    opacity: 0;
+}
+.home-day-ritual__bird:hover .home-day-ritual__bird-resting,
+.home-day-ritual__bird:focus-visible .home-day-ritual__bird-resting {
+    filter: brightness(1.04) drop-shadow(0 8px 8px rgb(85 78 67 / 16%));
+}
+.home-day-ritual__bird:focus-visible { outline: 2px solid rgb(75 75 75 / 45%); outline-offset: 8px; }
+
+.home-day-ritual__bird::after {
+    content: '';
+    position: absolute;
+    left: 20%;
+    bottom: 20%;
+    width: 68%;
+    height: 10%;
+    border: 2px solid rgb(112 108 98 / 0%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.home-day-ritual__bird--flying {
+    animation: home-day-swan-flight-path 2.4s cubic-bezier(.28, .05, .62, 1) both;
+    cursor: default;
+}
+.home-day-ritual__bird--gone {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    animation: none;
+}
+.home-day-ritual__bird--flying::after { animation: home-day-swan-wake 1.15s ease-out both; }
+.home-day-ritual__bird--flying .home-day-ritual__bird-resting {
+    animation: home-day-swan-resting-exit 2.4s linear both;
+}
+.home-day-ritual__bird--flying .home-day-ritual__bird-opening-extra-01 {
+    animation: home-day-swan-opening-extra-01 2.4s linear both;
+}
+.home-day-ritual__bird--flying .home-day-ritual__bird-opening-01 {
+    animation: home-day-swan-opening-01 2.4s linear both;
+}
+.home-day-ritual__bird--flying .home-day-ritual__bird-opening-extra-02 {
+    animation: home-day-swan-opening-extra-02 2.4s linear both;
+}
+.home-day-ritual__bird--flying .home-day-ritual__bird-opening-02 {
+    animation: home-day-swan-opening-02 2.4s linear both;
+}
+.home-day-ritual__bird--flying .home-day-ritual__bird-opening-extra-03 {
+    animation: home-day-swan-opening-extra-03 2.4s linear both;
+}
+.home-day-ritual__bird--flying .home-day-ritual__bird-airborne {
+    animation: home-day-swan-airborne 2.4s linear both;
 }
 
 @keyframes home-day-swan-drift {
@@ -96,6 +166,71 @@
 @keyframes home-day-swan-bob {
     0%, 100% { transform: translateY(0) rotate(-.35deg); }
     50% { transform: translateY(-6px) rotate(.35deg); }
+}
+
+@keyframes home-day-swan-flight-path {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+    10%, 24%, 31% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+    35% { transform: translate3d(-80px, -53px, 0) rotate(0deg) scale(1); }
+    55% { transform: translate3d(-450px, -300px, 0) rotate(0deg) scale(1); }
+    75% { transform: translate3d(-820px, -547px, 0) rotate(0deg) scale(1); }
+    100% { transform: translate3d(-1280px, -853px, 0) rotate(0deg) scale(1); }
+}
+
+@keyframes home-day-swan-resting-exit {
+    0%, 4% { opacity: .7; transform: translateY(0) scale(1); }
+    7% { opacity: .42; transform: translateY(7px) scaleY(.97); }
+    10%, 100% { opacity: 0; transform: translateY(4px) scale(.98); }
+}
+
+@keyframes home-day-swan-opening-extra-01 {
+    0%, 5% { opacity: 0; transform: none; }
+    8%, 10% { opacity: .7; transform: none; }
+    13%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes home-day-swan-opening-01 {
+    0%, 10% { opacity: 0; transform: none; }
+    13%, 16% { opacity: .7; transform: none; }
+    19%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes home-day-swan-opening-extra-02 {
+    0%, 16% { opacity: 0; transform: none; }
+    19%, 21% { opacity: .71; transform: none; }
+    24%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes home-day-swan-opening-02 {
+    0%, 21% { opacity: 0; transform: none; }
+    24%, 26% { opacity: .72; transform: none; }
+    29%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes home-day-swan-opening-extra-03 {
+    0%, 26% { opacity: 0; transform: none; }
+    29%, 31% { opacity: .73; transform: none; }
+    34%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes home-day-swan-airborne {
+    0%, 31% { opacity: 0; transform: none; }
+    35% { opacity: .74; transform: none; }
+    41% { opacity: .54; transform: none; }
+    47% { opacity: .26; transform: none; }
+    53%, 100% { opacity: 0; transform: none; }
+}
+
+@keyframes home-day-swan-wake {
+    0% { opacity: 0; border-color: rgb(112 108 98 / 0%); transform: scale(.45); }
+    22% { opacity: .65; border-color: rgb(112 108 98 / 32%); }
+    100% { opacity: 0; border-color: rgb(112 108 98 / 0%); transform: scale(1.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-day-ritual__bird { animation: none; }
+    .home-day-ritual__bird--flying { animation-duration: 1.2s; }
+    .home-day-ritual__bird--flying img { animation-duration: 1.2s; }
 }
 .home-day-ritual__bath-objects { position: absolute; left: 521px; top: 2218px; width: 354px; height: 236px; object-fit: cover; }
 

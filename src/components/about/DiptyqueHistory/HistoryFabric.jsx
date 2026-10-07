@@ -41,7 +41,7 @@ function FabricPickupAnimation() {
             return response.arrayBuffer();
           })
           .then((buffer) => {
-            gifData = singlePlayGif(buffer);
+            gifData = singlePlayGif(buffer, 1.8);
             return gifData;
           });
       }
@@ -310,10 +310,22 @@ export default function HistoryFabric() {
         className="history-fabric__centered-asset history-fabric__floating-object-08"
         name="floating-decorative-object-08.png"
       />
-      <ImageAsset
-        className="history-fabric__asset history-fabric__floating-botanical-01"
-        name="floating-botanical-01.png"
-      />
+      <div className="history-fabric__asset history-fabric__floating-botanical-01" aria-hidden="true">
+        <img
+          className="history-fabric__botanical-pot"
+          src={asset('floating-botanical-pot.png')}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          className="history-fabric__botanical-leaves"
+          src={asset('floating-botanical-leaves.png')}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
       <ImageAsset
         className="history-fabric__centered-asset history-fabric__floating-collage-01"
         name="floating-fabric-collage-01.png"
