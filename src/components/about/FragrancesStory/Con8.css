@@ -7,13 +7,13 @@
   color: var(--color-black);
 }
 
-@media (min-width: 768px) {
-  .fragrances-con8__pin-stage { min-height: 100vh; }
+/* Match Con5's correction for the pin spacer's rounded section height. */
+.pin-spacer:has(> .fragrances-con8) {
+  margin-bottom: var(--con8-spacer-correction, 0px) !important;
 }
 
-/* Preserve the existing mobile scene geometry through the pin wrapper. */
+/* Keep mobile scene geometry independent of the desktop pin. */
 @media (width < 768px) {
-  .fragrances-con8__pin-stage { width: 100%; }
   .fragrances-con8 .fragrances-con8__scene {
     --mobile-scale: calc(100cqw / 430px);
     --mobile-flow-scale: max(1, var(--mobile-scale));
@@ -84,12 +84,7 @@
   object-fit: cover;
 }
 
-/* Drawing layers share the existing image bounds without changing flow. */
 .fragrances-con8__card-artwork { position: relative; width: 100%; flex: none; }
-.fragrances-con8__ink-trace,
-.fragrances-con8__ink-lines { position: absolute; inset: 0; pointer-events: none; }
-.fragrances-con8__ink-trace { opacity: 0.1; }
-.fragrances-con8__ink-lines { width: 100%; height: 100%; }
 
 .fragrances-con8__card-content {
   display: flex;

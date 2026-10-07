@@ -1,6 +1,6 @@
 import useMobileCards from './useMobileCards';
 import useCon2Swipe from './useCon2Swipe';
-import useCon2InkDrawing from './useCon2InkDrawing';
+import useCon2Pin from './useCon2Pin';
 import { useRef } from 'react';
 import background from './assets/con2-background.png';
 import cloth from './assets/con2-cloth.png';
@@ -13,7 +13,7 @@ export default function Con2() {
   const nextCard = useCon2Swipe(railRef);
   const clothRef = useRef(null);
   const sectionRef = useRef(null);
-  useCon2InkDrawing(sectionRef);
+  useCon2Pin(sectionRef);
 
   return (
     <section ref={sectionRef} className="fragrances-con2" aria-labelledby="fragrances-con2-title">

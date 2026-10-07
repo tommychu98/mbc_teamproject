@@ -5,7 +5,7 @@ import mobileCard2 from './assets/mobile-afterglow.png';
 const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
 import { useRef } from 'react';
-import useCon5InkDrawing from './useCon5InkDrawing';
+import useCon5Pin from './useCon5Pin';
 import background from './assets/con5-background.png';
 import boutique from './assets/con5-boutique.png';
 import velvetWoods from './assets/con5-velvet-woods.png';
@@ -37,6 +37,8 @@ const cards = [
 ];
 
 export default function Con5() {
+  const sectionRef = useRef(null);
+  useCon5Pin(sectionRef);
   const { railRef, active } = useMobileCards();
   const nextCard = () => {
     const rail = railRef.current;
@@ -47,8 +49,6 @@ export default function Con5() {
       behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
     });
   };
-  const sectionRef = useRef(null);
-  useCon5InkDrawing(sectionRef);
   return (
     <section ref={sectionRef} className="fragrances-con5" aria-labelledby="fragrances-con5-title">
       <div className="fragrances-con5__scene">
