@@ -323,7 +323,7 @@
     }
     .home-perfume-history__photo-track[data-animate='true'],
     .home-perfume-history__logo-track[data-animate='true'] {
-        transition: transform .55s cubic-bezier(.22, .61, .36, 1);
+        transition: transform .42s cubic-bezier(.22, .61, .36, 1);
     }
     .home-perfume-history__canvas {
         display: grid;

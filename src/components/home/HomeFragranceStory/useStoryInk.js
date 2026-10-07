@@ -29,13 +29,29 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
         const title = titleRef.current;
         const characters = title.querySelectorAll('.home-fragrance-story__character');
         const characterCount = characters.length;
+        const mobile = window.matchMedia('(max-width: 767px)');
 
         let frameId = 0;
         let renderedProgress = null;
         const motion = createDampedValue({ maxLag: 0.06 });
+        let mobileRevealObserver = null;
+
+        if (mobile.matches) {
+            characters.forEach((character, index) => {
+                character.style.setProperty('--story-character-delay', `${Math.round(index * 620 / Math.max(1, characterCount - 1))}ms`);
+            });
+            section.dataset.mobileAnimation = 'waiting';
+            mobileRevealObserver = new IntersectionObserver((entries) => {
+                if (!entries.some((entry) => entry.isIntersecting)) return;
+                section.dataset.mobileAnimation = 'playing';
+                mobileRevealObserver?.disconnect();
+            }, { threshold: 0.05 });
+            mobileRevealObserver.observe(section);
+        }
 
         const paint = (now) => {
             frameId = 0;
+            if (mobile.matches) return;
             const distance = Math.max(0, section.offsetHeight - stage.offsetHeight);
             const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
             const progress = distance > 0 ? clamp((stickyTop - section.getBoundingClientRect().top) / distance) : 0;
@@ -70,6 +86,10 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
         const measure = () => {
             const stageHeight = stage.offsetHeight;
             section.style.setProperty('--story-stage-height', `${stageHeight}px`);
+            if (mobile.matches) {
+                section.style.setProperty('--story-scroll-distance', '0px');
+                return;
+            }
             const distance = Math.max(window.innerHeight, stageHeight) * TOTAL_DISTANCE;
             section.style.setProperty('--story-scroll-distance', `${distance}px`);
             schedulePaint();
@@ -85,8 +105,11 @@ export default function useStoryInk(sectionRef, stageRef, titleRef) {
         return () => {
             cancelAnimationFrame(frameId);
             observer.disconnect();
+            mobileRevealObserver?.disconnect();
             window.removeEventListener('scroll', schedulePaint);
             window.removeEventListener('resize', measure);
+            characters.forEach((character) => character.style.removeProperty('--story-character-delay'));
+            delete section.dataset.mobileAnimation;
 
         };
     }, [sectionRef, stageRef, titleRef]);

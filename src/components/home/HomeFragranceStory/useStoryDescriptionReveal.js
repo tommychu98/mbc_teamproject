@@ -6,6 +6,12 @@ export default function useStoryDescriptionReveal(sectionRef, descriptionRef) {
         const description = descriptionRef.current;
         const mobile = window.matchMedia('(max-width: 767px)');
         const update = () => {
+            if (mobile.matches) {
+                description.style.setProperty('--story-description-opacity', '1');
+                description.style.setProperty('--story-description-y', '0px');
+                description.dataset.revealed = 'true';
+                return;
+            }
             // Use the English painter's shared scroll timeline, not a timed
             // CSS transition that could continue after the stage releases.
             const progress = Number(section.dataset.descriptionProgress || 0);

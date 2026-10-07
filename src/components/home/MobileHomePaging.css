@@ -1,0 +1,19 @@
+@media (max-width: 767px) {
+    /* These scenes have no vertical chapters: leave on the next gesture. */
+    .home .home-perfume-history,
+    .home .home-scent-memory {
+        height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+    }
+    .home .home-perfume-history__stage,
+    .home .home-scent-memory__stage {
+        position: relative;
+        top: 0;
+        height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+        min-height: 0;
+    }
+    .home .home-scent-memory__character {
+        background: none;
+        color: #222;
+        -webkit-text-fill-color: #222;
+    }
+}

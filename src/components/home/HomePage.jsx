@@ -12,10 +12,15 @@ import HomeFragranceWorld from './HomeFragranceWorld/HomeFragranceWorld';
 import HomePreFooter from './HomePreFooter';
 import Home3D from './3d';
 import HomeTopButton from './HomeTopButton';
+import { useRef } from 'react';
+import useMobileHomePaging from './useMobileHomePaging';
+import './MobileHomePaging.css';
 
 export default function HomePage() {
+    const homeRef = useRef(null);
+    useMobileHomePaging(homeRef);
     return (
-        <div className="home">
+        <div className="home" ref={homeRef}>
             <HomeIntro />
             <HomeFragranceStory />
             <HomePerfumeHistory />

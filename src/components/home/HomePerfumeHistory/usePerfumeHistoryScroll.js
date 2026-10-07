@@ -19,15 +19,11 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         let frameId = 0;
         let previousIndex = -1;
         let previousTransition = null;
-        let settleTimer = 0;
-        let touching = false;
         let mobileIndex = 0;
         let touchStartX = 0;
         let touchStartY = 0;
         let horizontalGesture = false;
         let verticalGesture = false;
-        let verticalDelta = 0;
-        let wheelLocked = false;
         const photoMotion = createDampedValue({ response: MOTION_RESPONSE.scene, maxLag: 12, epsilon: 0.001 });
         const logoMotion = createDampedValue({ response: MOTION_RESPONSE.foreground, maxLag: 12, epsilon: 0.001 });
 
@@ -90,43 +86,14 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const schedulePaint = () => {
             if (!frameId) frameId = requestAnimationFrame(paint);
         };
-        const settleSlide = () => {
-            clearTimeout(settleTimer);
-            if (!mobile.matches || touching || !scrollUnitRef.current) return;
-            const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
-            const offset = stickyTop - section.getBoundingClientRect().top;
-            const unit = scrollUnitRef.current;
-            const position = offset / unit;
-            if (position < 0 || position >= totalDistance) return;
-            const segmentLength = HOLD_VIEWPORTS + TRANSITION_VIEWPORTS;
-            const segment = Math.floor(position / segmentLength);
-            const localPosition = position - segment * segmentLength;
-            // Only settle a partial transition; leave the reading holds and
-            // section entry/exit free for ordinary vertical scrolling.
-            if (segment >= slides.length - 1 || localPosition <= HOLD_VIEWPORTS) return;
-            const transition = (localPosition - HOLD_VIEWPORTS) / TRANSITION_VIEWPORTS;
-            const index = segment + (transition >= 0.5 ? 1 : 0);
-            const hold = index === slides.length - 1 ? FINAL_HOLD_VIEWPORTS : HOLD_VIEWPORTS;
-            const targetOffset = (index * segmentLength + hold / 2) * unit;
-            window.scrollTo({
-                top: window.scrollY + targetOffset - offset,
-                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-            });
-        };
-        const scheduleSettle = () => {
-            clearTimeout(settleTimer);
-            if (mobile.matches && !touching) settleTimer = setTimeout(settleSlide, 180);
-        };
-        const onScroll = () => { schedulePaint(); scheduleSettle(); };
+        // Home paging exclusively owns vertical movement on mobile.
+        const onScroll = schedulePaint;
         const onTouchStart = (event) => {
-            touching = true;
-            clearTimeout(settleTimer);
             if (!mobile.matches || event.touches.length !== 1) return;
             touchStartX = event.touches[0].clientX;
             touchStartY = event.touches[0].clientY;
             horizontalGesture = false;
             verticalGesture = false;
-            verticalDelta = 0;
         };
         const onTouchMove = (event) => {
             if (!mobile.matches || event.touches.length !== 1) return;
@@ -136,42 +103,38 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
                 horizontalGesture = Math.abs(deltaX) > Math.abs(deltaY);
                 verticalGesture = !horizontalGesture;
             }
-            verticalDelta = deltaY;
-            if ((horizontalGesture || verticalGesture) && event.cancelable) event.preventDefault();
+            if (horizontalGesture) {
+                if (event.cancelable) event.preventDefault();
+                const width = Math.max(1, stage.clientWidth);
+                const rawProgress = mobileIndex - deltaX / width;
+                const progress = rawProgress < 0
+                    ? rawProgress * .18
+                    : rawProgress > slides.length - 1
+                        ? slides.length - 1 + (rawProgress - (slides.length - 1)) * .18
+                        : rawProgress;
+                photoTrackRef.current.dataset.animate = 'false';
+                logoTrackRef.current.dataset.animate = 'false';
+                photoTrackRef.current.style.transform = `translate3d(${progress * 100}cqw, 0, 0)`;
+                logoTrackRef.current.style.transform = `translate3d(${-progress * 100}cqw, 0, 0)`;
+            }
         };
         const onTouchEnd = (event) => {
-            touching = false;
             if (mobile.matches && horizontalGesture) {
                 const endX = event.changedTouches[0]?.clientX ?? touchStartX;
                 const deltaX = endX - touchStartX;
-                if (Math.abs(deltaX) >= 42) paintMobile(mobileIndex + (deltaX < 0 ? 1 : -1));
+                const nextIndex = Math.abs(deltaX) >= 42 ? mobileIndex + (deltaX < 0 ? 1 : -1) : mobileIndex;
+                paintMobile(nextIndex);
                 horizontalGesture = false;
                 return;
             }
-            if (mobile.matches && verticalGesture && Math.abs(verticalDelta) >= 36) {
-                const destination = verticalDelta < 0 ? section.nextElementSibling : section.previousElementSibling;
-                destination?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                verticalGesture = false;
-                return;
-            }
-            scheduleSettle();
         };
-        const onWheel = (event) => {
-            if (!mobile.matches || wheelLocked || Math.abs(event.deltaY) <= Math.abs(event.deltaX) || Math.abs(event.deltaY) < 8) return;
-            if (event.cancelable) event.preventDefault();
-            const destination = event.deltaY > 0 ? section.nextElementSibling : section.previousElementSibling;
-            wheelLocked = true;
-            destination?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            window.setTimeout(() => { wheelLocked = false; }, 700);
-        };
+        const onTouchCancel = () => { horizontalGesture = false; verticalGesture = false; };
         const measure = () => {
             const stageHeight = stage.offsetHeight;
             const unit = Math.max(window.innerHeight, stageHeight);
             scrollUnitRef.current = unit;
             section.style.setProperty('--history-stage-height', `${stageHeight}px`);
-            // Retain a full pinned viewport on mobile, while vertical input is
-            // handled above as one smooth jump to the adjacent section.
-            section.style.setProperty('--history-scroll-distance', mobile.matches ? `${unit}px` : `${unit * totalDistance}px`);
+            section.style.setProperty('--history-scroll-distance', mobile.matches ? '0px' : `${unit * totalDistance}px`);
             if (mobile.matches) paintMobile(mobileIndex, false);
             schedulePaint();
         };
@@ -179,12 +142,10 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const observer = new ResizeObserver(measure);
         observer.observe(stage);
         window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('scrollend', settleSlide);
         stage.addEventListener('touchstart', onTouchStart, { passive: true });
         stage.addEventListener('touchmove', onTouchMove, { passive: false });
         stage.addEventListener('touchend', onTouchEnd, { passive: true });
-        stage.addEventListener('touchcancel', onTouchEnd, { passive: true });
-        stage.addEventListener('wheel', onWheel, { passive: false });
+        stage.addEventListener('touchcancel', onTouchCancel, { passive: true });
         window.addEventListener('resize', measure);
 
         measure();
@@ -192,14 +153,11 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         return () => {
             cancelAnimationFrame(frameId);
             observer.disconnect();
-            clearTimeout(settleTimer);
             window.removeEventListener('scroll', onScroll);
-            window.removeEventListener('scrollend', settleSlide);
             stage.removeEventListener('touchstart', onTouchStart);
             stage.removeEventListener('touchmove', onTouchMove);
             stage.removeEventListener('touchend', onTouchEnd);
-            stage.removeEventListener('touchcancel', onTouchEnd);
-            stage.removeEventListener('wheel', onWheel);
+            stage.removeEventListener('touchcancel', onTouchCancel);
             window.removeEventListener('resize', measure);
 
         };

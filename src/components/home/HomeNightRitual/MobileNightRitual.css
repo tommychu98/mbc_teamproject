@@ -1,5 +1,10 @@
 .home-mobile-night { background: #222; color: #f7f6f4; --mobile-night-scale: 1; }
-.home-mobile-night__page { position: relative; height: calc(883px * var(--mobile-night-scale)); overflow: hidden; }
+.home-mobile-night__page {
+    position: relative;
+    height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+    min-height: 0;
+    overflow: hidden;
+}
 .home-mobile-night__canvas { position: relative; width: 430px; height: 883px; transform: scale(var(--mobile-night-scale)); transform-origin: top left; font-family: 'HomeNight Garamond', Georgia, serif; }
 .home-mobile-night img { display: block; max-width: none; pointer-events: none; }
 .home-mobile-night h2, .home-mobile-night h3 { margin: 0; font-family: 'HomeNight Garamond', Georgia, serif; font-size: 40px; font-weight: 400; line-height: 1.1; white-space: nowrap; }

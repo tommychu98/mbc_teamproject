@@ -82,8 +82,12 @@
 }
 
 @media (max-width: 767px) {
+    .home-fragrance-story {
+        height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+    }
     .home-fragrance-story__stage {
-        top: calc(52px + env(safe-area-inset-top, 0px));
+        position: relative;
+        top: 0;
         min-height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
         padding: 0;
     }
@@ -104,6 +108,17 @@
         letter-spacing: 0;
         white-space: nowrap;
     }
+    .home-fragrance-story__character {
+        --ink-edge: 145%;
+        opacity: 1;
+        transform: none;
+    }
+    .home-fragrance-story[data-mobile-animation='waiting'] .home-fragrance-story__character {
+        opacity: 0;
+    }
+    .home-fragrance-story[data-mobile-animation='playing'] .home-fragrance-story__character {
+        animation: home-story-write-in 180ms ease-out var(--story-character-delay) both;
+    }
     .home-fragrance-story__description {
         position: absolute;
         top: calc(40% + 134.8px);
@@ -118,5 +133,31 @@
         line-height: 1.4;
         letter-spacing: .28px;
         white-space: nowrap;
+        opacity: 1;
+        transition: none;
+    }
+    .home-fragrance-story[data-mobile-animation='waiting'] .home-fragrance-story__description {
+        opacity: 0;
+    }
+    .home-fragrance-story[data-mobile-animation='playing'] .home-fragrance-story__description {
+        animation: home-story-description-in 200ms ease-out 600ms both;
+    }
+}
+
+@keyframes home-story-write-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes home-story-description-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 767px) {
+    .home-fragrance-story[data-mobile-animation] .home-fragrance-story__character,
+    .home-fragrance-story[data-mobile-animation] .home-fragrance-story__description {
+        animation: none;
+        opacity: 1;
     }
 }
