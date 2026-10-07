@@ -88,3 +88,8 @@
 @media (prefers-reduced-motion: reduce) {
   .product-card__heart-icon--liked, .product-card__heart-icon--unliked { animation: none; }
 }
+
+.shop-page--catalog .product-card__quick-add { bottom: 16px; }
+@media (max-width: 767px) {
+  .shop-page--catalog .product-card__quick-add { bottom: 4px; }
+}

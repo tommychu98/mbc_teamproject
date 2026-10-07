@@ -22,9 +22,11 @@
 .gift-page__story-video--seeking-start { visibility: hidden; }
 .gift-page__story-copy { position: absolute; top: 313px; left: 1221px; width: 538px; }
 .gift-page__story-copy h2, .gift-page__boutique-copy h2 { font-family: var(--font-family-display); font-size: 64px; font-weight: 400; line-height: 1.1; }
-.gift-page__story-copy > div { display: flex; margin-top: 50px; flex-direction: column; gap: 30px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
-.gift-page__boutique-copy { position: absolute; top: 89px; left: 211px; display: flex; width: 538px; flex-direction: column; align-items: flex-start; gap: 70px; }
-.gift-page__boutique-copy > div { display: flex; height: 600px; flex-direction: column; gap: 30px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; }
+.gift-page__story-copy > div { display: flex; margin-top: 50px; flex-direction: column; gap: 24px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; white-space: pre-line; }
+.gift-page__boutique-copy { position: absolute; top: 50%; left: 211px; display: flex; width: 574px; flex-direction: column; align-items: flex-start; gap: 70px; transform: translateY(-50%); }
+.gift-page__boutique-copy h2 { width: 537px; }
+.gift-page__boutique-copy > div { display: flex; width: 578px; flex-direction: column; gap: 24px; font-family: "Shop Intro KoPubWorldDotum Pro", sans-serif; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; white-space: pre-line; }
+.gift-page__boutique-copy > div { margin-top: -20px; }
 .gift-page__boutique-image { position: absolute; top: 0; right: 0; width: 960px; height: 1080px; overflow: hidden; }
 .gift-page__boutique-image img { width: 1448px; height: 1086px; max-width: none; object-fit: cover; transform: translateX(-4px); }
 .gift-page__sets { height: 900px; }
@@ -71,6 +73,10 @@
   .gift-page__story-copy, .gift-page__boutique-copy { position: static; width: 100%; padding: 40px 24px; gap: 32px; }
   .gift-page__story-copy h2, .gift-page__boutique-copy h2 { font-size: 40px; }
   .gift-page__story-copy > div, .gift-page__boutique-copy > div { height: auto; font-size: 16px; gap: 24px; }
+  .gift-page__story-copy > div { white-space: normal; }
+  .gift-page__boutique-copy { transform: none; }
+  .gift-page__boutique-copy h2, .gift-page__boutique-copy > div { width: 100%; }
+  .gift-page__boutique-copy > div { margin-top: 0; white-space: normal; }
   .gift-page__sets { height: auto; padding: 40px 24px; }
   .gift-page__sets .gift-page__canvas { position: relative; left: auto; width: 100%; height: auto; transform: none; }
   .gift-page__sets h2 { position: static; font-size: 32px; letter-spacing: .08em; padding-right: 64px; }
