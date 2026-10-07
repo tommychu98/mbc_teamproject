@@ -73,7 +73,14 @@ function ProductDetailContent({ product: initialProduct }) {
     handleImageError(event);
   };
   const handleImageError = (event) => { if (event.currentTarget.dataset.fallbackApplied) return; event.currentTarget.dataset.fallbackApplied = 'true'; event.currentTarget.src = '/images/placeholders/product-fallback.svg'; };
-  return <main className={`product-detail${product.collection === 'les-rituels-de-soin' ? ' product-detail--rituels' : ''}`}><div className="product-detail__layout">
+  return <main className={`product-detail${product.collection === 'les-rituels-de-soin' ? ' product-detail--rituels' : ''}`}>
+    <div className="product-detail__navigation">
+      <button className="product-detail__back" type="button" onClick={() => {
+        if (window.history.state?.idx > 0) navigate(-1);
+        else navigate('/shop', { replace: true });
+      }}><svg className="product-detail__back-icon" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12 3L4 10.5L12 18" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" /></svg><span>뒤로가기</span></button>
+    </div>
+    <div className="product-detail__layout">
     <div className="product-detail__gallery"><div className="product-detail__thumbnails" aria-label="상품 이미지 선택">{galleryViews.map(({ label, src, alternate }, index) => <button key={index} type="button" className={`product-detail__thumbnail ${view === index ? 'product-detail__thumbnail--active' : ''}`} aria-label={label} aria-pressed={view === index} onClick={() => setView(index)}><img className={`product-detail__thumbnail-image--view-${alternate ? 0 : index}`} src={src} alt="" onError={handleGalleryImageError} /></button>)}<button className="product-detail__gallery-next" type="button" aria-label="다음 상품 이미지" onClick={() => setView((v) => (v+1)%PRODUCT_VIEWS.length)}><span /></button></div><div className={`product-detail__media product-detail__media--view-${galleryViews[view].alternate ? 0 : view}`}><img key={galleryViews[view].src} src={galleryViews[view].src} alt={product.name} onError={handleGalleryImageError} /></div></div>
     <div className="product-detail__content"><header className="product-detail__heading"><p className="product-detail__category">{product.catalogCategory === 'fragrances' ? 'Fragrances' : product.line || product.category}</p><h1>{product.englishName || DISPLAY_NAMES[name] || name}</h1><p className="product-detail__subtitle">{name}</p><div className="product-detail__meta"><span>{type} {size}</span><span>{displayPrice(price)}</span></div></header><p className="product-detail__story">{description}</p>
     <div className="product-detail__purchase">{sizes.length > 0 && <fieldset className="product-detail__sizes"><legend>용량</legend><div>{sizes.map((option) => {

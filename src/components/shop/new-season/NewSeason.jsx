@@ -34,9 +34,9 @@ function NewSeasonRituals() {
                 <div className="new-season__ritual-copy">
                     <h2>Holistic care rituals to bring body and mind into harmony.</h2>
                     <div>
-                        <p>향기와 빛, 움직임이 하나로 어우러졌던 고대의 목욕 문화에서 영감을 받았습니다.</p>
-                        <p>자연 유래 성분과 섬세한 포뮬러, 그리고 기분 좋은 향이 몸을 부드럽게 돌보는 동시에 일상의 분위기까지 새롭게 채워줍니다.</p>
-                        <p>아침부터 저녁까지 이어지는 모든 케어의 순간은 몸과 감각을 깨우고, 나 자신에게 다시 집중하는 시간이 됩니다.</p>
+                        <p>{'향기와 빛, 움직임이 하나로 어우러졌던 고대의 목욕 문화에서\n영감을 받았습니다.'}</p>
+                        <p>{'자연 유래 성분과 섬세한 포뮬러, 그리고 기분 좋은 향이 몸을\n부드럽게 돌보는 동시에 일상의 분위기까지 새롭게 채워줍니다.'}</p>
+                        <p>{'아침부터 저녁까지 이어지는 모든 케어의 순간은 몸과 감각을\n깨우고, 나 자신에게 다시 집중하는 시간이 됩니다.'}</p>
                     </div>
                     <ViewMoreLink to="/shop/new-season/les-rituels-de-soin" label="Les Rituels de Soin" />
                 </div>

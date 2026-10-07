@@ -25,7 +25,7 @@ export default function SearchPage() {
   return <main className="search-page">
     <img className="search-page__floral" src={floral} alt="" aria-hidden="true" />
     <div className="search-page__content">
-      <header className="search-page__heading"><p>Find Your Scent</p><h1>SEARCH</h1></header>
+      <header className="search-page__heading"><p>Find Your Scent</p><h1><span className="search-page__desktop-title">SEARCH</span><span className="search-page__mobile-title">Search</span></h1></header>
       <label className="search-page__field"><span className="sr-only">상품 검색</span><img src={searchIcon} alt="" /><input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="향수, 캔들, 바디 케어 검색" /></label>
       <div className="search-page__divider"><img src={divider} alt="" /></div>
       <p className="search-page__count" aria-live="polite">{keyword ? `검색 결과 ${products.length}개` : 'Discover Our Icons'}</p>
