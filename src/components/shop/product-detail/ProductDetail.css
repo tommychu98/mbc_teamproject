@@ -1,6 +1,12 @@
 .product-detail { box-sizing: border-box; background: var(--color-ivory); color: var(--color-text-primary); font-family: var(--font-family-sans); }
 .product-detail *, .product-detail *::before, .product-detail *::after { box-sizing: border-box; }
-.product-detail__layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(48px, 10vw, 192px); max-width: 1920px; min-height: 1190px; margin-inline: auto; padding: 113px 12.2% 170px 3.65%; }
+.product-detail__navigation { max-width: 1920px; margin-inline: auto; padding: 105px 3.65% 0; }
+.product-detail__back { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; padding: 8px 4px; border: 0; border-radius: 0; background: transparent; color: #4b4b4b; font-family: 'ProductDetail Light KoPub', var(--font-family-sans); font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: .02em; cursor: pointer; }
+.product-detail__back > span { white-space: nowrap; }
+.product-detail__back { transform: translateY(-8px); }
+.product-detail__back > .product-detail__back-icon { position: static; display: block; width: 14px; height: 14px; flex: 0 0 14px; color: #4b4b4b; opacity: 1; visibility: visible; overflow: visible; transform: none; }
+@font-face { font-family: 'ProductDetail Light KoPub'; src: url('/ForThePlanet/KoPubWorld-Dotum-Light.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+.product-detail__layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(48px, 10vw, 192px); max-width: 1920px; min-height: 1190px; margin-inline: auto; padding: 0 12.2% 170px 3.65%; }
 .product-detail__gallery { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: clamp(24px, 3.3vw, 64px); align-items: start; min-width: 0; }
 .product-detail__thumbnails { display: flex; flex-direction: column; align-items: center; gap: 15px; padding-top: 36px; }
 .product-detail__thumbnail { position: relative; width: 100px; height: 152px; padding: 0; overflow: hidden; border: 1px solid rgb(75 75 75 / .5); border-radius: 5px; background: transparent; cursor: pointer; }
@@ -58,7 +64,8 @@
 .product-detail__accordions details p { padding: 0 0 20px; color: var(--color-gray-4b); font-size: 16px; line-height: 1.5; }
 .product-detail button:focus-visible, .product-detail summary:focus-visible { outline: 2px solid var(--color-gray-4b); outline-offset: 4px; }
 @media (max-width: 1199px) {
-  .product-detail__layout { padding: 64px 32px 120px; gap: 32px; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); min-height: auto; }
+  .product-detail__navigation { padding: 56px 32px 0; }
+  .product-detail__layout { padding: 0 32px 120px; gap: 32px; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); min-height: auto; }
   .product-detail__gallery { grid-template-columns: 72px minmax(0, 1fr); gap: 16px; }
   .product-detail__thumbnail { width: 72px; height: 110px; }
   .product-detail__media { height: 650px; }
@@ -68,7 +75,8 @@
   .product-detail__sizes button { width: 88px; }
 }
 @media (max-width: 767px) {
-  .product-detail__layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 24px 20px 100px; }
+  .product-detail__navigation { padding: 20px 20px 0; }
+  .product-detail__layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 8px 20px 100px; }
   .product-detail__gallery { display: flex; flex-direction: column-reverse; gap: 12px; }
   .product-detail__media { height: 420px; }
   .product-detail__thumbnails { flex-direction: row; width: 100%; justify-content: center; padding-top: 0; }
