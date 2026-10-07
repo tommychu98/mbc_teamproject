@@ -27,18 +27,21 @@
 .contact-faq__categories button:nth-last-child(-n + 2) { flex-basis: 145px; }
 .contact-faq__categories button[aria-pressed='true'] { border: 1.5px solid var(--color-accent-highlight); background: var(--color-ivory); color: var(--color-accent-highlight); font-weight: 700; }
 .contact-faq__list { margin-top: 40px; background: var(--color-white); }
-.contact-faq__question { display: grid; grid-template-columns: 120px 1fr 180px; align-items: center; width: 100%; min-height: 69px; padding: 18.5px 0 22.5px; border: 0; border-bottom: 1.25px solid var(--color-border-default); background: transparent; color: inherit; font: inherit; font-size: var(--text-web-body-l2-do-size); font-weight: var(--font-weight-light); line-height: 1.5; letter-spacing: inherit; text-align: left; cursor: pointer; }
+.contact-faq__question { display: grid; grid-template-columns: 120px 1fr 180px; align-items: center; width: 100%; min-height: 55px; padding: 14px 0; border: 0; border-bottom: 1.25px solid var(--color-border-default); background: transparent; color: inherit; font: inherit; font-size: 16px; font-weight: var(--font-weight-light); line-height: 1.5; letter-spacing: inherit; text-align: left; cursor: pointer; }
 .contact-faq__number { text-align: center; font-weight: var(--font-weight-light); }
 .contact-faq__question-text { padding-inline: 16px; font-weight: var(--font-weight-light); }
 .contact-faq__toggle { display: grid; place-items: center; transform: translateY(1.13px); }
-.contact-faq__question[aria-expanded='true'] .contact-faq__toggle { transform: translateY(3.755px); }
+.contact-faq__toggle img { width: 20px; height: 20px; }
 .contact-faq__item--open { background: rgb(242 233 218 / .5); }
 .contact-faq__answer { min-height: 137px; box-sizing: border-box; padding: 25px 125px 30px; color: var(--color-text-secondary); font-size: 16px; font-weight: 300; line-height: 1.5; white-space: pre-line; }
 .contact-faq__answer[hidden] { display: none; }
 .contact-faq__empty { padding: 48px 24px; color: var(--color-text-secondary); text-align: center; }
-.contact-faq__pagination { display: flex; justify-content: center; gap: 17px; margin-top: 67px; }
-.contact-faq__page-button { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid rgb(177 177 177 / .3); border-radius: 0; background: var(--color-white); color: var(--color-black); font: inherit; font-size: 14px; font-weight: var(--font-weight-medium); line-height: 1.6; letter-spacing: inherit; cursor: pointer; }
-.contact-faq__page-button[aria-current='page'], .contact-faq__page-button:hover { background: var(--color-paper-ivory); }
+.contact-faq__pagination { display: flex; justify-content: center; flex-wrap: wrap; gap: 17px; margin-top: 67px; }
+.contact-faq__page-button { display: grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; color: var(--color-text-secondary); font: inherit; font-size: 16px; font-weight: 300; line-height: 1.5; letter-spacing: inherit; cursor: pointer; }
+.contact-faq__page-button[aria-current='page'] { border-bottom-color: var(--color-text-primary); color: var(--color-text-primary); font-weight: 500; }
+.contact-faq__page-button:disabled { opacity: .3; cursor: default; }
+.contact-faq__page-button:not(:disabled):hover { color: var(--color-accent-highlight); }
+.contact-faq__page-button:focus-visible { outline: 2px solid var(--color-accent-highlight); outline-offset: -3px; }
 @media (max-width: 1179px) {
   .contact-faq { min-height: 0; }
   .contact-faq__background--left { left: -180px; }
@@ -60,7 +63,7 @@
   .contact-faq__question { grid-template-columns: 44px 1fr 44px; min-height: 72px; padding-block: 16px; font-size: 14px; }
   .contact-faq__question-text { padding-inline: 8px; word-break: keep-all; }
   .contact-faq__answer { min-height: 0; padding: 20px 24px 24px 52px; font-size: 14px; }
-  .contact-faq__pagination { margin-top: 40px; }
+  .contact-faq__pagination { margin-top: 40px; gap: 8px; }
   .contact-faq__page-button { width: var(--size-touch-min); height: var(--size-touch-min); }
   .contact-faq__background--left { left: -280px; }
   .contact-faq__background--right { left: -200px; }

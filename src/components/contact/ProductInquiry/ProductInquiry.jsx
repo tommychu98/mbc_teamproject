@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import ProductInquiryDetail from './ProductInquiryDetail';
 import { useAuthStore } from '../../../store/useAuthStore';
@@ -78,7 +78,13 @@ export default function ProductInquiry() {
         })}
         {!visible.length && <p className="product-inquiry__empty">검색 결과가 없습니다. 다른 검색어나 공개 여부를 선택해 주세요.</p>}
       </section>
-      <nav className="product-inquiry__pagination" aria-label="문의 페이지">{Array.from({ length: totalPages }, (_, index) => <button type="button" key={index} aria-current={currentPage === index + 1 ? 'page' : undefined} onClick={() => { setPage(index + 1); }}>{index + 1}</button>)}</nav>
+      <nav className="product-inquiry__pagination" aria-label="문의 페이지">
+        <button type="button" aria-label="첫 페이지" disabled={currentPage === 1} onClick={() => setPage(1)}><ChevronsLeft size={20} strokeWidth={1} aria-hidden="true" /></button>
+        <button type="button" aria-label="이전 페이지" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}><ChevronLeft size={20} strokeWidth={1} aria-hidden="true" /></button>
+        {Array.from({ length: totalPages }, (_, index) => <button type="button" key={index} aria-label={`${index + 1} 페이지`} aria-current={currentPage === index + 1 ? 'page' : undefined} onClick={() => setPage(index + 1)}>{index + 1}</button>)}
+        <button type="button" aria-label="다음 페이지" disabled={currentPage === totalPages} onClick={() => setPage(currentPage + 1)}><ChevronRight size={20} strokeWidth={1} aria-hidden="true" /></button>
+        <button type="button" aria-label="마지막 페이지" disabled={currentPage === totalPages} onClick={() => setPage(totalPages)}><ChevronsRight size={20} strokeWidth={1} aria-hidden="true" /></button>
+      </nav>
       <div className="product-inquiry__actions">
         {isPreview && <p>현재 목록은 디자인 예시입니다.</p>}
         <Link to="/inquiries/write?category=PRODUCT">상품 문의 작성</Link>

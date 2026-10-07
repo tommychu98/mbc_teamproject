@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import NoticeDetail from "./NoticeDetail";
 import { notices, noticesPerPage } from "./noticeData";
@@ -90,6 +91,8 @@ export default function Notice() {
         </tbody>
       </table>
       <nav className="notice-page__pagination" aria-label="공지사항 페이지">
+        <button className="notice-page__page-button" type="button" aria-label="첫 페이지" aria-controls="notice-list" disabled={currentPage === 1} onClick={() => setSearchParams({ page: "1" })}><ChevronsLeft size={20} strokeWidth={1} aria-hidden="true" /></button>
+        <button className="notice-page__page-button" type="button" aria-label="이전 페이지" aria-controls="notice-list" disabled={currentPage === 1} onClick={() => setSearchParams({ page: String(currentPage - 1) })}><ChevronLeft size={20} strokeWidth={1} aria-hidden="true" /></button>
         {Array.from({ length: pageCount }, (_, index) => (
           <button
             key={index}
@@ -103,6 +106,8 @@ export default function Notice() {
             {index + 1}
           </button>
         ))}
+        <button className="notice-page__page-button" type="button" aria-label="다음 페이지" aria-controls="notice-list" disabled={currentPage === pageCount} onClick={() => setSearchParams({ page: String(currentPage + 1) })}><ChevronRight size={20} strokeWidth={1} aria-hidden="true" /></button>
+        <button className="notice-page__page-button" type="button" aria-label="마지막 페이지" aria-controls="notice-list" disabled={currentPage === pageCount} onClick={() => setSearchParams({ page: String(pageCount) })}><ChevronsRight size={20} strokeWidth={1} aria-hidden="true" /></button>
       </nav>
       <p className="sr-only" role="status">{currentPage}페이지, 공지사항 {visibleNotices.length}개</p>
       </>}
