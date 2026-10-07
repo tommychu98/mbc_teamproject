@@ -78,7 +78,8 @@ const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
 function AcornBurst() {
   const layerRef = useRef(null);
   const acornRefs = useRef([]);
-  const modelsRef = useRef(Array.from({ length: 1 }, () => ({
+  useEffect(() => {
+    const models = Array.from({ length: 1 }, () => ({
     delay: Math.random() * 0.08,
     xRatio: 0.035 + Math.random() * 0.91,
     yOffset: Math.random() * 150,
@@ -90,9 +91,7 @@ function AcornBurst() {
     bounces: 0,
     active: false,
     settled: false,
-  })));
-
-  useEffect(() => {
+    }));
     const layer = layerRef.current;
     if (!layer) return undefined;
     let frame = 0;
@@ -100,6 +99,7 @@ function AcornBurst() {
     const started = previous;
 
     const tick = (now) => {
+      frame = 0;
       const width = layer.clientWidth;
       const height = layer.clientHeight;
       if (!width || !height) {
@@ -111,7 +111,7 @@ function AcornBurst() {
       previous = now;
       let moving = false;
 
-      modelsRef.current.forEach((model, index) => {
+      models.forEach((model, index) => {
         const element = acornRefs.current[index];
         if (!element) return;
         const size = clamp(width * model.sizeRatio, 28, 56);
@@ -164,13 +164,45 @@ function AcornBurst() {
       if (moving) frame = window.requestAnimationFrame(tick);
     };
 
+    const onPointerMove = (event) => {
+      if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const rect = layer.getBoundingClientRect();
+      if (!rect.width || !rect.height || event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return;
+      const scaleX = rect.width / layer.clientWidth;
+      const scaleY = rect.height / layer.clientHeight;
+      let disturbed = false;
+      models.forEach((model) => {
+        if (!model.settled) return;
+        const size = clamp(layer.clientWidth * model.sizeRatio, 28, 56);
+        const dx = rect.left + (model.x + size / 2) * scaleX - event.clientX;
+        const dy = rect.top + (model.y + size / 2) * scaleY - event.clientY;
+        if (Math.hypot(dx, dy) > 70) return;
+        // A small hop away from the cursor, followed by the existing gravity and bounce.
+        const direction = dx >= 0 ? 1 : -1;
+        model.settled = false;
+        model.bounces = 0;
+        model.vx = direction * 120 / scaleX;
+        model.vy = -Math.sqrt(2 * layer.clientHeight * 1.7 * 50 / scaleY);
+        model.angularVelocity = direction * 180;
+        disturbed = true;
+      });
+      if (disturbed && !frame) {
+        previous = performance.now();
+        frame = window.requestAnimationFrame(tick);
+      }
+    };
+
     frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('pointermove', onPointerMove);
+    };
   }, []);
 
   return (
     <div className="ftp-acorn-physics" ref={layerRef} aria-hidden="true">
-      {modelsRef.current.map((_, index) => (
+      {[0].map((index) => (
         <img
           key={index}
           ref={(element) => { acornRefs.current[index] = element; }}
