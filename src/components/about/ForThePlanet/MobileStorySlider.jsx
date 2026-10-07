@@ -32,8 +32,13 @@ export default function MobileStorySlider({ children, className = '', label }) {
       const offset = Math.max(0, -root.getBoundingClientRect().top);
       const position = Math.min(panels.length - 1, offset / height);
       track.style.transform = `translate3d(${-position * width}px, 0, 0)`;
+      const stageRect = stage.getBoundingClientRect();
+      const visibleHeight = Math.max(0, Math.min(stageRect.bottom, window.innerHeight) - Math.max(stageRect.top, 0));
       panels.forEach((panel, index) => {
-        panel.parentElement.classList.toggle('ftp-slide-visible', Math.abs(index - position) < 0.85);
+        // Include vertical entry so off-screen sections cannot reveal their first slide.
+        const visibleWidthRatio = Math.max(0, 1 - Math.abs(index - position));
+        const visibleRatio = visibleWidthRatio * Math.min(1, visibleHeight / height);
+        panel.parentElement.classList.toggle('ftp-slide-visible', visibleRatio >= 0.6);
       });
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
@@ -78,7 +83,7 @@ export default function MobileStorySlider({ children, className = '', label }) {
         window.scrollBy({ top: event.currentTarget.clientHeight * (event.key === 'ArrowRight' ? 1 : -1), behavior: 'instant' });
       }}>
       <div className="ftp-mobile-story__track">
-        {slides.map((child, index) => <div className="ftp-mobile-story__slide ftp-slide-visible" key={child.key ?? index} role="group" aria-label={`${index + 1} / ${slides.length}`}>{child}</div>)}
+        {slides.map((child, index) => <div className="ftp-mobile-story__slide" key={child.key ?? index} role="group" aria-label={`${index + 1} / ${slides.length}`}>{child}</div>)}
       </div>
     </div>
   </div>;
