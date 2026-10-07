@@ -60,6 +60,26 @@
 .membership__summary-item:first-child .membership__summary-divider { display: none; }
 .membership__summary-item dt { color: var(--color-gray-4b); }
 .membership__summary-item dd { font-size: 20px; font-weight: 700; }
+.membership__guide { position: fixed; inset: 0; width: min(480px, calc(100% - 32px)); max-height: calc(100dvh - 48px); margin: auto; padding: 0; overflow: auto; border: 1px solid var(--color-accent-highlight); border-radius: 10px; background: var(--color-ivory); color: var(--color-ink-black); font: inherit; }
+.membership__guide::backdrop { background: rgb(0 0 0 / .45); }
+.membership__guide-content { position: relative; padding: 48px 32px 32px; text-align: center; }
+.membership__guide-close { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border: 0; background: transparent; color: inherit; font-size: 28px; cursor: pointer; }
+.membership__guide h2 { margin-top: 12px; font-size: 24px; font-weight: 500; }
+.membership__guide-name { margin-top: 12px; color: var(--color-accent-highlight); font-family: MembershipDisplay, var(--font-family-display); font-size: 32px; }
+.membership__guide-description { margin-top: 24px; line-height: 1.8; word-break: keep-all; }
+.membership__guide-confirm { width: 100%; min-height: 48px; margin-top: 32px; border: 1px solid var(--color-ink-black); border-radius: 6px; background: var(--color-ink-black); color: var(--color-ivory); font: inherit; cursor: pointer; }
+.membership__guide button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+.membership__guide-qualification { margin-top: 12px; color: var(--color-gray-4b); font-size: 13px; word-break: keep-all; }
+.membership__guide-benefits { margin-top: 24px; text-align: left; }
+.membership__guide-benefits > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-top: 1px solid var(--color-border-default); }
+.membership__guide-benefits dt { color: var(--color-accent-highlight); font-weight: 500; }
+.membership__guide-benefits dd { margin: 0; font-size: 14px; line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+.membership__guide-notice { margin-block: 12px; color: var(--color-gray-4b); font-size: 12px; line-height: 1.5; word-break: keep-all; }
+.membership__guide-notice span { display: block; text-wrap: balance; }
+@media (max-width: 479px) {
+    .membership__guide-content { padding-inline: 20px; }
+    .membership__guide-benefits > div { grid-template-columns: 1fr; gap: 6px; }
+}
 @media (max-width: 1179px) {
     .membership { min-height: 1000px; padding-bottom: 70px; }
     .membership__content { width: calc(100% - 48px); }

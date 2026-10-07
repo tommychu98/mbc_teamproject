@@ -1,5 +1,5 @@
 <svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="basil:plus-outline">
-<path id="Vector" d="M10 16V4M4 10H16" stroke="#4B4B4B" stroke-width="1.5" stroke-linecap="round"/>
+<g transform="translate(0 20) scale(1 -1)">
+<path d="M18 12L10.5 4L3 12" stroke="#4B4B4B" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
 </svg>

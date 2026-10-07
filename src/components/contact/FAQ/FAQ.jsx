@@ -1,4 +1,5 @@
 import { useId, useState } from 'react';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import backgroundLeft from './assets/faqbg1.png';
 import backgroundRight from './assets/faqbg2.png';
 import plusIcon from './assets/plus.svg';
@@ -82,9 +83,13 @@ export default function FAQ() {
           {visibleQuestions.length === 0 && <p className="contact-faq__empty" role="status">해당하는 질문이 없습니다. 다른 검색어나 카테고리를 선택해 주세요.</p>}
         </section>
         {pageCount > 1 && <nav className="contact-faq__pagination" aria-label="FAQ 페이지">
+          <button type="button" className="contact-faq__page-button" aria-label="첫 페이지" aria-controls={`${instanceId}-list`} disabled={currentPage === 1} onClick={() => { setCurrentPage(1); setOpenId(null); }}><ChevronsLeft size={20} strokeWidth={1} aria-hidden="true" /></button>
+          <button type="button" className="contact-faq__page-button" aria-label="이전 페이지" aria-controls={`${instanceId}-list`} disabled={currentPage === 1} onClick={() => { setCurrentPage(currentPage - 1); setOpenId(null); }}><ChevronLeft size={20} strokeWidth={1} aria-hidden="true" /></button>
           {Array.from({ length: pageCount }, (_, index) => (
             <button key={index} type="button" className="contact-faq__page-button" aria-label={`${index + 1}페이지`} aria-current={currentPage === index + 1 ? 'page' : undefined} aria-controls={`${instanceId}-list`} onClick={() => { setCurrentPage(index + 1); setOpenId(null); }}>{index + 1}</button>
           ))}
+          <button type="button" className="contact-faq__page-button" aria-label="다음 페이지" aria-controls={`${instanceId}-list`} disabled={currentPage === pageCount} onClick={() => { setCurrentPage(currentPage + 1); setOpenId(null); }}><ChevronRight size={20} strokeWidth={1} aria-hidden="true" /></button>
+          <button type="button" className="contact-faq__page-button" aria-label="마지막 페이지" aria-controls={`${instanceId}-list`} disabled={currentPage === pageCount} onClick={() => { setCurrentPage(pageCount); setOpenId(null); }}><ChevronsRight size={20} strokeWidth={1} aria-hidden="true" /></button>
         </nav>}
         <p className="sr-only" role="status">검색 결과 {visibleQuestions.length}개{pageCount > 0 && `, ${currentPage}페이지`}</p>
       </div>

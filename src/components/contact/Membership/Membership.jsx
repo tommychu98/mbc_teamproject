@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useAuthStore } from '../../../store/useAuthStore';
 import { TEST_USER } from '../../../data/testUser';
 import essential from './assets/이미지1.png';
@@ -26,10 +26,69 @@ const benefits = [
     { icon: bag, title: '회원 전용 서비스', description: '회원만을 위한 특별한 서비스를 제공합니다.' },
 ];
 
+// Proposed benefits for this renewal project, not official Diptyque policy.
+const tierGuides = {
+    ESSENTIAL: {
+        invitation: '나만의 향을 발견하는 첫 만남',
+        qualification: '회원가입 시 부여 · 최근 12개월 구매금액 50만원 미만',
+        benefits: [
+            ['웰컴 쿠폰', '가입 시 5% 쿠폰 1장'],
+            ['생일의 선물', '생일 월 5% 쿠폰 1장'],
+            ['배송', '실결제 10만원 이상 주문 시 무료배송'],
+            ['포인트', '상품 실결제금액의 1% 적립'],
+            ['향의 발견', '구매 시 향수 샘플 1종'],
+        ],
+    },
+    SIGNATURE: {
+        invitation: '취향이 깊어지는 향기로운 일상',
+        qualification: '최근 12개월 구매금액 50만원 이상 ~ 150만원 미만',
+        benefits: [
+            ['시즌 쿠폰', '분기별 7% 쿠폰 1장'],
+            ['생일의 선물', '생일 월 10% 쿠폰 1장'],
+            ['배송', '구매금액과 관계없이 무료배송'],
+            ['포인트', '상품 실결제금액의 3% 적립'],
+            ['향의 발견', '구매 시 향수 샘플 2종'],
+            ['특별한 초대', '신제품 소식과 시즌 컬렉션 사전 안내'],
+        ],
+    },
+    PRESTIGE: {
+        invitation: '당신의 취향을 위한 특별한 환대',
+        qualification: '최근 12개월 구매금액 150만원 이상',
+        benefits: [
+            ['시즌 쿠폰', '분기별 10% 쿠폰 1장'],
+            ['생일의 선물', '생일 월 15% 쿠폰 1장'],
+            ['배송', '구매금액과 관계없이 무료배송'],
+            ['포인트', '상품 실결제금액의 5% 적립'],
+            ['선물의 예술', '향수 샘플 3종 · 선물 포장·메시지 카드'],
+            ['특별한 초대', '프라이빗 시향 행사 우선 예약'],
+        ],
+    },
+};
+
 export default function Membership({ membership }) {
     const user = useAuthStore((state) => state.user);
     const membershipInfo = membership ?? { grade: '일반회원', points: user?.id === TEST_USER.id ? 2026 : 0, coupons: 0 };
     const [selectedTier, setSelectedTier] = useState('SIGNATURE');
+    const [isGuideOpen, setIsGuideOpen] = useState(false);
+    const guideRef = useRef(null);
+    const guideId = useId();
+    const activeTier = tiers.find((tier) => tier.name === selectedTier);
+    const activeGuide = tierGuides[selectedTier];
+    useEffect(() => {
+        if (!isGuideOpen) return;
+        const dialog = guideRef.current;
+        const previousOverflow = document.body.style.overflow;
+        dialog.showModal();
+        document.body.style.overflow = 'hidden';
+        return () => {
+            dialog.close();
+            document.body.style.overflow = previousOverflow;
+        };
+    }, [isGuideOpen]);
+    const openGuide = (name) => {
+        setSelectedTier(name);
+        setIsGuideOpen(true);
+    };
     const summary = [
         { icon: crown, label: '현재 등급', value: membershipInfo.grade },
         { icon: coins, label: '보유 포인트', value: `${Number(membershipInfo.points ?? 0).toLocaleString('ko-KR')} P` },
@@ -55,7 +114,7 @@ export default function Membership({ membership }) {
                     </div>
                     <div className="membership__tier-grid" aria-label="멤버십 등급 선택">
                         {tiers.map((tier) => (
-                            <button key={tier.name} type="button" className={`membership__tier${selectedTier === tier.name ? ' membership__tier--selected' : ''}`} aria-pressed={selectedTier === tier.name} onClick={() => setSelectedTier(tier.name)}>
+                            <button key={tier.name} type="button" className={`membership__tier${selectedTier === tier.name ? ' membership__tier--selected' : ''}`} aria-pressed={selectedTier === tier.name} aria-haspopup="dialog" aria-controls={guideId} onClick={() => openGuide(tier.name)}>
                                 <span className="membership__tier-name">{tier.name}</span>
                                 <span className="membership__tier-label">{tier.label}</span>
                                 <span className="membership__tier-rule"><img src={divider} alt="" /></span>
@@ -89,6 +148,39 @@ export default function Membership({ membership }) {
                     </section>
                 </section>
             </div>
+            <dialog
+                ref={guideRef}
+                id={guideId}
+                className="membership__guide"
+                aria-labelledby={`${guideId}-title`}
+                aria-describedby={`${guideId}-notice ${guideId}-description`}
+                onCancel={() => setIsGuideOpen(false)}
+                onClose={() => setIsGuideOpen(false)}
+                onClick={(event) => {
+                    if (event.target !== event.currentTarget) return;
+                    const bounds = event.currentTarget.getBoundingClientRect();
+                    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) setIsGuideOpen(false);
+                }}
+            >
+                <div className="membership__guide-content">
+                    <button className="membership__guide-close" type="button" aria-label="등급 안내 닫기" onClick={() => setIsGuideOpen(false)}>×</button>
+                    <p className="membership__eyebrow">MEMBERSHIP GUIDE</p>
+                    <h2 id={`${guideId}-title`}>{activeTier.label} 등급 안내</h2>
+                    <p className="membership__guide-name">{activeTier.name}</p>
+                    <p className="membership__guide-notice" id={`${guideId}-notice`}>
+                        <span>* 리뉴얼 프로젝트용 가상 정책입니다.</span>
+                        <span>딥디크 공식 혜택이 아니며 실제 제공되지 않습니다.</span>
+                    </p>
+                    <p id={`${guideId}-description`} className="membership__guide-description">{activeGuide.invitation}</p>
+                    <p className="membership__guide-qualification">{activeGuide.qualification}</p>
+                    <dl className="membership__guide-benefits">
+                        {activeGuide.benefits.map(([label, description]) => (
+                            <div key={label}><dt>{label}</dt><dd>{description}</dd></div>
+                        ))}
+                    </dl>
+                    <button className="membership__guide-confirm" type="button" onClick={() => setIsGuideOpen(false)}>확인</button>
+                </div>
+            </dialog>
         </main>
     );
 }
