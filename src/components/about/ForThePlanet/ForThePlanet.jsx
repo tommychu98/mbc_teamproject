@@ -11,13 +11,12 @@ import mobileCoastExpanded from "./assets/mobile/fd028.png";
 import mobileProducts from "./assets/mobile/9c5d0.png";
 import mobileDesigningBackground from "./assets/mobile/d45b0.png";
 import mobileForestExpanded from "./assets/mobile/0bcc6.png";
-import mobileHamster from "./assets/mobile/601f8.png";
+import squirrel from "./assets/squirrel.png";
 const coast = mobileCoast;
 const vessel = "/ForThePlanet/8c8df.png";
 const candle = mobileCandle;
 const forest = "/ForThePlanet/95360.png";
 const forestPerfume = "/ForThePlanet/3370f.png";
-const hamster = "/ForThePlanet/69fd2.png";
 const designingBackground = "/ForThePlanet/8eb2a.png";
 const closingBackground = "/ForThePlanet/25fb5.png";
 const ambitionPortrait = "/ForThePlanet/3228d.png";
@@ -390,7 +389,7 @@ function ArchScene({ variant, first = false }) {
               />
               <img
                 className="ftp-mobile-intro__hamster"
-                src={mobileHamster}
+                src={squirrel}
                 alt=""
               />
               <img
@@ -495,16 +494,16 @@ function ArchScene({ variant, first = false }) {
             {!isCoast && (
               <img
                 className="ftp-side-arch__object"
-                src="/ForThePlanet/1f7c0.png"
-                alt="숲속 햄스터"
+                src={squirrel}
+                alt="숲속 다람쥐"
                 style={{
                   left: "45.22%",
                   top: "76.92%",
-                  width: "23.78%",
-                  height: "16.69%",
+                  width: "calc(23.78% - 10px)",
+                  height: "calc(16.69% - 10px)",
                   filter: "none",
                   opacity: 0.92,
-                  translate: "10px -10px",
+                  translate: "40px 30px",
                 }}
               />
             )}
@@ -553,7 +552,7 @@ function ArchScene({ variant, first = false }) {
                 <button
                   className="ftp-expanding-object ftp-expanding-object--no-shadow ftp-hamster-trigger"
                   type="button"
-                  aria-label="햄스터를 눌러 도토리 떨어뜨리기"
+                  aria-label="다람쥐를 눌러 도토리 떨어뜨리기"
                   onClick={() => {
                     const id = nextAcornId.current;
                     nextAcornId.current += 1;
@@ -564,9 +563,12 @@ function ArchScene({ variant, first = false }) {
                     object.hamster.y,
                     object.hamster.w,
                     object.hamster.h
-                  ), translate: "10px -10px" }}
+                  ),
+                    width: `calc(${(object.hamster.w / 1920) * 100}% - 10px)`,
+                    height: `calc(${(object.hamster.h / 1080) * 100}% - 10px)`,
+                    translate: "40px 30px" }}
                 >
-                  <img src={hamster} alt="숲속 햄스터" draggable="false" />
+                  <img src={squirrel} alt="숲속 다람쥐" draggable="false" />
                 </button>
               </>
             )}
