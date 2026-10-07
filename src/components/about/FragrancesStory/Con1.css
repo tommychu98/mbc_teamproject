@@ -1,4 +1,4 @@
-/* Figma Con1 2934:9877 — 1920 × 2050. Preserve the composition at every width.
+/* Desktop Figma Con1 3869:11426 — 1920 × 2050; mobile retains its own layout.
    Decorative motion preserves the original placement and left butterfly reflection. */
 @font-face {
   font-family: 'Fragrances Con1 Dotum';
@@ -28,7 +28,7 @@
   pointer-events: none;
   user-select: none;
 }
-/* Figma exports already include cloud/pillar 10% and butterfly 20% alpha. */
+/* Cloud/pillar alpha and the original mobile butterfly alpha are baked in. */
 .fragrances-con1__title {
   color: var(--color-title-black);
   font-family: var(--font-family-display);
@@ -74,6 +74,8 @@
 }
 .fragrances-con1__couple { overflow: hidden; }
 .fragrances-con1__couple-image { width: 100%; height: 118.4873949579832%; }
+.fragrances-con1__butterfly-top { display: none; }
+.fragrances-con1__butterfly-right { display: contents; }
 
 /* Source bounding boxes, in Figma layer order. */
 .fragrances-con1__cloud--left {
@@ -212,4 +214,167 @@
   .fragrances-con1__butterfly-left {
     animation: none;
   }
+}
+
+/* Desktop artwork slots from the final Figma frame. Keep section geometry,
+   typography selectors and the existing decorative animation rules intact. */
+@media (width >= 768px) {
+  .fragrances-con1__cloud--small {
+    left: calc(675 / 1920 * 100%);
+    top: calc(1221 / 2050 * 100%);
+    width: calc(424 / 1920 * 100%);
+    height: calc(212 / 2050 * 100%);
+  }
+  .fragrances-con1__title-peau { top: calc(809 / 2050 * 100%); }
+  .fragrances-con1__pillar {
+    left: calc(1240 / 1920 * 100%);
+    top: calc(186 / 2050 * 100%);
+    width: calc(1271 / 1920 * 100%);
+    height: calc(1907 / 2050 * 100%);
+  }
+  .fragrances-con1__butterfly--right {
+    left: calc(1242 / 1920 * 100%);
+    top: calc(1501 / 2050 * 100%);
+    opacity: 0.8;
+  }
+  .fragrances-con1__butterfly-right {
+    position: absolute;
+    display: block;
+    left: calc(1242 / 1920 * 100%);
+    top: calc(1501 / 2050 * 100%);
+    width: calc(147 / 1920 * 100%);
+    height: calc(122 / 2050 * 100%);
+  }
+  .fragrances-con1__butterfly-right .fragrances-con1__butterfly--right {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    animation: none;
+  }
+  .fragrances-con1__butterfly-left {
+    left: calc(-37 / 1920 * 100%);
+    top: calc(250 / 2050 * 100%);
+    width: calc(140.724 / 1920 * 100%);
+    height: calc(130.79 / 2050 * 100%);
+  }
+  .fragrances-con1__butterfly--left {
+    width: calc(112.78px * var(--con1-scale));
+    height: calc(93.683px * var(--con1-scale));
+    transform: rotate(-23.42deg) scaleY(-1);
+    opacity: 0.8;
+  }
+  .fragrances-con1__butterfly-top {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    left: calc(1556.83 / 1920 * 100%);
+    top: calc(59.65 / 2050 * 100%);
+    width: calc(126.389 / 1920 * 100%);
+    height: calc(113.661 / 2050 * 100%);
+  }
+  .fragrances-con1__butterfly-top img {
+    width: calc(107 / 126.389 * 100%);
+    height: calc(89 / 113.661 * 100%);
+    transform: rotate(-15deg);
+    opacity: 0.8;
+  }
+  .fragrances-con1__couple {
+    left: calc(-86 / 1920 * 100%);
+    top: calc(520 / 2050 * 100%);
+    width: calc(1099 / 1920 * 100%);
+    height: calc(1857 / 2050 * 100%);
+  }
+  .fragrances-con1__scene .fragrances-con1__couple-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* Interpolate the axes separately so each flight traces a continuous oval.
+   Images keep their static artwork transforms; no wing or micro-motion loop. */
+@property --con1-flight-position-x {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --con1-flight-position-y {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --con1-flight-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Mobile keeps the original float, and reduced motion keeps the Figma slots. */
+@media (width >= 768px) and (prefers-reduced-motion: no-preference) {
+  .fragrances-con1__butterfly-left {
+    --con1-flight-x: 180%;
+    --con1-flight-y: 105%;
+    --con1-flight-duration: 24s;
+    --con1-flight-delay: -2s;
+    --con1-flight-tilt: 2.5deg;
+  }
+  .fragrances-con1__butterfly-right {
+    --con1-flight-x: 110%;
+    --con1-flight-y: 150%;
+    --con1-flight-slope: .8;
+    --con1-flight-duration: 27s;
+    --con1-flight-delay: -8s;
+    --con1-flight-tilt: -2deg;
+  }
+  .fragrances-con1__butterfly-top {
+    --con1-flight-x: -145%;
+    --con1-flight-y: 130%;
+    --con1-flight-slope: .35;
+    --con1-flight-duration: 32s;
+    --con1-flight-delay: -17s;
+    --con1-flight-tilt: 1.5deg;
+  }
+  .fragrances-con1__butterfly-left,
+  .fragrances-con1__butterfly-right,
+  .fragrances-con1__butterfly-top {
+    transform: translate(
+      calc(var(--con1-flight-x) * var(--con1-flight-position-x)),
+      calc(var(--con1-flight-y) * (var(--con1-flight-position-y) + var(--con1-flight-position-x) * var(--con1-flight-slope, 0)))
+    ) rotate(var(--con1-flight-angle));
+    animation:
+      fragrances-con1-flight-horizontal var(--con1-flight-duration) cubic-bezier(.37, 0, .63, 1) var(--con1-flight-delay) infinite,
+      fragrances-con1-flight-vertical var(--con1-flight-duration) linear var(--con1-flight-delay) infinite,
+      fragrances-con1-flight-turn var(--con1-flight-duration) ease-in-out var(--con1-flight-delay) infinite;
+    animation-play-state: paused;
+  }
+  .fragrances-con1__scene--visible .fragrances-con1__butterfly-left,
+  .fragrances-con1__scene--visible .fragrances-con1__butterfly-right,
+  .fragrances-con1__scene--visible .fragrances-con1__butterfly-top {
+    animation-play-state: running;
+  }
+}
+
+@keyframes fragrances-con1-flight-horizontal {
+  0%, 100% { --con1-flight-position-x: 0; }
+  50% { --con1-flight-position-x: 1; }
+}
+@keyframes fragrances-con1-flight-vertical {
+  0%, 50%, 100% {
+    --con1-flight-position-y: 0;
+    animation-timing-function: cubic-bezier(.33, .52, .67, 1);
+  }
+  25% {
+    --con1-flight-position-y: -.5;
+    animation-timing-function: cubic-bezier(.33, 0, .67, .48);
+  }
+  75% {
+    --con1-flight-position-y: .5;
+    animation-timing-function: cubic-bezier(.33, 0, .67, .48);
+  }
+}
+@keyframes fragrances-con1-flight-turn {
+  0%, 50%, 100% { --con1-flight-angle: 0deg; }
+  25% { --con1-flight-angle: var(--con1-flight-tilt); }
+  75% { --con1-flight-angle: calc(var(--con1-flight-tilt) * -1); }
 }
