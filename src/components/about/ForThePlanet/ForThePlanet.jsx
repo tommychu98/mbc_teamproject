@@ -144,14 +144,14 @@ function ArchScene({ variant, first = false }) {
   const object = isCoast
     ? {
         vessel: {
-          x: 155 + (140 - 155) * progress,
-          y: 515 + (178 - 515) * progress,
+          x: 156 + (140 - 156) * progress,
+          y: 516 + (178 - 516) * progress,
           w: 278 + (488 - 278) * progress,
           h: 370 + (650 - 370) * progress,
         },
         candle: {
-          x: 847 + (527 - 847) * progress,
-          y: 570 + (354 - 570) * progress,
+          x: 848 + (527 - 848) * progress,
+          y: 571 + (354 - 571) * progress,
           w: 223 + (395 - 223) * progress,
           h: 298 + (526 - 298) * progress,
         },
@@ -175,21 +175,16 @@ function ArchScene({ variant, first = false }) {
   const insetRight = 37.5 * (1 - progress);
   const insetBottom = 13.98 * (1 - progress);
   const backgroundStart = isCoast
-    ? [344, 155, 1536, 774]
+    ? [345, -34, 1536, 1152]
     : [351, 244, 1218, 685];
   const backgroundPosition = canvasPosition(
     backgroundStart[0] * (1 - progress),
-    backgroundStart[1] * (1 - progress),
+    backgroundStart[1] * (1 - progress) - (isCoast ? 0.54 * progress : 0),
     backgroundStart[2] + (1920 - backgroundStart[2]) * progress,
-    backgroundStart[3] + (1080 - backgroundStart[3]) * progress
+    backgroundStart[3] + ((isCoast ? 1081.188 : 1080) - backgroundStart[3]) * progress
   );
-  // End in Figma's 1920px-wide coordinate system rather than compressing
-  // the objects vertically to fit a shorter browser viewport.
-  const coastObjectPosition = ({ x, y, w, h }) => ({
-    ...canvasPosition(x, y, w, h),
-    top: `calc(${y / 1080 * 100}% * ${1 - progress} + ${y / 1920 * 100}cqw * ${progress} + ${120 * progress}px)`,
-    height: `calc(${h / 1080 * 100}% * ${1 - progress} + ${h / 1920 * 100}cqw * ${progress})`,
-  });
+  // The background and objects share the same uniformly scaled Figma canvas.
+  const coastObjectPosition = ({ x, y, w, h }) => canvasPosition(x, y, w, h);
   const sideCrop = (x, y, w, h) => ({
     left: `${(x / 429) * 100}%`,
     top: `${(y / 611) * 100}%`,
@@ -291,7 +286,7 @@ function ArchScene({ variant, first = false }) {
         </div>
       )}
       <div className="ftp-sticky-stage">
-        <div className="ftp-arch-canvas" style={{ "--arch-expand": progress }}>
+        <div className={`ftp-arch-canvas${isCoast ? " ftp-arch-canvas--coast" : ""}`} style={{ "--arch-expand": progress }}>
           <div
             className="ftp-arch-decoration"
             aria-hidden="true"
@@ -351,12 +346,7 @@ function ArchScene({ variant, first = false }) {
                 className="ftp-side-arch__object"
                 src={vessel}
                 alt="딥티크 크리스털 오브제"
-                style={{
-                  left: "17.48%",
-                  top: "23.24%",
-                  width: "64.8%",
-                  height: "60.56%",
-                }}
+                style={sideCrop(76, 143, 278, 370)}
               />
             )}
           </div>
@@ -397,6 +387,7 @@ function ArchScene({ variant, first = false }) {
                   height: "16.69%",
                   filter: "none",
                   opacity: 0.92,
+                  translate: "10px -10px",
                 }}
               />
             )}
@@ -445,12 +436,12 @@ function ArchScene({ variant, first = false }) {
                   className="ftp-expanding-object ftp-expanding-object--no-shadow"
                   src={hamster}
                   alt="숲속 햄스터"
-                  style={canvasPosition(
+                  style={{ ...canvasPosition(
                     object.hamster.x,
                     object.hamster.y,
                     object.hamster.w,
                     object.hamster.h
-                  )}
+                  ), translate: "10px -10px" }}
                 />
               </>
             )}
