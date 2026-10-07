@@ -86,22 +86,63 @@ export default function Con12() {
 
       // Both hands share one PNG. Move only its existing outer wrapper.
       // 50px at the original 1254px layer height scales with the existing layout.
-      gsap.timeline({
-        scrollTrigger: {
-          id: 'fragrances-con12-hands',
-          trigger: root,
-          start: 'center 85%',
-          end: 'bottom top',
-          ...bookSceneTrigger(sequence),
-          toggleActions: 'play complete none none',
-          once: true,
-        },
-      })
-        .fromTo(handLayer,
-          { yPercent: 50 / 1254 * 100, opacity: 0 },
+      const hiddenPose = { yPercent: 50 / 1254 * 100, opacity: 0 };
+      const handTimeline = gsap.timeline({ paused: true })
+        .fromTo(handLayer, hiddenPose,
           { yPercent: 0, opacity: 1, duration: 1, ease: 'power3.out' })
-        // Hold the contact pose, then leave the original CSS fully in charge.
-        .set(handLayer, { clearProps: 'transform,opacity' }, '+=0.5');
+        .to({}, { duration: 0.5 });
+      let entrancePending = true;
+      let inside = false;
+      const hideTimeline = gsap.timeline({
+        paused: true,
+        onComplete: () => { if (inside) showHands(); },
+      }).to(handLayer, { ...hiddenPose, duration: 0.4, ease: 'power2.inOut' });
+      const showHands = () => {
+        inside = true;
+        // Finish an interrupted hide before restarting the original entrance.
+        // Boundary reversals within the same visit keep its animation continuous.
+        if (!entrancePending || hideTimeline.isActive()) return;
+        hideTimeline.pause();
+        entrancePending = false;
+        handTimeline.restart();
+      };
+      const resetHands = () => {
+        hideTimeline.pause();
+        handTimeline.pause(0);
+        entrancePending = true;
+        // Also handle a single scroll update crossing both entry boundaries.
+        if (inside) showHands();
+      };
+      const hideHands = () => {
+        inside = false;
+        entrancePending = true;
+        handTimeline.pause();
+        hideTimeline.invalidate().restart();
+      };
+      ScrollTrigger.create({
+        id: 'fragrances-con12-hands',
+        trigger: root,
+        start: 'center 85%',
+        ...bookSceneTrigger(sequence),
+        // Replay on reverse arrival at this panel, rather than while it is offscreen.
+        end: sequence ? self => sequence.holdEndPosition(self.trigger) : 'bottom top',
+        onEnter: showHands,
+        onLeave: () => { inside = false; },
+        onEnterBack: () => {
+          if (!sequence) resetHands();
+          showHands();
+        },
+        onLeaveBack: hideHands,
+      });
+      if (sequence) {
+        // Prepare while this panel is offscreen at Con13, before it slides back in.
+        ScrollTrigger.create({
+          id: 'fragrances-con12-hands-reset',
+          trigger: root,
+          ...bookSceneTrigger(sequence),
+          onEnterBack: resetHands,
+        });
+      }
     });
 
     // Scoped cleanup also restores the final pose when reduced motion is enabled.
