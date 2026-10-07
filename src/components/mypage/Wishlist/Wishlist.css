@@ -29,7 +29,7 @@
 .wishlist__image--missing { display: grid; place-items: center; color: var(--color-text-muted); font-size: 12px; }
 .wishlist__item h3 { margin-top: 6px; font-size: 16px; font-weight: var(--font-weight-light); line-height: 1.5; letter-spacing: .02em; overflow-wrap: anywhere; }
 .wishlist__item p { margin-top: 4px; font-size: 14px; font-weight: var(--font-weight-medium); line-height: 1.6; letter-spacing: .02em; overflow-wrap: anywhere; }
-.wishlist__item--design p { white-space: nowrap; }
+.wishlist__item--design p { white-space: normal; overflow-wrap: anywhere; }
 .wishlist__remove {
   position: absolute;
   top: -4px;

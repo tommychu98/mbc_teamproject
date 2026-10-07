@@ -1,11 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, Clock3, CreditCard, Package, Truck, PackageCheck, BadgeCheck } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
-import defaultProfileImage from './Profile/Information/assets/profile1.png';
-import character02 from './Profile/Information/assets/character-02.png';
-import character03 from './Profile/Information/assets/character-03.png';
-import character04 from './Profile/Information/assets/character-04.png';
-import character05 from './Profile/Information/assets/character-05.png';
+import { TEST_USER } from '../../data/testUser';
+import defaultProfileImage from './Profile/Information/assets/default-flower.svg';
+import character02 from './Profile/Information/assets/flower-02.svg';
+import character03 from './Profile/Information/assets/flower-03.svg';
+import character04 from './Profile/Information/assets/flower-04.svg';
+import character05 from './Profile/Information/assets/flower-05.svg';
 import Wishlist from './Wishlist';
 import './MyPage.css';
 
@@ -37,6 +38,7 @@ const menuGroups = [
   ] },
   { title: 'Community', label: '나의 활동', links: [
     { label: '1:1 문의', to: '/mypage/community/inquiry' },
+    { label: 'FAQ', to: '/contact/faq' },
     { label: '상품문의', to: '/mypage/community/product-inquiry' },
   ] },
 ];
@@ -46,10 +48,11 @@ export default function MyPage() {
   const navigate = useNavigate();
   const handleLogout = () => { logout(); navigate('/'); };
   if (!user) return null;
+  const membershipInfo = { points: user.id === TEST_USER.id ? 2026 : 0, coupons: 0 };
   const avatarImage = profileAvatarImages[user.selectedAvatarId];
   const profileImage = user.profileImageType !== 'upload'
-    ? avatarImage || (user.profileImage === '/images/characters/character-01.svg' ? defaultProfileImage : user.profileImage)
-    : user.profileImage;
+    ? avatarImage || (user.profileImage === '/images/characters/character-01.svg' ? defaultProfileImage : user.profileImage) || defaultProfileImage
+    : user.profileImage || defaultProfileImage;
 
   return (
     <main className="mypage container">
@@ -68,10 +71,9 @@ export default function MyPage() {
             <div className="mypage__benefits" id="mypage-benefits">
               <h3 className="sr-only">나의 혜택</h3>
               <dl>
-                <div><dt>POINT <span>포인트</span></dt><dd><span aria-label="정보 없음">—</span><small>P</small></dd></div>
-                <div><dt>COUPON <span>쿠폰</span></dt><dd><span aria-label="정보 없음">—</span><small>장</small></dd></div>
+                <div><dt>POINT <span>포인트</span></dt><dd><span>{membershipInfo.points.toLocaleString('ko-KR')}</span><small>P</small></dd></div>
+                <div><dt>COUPON <span>쿠폰</span></dt><dd><span>{membershipInfo.coupons.toLocaleString('ko-KR')}</span><small>장</small></dd></div>
               </dl>
-              <p className="mypage__note">등록된 혜택 정보가 없습니다.</p>
             </div>
           </section>
 

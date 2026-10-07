@@ -4,17 +4,18 @@ import { Check } from 'lucide-react';
 import AddressSearch from '../../../../components/common/AddressSearch';
 import { PROFILE_AVATARS } from '../../../../data/profileAvatars';
 import { useAuthStore } from '../../../../store/useAuthStore';
-import character01 from './assets/character-01.png';
-import character02 from './assets/character-02.png';
-import character03 from './assets/character-03.png';
-import character04 from './assets/character-04.png';
-import character05 from './assets/character-05.png';
+import character01 from './assets/default-flower.svg';
+import character02 from './assets/flower-02.svg';
+import character03 from './assets/flower-03.svg';
+import character04 from './assets/flower-04.svg';
+import character05 from './assets/flower-05.svg';
 import './Information.css';
 
 const interestOptions = ['FRAGRANCES', 'CANDLES & HOME', 'BATH & BODY', 'NEW'];
 const profileAvatarImages = [character01, character02, character03, character04, character05];
 const profileAvatars = PROFILE_AVATARS.slice(0, profileAvatarImages.length).map((avatar, index) => ({
   ...avatar,
+  name: ['기본 꽃', '꽃잎 꽃', '튤립', '히비스커스', '다섯잎 꽃'][index] + ' 프로필',
   src: profileAvatarImages[index],
 }));
 
@@ -42,8 +43,8 @@ function resizeProfileImage(file) {
 export default function ProfileEditPage() {
   const { user, updateProfile } = useAuthStore();
   const initial = useMemo(() => {
-    const selectedAvatar = profileAvatars.find(({ id }) => id === user.selectedAvatarId);
-    const profileImage = user.profileImageType === 'avatar' && selectedAvatar ? selectedAvatar.src : user.profileImage;
+    const selectedAvatar = profileAvatars.find(({ id }) => id === user.selectedAvatarId) || profileAvatars[0];
+    const profileImage = user.profileImageType === 'upload' ? user.profileImage || character01 : selectedAvatar.src;
     return { name: user.name, email: user.email, profileImage, profileImageType: user.profileImageType || 'avatar', selectedAvatarId: user.selectedAvatarId || '', interests: user.interests || [], address: { zonecode: '', roadAddress: '', jibunAddress: '', detailAddress: '', extraAddress: '', ...user.address }, marketing: Boolean(user.marketing) };
   }, [user]);
   const [form, setForm] = useState(initial);
