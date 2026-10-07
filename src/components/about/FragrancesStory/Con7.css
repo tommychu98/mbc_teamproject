@@ -1,5 +1,5 @@
-/* Figma 2778:1714 — 1920 × 2050, clipsContent: true.
-   Below Con6 in the existing page stack so its 3px table overhang survives. */
+/* Figma 3869:11342 — 1920 × 2050, clipsContent: true.
+   Preserve the existing section stack and animation selectors. */
 .fragrances-con7 {
   position: relative;
   z-index: -2;
@@ -100,17 +100,41 @@
 }
 
 .fragrances-con7__dancers {
-  left: calc(844 / 1920 * 100%);
-  top: calc(812 / 2050 * 100%);
-  width: calc(966 / 1920 * 100%);
-  height: calc(1286 / 2050 * 100%);
+  left: calc(818 / 1920 * 100%);
+  top: calc(865 / 2050 * 100%);
+  width: calc(1022 / 1920 * 100%);
+  height: calc(1207 / 2050 * 100%);
 }
 
 .fragrances-con7__furniture {
-  left: calc(-542 / 1920 * 100%);
-  top: calc(1152 / 2050 * 100%);
-  width: calc(1255 / 1920 * 100%);
-  height: calc(1115 / 2050 * 100%);
+  left: 0;
+  top: calc(1162 / 2050 * 100%);
+  width: calc(844 / 1920 * 100%);
+  height: calc(888 / 2050 * 100%);
+}
+
+.fragrances-con7__smoke { display: none; }
+
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  /* The original plume occupies transparent space above the cigar. Exclude
+     only that notch; the cigar, glass, ashtray, table and chair remain intact. */
+  .fragrances-con7__scene[data-con7-smoke='ready'] .fragrances-con7__furniture {
+    clip-path: polygon(
+      0 0, 13.744076% 0, 13.744076% 45.945946%,
+      21.327014% 45.945946%, 21.327014% 0, 100% 0,
+      100% 100%, 0 100%
+    );
+  }
+  .fragrances-con7__scene[data-con7-smoke='ready'] .fragrances-con7__smoke {
+    display: block;
+    position: absolute;
+    left: calc(94.5 / 1920 * 100%);
+    top: calc(1230 / 2050 * 100%);
+    width: calc(128 / 1920 * 100%);
+    height: calc(340 / 2050 * 100%);
+    overflow: visible;
+    pointer-events: none;
+  }
 }
 
 .fragrances-con7__chandelier {
@@ -132,12 +156,53 @@
   opacity: 0.1;
 }
 
-/* Keep the flattened pot and plant stationary at their original Figma position.
-   Independent foliage motion requires a separate source asset. */
-.fragrances-con7__plant img {
-  inset: 0;
-  width: 100%;
-  height: 100%;
+/* Animate the desktop wrappers independently of each artwork's Figma rotation. */
+.fragrances-con7__musical-note {
+  display: none;
+  position: absolute;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .fragrances-con7__musical-note { display: block; }
+  .fragrances-con7__musical-note--first {
+    left: calc(675 / 1920 * 100%);
+    top: calc(323 / 2050 * 100%);
+    width: calc(174.126038 / 1920 * 100%);
+    height: calc(177.009384 / 2050 * 100%);
+  }
+  .fragrances-con7__musical-note--second {
+    left: calc(476.001831 / 1920 * 100%);
+    top: calc(954 / 2050 * 100%);
+    width: calc(178.951767 / 1920 * 100%);
+    height: calc(187.846512 / 2050 * 100%);
+  }
+  .fragrances-con7__musical-note--third {
+    left: calc(1702.449219 / 1920 * 100%);
+    top: calc(591.652588 / 2050 * 100%);
+    width: calc(173.135574 / 1920 * 100%);
+    height: calc(174.784225 / 2050 * 100%);
+  }
+  .fragrances-con7__musical-note img {
+    left: 50%;
+    top: 50%;
+    opacity: 0.7;
+  }
+  .fragrances-con7__musical-note--first img {
+    width: calc(118.906998 / 174.126038 * 100%);
+    height: calc(132.307785 / 177.009384 * 100%);
+    transform: translate(-50%, -50%) rotate(36.248829deg);
+  }
+  .fragrances-con7__musical-note--second img {
+    width: calc(134.854553 / 178.951767 * 100%);
+    height: calc(150.052643 / 187.846512 * 100%);
+    transform: translate(-50%, -50%) rotate(20.553903deg);
+  }
+  .fragrances-con7__musical-note--third img {
+    width: calc(132 / 173.135574 * 100%);
+    height: calc(135 / 174.784225 * 100%);
+    transform: translate(-50%, -50%) rotate(-22.133076deg);
+  }
 }
 
 /* Independent neck pivots suggest listening and playing, without moving the
