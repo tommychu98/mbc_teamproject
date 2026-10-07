@@ -1,4 +1,21 @@
-/* Figma Con4 2778:1733 — 1920 × 2050. */
+/* Interpolate drift independently of the steady fall, without small jitters. */
+@property --con4-petal-x {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --con4-petal-y {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+@property --con4-petal-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Desktop Figma Con4 4710:15514 — 1920 × 2050; keep the existing mobile scene. */
 .fragrances-con4 {
   container-type: inline-size;
   background: var(--color-bg-primary);
@@ -24,6 +41,13 @@
   pointer-events: none;
   user-select: none;
 }
+
+.fragrances-con4__scene .fragrances-con4__table,
+.fragrances-con4__calendar,
+.fragrances-con4__petal,
+.fragrances-con4__candle { display: none; }
+.fragrances-con4__effects { position: absolute; pointer-events: none; }
+.fragrances-con4__cabinet-artwork { display: contents; }
 
 .fragrances-con4__text {
   font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
@@ -216,4 +240,245 @@
 @media (prefers-reduced-motion: reduce) {
   .fragrances-con4__drawing,
   .fragrances-con4__clock-image--hanging { animation: none; }
+}
+
+/* Replace only the desktop artwork slots. Text and clock motion rules above,
+   their selectors, and the 1920 × 2050 section geometry remain unchanged. */
+@media (width >= 768px) {
+  .fragrances-con4__scene { overflow: hidden; }
+  .fragrances-con4__man {
+    left: calc(502 / 1920 * 100%);
+    top: calc(480 / 2050 * 100%);
+    width: calc(1415 / 1920 * 100%);
+    height: calc(1548 / 2050 * 100%);
+  }
+  .fragrances-con4__calendar {
+    display: block;
+    position: absolute;
+    left: calc(622 / 1920 * 100%);
+    top: calc(813 / 2050 * 100%);
+    width: calc(326 / 1920 * 100%);
+    height: calc(407 / 2050 * 100%);
+    pointer-events: none;
+  }
+  .fragrances-con4__scene .fragrances-con4__table {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: calc(1091 / 2050 * 100%);
+    width: 100%;
+    height: calc(960 / 2050 * 100%);
+  }
+  .fragrances-con4__cabinet {
+    left: calc(-47 / 1920 * 100%);
+    top: calc(577 / 2050 * 100%);
+    width: calc(848 / 1920 * 100%);
+    height: calc(1340 / 2050 * 100%);
+    overflow: visible;
+  }
+  .fragrances-con4__cabinet-artwork {
+    display: block;
+    position: absolute;
+    left: calc(-110 / 848 * 100%);
+    top: 0;
+    width: calc(812 / 848 * 100%);
+    height: calc(1284 / 1340 * 100%);
+    overflow: hidden;
+  }
+  .fragrances-con4__clock {
+    left: calc(1479 / 1920 * 100%);
+    top: calc(87 / 2050 * 100%);
+  }
+  .fragrances-con4__drawing { display: none; }
+  .fragrances-con4__petal {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .fragrances-con4__petal img {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    filter: url(#fragrances-con4-petal-opacity);
+  }
+  .fragrances-con4__petal--first {
+    left: calc(35 / 1920 * 100%);
+    top: calc(428 / 2050 * 100%);
+    width: calc(103 / 1920 * 100%);
+    height: calc(103 / 2050 * 100%);
+  }
+  .fragrances-con4__petal--second {
+    left: calc(848 / 1920 * 100%);
+    top: calc(1189.424316 / 2050 * 100%);
+    width: calc(113.636871 / 1920 * 100%);
+    height: calc(113.636871 / 2050 * 100%);
+  }
+  .fragrances-con4__petal--third {
+    left: calc(1241 / 1920 * 100%);
+    top: calc(220.97731 / 2050 * 100%);
+    width: calc(144.867203 / 1920 * 100%);
+    height: calc(144.867203 / 2050 * 100%);
+  }
+  .fragrances-con4__petal--second img {
+    width: calc(92.784119 / 113.636871 * 100%);
+    height: calc(92.784119 / 113.636871 * 100%);
+    transform: rotate(-75deg);
+  }
+  .fragrances-con4__petal--third img {
+    width: calc(118.283577 / 144.867203 * 100%);
+    height: calc(118.283577 / 144.867203 * 100%);
+    transform: rotate(-75deg);
+  }
+}
+
+/* Animate the outer slots so each PNG keeps its original orientation and crop.
+   Fall endpoints clear both scene edges, including the rotated petal's bounds.
+   Keep opacity constant; only reset after leaving the bottom, back above the top. */
+@media (width >= 768px) and (prefers-reduced-motion: no-preference) {
+  .fragrances-con4__petal {
+    --con4-petal-drift: 45;
+    --con4-petal-bias: 45;
+    --con4-petal-rise: -551;
+    --con4-petal-drop: 1642;
+    --con4-petal-turn: 3deg;
+    transform: translate(
+      calc((var(--con4-petal-bias) + var(--con4-petal-x) * var(--con4-petal-drift)) * 1px * var(--con4-scale)),
+      calc(var(--con4-petal-y) * 1px * var(--con4-scale))
+    ) rotate(var(--con4-petal-angle));
+    animation:
+      fragrances-con4-petal-fall 104s linear -26.130415s infinite,
+      fragrances-con4-petal-drift 16s cubic-bezier(0.37, 0, 0.63, 1) -4s infinite,
+      fragrances-con4-petal-turn 20s ease-in-out -5s infinite;
+    animation-play-state: paused;
+  }
+  .fragrances-con4__petal--second {
+    --con4-petal-bias: 0;
+    --con4-petal-drift: 65;
+    --con4-petal-rise: -1323.061187;
+    --con4-petal-drop: 880.575684;
+    --con4-petal-turn: 2.5deg;
+    animation-duration: 118s, 19s, 24s;
+    animation-delay: -70.847072s, -11s, -9s;
+  }
+  .fragrances-con4__petal--third {
+    --con4-petal-bias: 0;
+    --con4-petal-drift: 85;
+    --con4-petal-rise: -385.844513;
+    --con4-petal-drop: 1849.02269;
+    --con4-petal-turn: 3.5deg;
+    animation-duration: 134s, 23s, 28s;
+    animation-delay: -23.134782s, -16s, -18s;
+  }
+  .fragrances-con4__scene--visible .fragrances-con4__petal {
+    animation-play-state: running;
+  }
+}
+
+@keyframes fragrances-con4-petal-fall {
+  0% { --con4-petal-y: var(--con4-petal-rise); }
+  100% { --con4-petal-y: var(--con4-petal-drop); }
+}
+@keyframes fragrances-con4-petal-drift {
+  0%, 100% { --con4-petal-x: -1; }
+  50% { --con4-petal-x: 1; }
+}
+@keyframes fragrances-con4-petal-turn {
+  0%, 100% { --con4-petal-angle: calc(var(--con4-petal-turn) * -1); }
+  50% { --con4-petal-angle: var(--con4-petal-turn); }
+}
+
+/* Split the photographed flame/smoke from the table only while motion is on.
+   The cutout is otherwise transparent; the candle body and table never move. */
+@media (width >= 768px) and (prefers-reduced-motion: no-preference) {
+  .fragrances-con4__scene .fragrances-con4__table {
+    clip-path: polygon(
+      0 0, 68.645833% 0, 68.645833% 48.541667%,
+      72.916667% 48.541667%, 72.916667% 0, 100% 0,
+      100% 100%, 0 100%
+    );
+  }
+  .fragrances-con4__candle {
+    display: block;
+    position: absolute;
+    left: calc(1318 / 1920 * 100%);
+    top: calc(1398 / 2050 * 100%);
+    width: calc(82 / 1920 * 100%);
+    height: calc(166 / 2050 * 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .fragrances-con4__smoke,
+  .fragrances-con4__flame,
+  .fragrances-con4__candle-glow { position: absolute; }
+  .fragrances-con4__smoke {
+    left: 0;
+    top: calc(-40 / 166 * 100%);
+    width: 100%;
+    height: calc(196 / 166 * 100%);
+    overflow: visible;
+  }
+  .fragrances-con4__smoke-plume {
+    /* A traveling curl deforms one ribbon. No body fade, reset, or duplicate. */
+    animation: fragrances-con4-smoke-flow 16s cubic-bezier(0.37, 0, 0.63, 1) -3s infinite;
+  }
+  .fragrances-con4__flame {
+    left: calc(14 / 82 * 100%);
+    top: calc(118 / 166 * 100%);
+    width: calc(48 / 82 * 100%);
+    height: calc(48 / 166 * 100%);
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent, #000 35%);
+    transform-origin: 48% 100%;
+    animation: fragrances-con4-flame-breathe 6.2s ease-in-out -1.55s infinite;
+  }
+  .fragrances-con4__flame img {
+    position: absolute;
+    left: calc(-1332 / 48 * 100%);
+    top: calc(-425 / 48 * 100%);
+    width: calc(1920 / 48 * 100%);
+    height: calc(960 / 48 * 100%);
+  }
+  .fragrances-con4__candle-glow {
+    left: calc(19 / 82 * 100%);
+    top: calc(115 / 166 * 100%);
+    width: calc(36 / 82 * 100%);
+    height: calc(50 / 166 * 100%);
+    background: radial-gradient(ellipse at 50% 70%, rgba(247, 211, 153, 0.45), transparent 70%);
+    animation: fragrances-con4-candle-glow 6.4s ease-in-out -2s infinite;
+  }
+  .fragrances-con4__smoke-plume,
+  .fragrances-con4__flame,
+  .fragrances-con4__candle-glow { animation-play-state: paused; }
+  .fragrances-con4__scene--visible .fragrances-con4__smoke-plume,
+  .fragrances-con4__scene--visible .fragrances-con4__flame,
+  .fragrances-con4__scene--visible .fragrances-con4__candle-glow {
+    animation-play-state: running;
+  }
+}
+@keyframes fragrances-con4-flame-breathe {
+  /* Keep the wick anchored; stretch and bend only the sampled flame above it. */
+  0%, 100% {
+    transform: rotate(-2.8deg) skewX(1.1deg) scale(0.99, 1);
+    filter: url(#fragrances-con4-flame-isolate) brightness(0.98);
+  }
+  35% {
+    transform: rotate(3.6deg) skewX(-1.5deg) scale(1.035, 1.16);
+    filter: url(#fragrances-con4-flame-isolate) brightness(1.2);
+  }
+  70% {
+    transform: rotate(-0.9deg) skewX(0.5deg) scale(0.975, 0.93);
+    filter: url(#fragrances-con4-flame-isolate) brightness(1.03);
+  }
+}
+@keyframes fragrances-con4-smoke-flow {
+  0%, 100% { d: path('M36.5 152 C36.69 149 37.18 141.33 37.63 134 C38.08 126.67 40.97 116.67 39.2 108 C37.43 99.33 30.65 90.67 27 82 C23.35 73.33 16.12 64.67 17.28 56 C18.45 47.33 28.14 38.67 33.99 30 C39.84 21.33 51.75 12.67 52.38 4 C53.02 -4.67 43.6 -14.67 37.8 -22 C32 -29.33 20.94 -37 17.57 -40 L30.57 -40 C33.77 -37 44.33 -29.33 49.8 -22 C55.27 -14.67 64.35 -4.67 63.38 4 C62.42 12.67 50.17 21.33 43.99 30 C37.8 38.67 27.78 47.33 26.28 56 C24.79 64.67 31.85 73.33 35 82 C38.15 90.67 44.16 99.33 45.2 108 C46.24 116.67 42.51 126.67 41.23 134 C39.94 141.33 38.12 149 37.5 152 Z'); }
+  25% { d: path('M36.5 152 C35.99 149 33.07 141.33 33.44 134 C33.8 126.67 37.02 116.67 38.68 108 C40.34 99.33 45.25 90.67 43.39 82 C41.54 73.33 32.6 64.67 27.56 56 C22.51 47.33 12.81 38.67 13.1 30 C13.4 21.33 22.84 12.67 29.3 4 C35.77 -4.67 48.76 -14.67 51.92 -22 C55.09 -29.33 48.9 -37 48.3 -40 L61.3 -40 C61.74 -37 67.42 -29.33 63.92 -22 C60.42 -14.67 47.11 -4.67 40.3 4 C33.5 12.67 23.73 21.33 23.1 30 C22.48 38.67 31.84 47.33 36.56 56 C41.27 64.67 50.04 73.33 51.39 82 C52.75 90.67 47.08 99.33 44.68 108 C42.29 116.67 38.23 126.67 37.04 134 C35.84 141.33 37.42 149 37.5 152 Z'); }
+  50% { d: path('M36.5 152 C35.88 149 34.06 141.33 32.77 134 C31.49 126.67 27.76 116.67 28.8 108 C29.84 99.33 35.85 90.67 39 82 C42.15 73.33 49.21 64.67 47.72 56 C46.22 47.33 36.2 38.67 30.01 30 C23.83 21.33 11.58 12.67 10.62 4 C9.65 -4.67 18.73 -14.67 24.2 -22 C29.67 -29.33 40.23 -37 43.43 -40 L56.43 -40 C53.06 -37 42 -29.33 36.2 -22 C30.4 -14.67 20.98 -4.67 21.62 4 C22.25 12.67 34.16 21.33 40.01 30 C45.86 38.67 55.55 47.33 56.72 56 C57.88 64.67 50.65 73.33 47 82 C43.35 90.67 36.57 99.33 34.8 108 C33.03 116.67 35.92 126.67 36.37 134 C36.82 141.33 37.31 149 37.5 152 Z'); }
+  75% { d: path('M36.5 152 C36.58 149 38.16 141.33 36.96 134 C35.77 126.67 31.71 116.67 29.32 108 C26.92 99.33 21.25 90.67 22.61 82 C23.96 73.33 32.73 64.67 37.44 56 C42.16 47.33 51.52 38.67 50.9 30 C50.27 21.33 40.5 12.67 33.7 4 C26.89 -4.67 13.58 -14.67 10.08 -22 C6.58 -29.33 12.26 -37 12.7 -40 L25.7 -40 C25.1 -37 18.91 -29.33 22.08 -22 C25.24 -14.67 38.23 -4.67 44.7 4 C51.16 12.67 60.6 21.33 60.9 30 C61.19 38.67 51.49 47.33 46.44 56 C41.4 64.67 32.46 73.33 30.61 82 C28.75 90.67 33.66 99.33 35.32 108 C36.98 116.67 40.2 126.67 40.56 134 C40.93 141.33 38.01 149 37.5 152 Z'); }
+}
+@keyframes fragrances-con4-candle-glow {
+  0%, 100% { opacity: 0.13; }
+  50% { opacity: 0.24; }
 }
