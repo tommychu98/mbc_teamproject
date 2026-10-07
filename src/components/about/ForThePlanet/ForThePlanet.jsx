@@ -11,13 +11,12 @@ import mobileCoastExpanded from "./assets/mobile/fd028.png";
 import mobileProducts from "./assets/mobile/9c5d0.png";
 import mobileDesigningBackground from "./assets/mobile/d45b0.png";
 import mobileForestExpanded from "./assets/mobile/0bcc6.png";
-import mobileHamster from "./assets/mobile/601f8.png";
+import squirrel from "./assets/squirrel.png";
 const coast = mobileCoast;
 const vessel = "/ForThePlanet/8c8df.png";
 const candle = mobileCandle;
 const forest = "/ForThePlanet/95360.png";
 const forestPerfume = "/ForThePlanet/3370f.png";
-const hamster = "/ForThePlanet/69fd2.png";
 const designingBackground = "/ForThePlanet/8eb2a.png";
 const closingBackground = "/ForThePlanet/25fb5.png";
 const ambitionPortrait = "/ForThePlanet/3228d.png";
@@ -79,7 +78,8 @@ const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
 function AcornBurst() {
   const layerRef = useRef(null);
   const acornRefs = useRef([]);
-  const modelsRef = useRef(Array.from({ length: 1 }, () => ({
+  useEffect(() => {
+    const models = Array.from({ length: 1 }, () => ({
     delay: Math.random() * 0.08,
     xRatio: 0.035 + Math.random() * 0.91,
     yOffset: Math.random() * 150,
@@ -91,9 +91,7 @@ function AcornBurst() {
     bounces: 0,
     active: false,
     settled: false,
-  })));
-
-  useEffect(() => {
+    }));
     const layer = layerRef.current;
     if (!layer) return undefined;
     let frame = 0;
@@ -101,6 +99,7 @@ function AcornBurst() {
     const started = previous;
 
     const tick = (now) => {
+      frame = 0;
       const width = layer.clientWidth;
       const height = layer.clientHeight;
       if (!width || !height) {
@@ -112,7 +111,7 @@ function AcornBurst() {
       previous = now;
       let moving = false;
 
-      modelsRef.current.forEach((model, index) => {
+      models.forEach((model, index) => {
         const element = acornRefs.current[index];
         if (!element) return;
         const size = clamp(width * model.sizeRatio, 28, 56);
@@ -165,13 +164,45 @@ function AcornBurst() {
       if (moving) frame = window.requestAnimationFrame(tick);
     };
 
+    const onPointerMove = (event) => {
+      if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const rect = layer.getBoundingClientRect();
+      if (!rect.width || !rect.height || event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return;
+      const scaleX = rect.width / layer.clientWidth;
+      const scaleY = rect.height / layer.clientHeight;
+      let disturbed = false;
+      models.forEach((model) => {
+        if (!model.settled) return;
+        const size = clamp(layer.clientWidth * model.sizeRatio, 28, 56);
+        const dx = rect.left + (model.x + size / 2) * scaleX - event.clientX;
+        const dy = rect.top + (model.y + size / 2) * scaleY - event.clientY;
+        if (Math.hypot(dx, dy) > 70) return;
+        // A small hop away from the cursor, followed by the existing gravity and bounce.
+        const direction = dx >= 0 ? 1 : -1;
+        model.settled = false;
+        model.bounces = 0;
+        model.vx = direction * 120 / scaleX;
+        model.vy = -Math.sqrt(2 * layer.clientHeight * 1.7 * 50 / scaleY);
+        model.angularVelocity = direction * 180;
+        disturbed = true;
+      });
+      if (disturbed && !frame) {
+        previous = performance.now();
+        frame = window.requestAnimationFrame(tick);
+      }
+    };
+
     frame = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(frame);
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('pointermove', onPointerMove);
+    };
   }, []);
 
   return (
     <div className="ftp-acorn-physics" ref={layerRef} aria-hidden="true">
-      {modelsRef.current.map((_, index) => (
+      {[0].map((index) => (
         <img
           key={index}
           ref={(element) => { acornRefs.current[index] = element; }}
@@ -390,7 +421,7 @@ function ArchScene({ variant, first = false }) {
               />
               <img
                 className="ftp-mobile-intro__hamster"
-                src={mobileHamster}
+                src={squirrel}
                 alt=""
               />
               <img
@@ -495,16 +526,16 @@ function ArchScene({ variant, first = false }) {
             {!isCoast && (
               <img
                 className="ftp-side-arch__object"
-                src="/ForThePlanet/1f7c0.png"
-                alt="숲속 햄스터"
+                src={squirrel}
+                alt="숲속 다람쥐"
                 style={{
                   left: "45.22%",
                   top: "76.92%",
-                  width: "23.78%",
-                  height: "16.69%",
+                  width: "calc(23.78% - 10px)",
+                  height: "calc(16.69% - 10px)",
                   filter: "none",
                   opacity: 0.92,
-                  translate: "10px -10px",
+                  translate: "40px 30px",
                 }}
               />
             )}
@@ -553,7 +584,7 @@ function ArchScene({ variant, first = false }) {
                 <button
                   className="ftp-expanding-object ftp-expanding-object--no-shadow ftp-hamster-trigger"
                   type="button"
-                  aria-label="햄스터를 눌러 도토리 떨어뜨리기"
+                  aria-label="다람쥐를 눌러 도토리 떨어뜨리기"
                   onClick={() => {
                     const id = nextAcornId.current;
                     nextAcornId.current += 1;
@@ -564,9 +595,12 @@ function ArchScene({ variant, first = false }) {
                     object.hamster.y,
                     object.hamster.w,
                     object.hamster.h
-                  ), translate: "10px -10px" }}
+                  ),
+                    width: `calc(${(object.hamster.w / 1920) * 100}% - 10px)`,
+                    height: `calc(${(object.hamster.h / 1080) * 100}% - 10px)`,
+                    translate: "40px 30px" }}
                 >
-                  <img src={hamster} alt="숲속 햄스터" draggable="false" />
+                  <img src={squirrel} alt="숲속 다람쥐" draggable="false" />
                 </button>
               </>
             )}
