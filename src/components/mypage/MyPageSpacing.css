@@ -48,3 +48,55 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .mypage-layout { --mypage-secondary-nav-gap: var(--space-12); }
 }
+
+/* The overview frame has its own title/nav spacing in Figma (4394:3452). */
+.mypage-layout:has(> .mypage) .mypage-header__nav {
+  border-bottom: 1px solid #e5e5e5;
+}
+@media (min-width: 1024px) {
+  .mypage-layout:has(> .mypage) {
+    --mypage-title-gap: 60px;
+    --mypage-primary-nav-gap: 32.6px;
+  }
+  .mypage-layout:has(> .mypage) > .mypage-layout__header {
+    max-width: 1520px;
+    padding-inline: 40px;
+  }
+  .mypage-layout:has(> .mypage) .mypage-header__nav-item {
+    min-height: 75px;
+    padding-block: 25px;
+    letter-spacing: .02em;
+  }
+  .mypage-layout > .mypage {
+    max-width: 1200px;
+    padding-inline: 40px;
+  }
+}
+@media (min-width: 1024px) and (max-width: 1179px) {
+  .mypage-layout:has(> .mypage) { --mypage-title-gap: 98px; }
+}
+
+.mypage-layout:has(> .profile-edit) .mypage-header__nav {
+  border-bottom: 1px solid #e5e5e5;
+}
+@media (min-width: 1024px) {
+  .mypage-layout:has(> .profile-edit) {
+    --mypage-title-gap: 44px;
+    --mypage-primary-nav-gap: 32px;
+    --mypage-content-gap: 50px;
+    padding-bottom: 178px;
+  }
+  .mypage-layout:has(> .profile-edit) > .mypage-layout__header {
+    max-width: 1520px;
+    padding-inline: 40px;
+  }
+  .mypage-layout:has(> .profile-edit) .mypage-header__nav-item {
+    min-height: 75px;
+    padding-block: 25px;
+    letter-spacing: .02em;
+  }
+  .mypage-layout > .profile-edit { padding-inline: 40px; }
+}
+@media (min-width: 1024px) and (max-width: 1179px) {
+  .mypage-layout:has(> .profile-edit) { --mypage-title-gap: 82px; }
+}

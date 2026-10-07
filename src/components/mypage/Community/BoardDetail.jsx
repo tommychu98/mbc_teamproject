@@ -10,9 +10,9 @@ export default function BoardDetailPage() {
   const { user, isAuthenticated } = useAuthStore();
   const { posts, incrementViews, toggleLike, deletePost } = useBoardStore();
   const navigate = useNavigate();
-  const viewed = useRef(false);
+  const viewed = useRef(null);
   const post = posts.find((item) => item.id === postId);
-  useEffect(() => { if (post && !viewed.current) { incrementViews(postId); viewed.current = true; } }, [incrementViews, post, postId]);
+  useEffect(() => { if (post && viewed.current !== postId) { viewed.current = postId; incrementViews(postId); } }, [incrementViews, post, postId]);
   if (!post) return <main className="board-page container"><div className="empty-state"><p>존재하지 않는 게시글입니다.</p><Link className="button" to="/board">목록으로</Link></div></main>;
   const mine = isAuthenticated && post.userId === user.id;
   const remove = () => { if (window.confirm('게시글을 삭제하시겠습니까?')) { deletePost(post.id, user.id); navigate('/board'); } };
