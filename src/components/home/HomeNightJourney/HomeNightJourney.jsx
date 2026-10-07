@@ -8,7 +8,6 @@ import { nightJourneyPanels } from './nightJourneyData';
 import useAmbientWind from './useAmbientWind';
 import useCon6Wind from './useCon6Wind';
 import './HomeNightJourney.css';
-import MobileNightWind from './MobileNightWind';
 import useHomeMobile from '../useHomeMobile';
 import MobileCategoryCarousel from './MobileCategoryCarousel';
 
@@ -203,7 +202,6 @@ export default function HomeNightJourney() {
                 </div>
             </div>
             <div className="night-journey__mobile">
-                {mobile && <MobileNightWind />}
                 {mobile && <MobileCategoryCarousel />}
             </div>
         </section>
