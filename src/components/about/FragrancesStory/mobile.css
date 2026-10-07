@@ -157,10 +157,7 @@
   .fragrances-con1__text--body1 br:first-child,
   .fragrances-con1__text--body2 .fragrances-con1__paragraph-break { display: block; }
   .fragrances-story .fragrances-con1__cloud--small,
-  .fragrances-story .fragrances-con2__cloth,
-  .fragrances-story .fragrances-con4__cloth,
-  .fragrances-story .fragrances-con7__plant,
-  .fragrances-story .fragrances-con8__instrument { display: none; }
+  .fragrances-story .fragrances-con7__plant { display: none; }
   .fragrances-con1__subtitle { max-width: calc(295 / 430 * 100cqw); }
   .fragrances-con1__couple-image { width: 100%; height: 100%; object-fit: cover; }
   /* Override the desktop scene's image selector so the mobile crop is preserved. */

@@ -36,8 +36,7 @@
   opacity: 0.5;
 }
 
-/* The 468px outer frame contains a 454px image crop at y=629.
-   Preserve its 3px overhang beyond the section instead of clipping it. */
+/* The 454px image crop starts at y=629; clip its 3px overhang at Con6's edge. */
 .fragrances-con6__table {
   position: absolute;
   left: calc(165 / 1920 * 100%);
@@ -45,6 +44,12 @@
   width: calc(1591 / 1920 * 100%);
   height: calc(454 / 1080 * 100%);
   overflow: hidden;
+}
+
+@media (width >= 768px) {
+  .fragrances-con6__table {
+    clip-path: inset(0 0 0.660793% 0);
+  }
 }
 
 .fragrances-con6__table-image {

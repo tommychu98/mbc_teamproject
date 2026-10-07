@@ -58,11 +58,7 @@
 }
 .fragrances-con2__card-artwork { position: relative; width: 100%; aspect-ratio: 340 / 360; overflow: hidden; }
 .fragrances-con2__card-image { position: absolute; top: 0; width: 300.49%; height: 100%; }
-.fragrances-con2__ink-original,
-.fragrances-con2__ink-trace,
-.fragrances-con2__ink-lines { position: absolute; inset: 0; pointer-events: none; }
-.fragrances-con2__ink-trace { opacity: 0.1; }
-.fragrances-con2__ink-lines { width: 100%; height: 100%; }
+.fragrances-con2__ink-original { position: absolute; inset: 0; pointer-events: none; }
 .fragrances-con2__card-content {
   display: flex;
   flex-direction: column;
@@ -92,31 +88,3 @@
   letter-spacing: 0;
 }
 .fragrances-con2__card-description span { display: block; }
-
-/* The outer bounds and inner rotated bounds are distinct in Figma.
-   Keep this layer unclipped vertically; Con1 itself remains unchanged. */
-.fragrances-con2__cloth {
-  position: absolute;
-  left: calc(336 / 1920 * 100%);
-  top: calc(-526 / 1080 * 100%);
-  width: calc(857.747 / 1920 * 100%);
-  height: calc(764.035 / 1080 * 100%);
-  pointer-events: none;
-}
-.fragrances-con2__cloth-placement {
-  position: absolute;
-  left: calc(-14 / 857.747 * 100%);
-  top: 0;
-  width: calc(885.027 / 857.747 * 100%);
-  height: calc(788.335 / 764.035 * 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fragrances-con2__cloth-image {
-  flex: none;
-  width: calc(492.656 / 885.027 * 100%);
-  height: calc(738.984 / 788.335 * 100%);
-  object-fit: cover;
-  transform: rotate(118.89deg) scaleY(-1);
-}

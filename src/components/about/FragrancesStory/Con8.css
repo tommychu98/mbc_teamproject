@@ -1,5 +1,4 @@
-/* Figma Con8 2778:1728 — 1920 × 1080, clipsContent: false.
-   Instrument extends 344px upward over Con7 without changing its layout. */
+/* Figma Con8 2778:1728 — 1920 × 1080, clipsContent: false. */
 .fragrances-con8 {
   position: relative;
   container-type: inline-size;
@@ -7,13 +6,13 @@
   color: var(--color-black);
 }
 
-@media (min-width: 768px) {
-  .fragrances-con8__pin-stage { min-height: 100vh; }
+/* Match Con5's correction for the pin spacer's rounded section height. */
+.pin-spacer:has(> .fragrances-con8) {
+  margin-bottom: var(--con8-spacer-correction, 0px) !important;
 }
 
-/* Preserve the existing mobile scene geometry through the pin wrapper. */
+/* Keep mobile scene geometry independent of the desktop pin. */
 @media (width < 768px) {
-  .fragrances-con8__pin-stage { width: 100%; }
   .fragrances-con8 .fragrances-con8__scene {
     --mobile-scale: calc(100cqw / 430px);
     --mobile-flow-scale: max(1, var(--mobile-scale));
@@ -84,12 +83,7 @@
   object-fit: cover;
 }
 
-/* Drawing layers share the existing image bounds without changing flow. */
 .fragrances-con8__card-artwork { position: relative; width: 100%; flex: none; }
-.fragrances-con8__ink-trace,
-.fragrances-con8__ink-lines { position: absolute; inset: 0; pointer-events: none; }
-.fragrances-con8__ink-trace { opacity: 0.1; }
-.fragrances-con8__ink-lines { width: 100%; height: 100%; }
 
 .fragrances-con8__card-content {
   display: flex;
@@ -125,25 +119,6 @@
   display: block;
 }
 
-.fragrances-con8__instrument {
-  position: absolute;
-  left: calc(71.0006103515625 / 1920 * 100%);
-  top: calc(-344 / 1080 * 100%);
-  width: calc(693.6671752929688 / 1920 * 100%);
-  height: calc(471.08685302734375 / 1080 * 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.fragrances-con8__instrument-image {
-  flex: none;
-  width: calc(683.4737548828125 / 693.6671752929688 * 100%);
-  height: calc(455.649169921875 / 471.08685302734375 * 100%);
-  object-fit: cover;
-  transform: rotate(1.3041528224381587deg);
-}
 .fragrances-con8__pagination { padding: 0; border: 0; background: none; cursor: pointer; }
 @media (width < 768px) {
   .fragrances-con8 .fragrances-con8__cards { touch-action: auto; scroll-snap-type: x mandatory; }

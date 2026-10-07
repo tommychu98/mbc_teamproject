@@ -5,13 +5,12 @@ import mobileCard2 from './assets/mobile-night-echo.png';
 const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
 import { useRef } from 'react';
-import useCon8InkDrawing from './useCon8InkDrawing';
+import useCon8Pin from './useCon8Pin';
 import background from './assets/con2-background.png';
 import mobileBackground from './assets/con5-background.png';
 import jazzNight from './assets/con8-jazz-night.png';
 import essence from './assets/con8-essence.png';
 import nightEcho from './assets/con8-night-echo.png';
-import instrument from './assets/con8-instrument.png';
 import './Con8.css';
 
 const cards = [
@@ -50,7 +49,7 @@ export default function Con8() {
     });
   };
   const sectionRef = useRef(null);
-  useCon8InkDrawing(sectionRef);
+  useCon8Pin(sectionRef);
   return (
     <section ref={sectionRef} className="fragrances-con8" aria-labelledby="fragrances-con8-title">
       <div className="fragrances-con8__scene">
@@ -77,9 +76,6 @@ export default function Con8() {
           ))}
         </div>
         <button type="button" className="fragrances-story__pagination fragrances-con8__pagination" onClick={nextCard} aria-label={`향 이야기 ${active}/3. 다음 카드 보기`} aria-live="polite" aria-atomic="true">{active}/3</button>
-        <div className="fragrances-con8__instrument" aria-hidden="true">
-          <img className="fragrances-con8__instrument-image" src={instrument} alt="" width="683.474" height="455.649" draggable="false" />
-        </div>
       </div>
     </section>
   );

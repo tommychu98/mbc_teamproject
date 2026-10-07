@@ -1,12 +1,11 @@
-/* Figma Con4 2778:1733 — 1920 × 2050, with an unclipped cloth overhang. */
+/* Figma Con4 2778:1733 — 1920 × 2050. */
 .fragrances-con4 {
   container-type: inline-size;
   background: var(--color-bg-primary);
   color: var(--color-black);
 }
 
-/* Let the absolute cloth extend into the following area without adding flow
-   height. Keep horizontal clipping while releasing the page's vertical clip. */
+/* Preserve the page's existing overflow behavior for section transitions and pins. */
 .fragrances-story:has(> .fragrances-con4) {
   overflow-x: clip;
   overflow-y: visible;
@@ -176,16 +175,6 @@
   top: -158.11%;
   width: 867.8%;
   height: 461.26%;
-}
-
-/* Wrapper y = 1563; the image's local y is -26 in Figma. */
-.fragrances-con4__cloth {
-  position: absolute;
-  left: calc(169 / 1920 * 100%);
-  top: calc(1537 / 2050 * 100%);
-  width: calc(791 / 1920 * 100%);
-  height: calc(973 / 2050 * 100%);
-  object-fit: cover;
 }
 
 /* Rock the cropped frames as rigid objects around their hanging points. */

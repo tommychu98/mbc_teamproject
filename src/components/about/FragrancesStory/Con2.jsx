@@ -1,9 +1,8 @@
 import useMobileCards from './useMobileCards';
 import useCon2Swipe from './useCon2Swipe';
-import useCon2InkDrawing from './useCon2InkDrawing';
+import useCon2Pin from './useCon2Pin';
 import { useRef } from 'react';
 import background from './assets/con2-background.png';
-import cloth from './assets/con2-cloth.png';
 import MythCard from './MythCard';
 import { mythCards } from './con2Data';
 import './Con2.css';
@@ -11,9 +10,8 @@ import './Con2.css';
 export default function Con2() {
   const { railRef, active } = useMobileCards();
   const nextCard = useCon2Swipe(railRef);
-  const clothRef = useRef(null);
   const sectionRef = useRef(null);
-  useCon2InkDrawing(sectionRef);
+  useCon2Pin(sectionRef);
 
   return (
     <section ref={sectionRef} className="fragrances-con2" aria-labelledby="fragrances-con2-title">
@@ -26,12 +24,6 @@ export default function Con2() {
           </div>
         </div>
         <button type="button" className="fragrances-story__pagination fragrances-con2__pagination" onClick={nextCard} aria-label={`향 이야기 ${active}/3. 다음 카드 보기`} aria-live="polite" aria-atomic="true">{active}/3</button>
-        {/* Outside the clipped content: continues over the end of Con1. */}
-        <div className="fragrances-con2__cloth" ref={clothRef} aria-hidden="true">
-          <div className="fragrances-con2__cloth-placement">
-            <img className="fragrances-con2__cloth-image" src={cloth} alt="" width="492.656" height="738.984" draggable="false" />
-          </div>
-        </div>
       </div>
     </section>
   );
