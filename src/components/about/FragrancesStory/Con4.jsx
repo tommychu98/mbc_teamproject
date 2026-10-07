@@ -5,7 +5,6 @@ import cabinet from './assets/con4-cabinet.png';
 import clock from './assets/con4-clock.png';
 import drawing1 from './assets/con4-drawing1.png';
 import drawing2 from './assets/con4-drawing2.png';
-import cloth from './assets/con4-cloth.png';
 import './Con4.css';
 
 export default function Con4() {
@@ -60,7 +59,6 @@ export default function Con4() {
         <div className="fragrances-con4__drawing fragrances-con4__drawing--first">
           <img className="fragrances-con4__drawing-image fragrances-con4__drawing-image--first" src={drawing1} alt="" width="1536" height="1024" draggable="false" />
         </div>
-        <img className="fragrances-con4__cloth" src={cloth} alt="" width="791" height="973" draggable="false" />
       </div>
     </section>
   );

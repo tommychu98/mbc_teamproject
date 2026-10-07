@@ -88,31 +88,3 @@
   letter-spacing: 0;
 }
 .fragrances-con2__card-description span { display: block; }
-
-/* The outer bounds and inner rotated bounds are distinct in Figma.
-   Keep this layer unclipped vertically; Con1 itself remains unchanged. */
-.fragrances-con2__cloth {
-  position: absolute;
-  left: calc(336 / 1920 * 100%);
-  top: calc(-526 / 1080 * 100%);
-  width: calc(857.747 / 1920 * 100%);
-  height: calc(764.035 / 1080 * 100%);
-  pointer-events: none;
-}
-.fragrances-con2__cloth-placement {
-  position: absolute;
-  left: calc(-14 / 857.747 * 100%);
-  top: 0;
-  width: calc(885.027 / 857.747 * 100%);
-  height: calc(788.335 / 764.035 * 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.fragrances-con2__cloth-image {
-  flex: none;
-  width: calc(492.656 / 885.027 * 100%);
-  height: calc(738.984 / 788.335 * 100%);
-  object-fit: cover;
-  transform: rotate(118.89deg) scaleY(-1);
-}

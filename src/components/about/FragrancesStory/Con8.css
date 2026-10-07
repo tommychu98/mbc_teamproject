@@ -1,5 +1,4 @@
-/* Figma Con8 2778:1728 — 1920 × 1080, clipsContent: false.
-   Instrument extends 344px upward over Con7 without changing its layout. */
+/* Figma Con8 2778:1728 — 1920 × 1080, clipsContent: false. */
 .fragrances-con8 {
   position: relative;
   container-type: inline-size;
@@ -120,25 +119,6 @@
   display: block;
 }
 
-.fragrances-con8__instrument {
-  position: absolute;
-  left: calc(71.0006103515625 / 1920 * 100%);
-  top: calc(-344 / 1080 * 100%);
-  width: calc(693.6671752929688 / 1920 * 100%);
-  height: calc(471.08685302734375 / 1080 * 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.fragrances-con8__instrument-image {
-  flex: none;
-  width: calc(683.4737548828125 / 693.6671752929688 * 100%);
-  height: calc(455.649169921875 / 471.08685302734375 * 100%);
-  object-fit: cover;
-  transform: rotate(1.3041528224381587deg);
-}
 .fragrances-con8__pagination { padding: 0; border: 0; background: none; cursor: pointer; }
 @media (width < 768px) {
   .fragrances-con8 .fragrances-con8__cards { touch-action: auto; scroll-snap-type: x mandatory; }
