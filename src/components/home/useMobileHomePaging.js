@@ -131,7 +131,7 @@ export default function useMobileHomePaging(homeRef) {
             const duration = matchMedia('(prefers-reduced-motion: reduce)').matches
                 ? 0
                 : followsPetals
-                    ? Math.max(900, Math.min(3800, distanceInScreens * 1900))
+                    ? Math.max(500, Math.min(2100, distanceInScreens * 1050))
                 : settling
                     ? Math.min(650, Math.max(280, 650 * distanceInScreens))
                     : movesThroughScentText
