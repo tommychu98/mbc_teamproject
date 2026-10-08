@@ -36,6 +36,8 @@ import OrderHistoryPage from './pages/mypage/orders/order-history';
 import ReturnsRefundsPage from './pages/mypage/orders/returns-refunds';
 import TrackOrderPage from './pages/mypage/orders/track-order';
 import ProfileEditPage from './pages/mypage/profile/information';
+import PointsPage from './pages/mypage/points';
+import CouponsPage from './pages/mypage/coupons';
 import InquiryListPage from './pages/contact/inquiry';
 import InquiryWritePage from './pages/contact/inquiry/write';
 import InquiryDetailPage from './pages/contact/inquiry/detail';
@@ -158,6 +160,8 @@ export default function App() {
                         element={protectedMyPage(<TrackOrderPage />, 'orders')}
                     />
                     <Route path="/mypage/profile" element={protectedMyPage(<ProfileEditPage />, 'profile')} />
+                    <Route path="/mypage/points" element={protectedMyPage(<PointsPage />, 'mypage')} />
+                    <Route path="/mypage/coupons" element={protectedMyPage(<CouponsPage />, 'mypage')} />
                     <Route
                         path="/mypage/community/inquiry"
                         element={protectedMyPage(<MyPageInquiryPage />, 'community')}
