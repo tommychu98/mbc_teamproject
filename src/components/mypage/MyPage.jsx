@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowUpRight, Clock3, CreditCard, Package, Truck, PackageCheck, BadgeCheck } from 'lucide-react';
+import { ArrowUpRight, Clock3, CreditCard, Package, Truck, PackageCheck, BadgeCheck, Ticket } from 'lucide-react';
+import pointsIcon from '../contact/Membership/assets/coins.svg';
 import { useAuthStore } from '../../store/useAuthStore';
-import { TEST_USER } from '../../data/testUser';
 import defaultProfileImage from './Profile/Information/assets/default-flower.svg';
 import character02 from './Profile/Information/assets/flower-02.svg';
 import character03 from './Profile/Information/assets/flower-03.svg';
@@ -9,6 +9,8 @@ import character04 from './Profile/Information/assets/flower-04.svg';
 import character05 from './Profile/Information/assets/flower-05.svg';
 import Wishlist from './Wishlist';
 import './MyPage.css';
+import './ponit-coupon/BenefitHistory.css';
+import { getMembership } from './ponit-coupon/membership';
 
 const profileAvatarImages = {
   'character-01': defaultProfileImage,
@@ -48,7 +50,8 @@ export default function MyPage() {
   const navigate = useNavigate();
   const handleLogout = () => { logout(); navigate('/'); };
   if (!user) return null;
-  const membershipInfo = { points: user.id === TEST_USER.id ? 2026 : 0, coupons: 0 };
+  const membershipInfo = getMembership(user);
+  const membershipGrade = membershipInfo.grade;
   const avatarImage = profileAvatarImages[user.selectedAvatarId];
   const profileImage = user.profileImageType !== 'upload'
     ? avatarImage || (user.profileImage === '/images/characters/character-01.svg' ? defaultProfileImage : user.profileImage) || defaultProfileImage
@@ -62,8 +65,8 @@ export default function MyPage() {
             <div className="mypage__profile">
               <img src={profileImage} alt="" width="72" height="72" />
               <div className="mypage__identity">
-                <p className="mypage__kicker">{user.grade}</p>
                 <h2 id="mypage-member-title">{user.name}<span>님, 반갑습니다.</span></h2>
+                <p className="mypage__kicker mypage__grade"><span className="mypage__grade-badge" aria-hidden="true">{membershipGrade[0]}</span>{membershipGrade}</p>
                 <p className="mypage__email">{user.email}</p>
               </div>
               <Link className="mypage__text-link" to="/mypage/profile">프로필 수정 <ArrowUpRight aria-hidden="true" size={14} /></Link>
@@ -71,8 +74,8 @@ export default function MyPage() {
             <div className="mypage__benefits" id="mypage-benefits">
               <h3 className="sr-only">나의 혜택</h3>
               <dl>
-                <div><dt>POINT <span>포인트</span></dt><dd><span>{membershipInfo.points.toLocaleString('ko-KR')}</span><small>P</small></dd></div>
-                <div><dt>COUPON <span>쿠폰</span></dt><dd><span>{membershipInfo.coupons.toLocaleString('ko-KR')}</span><small>장</small></dd></div>
+                <div><dt><Link className="mypage__benefits-link" to="/mypage/points"><img className="mypage__benefit-icon" src={pointsIcon} width="28" height="28" alt="" />POINT <span>포인트</span></Link></dt><dd><Link to="/mypage/points" aria-label={`포인트 ${membershipInfo.points.toLocaleString('ko-KR')} P 적립내역 보기`}>{membershipInfo.points.toLocaleString('ko-KR')}</Link><small>P</small></dd></div>
+                <div><dt><Link className="mypage__benefits-link" to="/mypage/coupons"><Ticket className="mypage__benefit-icon" size={28} strokeWidth={1.25} aria-hidden="true" />COUPON <span>쿠폰</span></Link></dt><dd><Link to="/mypage/coupons" aria-label={`쿠폰 ${membershipInfo.coupons.toLocaleString('ko-KR')}장 내역 보기`}>{membershipInfo.coupons.toLocaleString('ko-KR')}</Link><small>장</small></dd></div>
               </dl>
             </div>
           </section>

@@ -176,15 +176,18 @@
 }
 .profile-edit .address-search__row .button {
 	min-height: 48px;
-	padding-inline: 12px;
-	width: 86px;
+	padding: 12px 24px;
+	width: auto;
+	min-width: 112px;
+	white-space: nowrap;
 	border-radius: 10px;
 	border-color: #222;
 	background: var(--color-white);
 	color: var(--color-text-primary);
 	font-size: 16px;
 	font-weight: var(--font-weight-light);
-	letter-spacing: 0;
+	letter-spacing: .02em;
+	line-height: 1.5;
 }
 .profile-edit .address-search__row .button:hover { background: var(--color-gray-100); color: var(--color-text-primary); }
 .profile-edit .address-search__row .field__input { min-width: 0; }
