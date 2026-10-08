@@ -4,6 +4,7 @@ import ProductGrid from './product-line/fragrances/ProductGrid';
 import './Shop.css';
 import CatalogPagination from './CatalogPagination';
 import useCatalogPageSize from './useCatalogPageSize';
+import MobileCatalogSort from './MobileCatalogSort';
 
 export default function CollectionCatalog({ title, products, note, ranked = false }) {
   const [sort, setSort] = useState('recommended');
@@ -28,15 +29,16 @@ export default function CollectionCatalog({ title, products, note, ranked = fals
       </header>
       <section className="shop-page__catalog" aria-label={`${title} 상품 목록`}>
         <div className="shop-page__toolbar">
-          <p className="shop-page__result-count" aria-live="polite">{ranked && 'TOP 20 · '}총 <strong>{visible.length}</strong>개의 상품이 있습니다.</p>
+          <p className="shop-page__result-count" aria-live="polite">{ranked && 'TOP 20 · '}총 <strong>{visible.length}</strong>개<span className="shop-page__count-description">의 상품이 있습니다.</span></p>
           <button className="shop-page__filter-button" type="button" aria-label="상품 필터 열기" aria-expanded={filterOpen} aria-controls="collection-filter" onClick={() => setFilterOpen(!filterOpen)}><SlidersHorizontal aria-hidden="true" /></button>
           <div className="shop-page__sort" aria-label="상품 정렬">
             {[...(!ranked ? [['new', '신상품']] : []), ['recommended', ranked ? '순위순' : '추천순'], ['price-desc', '높은가격'], ['price-asc', '낮은가격']].map(([value, label]) => <button key={value} type="button" className={`shop-page__sort-button ${sort === value ? 'shop-page__sort-button--active' : ''}`} aria-pressed={sort === value} onClick={() => { setSort(value); setPage(1); }}>{label}</button>)}
           </div>
+          <MobileCatalogSort value={sort} options={[...(!ranked ? [['new', '신상품']] : []), ['recommended', ranked ? '순위순' : '추천순'], ['price-desc', '높은가격'], ['price-asc', '낮은가격']]} onChange={(value) => { setSort(value); setPage(1); }} />
         </div>
-        {filterOpen && <div id="collection-filter" className="shop-page__filter-panel">
+        <div id="collection-filter" className={`shop-page__filter-panel shop-page__collection-categories${filterOpen ? ' shop-page__collection-categories--open' : ''}`}>
           {['', ...categories].map((value) => <button key={value} type="button" className={`shop-page__filter-option ${category === value ? 'shop-page__filter-option--active' : ''}`} aria-pressed={category === value} onClick={() => { setCategory(value); setPage(1); }}>{value || '전체'}</button>)}
-        </div>}
+        </div>
         <ProductGrid products={pageProducts} variant="catalog" />
         {visible.length > 0 && <CatalogPagination page={currentPage} pageCount={pageCount} onChange={setPage} />}
         {note && <p className="collection-catalog__note">{note}</p>}

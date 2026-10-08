@@ -6,6 +6,7 @@ import { getProducts } from './services/productService';
 import './Shop.css';
 import CatalogPagination from './CatalogPagination';
 import useCatalogPageSize from './useCatalogPageSize';
+import MobileCatalogSort from './MobileCatalogSort';
 
 const labels = { 'best-sellers': 'Best sellers', 'new-season': 'New / Season', gifts: 'Gifts' };
 
@@ -121,7 +122,7 @@ function CatalogShopPage() {
               <SlidersHorizontal aria-hidden="true" />
             </button>
             <div className="shop-page__catalog-controls">
-              <p id="catalog-result-count" className="shop-page__result-count" aria-live="polite">총 <strong>{products.length}</strong>개의 상품이 있습니다.</p>
+              <p id="catalog-result-count" className="shop-page__result-count" aria-live="polite">총 <strong>{products.length}</strong>개<span className="shop-page__count-description">의 상품이 있습니다.</span></p>
               <div className="shop-page__sort" aria-label="상품 정렬">
                 {SORT_OPTIONS.map((option) => (
                   <button
@@ -136,6 +137,7 @@ function CatalogShopPage() {
                 ))}
               </div>
             </div>
+            <MobileCatalogSort value={sort} options={SORT_OPTIONS.map(({ value, label }) => [value, label])} onChange={(value) => { setSort(value); setPage(1); }} />
           </div>
 
           {isFilterOpen && <div id="catalog-filter-panel" className="shop-page__filter-panel">
