@@ -1,3 +1,5 @@
+@font-face { font-family: 'Gift KoPub Batang'; src: url('./assets/KoPubBatang-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Gift KoPub Batang'; src: url('../cart/assets/KoPubBatang-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; }
 .gift-page { overflow: hidden; background: #f7f6f4; color: #222; }
 .gift-page__hero, .gift-page__story, .gift-page__boutique, .gift-page__sets { position: relative; height: 1080px; overflow: hidden; background: #f7f6f4; }
 .gift-page__canvas { position: absolute; top: 0; left: 50%; width: 1920px; height: 100%; transform: translateX(-50%); }
@@ -104,3 +106,25 @@
 .gift-page__heart-motion { animation: gift-heart-pop 400ms ease-out; }
 @keyframes gift-heart-pop { 0% { transform: scale(.8); } 45% { transform: scale(1.2); } 100% { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .gift-page__heart-motion { animation: none; } }
+
+@media (max-width: 767px) {
+  .gift-page__set-viewport { height: 315px; }
+  .gift-page__set-more { margin: 4px 0 16px; }
+  .gift-page__set-list { gap: 20px; }
+  .gift-page__card { width: 160px; height: 330px; flex-basis: 160px; }
+  .gift-page__card-image { width: 160px; height: 230px; border-radius: 30px; }
+  .gift-page__card-copy { top: 250px; left: 0; width: 160px; gap: 5px; }
+  .gift-page__card-copy strong { font-size: 13px; line-height: 1.4; }
+  .gift-page__card-copy small { font-size: 14px; line-height: 1.4; }
+  .gift-page__heart { top: 22px; right: 18px; width: 24px; height: 24px; }
+  .gift-page__heart img { top: 3px; left: 2px; width: 20px; height: 18px; }
+  .gift-page__closing p { font-family: 'Gift KoPub Batang', serif; font-size: 18px; font-weight: 700; line-height: 1.6; word-break: keep-all; overflow-wrap: break-word; }
+  .gift-page__closing p br { display: none; }
+  .gift-page__story, .gift-page__boutique { padding-bottom: 56px; }
+  .gift-page__story-image, .gift-page__boutique-image { order: -1; width: calc(100% - 48px); margin-inline: 24px; overflow: hidden; border-radius: 16px; }
+  .gift-page__story-copy, .gift-page__boutique-copy { padding: 32px 24px 40px; gap: 24px; }
+  .gift-page__story-copy h2, .gift-page__boutique-copy h2 { margin: 0; font-size: 28px; line-height: 1.25; text-wrap: balance; }
+  .gift-page__story-copy > div, .gift-page__boutique-copy > div { margin-top: 24px; gap: 20px; font-size: 15px; line-height: 1.75; word-break: keep-all; overflow-wrap: break-word; }
+  .gift-page__story-copy p, .gift-page__boutique-copy p { margin: 0; }
+  .gift-page__boutique-copy > div { margin-top: 0; }
+}

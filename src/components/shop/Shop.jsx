@@ -1,9 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import ProductGrid from './product-line/fragrances/ProductGrid';
 import { getProducts } from './services/productService';
 import './Shop.css';
+import CatalogPagination from './CatalogPagination';
+import useCatalogPageSize from './useCatalogPageSize';
+import MobileCatalogSort from './MobileCatalogSort';
 
 const labels = { 'best-sellers': 'Best sellers', 'new-season': 'New / Season', gifts: 'Gifts' };
 
@@ -28,7 +31,7 @@ const FRAGRANCE_FILTERS = [
   { value: '오 드 뚜왈렛', label: '오 드 뚜왈렛' },
 ];
 
-const PAGE_SIZE = 16;
+
 
 function CatalogShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,9 +59,10 @@ function CatalogShopPage() {
     });
   }, [category, fragranceFilter, sort]);
 
-  const pageCount = Math.max(1, Math.ceil(products.length / PAGE_SIZE));
+  const pageSize = useCatalogPageSize();
+  const pageCount = Math.max(1, Math.ceil(products.length / pageSize));
   const currentPage = Math.min(page, pageCount);
-  const visibleProducts = products.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const visibleProducts = products.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const setCategory = (value) => {
     const nextParams = new URLSearchParams(searchParams);
@@ -118,7 +122,7 @@ function CatalogShopPage() {
               <SlidersHorizontal aria-hidden="true" />
             </button>
             <div className="shop-page__catalog-controls">
-              <p id="catalog-result-count" className="shop-page__result-count" aria-live="polite">총 <strong>{products.length}</strong>개의 상품이 있습니다.</p>
+              <p id="catalog-result-count" className="shop-page__result-count" aria-live="polite">총 <strong>{products.length}</strong>개<span className="shop-page__count-description">의 상품이 있습니다.</span></p>
               <div className="shop-page__sort" aria-label="상품 정렬">
                 {SORT_OPTIONS.map((option) => (
                   <button
@@ -133,6 +137,7 @@ function CatalogShopPage() {
                 ))}
               </div>
             </div>
+            <MobileCatalogSort value={sort} options={SORT_OPTIONS.map(({ value, label }) => [value, label])} onChange={(value) => { setSort(value); setPage(1); }} />
           </div>
 
           {isFilterOpen && <div id="catalog-filter-panel" className="shop-page__filter-panel">
@@ -152,38 +157,7 @@ function CatalogShopPage() {
 
           <ProductGrid products={visibleProducts} variant="catalog" />
 
-          {products.length > 0 && <nav className="shop-page__pagination" aria-label="상품 목록 페이지">
-            <button
-              className="shop-page__page-button"
-              type="button"
-              aria-label="이전 페이지"
-              disabled={currentPage === 1}
-              onClick={() => setPage(Math.max(1, currentPage - 1))}
-            >
-              <ChevronLeft aria-hidden="true" />
-            </button>
-            {Array.from({ length: pageCount }, (_, index) => index + 1).map((pageNumber) => (
-              <button
-                key={pageNumber}
-                className={`shop-page__page-button ${currentPage === pageNumber ? 'shop-page__page-button--active' : ''}`}
-                type="button"
-                aria-label={`${pageNumber}페이지`}
-                aria-current={currentPage === pageNumber ? 'page' : undefined}
-                onClick={() => setPage(pageNumber)}
-              >
-                {pageNumber}
-              </button>
-            ))}
-            <button
-              className="shop-page__page-button"
-              type="button"
-              aria-label="다음 페이지"
-              disabled={currentPage === pageCount}
-              onClick={() => setPage(Math.min(pageCount, currentPage + 1))}
-            >
-              <ChevronRight aria-hidden="true" />
-            </button>
-          </nav>}
+          {products.length > 0 && <CatalogPagination page={currentPage} pageCount={pageCount} onChange={setPage} />}
         </section>
       </div>
     </main>
