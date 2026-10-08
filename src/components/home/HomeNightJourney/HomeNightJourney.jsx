@@ -10,7 +10,6 @@ import useCon6Wind from './useCon6Wind';
 import './HomeNightJourney.css';
 import useHomeMobile from '../useHomeMobile';
 import MobileCategoryCarousel from './MobileCategoryCarousel';
-import transitionFlower from '../HomeNightRitual/assets/foreground-flowers.png';
 import transition05 from './assets/element-05.png';
 import transition07 from './assets/element-07.png';
 import transition08 from './assets/element-08.png';
@@ -43,13 +42,38 @@ const mobileTransitionParticles = [
 
 function MobilePetalTransition() {
     const transitionRef = useRef(null);
-    useAmbientWind(transitionRef, true);
+    useLayoutEffect(() => {
+        const root = transitionRef.current;
+        const particles = [...root.querySelectorAll('.night-journey__mobile-transition-particle')];
+        const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+        let frame = 0;
+        const render = () => {
+            frame = 0;
+            const top = root.getBoundingClientRect().top;
+            const progress = clamp((innerHeight - top) / (innerHeight + root.offsetHeight), 0, 1);
+            particles.forEach((particle, index) => {
+                const descent = reduced.matches ? 0 : progress * (190 + index * 11);
+                const drift = reduced.matches ? 0 : Math.sin(progress * Math.PI * 2 + index) * 24 * progress;
+                particle.style.transform = `translate3d(${drift}px, ${descent}px, 0) rotate(${reduced.matches ? 0 : progress * (index % 2 ? 28 : -24)}deg)`;
+            });
+        };
+        const schedule = () => { if (!frame) frame = requestAnimationFrame(render); };
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+        reduced.addEventListener('change', schedule);
+        render();
+        return () => {
+            cancelAnimationFrame(frame);
+            window.removeEventListener('scroll', schedule);
+            window.removeEventListener('resize', schedule);
+            reduced.removeEventListener('change', schedule);
+        };
+    }, []);
     return <section ref={transitionRef} id="night-petal-transition" className="night-journey__mobile-transition" data-node-id="2452:12489" aria-label="Night ritual transition">
         <div className="night-journey__mobile-transition-canvas" aria-hidden="true">
-            <div className="night-journey__mobile-transition-art"><img src={transitionFlower} alt="" /></div>
             {mobileTransitionParticles.map(([src, x, y, width, height, rotation, type], index) => (
                 <span className="night-journey__mobile-transition-particle" key={`${src}-${index}`} style={{ left: x, top: y, width, height }}>
-                    <span className="night-journey__wind" data-motion-type={type}>
+                    <span data-motion-type={type}>
                         <img src={src} alt="" style={{ width, height, transform: `rotate(${rotation}deg)` }} />
                     </span>
                 </span>

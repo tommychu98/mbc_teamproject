@@ -31,14 +31,9 @@ export default function useMobileHomePaging(homeRef) {
                     return;
                 }
                 if (section.matches('.night-journey')) {
-                    // Preserve the authored Figma sequence: the previous night
-                    // artwork continues into a falling-petal bridge before the
-                    // category frame. Both are deliberate full-screen stops.
-                    const transition = section.querySelector('.night-journey__mobile-transition');
+                    // Travel through the petal bridge without stopping there;
+                    // the category is the destination of this continuous scene.
                     const categories = section.querySelector('.mobile-categories');
-                    if (transition) {
-                        positions.push(transition.getBoundingClientRect().top + scrollY - header);
-                    }
                     if (categories) {
                         positions.push(categories.getBoundingClientRect().top + scrollY - header);
                     }
@@ -121,6 +116,11 @@ export default function useMobileHomePaging(homeRef) {
             if (to === undefined) return;
             const from = scrollY, start = performance.now();
             const distanceInScreens = Math.abs(to - from) / Math.max(1, innerHeight - 52);
+            const nightPage = homeRef.current.querySelector('.home-mobile-night__page:last-child');
+            const category = homeRef.current.querySelector('.mobile-categories');
+            const nightStart = nightPage ? nightPage.getBoundingClientRect().top + scrollY - 52 : Infinity;
+            const nightEnd = category ? category.getBoundingClientRect().top + scrollY - 52 : -Infinity;
+            const followsPetals = Math.min(from, to) < nightEnd - 3 && Math.max(from, to) > nightStart + 3;
             const scentSequence = homeRef.current.querySelector('.scent-sequence');
             const scentTop = scentSequence ? scentSequence.getBoundingClientRect().top + scrollY - 52 : Infinity;
             const scentBottom = scentSequence ? scentTop + scentSequence.offsetHeight : -Infinity;
@@ -130,6 +130,8 @@ export default function useMobileHomePaging(homeRef) {
             // speed and gradual acceleration/deceleration between sections.
             const duration = matchMedia('(prefers-reduced-motion: reduce)').matches
                 ? 0
+                : followsPetals
+                    ? Math.max(900, Math.min(3800, distanceInScreens * 1900))
                 : settling
                     ? Math.min(650, Math.max(280, 650 * distanceInScreens))
                     : movesThroughScentText
@@ -138,7 +140,7 @@ export default function useMobileHomePaging(homeRef) {
             busy = true;
             const tick = now => {
                 const t = duration ? Math.min(1, (now - start) / duration) : 1;
-                const eased = settling ? 1 - (1 - t) ** 3 : (1 - Math.cos(Math.PI * t)) / 2;
+                const eased = settling && !followsPetals ? 1 - (1 - t) ** 3 : (1 - Math.cos(Math.PI * t)) / 2;
                 window.scrollTo({ top: from + (to - from) * eased, behavior: 'instant' });
                 if (t < 1) frame = requestAnimationFrame(tick);
                 else busy = false;
