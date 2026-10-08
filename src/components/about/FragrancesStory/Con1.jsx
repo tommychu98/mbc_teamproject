@@ -1,17 +1,21 @@
 import { useEffect, useRef } from 'react';
 import useCon1TypographyMotion from './useCon1TypographyMotion';
+import useCon1CoupleEntrance from './useCon1CoupleEntrance';
 import StoryImage from './StoryImage';
 import mobilecouple from './assets/mobile-couple.png';
 import mobilepillar from './assets/mobile-con1-pillar.png';
 import cloud from './assets/con1-cloud.png';
 import pillar from './assets/con1-pillar.png';
 import butterfly from './assets/con1-butterfly.png';
-import couple from './assets/con1-couple.png';
+import desktopCouple from './assets/con1-desktop-couple.png';
+import desktopButterfly from './assets/con1-desktop-butterfly.png';
+import desktopButterflyLeft from './assets/con1-desktop-butterfly-left.png';
 import './Con1.css';
 
 export default function Con1() {
   const sceneRef = useRef(null);
   useCon1TypographyMotion(sceneRef);
+  useCon1CoupleEntrance(sceneRef);
 
   useEffect(() => {
     const scene = sceneRef.current;
@@ -52,12 +56,17 @@ export default function Con1() {
         </p>
 
         <StoryImage mobileSrc={mobilepillar} className="fragrances-con1__pillar" src={pillar} alt="" width="1303" height="1955" draggable="false" />
-        <img className="fragrances-con1__butterfly fragrances-con1__butterfly--right" src={butterfly} alt="" width="147" height="122" draggable="false" />
+        <div className="fragrances-con1__butterfly-top" aria-hidden="true">
+          <img src={desktopButterfly} alt="" width="107" height="89" draggable="false" />
+        </div>
+        <div className="fragrances-con1__butterfly-right">
+          <StoryImage mobileSrc={butterfly} className="fragrances-con1__butterfly fragrances-con1__butterfly--right" src={desktopButterfly} alt="" width="147" height="122" draggable="false" />
+        </div>
         <div className="fragrances-con1__butterfly-left">
-          <img className="fragrances-con1__butterfly fragrances-con1__butterfly--left" src={butterfly} alt="" width="112.78" height="93.683" draggable="false" />
+          <StoryImage mobileSrc={butterfly} className="fragrances-con1__butterfly fragrances-con1__butterfly--left" src={desktopButterflyLeft} alt="" width="112.78" height="93.683" draggable="false" />
         </div>
         <div className="fragrances-con1__couple">
-          <StoryImage mobileSrc={mobilecouple} className="fragrances-con1__couple-image" src={couple} alt="서로 손을 맞잡고 가까이 마주한 에로스와 프시케" width="918" height="1551" draggable="false" />
+          <StoryImage mobileSrc={mobilecouple} className="fragrances-con1__couple-image" src={desktopCouple} alt="서로 손을 맞잡고 가까이 마주한 에로스와 프시케" width="918" height="1551" draggable="false" />
         </div>
       </div>
     </section>
