@@ -97,6 +97,13 @@ function AcornBurst() {
     let frame = 0;
     let previous = performance.now();
     const started = previous;
+    let drag = null;
+    const resume = () => {
+      if (!frame) {
+        previous = performance.now();
+        frame = window.requestAnimationFrame(tick);
+      }
+    };
 
     const tick = (now) => {
       frame = 0;
@@ -127,7 +134,7 @@ function AcornBurst() {
           moving = true;
           return;
         }
-        if (!model.settled) {
+        if (!model.settled && drag?.model !== model) {
           const floor = height - size * 0.78;
           model.vy += height * 1.7 * dt;
           model.x += model.vx * dt;
@@ -165,6 +172,16 @@ function AcornBurst() {
     };
 
     const onPointerMove = (event) => {
+      if (drag) {
+        if (event.pointerId !== drag.pointerId) return;
+        const rect = layer.getBoundingClientRect();
+        if (!rect.width || !rect.height) return;
+        const size = clamp(layer.clientWidth * drag.model.sizeRatio, 28, 56);
+        drag.model.x = clamp((event.clientX - rect.left) * layer.clientWidth / rect.width - drag.offsetX, 0, layer.clientWidth - size);
+        drag.model.y = clamp((event.clientY - rect.top) * layer.clientHeight / rect.height - drag.offsetY, 0, layer.clientHeight - size * 0.78);
+        resume();
+        return;
+      }
       if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const rect = layer.getBoundingClientRect();
       if (!rect.width || !rect.height || event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) return;
@@ -192,10 +209,49 @@ function AcornBurst() {
       }
     };
 
+    const onPointerDown = (event) => {
+      if (event.button !== 0 || drag) return;
+      const index = acornRefs.current.indexOf(event.target);
+      const model = models[index];
+      if (!model?.active) return;
+      const rect = layer.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      event.preventDefault();
+      drag = {
+        model,
+        element: event.target,
+        pointerId: event.pointerId,
+        offsetX: (event.clientX - rect.left) * layer.clientWidth / rect.width - model.x,
+        offsetY: (event.clientY - rect.top) * layer.clientHeight / rect.height - model.y,
+      };
+      model.vx = 0;
+      model.vy = 0;
+      event.target.setPointerCapture(event.pointerId);
+      event.target.classList.add('is-dragging');
+    };
+    const onPointerUp = (event) => {
+      if (!drag || event.pointerId !== drag.pointerId) return;
+      const { model, element, pointerId } = drag;
+      drag = null;
+      element.classList.remove('is-dragging');
+      if (element.hasPointerCapture(pointerId)) element.releasePointerCapture(pointerId);
+      model.settled = false;
+      model.bounces = 0;
+      resume();
+    };
+
     frame = window.requestAnimationFrame(tick);
+    layer.addEventListener('pointerdown', onPointerDown);
+    layer.addEventListener('lostpointercapture', onPointerUp);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     return () => {
       window.cancelAnimationFrame(frame);
+      layer.removeEventListener('pointerdown', onPointerDown);
+      layer.removeEventListener('lostpointercapture', onPointerUp);
+      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointercancel', onPointerUp);
       window.removeEventListener('pointermove', onPointerMove);
     };
   }, []);
@@ -601,6 +657,13 @@ function ArchScene({ variant, first = false }) {
                     translate: "40px 30px" }}
                 >
                   <img src={squirrel} alt="숲속 다람쥐" draggable="false" />
+                  <span className="ftp-hamster-trigger__hint" aria-hidden="true">
+                    <svg className="ftp-hamster-trigger__arrow" viewBox="0 0 30 24" fill="none" focusable="false">
+                      <path d="M25 22 Q26 7 5 5" strokeDasharray="2 3" />
+                      <path d="M9 1 L4 5 L8 10" />
+                    </svg>
+                    click
+                  </span>
                 </button>
               </>
             )}
@@ -1271,9 +1334,6 @@ function HorizontalStory({ data }) {
               progress={progress}
             />
           </div>
-        </div>
-        <div className="ftp-story-progress" aria-hidden="true">
-          <span style={{ transform: `scaleX(${progress})` }} />
         </div>
       </div>
     </section>
