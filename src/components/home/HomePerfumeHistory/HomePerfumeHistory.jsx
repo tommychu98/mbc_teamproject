@@ -94,6 +94,7 @@ export default function HomePerfumeHistory() {
                         </div>
                     </div>
 
+                    <div className="home-perfume-history__autoplay" aria-hidden="true"><span /></div>
                     <div className="home-perfume-history__logo-panel">
                         <p className="home-perfume-history__mobile-count" aria-hidden="true">{activeIndex + 1}/3</p>
                         <div className="home-perfume-history__logo-window">

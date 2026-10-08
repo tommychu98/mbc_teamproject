@@ -113,10 +113,7 @@ export default function useMobileHomePaging(homeRef) {
             });
         };
         const cancel = () => { cancelAnimationFrame(frame); busy = false; };
-        const move = direction => {
-            if (busy) return;
-            const pages = stops();
-            const to = direction > 0 ? pages.find(y => y > scrollY + 3) : pages.reverse().find(y => y < scrollY - 3);
+        const animateTo = (to, settling = false) => {
             if (to === undefined) return;
             const from = scrollY, start = performance.now();
             const distanceInScreens = Math.abs(to - from) / Math.max(1, innerHeight - 52);
@@ -125,23 +122,29 @@ export default function useMobileHomePaging(homeRef) {
             const scentBottom = scentSequence ? scentTop + scentSequence.offsetHeight : -Infinity;
             const movesThroughScentText = (from >= scentTop - 3 && from <= scentBottom + 3)
                 || (to >= scentTop - 3 && to <= scentBottom + 3);
-            // Preserve the original 700ms cubic motion for adjacent pages,
-            // while giving skipped blank ranges enough time to feel equally
-            // smooth instead of crossing the longer distance too quickly.
+            // Keep one fixed destination per gesture, with a gentler travel
+            // speed and gradual acceleration/deceleration between sections.
             const duration = matchMedia('(prefers-reduced-motion: reduce)').matches
                 ? 0
-                : movesThroughScentText
+                : settling
+                    ? Math.min(650, Math.max(280, 650 * distanceInScreens))
+                    : movesThroughScentText
                     ? 1600
-                    : 700 * Math.max(1, Math.min(1.6, distanceInScreens));
+                    : 1100 * Math.max(1, Math.min(1.6, distanceInScreens));
             busy = true;
             const tick = now => {
                 const t = duration ? Math.min(1, (now - start) / duration) : 1;
-                const eased = t < .5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
+                const eased = settling ? 1 - (1 - t) ** 3 : (1 - Math.cos(Math.PI * t)) / 2;
                 window.scrollTo({ top: from + (to - from) * eased, behavior: 'instant' });
                 if (t < 1) frame = requestAnimationFrame(tick);
                 else busy = false;
             };
             frame = requestAnimationFrame(tick);
+        };
+        const move = direction => {
+            if (busy) return;
+            const pages = stops();
+            animateTo(direction > 0 ? pages.find(y => y > scrollY + 3) : pages.reverse().find(y => y < scrollY - 3));
         };
         const consume = event => { if (event.cancelable) event.preventDefault(); event.stopImmediatePropagation(); };
         const wheel = event => {
@@ -163,15 +166,16 @@ export default function useMobileHomePaging(homeRef) {
             move(direction);
         };
         const start = event => {
+            if (!blocked(event) && event.touches.length === 1) cancel();
             touch = !blocked(event) && event.touches.length === 1
-                ? { x: event.touches[0].clientX, y: event.touches[0].clientY, lastY: event.touches[0].clientY, axis: null, used: busy, dayScroll: false }
+                ? { x: event.touches[0].clientX, y: event.touches[0].clientY, lastY: event.touches[0].clientY, originY: scrollY, axis: null, dayScroll: false }
                 : null;
         };
         const drag = event => {
             if (!touch || blocked(event) || event.touches.length !== 1) return;
             const currentY = event.touches[0].clientY;
             const dx = touch.x - event.touches[0].clientX, dy = touch.y - currentY;
-            if (!touch.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 8) touch.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+            if (!touch.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 5) touch.axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
             if (touch.axis !== 'y') return;
             const step = touch.lastY - currentY;
             touch.lastY = currentY;
@@ -182,10 +186,25 @@ export default function useMobileHomePaging(homeRef) {
                 return;
             }
             consume(event);
-            if (!touch.used && Math.abs(dy) >= 24) { touch.used = true; move(Math.sign(dy)); }
+            const maximum = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+            window.scrollTo({ top: Math.max(0, Math.min(maximum, scrollY + step)), behavior: 'instant' });
         };
         const end = event => {
-            if (touch?.axis === 'y') consume(event);
+            if (touch?.axis === 'y') {
+                consume(event);
+                if (!touch.dayScroll) {
+                    const pages = stops();
+                    const anchor = pages.reduce((best, y) => Math.abs(y - touch.originY) < Math.abs(best - touch.originY) ? y : best, pages[0]);
+                    const endY = event.changedTouches[0]?.clientY ?? touch.lastY;
+                    const travel = touch.y - endY;
+                    const destination = Math.abs(travel) >= 6 && event.type !== 'touchcancel'
+                        ? travel > 0
+                            ? pages.find(y => y > anchor + 3)
+                            : [...pages].reverse().find(y => y < anchor - 3)
+                        : anchor;
+                    animateTo(destination ?? anchor, true);
+                }
+            }
             touch = null;
         };
         const key = event => {
@@ -193,7 +212,21 @@ export default function useMobileHomePaging(homeRef) {
             const direction = ['ArrowDown', 'PageDown', ' '].includes(event.key) ? (event.shiftKey ? -1 : 1) : ['ArrowUp', 'PageUp'].includes(event.key) ? -1 : 0;
             if (direction) { consume(event); if (!event.repeat) move(direction); }
         };
-        const click = () => { cancel(); consumed = false; };
+        // A short swipe can generate a compatibility click after touchend.
+        // Only actual navigation controls should interrupt the settling motion.
+        const click = event => {
+            if (event.target.closest('a,button,input,select,textarea')) {
+                cancel();
+                consumed = false;
+            }
+        };
+        let viewportWidth = innerWidth;
+        const resize = () => {
+            if (innerWidth !== viewportWidth) {
+                viewportWidth = innerWidth;
+                cancel();
+            }
+        };
         window.addEventListener('wheel', wheel, { passive: false, capture: true });
         window.addEventListener('touchstart', start, { passive: true, capture: true });
         window.addEventListener('touchmove', drag, { passive: false, capture: true });
@@ -201,7 +234,7 @@ export default function useMobileHomePaging(homeRef) {
         window.addEventListener('touchcancel', end, { passive: false, capture: true });
         window.addEventListener('keydown', key, true);
         window.addEventListener('click', click, true);
-        window.addEventListener('resize', cancel);
+        window.addEventListener('resize', resize);
         return () => {
             cancel();
             window.removeEventListener('wheel', wheel, true);
@@ -211,7 +244,7 @@ export default function useMobileHomePaging(homeRef) {
             window.removeEventListener('touchcancel', end, true);
             window.removeEventListener('keydown', key, true);
             window.removeEventListener('click', click, true);
-            window.removeEventListener('resize', cancel);
+            window.removeEventListener('resize', resize);
         };
     }, [homeRef]);
 }

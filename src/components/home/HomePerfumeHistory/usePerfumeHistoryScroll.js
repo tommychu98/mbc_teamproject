@@ -4,6 +4,7 @@ import { createDampedValue, MOTION_RESPONSE } from '../../../utils/scrollMotion'
 const HOLD_VIEWPORTS = 0.65;
 const TRANSITION_VIEWPORTS = 0.85;
 const FINAL_HOLD_VIEWPORTS = 0.4;
+const MOBILE_AUTOPLAY_MS = 5000;
 const clamp = (value) => Math.min(1, Math.max(0, value));
 const smoothstep = (value) => value * value * (3 - 2 * value);
 
@@ -24,11 +25,17 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         let touchStartY = 0;
         let horizontalGesture = false;
         let verticalGesture = false;
+        let touching = false;
+        let autoplayFrame = 0;
+        let elapsed = 0;
+        let lastTick = 0;
         const photoMotion = createDampedValue({ response: MOTION_RESPONSE.scene, maxLag: 12, epsilon: 0.001 });
         const logoMotion = createDampedValue({ response: MOTION_RESPONSE.foreground, maxLag: 12, epsilon: 0.001 });
 
         const paintMobile = (index, animate = true) => {
-            mobileIndex = Math.min(slides.length - 1, Math.max(0, index));
+            mobileIndex = ((index % slides.length) + slides.length) % slides.length;
+            elapsed = 0;
+            section.style.setProperty('--history-autoplay-progress', '0');
             photoTrackRef.current.dataset.animate = String(animate);
             logoTrackRef.current.dataset.animate = String(animate);
             photoTrackRef.current.style.transform = `translate3d(${mobileIndex * 100}cqw, 0, 0)`;
@@ -90,6 +97,8 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         const onScroll = schedulePaint;
         const onTouchStart = (event) => {
             if (!mobile.matches || event.touches.length !== 1) return;
+            touching = true;
+            elapsed = 0;
             touchStartX = event.touches[0].clientX;
             touchStartY = event.touches[0].clientY;
             horizontalGesture = false;
@@ -119,6 +128,8 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
             }
         };
         const onTouchEnd = (event) => {
+            touching = false;
+            elapsed = 0;
             if (mobile.matches && horizontalGesture) {
                 const endX = event.changedTouches[0]?.clientX ?? touchStartX;
                 const deltaX = endX - touchStartX;
@@ -128,7 +139,27 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
                 return;
             }
         };
-        const onTouchCancel = () => { horizontalGesture = false; verticalGesture = false; };
+        const onTouchCancel = () => {
+            touching = false;
+            horizontalGesture = false;
+            verticalGesture = false;
+            if (mobile.matches) paintMobile(mobileIndex);
+        };
+        const tickAutoplay = (now) => {
+            const bounds = stage.getBoundingClientRect();
+            const visibleHeight = Math.min(bounds.bottom, window.innerHeight) - Math.max(bounds.top, 0);
+            const running = mobile.matches && !document.hidden && !touching
+                && visibleHeight >= Math.min(stage.clientHeight, window.innerHeight) * .6;
+            if (running) {
+                elapsed += lastTick ? Math.min(now - lastTick, 100) : 0;
+                if (elapsed >= MOBILE_AUTOPLAY_MS) paintMobile(mobileIndex + 1);
+            } else {
+                elapsed = 0;
+            }
+            section.style.setProperty('--history-autoplay-progress', String(elapsed / MOBILE_AUTOPLAY_MS));
+            lastTick = now;
+            autoplayFrame = requestAnimationFrame(tickAutoplay);
+        };
         const measure = () => {
             const stageHeight = stage.offsetHeight;
             const unit = Math.max(window.innerHeight, stageHeight);
@@ -149,9 +180,11 @@ export default function usePerfumeHistoryScroll(sectionRef, stageRef, photoTrack
         window.addEventListener('resize', measure);
 
         measure();
+        autoplayFrame = requestAnimationFrame(tickAutoplay);
 
         return () => {
             cancelAnimationFrame(frameId);
+            cancelAnimationFrame(autoplayFrame);
             observer.disconnect();
             window.removeEventListener('scroll', onScroll);
             stage.removeEventListener('touchstart', onTouchStart);

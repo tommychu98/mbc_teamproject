@@ -47,8 +47,7 @@ export default function MobileMenu({ items, authenticated, onClose, onLogout, ca
       </div>
     </div>
     <nav aria-label="모바일 메뉴" className="mobile-menu__list">
-      {authenticated ? <><button className="mobile-menu__row mobile-menu__login" onClick={() => setExpanded(expanded === 'account' ? null : 'account')} aria-expanded={expanded === 'account'}>MY PAGE<ChevronDown /></button>
-        {expanded === 'account' && <div className="mobile-menu__submenu">{items.find(item => item.label === 'MY PAGE').groups.map(renderGroup)}</div>}</>
+      {authenticated ? <button type="button" className="mobile-menu__row mobile-menu__login" onClick={onLogout}>LOG OUT</button>
         : <Link className="mobile-menu__row mobile-menu__login" to="/login" onClick={onClose}>LOGIN</Link>}
       {categories.map((item, index) => item.label === 'GALERIE'
         ? <Link key={item.label} className="mobile-menu__row" to={item.to} onClick={onClose}>{item.label}</Link>

@@ -78,8 +78,10 @@
   .history-maison-today-mobile__cloud--bridge { z-index: 3; left: -14.42cqw; top: 148.372093cqw; width: 128.84cqw; --cloud-time: 10.8s; --cloud-delay: 0s; --cloud-x: .6cqw; --cloud-y: .35cqw; }
   .history-maison-today-mobile__cloud--outward { z-index: 1; left: 33.023256cqw; top: 193.255814cqw; width: 100.232558cqw; --cloud-time: 10.8s; --cloud-delay: -2.6s; --cloud-x: -1cqw; --cloud-y: .6cqw; }
   .history-maison-today-mobile__copy { position: absolute; z-index: 5; width: 49.302326cqw; }
-  .history-maison-today-mobile__copy h2 { margin: 0 0 5.813953cqw; font: 400 9.302326cqw/1.1 var(--font-family-display); letter-spacing: 0; }
-  .history-maison-today-mobile__copy p { margin: 0; font: 400 3.255814cqw/1.4 'KoPubWorldDotum Pro',sans-serif; letter-spacing: .065116cqw; }
+  /* Match the 430/883 height-fitted stages used by the other mobile stories,
+     while retaining this continuous scene's full-width artwork. */
+  .history-maison-today-mobile__copy h2 { margin: 0 0 5.813953cqw; font: 400 min(9.302326vw, calc((100svh - 52px) * 40 / 883))/1.1 var(--font-family-display); letter-spacing: 0; }
+  .history-maison-today-mobile__copy p { margin: 0; font: 400 min(3.255814vw, calc((100svh - 52px) * 14 / 883))/1.4 'KoPubWorldDotum Pro',sans-serif; letter-spacing: min(.065116vw, calc((100svh - 52px) * .28 / 883)); }
   .history-maison-today-mobile__copy p + p { margin-top: 4.651163cqw; }
   .history-maison-today-mobile__copy--today { left: 51.860465cqw; top: 21.627907cqw; }
   .history-maison-today-mobile__copy--outward { left: 11.860465cqw; top: 221.395349cqw; }
