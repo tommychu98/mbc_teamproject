@@ -63,6 +63,9 @@ export default function useCon1CoupleEntrance(sceneRef) {
           duration: 0.48, ease: 'sine.out',
         }, 2.07);
 
+      // Compress entrance to 42.25% of its original time; keep the exit independent.
+      entrance.timeScale(1 / 0.4225);
+
       const exit = gsap.timeline({
         paused: true,
         onComplete: () => {

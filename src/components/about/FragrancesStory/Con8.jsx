@@ -6,8 +6,7 @@ const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
 import { useRef } from 'react';
 import useCon8Pin from './useCon8Pin';
-import background from './assets/con2-background.png';
-import mobileBackground from './assets/con5-background.png';
+import background from './assets/con8-paper-bg.png';
 import jazzNight from './assets/con8-jazz-night.png';
 import essence from './assets/con8-essence.png';
 import nightEcho from './assets/con8-night-echo.png';
@@ -53,7 +52,7 @@ export default function Con8() {
   return (
     <section ref={sectionRef} className="fragrances-con8" aria-labelledby="fragrances-con8-title">
       <div className="fragrances-con8__scene">
-        <StoryImage mobileSrc={mobileBackground} className="fragrances-con8__background" src={background} alt="" width="1920" height="1080" draggable="false" />
+        <StoryImage mobileSrc={background} className="fragrances-con8__background" src={background} alt="" width="2048" height="1152" draggable="false" />
         <h2 className="fragrances-con8__title" id="fragrances-con8-title">A MEMORY OF PARIS AFTER DARK</h2>
         <div ref={railRef} className="fragrances-con8__cards">
           {cards.map(({ number, title, image, alt, lines }, index) => (

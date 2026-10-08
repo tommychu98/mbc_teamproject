@@ -52,6 +52,9 @@ export default function useCon4ManEntrance(sceneRef) {
           duration: 0.48, ease: 'sine.out',
         });
 
+      // Match Con1's entrance timing while preserving this mirrored paper path.
+      entrance.timeScale(1 / 0.4225);
+
       const playPaper = () => {
         if (phase !== 'prepared') return;
         phase = 'entering';

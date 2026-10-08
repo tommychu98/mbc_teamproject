@@ -2,7 +2,6 @@ import useMobileCards from './useMobileCards';
 import useCon2Swipe from './useCon2Swipe';
 import useCon2Pin from './useCon2Pin';
 import { useRef } from 'react';
-import background from './assets/con2-background.png';
 import MythCard from './MythCard';
 import { mythCards } from './con2Data';
 import './Con2.css';
@@ -17,7 +16,6 @@ export default function Con2() {
     <section ref={sectionRef} className="fragrances-con2" aria-labelledby="fragrances-con2-title">
       <div className="fragrances-con2__scene">
         <div className="fragrances-con2__content">
-          <img className="fragrances-con2__background" src={background} alt="" width="1920" height="1080" draggable="false" />
           <h2 className="fragrances-con2__title" id="fragrances-con2-title">A SCENT BORN FROM A MYTH</h2>
           <div ref={railRef} className="fragrances-con2__cards">
             {mythCards.map((card) => <MythCard key={card.id} card={card} />)}
