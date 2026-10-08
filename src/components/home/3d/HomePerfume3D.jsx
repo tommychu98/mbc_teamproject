@@ -68,8 +68,7 @@ export default function HomePerfume3D() {
                 const pivot = new THREE.Group();
                 scene.add(pivot);
                 let model;
-                let elapsed = 0;
-                let lastTime = 0;
+                let rotationStartedAt = 0;
                 const shadow = sectionRef.current.querySelector('.home-perfume-3d__shadow');
 
                 function disposeModel(root) {
@@ -132,19 +131,18 @@ export default function HomePerfume3D() {
                 await renderer.compileAsync(scene, camera);
                 if (disposed) return;
                 renderer.render(scene, camera);
+                rotationStartedAt = performance.now();
                 setStatus('ready');
-                replayRef.current = () => { elapsed = 0; lastTime = 0; };
+                replayRef.current = () => { rotationStartedAt = performance.now(); };
                 const render = time => {
-                    const delta = lastTime ? Math.min((time - lastTime) / 1000, 0.05) : 0;
-                    lastTime = time;
                     if (!visible || document.hidden) return;
-                    elapsed += delta;
+                    const elapsed = Math.max(0, time - rotationStartedAt) / 1000;
                     pivot.rotation.y = elapsed * ROTATION_SPEED;
                     renderer.render(scene, camera);
                 };
                 syncPlayback = () => {
-                    // Preserve the rotation angle across visibility pauses.
-                    lastTime = 0;
+                    // Keep the rotation clock running while offscreen without
+                    // spending GPU time rendering an invisible canvas.
                     renderer.setAnimationLoop(visible && !document.hidden ? render : null);
                 };
                 syncPlayback();
@@ -154,23 +152,20 @@ export default function HomePerfume3D() {
             }
         }
 
-        const preload = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) { void init(); preload.disconnect(); }
-        }, { rootMargin: '600px' });
         const visibility = new IntersectionObserver(entries => {
             visible = entries[0].isIntersecting;
             syncPlayback();
         }, { threshold: 0 });
         const onVisibilityChange = () => syncPlayback();
         document.addEventListener('visibilitychange', onVisibilityChange);
-        preload.observe(sectionRef.current);
         visibility.observe(stage);
-        // The existing proximity observer warms this scene before it appears.
-        // A time-based warmup competes with the hero's first movie download.
+        // Home mounts this component immediately on both mobile and desktop.
+        // Download, decode, upload textures and compile shaders from entry,
+        // rather than waiting until the visitor approaches the final section.
+        void init();
         return () => {
             disposed = true;
             modelRequest.abort();
-            preload.disconnect();
             visibility.disconnect();
             document.removeEventListener('visibilitychange', onVisibilityChange);
             cleanupScene();
