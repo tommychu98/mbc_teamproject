@@ -10,6 +10,16 @@ import useCon6Wind from './useCon6Wind';
 import './HomeNightJourney.css';
 import useHomeMobile from '../useHomeMobile';
 import MobileCategoryCarousel from './MobileCategoryCarousel';
+import transitionFlower from '../HomeNightRitual/assets/foreground-flowers.png';
+import transition05 from './assets/element-05.png';
+import transition07 from './assets/element-07.png';
+import transition08 from './assets/element-08.png';
+import transition20 from './assets/element-20.png';
+import transition25 from './assets/element-25.png';
+import transition45 from './assets/element-45.png';
+import transition52 from './assets/element-52.png';
+import transition56 from './assets/element-56.png';
+import transition59 from './assets/element-59.png';
 
 const DESIGN_WIDTH = 1920;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -17,6 +27,36 @@ const smoothstep = (start, end, value) => {
     const t = clamp((value - start) / (end - start), 0, 1);
     return t * t * (3 - 2 * t);
 };
+
+const mobileTransitionParticles = [
+    [transition56, 195, 100, 42, 44, -16, 'flower'],
+    [transition52, 215, 140, 35, 38, 22, 'petal'],
+    [transition45, 207, 216, 43, 46, -38, 'flower'],
+    [transition07, 168, 263, 34, 38, 14, 'leaf'],
+    [transition25, 308, 188, 31, 34, -59, 'petal'],
+    [transition25, 126, 324, 32, 34, -170, 'petal'],
+    [transition05, 199, 398, 32, 34, -77, 'petal'],
+    [transition08, 140, 524, 48, 49, -120, 'leaf'],
+    [transition20, 276, 600, 44, 48, -79, 'flower'],
+    [transition59, 203, 732, 50, 50, 47, 'flower'],
+];
+
+function MobilePetalTransition() {
+    const transitionRef = useRef(null);
+    useAmbientWind(transitionRef, true);
+    return <section ref={transitionRef} id="night-petal-transition" className="night-journey__mobile-transition" data-node-id="2452:12489" aria-label="Night ritual transition">
+        <div className="night-journey__mobile-transition-canvas" aria-hidden="true">
+            <div className="night-journey__mobile-transition-art"><img src={transitionFlower} alt="" /></div>
+            {mobileTransitionParticles.map(([src, x, y, width, height, rotation, type], index) => (
+                <span className="night-journey__mobile-transition-particle" key={`${src}-${index}`} style={{ left: x, top: y, width, height }}>
+                    <span className="night-journey__wind" data-motion-type={type}>
+                        <img src={src} alt="" style={{ width, height, transform: `rotate(${rotation}deg)` }} />
+                    </span>
+                </span>
+            ))}
+        </div>
+    </section>;
+}
 
 function ViewMore({ href }) {
     return (
@@ -107,6 +147,7 @@ export default function HomeNightJourney() {
         const render = now => {
             frame = 0;
             if (!desktop.matches) {
+                root.style.setProperty('--mobile-transition-scale', Math.min(1, root.clientWidth / 430));
                 root.style.height = '';
                 track.style.transform = '';
                 measuredWidth = 0;
@@ -202,7 +243,7 @@ export default function HomeNightJourney() {
                 </div>
             </div>
             <div className="night-journey__mobile">
-                {mobile && <MobileCategoryCarousel />}
+                {mobile && <><MobilePetalTransition /><MobileCategoryCarousel /></>}
             </div>
         </section>
     );

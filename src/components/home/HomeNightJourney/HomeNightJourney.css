@@ -206,9 +206,52 @@
 .night-journey__mobile { display: none; }
 
 @media (max-width: 767px) {
+    body.home-mobile-night-active .app > .header.header--mobile {
+        background: #222;
+        color: #f7f6f4;
+        border-bottom-color: transparent;
+    }
+    body.home-mobile-night-active .app > .header.header--mobile .header__logo img,
+    body.home-mobile-night-active .app > .header.header--mobile .header__menu-button::after,
+    body.home-mobile-night-active .app > .header.header--mobile .header__search::after {
+        filter: brightness(0) invert(1);
+    }
     .night-journey { height: auto !important; }
     .night-journey__stage { display: none; }
     .night-journey__mobile { display: block; position: relative; overflow: clip; isolation: isolate; }
+    .night-journey__mobile-transition {
+        position: relative;
+        height: calc(100svh - 52px - env(safe-area-inset-top, 0px));
+        min-height: 0;
+        overflow: hidden;
+        background: #222;
+    }
+    .night-journey__mobile-transition-canvas {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 430px;
+        height: 831px;
+        transform: translateX(-50%) scale(var(--mobile-transition-scale, 1));
+        transform-origin: top center;
+    }
+    .night-journey__mobile-transition-art {
+        position: absolute;
+        left: -165px;
+        top: -259px;
+        width: 504.813px;
+        height: 447.131px;
+        display: grid;
+        place-items: center;
+    }
+    .night-journey__mobile-transition-art img {
+        width: 422.005px;
+        height: 281.336px;
+        opacity: .8;
+        transform: rotate(28.14deg);
+    }
+    .night-journey__mobile-transition-particle { position: absolute; display: grid; place-items: center; opacity: .72; }
+    .night-journey__mobile-transition-particle img { max-width: none; object-fit: contain; }
     .night-journey__mobile-con6 { position: relative; height: 260px; overflow: hidden; }
     .night-journey__mobile-con6 img {
         position: absolute;
@@ -228,4 +271,8 @@
     .night-journey__category--mobile .night-journey__category-title { font-size: clamp(35px, 10vw, 46px); line-height: 1.15; }
     .night-journey__category--mobile .night-journey__category-description { font-size: 15px; white-space: normal; }
     .night-journey__category--mobile .night-journey__view-more { font-size: 16px; }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .night-journey__mobile-transition .night-journey__wind { transform: none !important; }
 }

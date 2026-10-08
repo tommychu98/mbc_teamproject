@@ -21,7 +21,7 @@
 
 @media (max-width: 767px) {
     .app:has(.mobile-categories[data-menu-active='true']) > .header.header--mobile {
-        background: transparent;
+        background: #222;
         color: #f7f6f4;
         border-bottom: 0;
         opacity: 1;

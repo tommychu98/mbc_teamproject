@@ -31,10 +31,14 @@ export default function useMobileHomePaging(homeRef) {
                     return;
                 }
                 if (section.matches('.night-journey')) {
-                    // The mobile category carousel uses extra sticky height,
-                    // but visually represents one full-screen page. Stop once
-                    // at the category frame shown to the user.
+                    // Preserve the authored Figma sequence: the previous night
+                    // artwork continues into a falling-petal bridge before the
+                    // category frame. Both are deliberate full-screen stops.
+                    const transition = section.querySelector('.night-journey__mobile-transition');
                     const categories = section.querySelector('.mobile-categories');
+                    if (transition) {
+                        positions.push(transition.getBoundingClientRect().top + scrollY - header);
+                    }
                     if (categories) {
                         positions.push(categories.getBoundingClientRect().top + scrollY - header);
                     }
