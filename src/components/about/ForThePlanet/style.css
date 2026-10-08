@@ -173,12 +173,39 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
 .ftp-expanding-object--no-shadow { filter: none; }
 .ftp-hamster-trigger {
   z-index: 8;
+  overflow: visible;
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
 }
 .ftp-hamster-trigger > img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.ftp-hamster-trigger__hint {
+  position: absolute;
+  z-index: 1;
+  top: calc(28% + 50px);
+  left: calc(100% - 7px);
+  padding-left: 3px;
+  color: #F7F6F4;
+  opacity: .5;
+  text-shadow: 0 1px 2px rgb(28 37 17 / .65);
+  font: 300 11px/1 PlanetKoPub, sans-serif;
+  white-space: nowrap;
+  letter-spacing: .06em;
+  pointer-events: none;
+}
+.ftp-hamster-trigger__arrow {
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: -5px;
+  width: 25px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 1px rgb(28 37 17 / .5));
+}
 .ftp-hamster-trigger:hover > img { filter: brightness(1.04) drop-shadow(0 5px 5px rgb(35 45 20 / .18)); }
 .ftp-hamster-trigger:focus-visible { outline: 2px solid rgb(62 76 35 / .72); outline-offset: 5px; border-radius: 50%; }
 
@@ -190,6 +217,10 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
   pointer-events: none;
 }
 .ftp-acorn-physics__acorn {
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -201,6 +232,7 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
   filter: drop-shadow(0 4px 3px rgb(38 45 20 / .22));
   will-change: transform;
 }
+.ftp-acorn-physics__acorn.is-dragging { cursor: grabbing; }
 .ftp-scroll-cue { position: absolute; z-index: 6; bottom: 22px; left: 50%; margin: 0; transform: translateX(-50%); font: 500 10px/1 var(--font-family-display); letter-spacing: .24em; }
 
 .ftp-story-scroll {
@@ -302,8 +334,6 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
 .ftp-world-story > div { position: absolute; }
 .ftp-world-story h2 { margin: 0 0 30px; white-space: nowrap; }
 .ftp-world-story .ftp-copy-block { width: min(100%, var(--story-copy-width)); }
-.ftp-story-progress { position: absolute; z-index: 10; right: 4.2%; bottom: 25px; left: 4.2%; height: 1px; background: rgb(34 34 34 / .16); }
-.ftp-story-progress span { display: block; width: 100%; height: 100%; background: var(--ftp-ink); transform-origin: left; }
 
 .ftp-designing { position: relative; width: 100%; height: 100svh; min-height: 0; overflow: hidden; background: #fff; }
 .ftp-designing__canvas { position: relative; width: 100%; height: 100%; }
@@ -530,7 +560,6 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
   .ftp-world-story > img,
   .ftp-world-story > div { position: relative; inset: auto !important; width: 100%; height: auto; }
   .ftp-world-story > img { aspect-ratio: 16 / 9; }
-  .ftp-story-progress { display: none; }
 
   .ftp-designing { height: max(100svh, calc(100vw * 935 / 430)); min-height: 0; }
   .ftp-designing__background::after { content: ''; position: absolute; inset: 0; background: rgb(0 0 0 / .2); pointer-events: none; }
