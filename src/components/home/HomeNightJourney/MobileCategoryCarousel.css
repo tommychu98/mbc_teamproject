@@ -20,17 +20,17 @@
 .mobile-categories__announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 
 @media (max-width: 767px) {
-    .app:has(.mobile-categories[data-menu-active='true']) .header {
-        background: #222;
+    .app:has(.mobile-categories[data-menu-active='true']) > .header.header--mobile {
+        background: transparent;
         color: #f7f6f4;
         border-bottom: 0;
         opacity: 1;
         transform: translateY(0);
         pointer-events: auto;
     }
-    .app:has(.mobile-categories[data-menu-active='true']) .header__logo img,
-    .app:has(.mobile-categories[data-menu-active='true']) .header__menu-button::after,
-    .app:has(.mobile-categories[data-menu-active='true']) .header__search::after {
-        filter: invert(1);
+    .app:has(.mobile-categories[data-menu-active='true']) > .header.header--mobile .header__logo img,
+    .app:has(.mobile-categories[data-menu-active='true']) > .header.header--mobile .header__menu-button::after,
+    .app:has(.mobile-categories[data-menu-active='true']) > .header.header--mobile .header__search::after {
+        filter: brightness(0) invert(1);
     }
 }
