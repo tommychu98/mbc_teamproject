@@ -42,7 +42,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: rotate(180deg);
 }
 
 /* Figma heading (634, 224), 651 × 52; card row (230, 321). */

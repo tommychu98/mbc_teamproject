@@ -14,6 +14,12 @@
   background: var(--color-bg-primary);
   color: var(--color-black);
 }
+.fragrances-story .fragrances-con5 {
+  background-image: url('./assets/con5-paper-bg.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 
 /* Match Con2's correction for the pin spacer's rounded section height. */
 .pin-spacer:has(> .fragrances-con5) {
@@ -43,15 +49,6 @@
   max-width: none;
   pointer-events: none;
   user-select: none;
-}
-
-.fragrances-con5__background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: rotate(180deg);
 }
 
 /* Text layer is offset 4px inside its (625, 228), 671 × 52 frame. */

@@ -6,7 +6,6 @@ const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
 import { useRef } from 'react';
 import useCon5Pin from './useCon5Pin';
-import background from './assets/con5-background.png';
 import boutique from './assets/con5-boutique.png';
 import velvetWoods from './assets/con5-velvet-woods.png';
 import afterglow from './assets/con5-afterglow.png';
@@ -52,7 +51,6 @@ export default function Con5() {
   return (
     <section ref={sectionRef} className="fragrances-con5" aria-labelledby="fragrances-con5-title">
       <div className="fragrances-con5__scene">
-        <img className="fragrances-con5__background" src={background} alt="" width="1920" height="1080" draggable="false" />
         <h2 className="fragrances-con5__title" id="fragrances-con5-title">A BOUTIQUE CAPTURED IN SCENT</h2>
         <div ref={railRef} className="fragrances-con5__cards">
           {cards.map(({ number, title, image, alt, lines }, index) => (
