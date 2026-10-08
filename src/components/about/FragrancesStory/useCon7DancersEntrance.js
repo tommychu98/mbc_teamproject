@@ -54,6 +54,9 @@ export default function useCon7DancersEntrance(sceneRef) {
           duration: 0.48, ease: 'sine.out',
         });
 
+      // Match Con4's entrance timing without changing the separate exit timeline.
+      entrance.timeScale(1 / 0.4225);
+
       const exit = gsap.timeline({
         id: 'fragrances-con7-dancers-withdrawal',
         paused: true,
