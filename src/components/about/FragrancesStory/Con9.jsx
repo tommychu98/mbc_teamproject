@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useSyncExternalStore } from 'react';
+import Con9Mobile from './Con9Mobile';
 import useCon9NoteInteraction from './useCon9NoteInteraction';
 import useCon9BottleEntrance from './useCon9BottleEntrance';
 import StoryImage from './StoryImage';
@@ -16,7 +17,7 @@ const notes = [
   { id: 'tonka', label: 'BASE NOTE', name: 'TONKA BEAN' },
 ];
 
-export default function Con9() {
+function Con9Desktop() {
   const sceneRef = useRef(null);
   useCon9NoteInteraction(sceneRef);
   useCon9BottleEntrance(sceneRef);
@@ -50,4 +51,16 @@ export default function Con9() {
       </div>
     </section>
   );
+}
+
+function subscribeMobile(callback) {
+  const media = window.matchMedia('(width < 768px)');
+  media.addEventListener('change', callback);
+  return () => media.removeEventListener('change', callback);
+}
+const isMobile = () => window.matchMedia('(width < 768px)').matches;
+
+export default function Con9() {
+  const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
+  return mobile ? <Con9Mobile /> : <Con9Desktop />;
 }
