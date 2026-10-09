@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useSyncExternalStore } from 'react';
+import Con6Mobile from './Con6Mobile';
 import useCon6NoteInteraction from './useCon6NoteInteraction';
 import useCon6BottleEntrance from './useCon6BottleEntrance';
 import StoryImage from './StoryImage';
@@ -17,7 +18,7 @@ const notes = [
   { id: 'sandalwood', label: 'BASE NOTE', name: 'SANDALWOOD' },
 ];
 
-export default function Con6() {
+function Con6Desktop() {
   const sceneRef = useRef(null);
   useCon6NoteInteraction(sceneRef);
   useCon6BottleEntrance(sceneRef);
@@ -51,4 +52,16 @@ export default function Con6() {
       </div>
     </section>
   );
+}
+
+function subscribeMobile(callback) {
+  const media = window.matchMedia('(width < 768px)');
+  media.addEventListener('change', callback);
+  return () => media.removeEventListener('change', callback);
+}
+const isMobile = () => window.matchMedia('(width < 768px)').matches;
+
+export default function Con6() {
+  const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
+  return mobile ? <Con6Mobile /> : <Con6Desktop />;
 }

@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useSyncExternalStore } from 'react';
+import Con9Mobile from './Con9Mobile';
 import useCon9NoteInteraction from './useCon9NoteInteraction';
 import useCon9BottleEntrance from './useCon9BottleEntrance';
 import StoryImage from './StoryImage';
@@ -16,12 +17,12 @@ const notes = [
   { id: 'tonka', label: 'BASE NOTE', name: 'TONKA BEAN' },
 ];
 
-export default function Con9() {
+function Con9Desktop() {
   const sceneRef = useRef(null);
   useCon9NoteInteraction(sceneRef);
   useCon9BottleEntrance(sceneRef);
   return (
-    <section className="fragrances-con9" aria-label="Orphéon 향 노트">
+    <>
       <div ref={sceneRef} className="fragrances-con9__scene">
         <h2 className="fragrances-con9__title fragrances-story__mobile-copy">NOTES</h2>
         <StoryImage mobileSrc={mobilebackground} className="fragrances-con9__background" src={background} alt="" width="1920" height="1080" draggable="false" />
@@ -48,6 +49,24 @@ export default function Con9() {
           <img className="fragrances-con9__main-perfume-image" src={mainPerfume} alt="Orphéon 오 드 퍼퓸" width="1263" height="1246" draggable="false" />
         </div>
       </div>
+    </>
+  );
+}
+
+function subscribeMobile(callback) {
+  const media = window.matchMedia('(width < 768px)');
+  media.addEventListener('change', callback);
+  return () => media.removeEventListener('change', callback);
+}
+const isMobile = () => window.matchMedia('(width < 768px)').matches;
+
+export default function Con9() {
+  const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
+  // Keep this React-owned sibling stable while BookSequence is inside a pin spacer.
+  // Breakpoint changes replace only the scene, never the section beside that pin.
+  return (
+    <section className="fragrances-con9" aria-label="Orphéon 향 노트">
+      {mobile ? <Con9Mobile /> : <Con9Desktop />}
     </section>
   );
 }
