@@ -66,7 +66,7 @@ export default function Con9Mobile() {
   };
 
   return (
-    <section className="fragrances-con9" aria-label="Orphéon 향 노트">
+    <>
       <div ref={sceneRef} className="fragrances-con9__scene fragrances-con9__mobile-scene" data-figma-node={notes[active].node}>
         <img className="fragrances-con9__mobile-background" src={background} alt="" draggable="false" />
         <img className="fragrances-con9__mobile-table" src={table} alt="" draggable="false" />
@@ -89,6 +89,6 @@ export default function Con9Mobile() {
         </div>
         <p className="sr-only" aria-live="polite" aria-atomic="true">{notes[active].label}: {notes[active].name}</p>
       </div>
-    </section>
+    </>
   );
 }

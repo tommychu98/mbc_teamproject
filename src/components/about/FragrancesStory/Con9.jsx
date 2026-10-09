@@ -22,7 +22,7 @@ function Con9Desktop() {
   useCon9NoteInteraction(sceneRef);
   useCon9BottleEntrance(sceneRef);
   return (
-    <section className="fragrances-con9" aria-label="Orphéon 향 노트">
+    <>
       <div ref={sceneRef} className="fragrances-con9__scene">
         <h2 className="fragrances-con9__title fragrances-story__mobile-copy">NOTES</h2>
         <StoryImage mobileSrc={mobilebackground} className="fragrances-con9__background" src={background} alt="" width="1920" height="1080" draggable="false" />
@@ -49,7 +49,7 @@ function Con9Desktop() {
           <img className="fragrances-con9__main-perfume-image" src={mainPerfume} alt="Orphéon 오 드 퍼퓸" width="1263" height="1246" draggable="false" />
         </div>
       </div>
-    </section>
+    </>
   );
 }
 
@@ -62,5 +62,11 @@ const isMobile = () => window.matchMedia('(width < 768px)').matches;
 
 export default function Con9() {
   const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
-  return mobile ? <Con9Mobile /> : <Con9Desktop />;
+  // Keep this React-owned sibling stable while BookSequence is inside a pin spacer.
+  // Breakpoint changes replace only the scene, never the section beside that pin.
+  return (
+    <section className="fragrances-con9" aria-label="Orphéon 향 노트">
+      {mobile ? <Con9Mobile /> : <Con9Desktop />}
+    </section>
+  );
 }
