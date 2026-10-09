@@ -802,7 +802,7 @@
     /* Travel is relative to each Figma slot on the 935px artboard. Both ends
        clear the clipped section, so looping never resets a visible petal.
        A complete fall occupies 80% of each cycle; the remaining 20% rests
-       below the section. Separate broad drift and slow tilt from vertical drag. */
+       below the section. Long arcs and continuous vertical drag avoid small repeated oscillations. */
     .fragrances-con4__petal--first,
     .fragrances-con4__petal--second {
       transform: translate(
@@ -810,34 +810,34 @@
         calc(var(--con4-petal-y) * 1px * var(--mobile-scale))
       ) rotate(var(--con4-petal-angle));
       animation:
-        fragrances-con4-mobile-petal-fall var(--con4-mobile-duration) linear var(--con4-mobile-delay) infinite,
-        fragrances-con4-mobile-petal-drift var(--con4-mobile-duration) cubic-bezier(.37, 0, .63, 1) var(--con4-mobile-delay) infinite,
-        fragrances-con4-mobile-petal-turn var(--con4-mobile-duration) ease-in-out var(--con4-mobile-delay) infinite;
+        fragrances-con4-mobile-petal-fall var(--con4-mobile-duration) cubic-bezier(.35, .3, .65, .7) var(--con4-mobile-delay) infinite backwards,
+        fragrances-con4-mobile-petal-drift var(--con4-mobile-duration) cubic-bezier(.37, 0, .63, 1) var(--con4-mobile-delay) infinite backwards,
+        fragrances-con4-mobile-petal-turn var(--con4-mobile-duration) ease-in-out var(--con4-mobile-delay) infinite backwards;
       animation-play-state: paused;
     }
     .fragrances-con4__petal--first {
       --con4-mobile-origin-y: 425;
-      --con4-mobile-duration: 20s;
-      --con4-mobile-delay: -2.8s;
-      /* A sixteen-second fall: broad right/left/right arcs, with the left turn
+      --con4-mobile-duration: 30s;
+      --con4-mobile-delay: .6s;
+      /* A twenty-four-second fall: broad right/left/right arcs, with the left turn
          beside the lower copy and the final drift over the foreground. */
       --con4-mobile-x0: -40;
       --con4-mobile-x1: 50;
       --con4-mobile-x2: -64;
       --con4-mobile-x3: 70;
-      --con4-mobile-turn: 12deg;
+      --con4-mobile-turn: 9deg;
     }
     .fragrances-con4__petal--second {
       --con4-mobile-origin-y: 117;
-      --con4-mobile-duration: 22.5s;
-      --con4-mobile-delay: -8.1s;
-      /* An eighteen-second fall with a narrower mirrored tilt. Stay at the right
+      --con4-mobile-duration: 35s;
+      --con4-mobile-delay: 3s;
+      /* A twenty-eight-second fall with a narrower mirrored tilt. Stay at the right
          copy's edge before sweeping inward over the man's lower silhouette. */
       --con4-mobile-x0: -38;
-      --con4-mobile-x1: 12;
-      --con4-mobile-x2: -72;
+      --con4-mobile-x1: -76;
+      --con4-mobile-x2: -18;
       --con4-mobile-x3: -12;
-      --con4-mobile-turn: -10deg;
+      --con4-mobile-turn: -7deg;
     }
     .fragrances-con4__scene--visible .fragrances-con4__petal--first,
     .fragrances-con4__scene--visible .fragrances-con4__petal--second {
@@ -847,20 +847,20 @@
   @keyframes fragrances-con4-mobile-petal-fall {
     0% { --con4-petal-y: calc(-56 - var(--con4-mobile-origin-y)); }
     /* Gentle changes in descent rate suggest drag without stopping or bouncing. */
-    22% { --con4-petal-y: calc(225 - var(--con4-mobile-origin-y)); }
-    52% { --con4-petal-y: calc(610 - var(--con4-mobile-origin-y)); }
+    25% { --con4-petal-y: calc(225 - var(--con4-mobile-origin-y)); }
+    58% { --con4-petal-y: calc(610 - var(--con4-mobile-origin-y)); }
     80%, 100% { --con4-petal-y: calc(935 + 56 - var(--con4-mobile-origin-y)); }
   }
   @keyframes fragrances-con4-mobile-petal-drift {
     0% { --con4-petal-x: var(--con4-mobile-x0); }
-    22% { --con4-petal-x: var(--con4-mobile-x1); }
-    52% { --con4-petal-x: var(--con4-mobile-x2); }
+    25% { --con4-petal-x: var(--con4-mobile-x1); }
+    58% { --con4-petal-x: var(--con4-mobile-x2); }
     80%, 100% { --con4-petal-x: var(--con4-mobile-x3); }
   }
   @keyframes fragrances-con4-mobile-petal-turn {
     0% { --con4-petal-angle: 0deg; }
-    24% { --con4-petal-angle: var(--con4-mobile-turn); }
-    54% { --con4-petal-angle: calc(var(--con4-mobile-turn) * -.65); }
+    25% { --con4-petal-angle: var(--con4-mobile-turn); }
+    58% { --con4-petal-angle: calc(var(--con4-mobile-turn) * -.65); }
     80%, 100% { --con4-petal-angle: calc(var(--con4-mobile-turn) * .4); }
   }
   /* Mobile Con7 4978:12471: scale the complete 430 × 935 composition,
