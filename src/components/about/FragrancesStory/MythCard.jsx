@@ -1,7 +1,7 @@
 import StoryImage from './StoryImage';
-import encounter from './assets/mobile-encounter.png';
-import fusion from './assets/mobile-fusion.png';
-import remains from './assets/mobile-remains.png';
+import encounter from './assets/mobile-con2-encounter.png';
+import fusion from './assets/mobile-con2-fusion.png';
+import remains from './assets/mobile-con2-remains.png';
 const mobileArtwork = { encounter, fusion, remains };
 import artwork from './assets/con2-card-artwork.png';
 
