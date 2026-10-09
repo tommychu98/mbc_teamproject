@@ -389,7 +389,7 @@
 
 /* Independent mobile object geometry, measured from the Figma child screens. */
 @media (width < 768px) {
-  /* Mobile Con1 2778:2223: scale the complete 430 × 935 frame, including
+  /* Mobile Con1 4978:12449: scale the complete 430 × 935 frame, including
      text, artwork and its bottom crop. Keep height independent of browser chrome. */
   .fragrances-story > .fragrances-con1 > .fragrances-con1__scene {
     --mobile-flow-scale: var(--mobile-scale);
@@ -415,13 +415,25 @@
   .fragrances-con1__text { font-size: calc(var(--text-mobile-body-r2-do-size) * var(--mobile-scale)); }
   .fragrances-con1__text--body1 { left: calc(222 / 430 * 100%); top: calc(499px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con1__text--body2 { left: calc(222 / 430 * 100%); top: calc(669px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
-  .fragrances-con1__cloud--left { left: calc(16 / 430 * 100%); top: calc(478px * var(--mobile-flow-scale)); width: calc(150 / 430 * 100%); height: calc(75px * var(--mobile-scale)); }
+  /* Cloud child sits 6px above its y=468 wrapper in Figma. Asset alpha is baked in. */
+  .fragrances-con1__cloud--left { left: calc(16 / 430 * 100%); top: calc(462px * var(--mobile-flow-scale)); width: calc(150 / 430 * 100%); height: calc(75px * var(--mobile-scale)); }
   .fragrances-con1__pillar { left: calc(200 / 430 * 100%); top: calc(333px * var(--mobile-flow-scale)); width: calc(232 / 430 * 100%); height: calc(618px * var(--mobile-scale)); }
   .fragrances-con1__butterfly--right { left: calc(257 / 430 * 100%); top: calc(814px * var(--mobile-flow-scale)); width: calc(38 / 430 * 100%); height: calc(32px * var(--mobile-scale)); }
   .fragrances-con1__butterfly-left { left: calc(16 / 430 * 100%); top: calc(235px * var(--mobile-flow-scale)); width: calc(88.685 / 430 * 100%); height: calc(88.324px * var(--mobile-scale)); }
-  .fragrances-con1__couple { left: calc(16 / 430 * 100%); top: calc(623px * var(--mobile-flow-scale)); bottom: auto; width: calc(208 / 430 * 100%); height: calc(312px * var(--mobile-scale)); }
-  /* Mobile Con4 2817:4861: preserve the complete 430 × 935 composition.
-     The full-width 430 × 346 tailor/table slot ends at the frame bottom. */
+  .fragrances-con1__butterfly--left {
+    position: absolute;
+    left: calc(8.6535px * var(--mobile-scale));
+    top: calc(22.436px * var(--mobile-scale));
+    width: calc(58.308px * var(--mobile-scale));
+    height: calc(48.435px * var(--mobile-scale));
+  }
+  .fragrances-con1__couple { left: calc(-71 / 430 * 100%); top: calc(559px * var(--mobile-flow-scale)); bottom: auto; width: calc(309 / 430 * 100%); height: calc(392px * var(--mobile-scale)); }
+  .fragrances-con1__scene .fragrances-con1__couple-image {
+    object-fit: fill;
+    object-position: bottom;
+  }
+  /* Mobile Con4 4978:12428: separate man and foreground table layers on
+     the complete 430 × 935 artboard. Desktop artwork and motion stay intact. */
   .fragrances-story > .fragrances-con4 > .fragrances-con4__scene {
     --mobile-flow-scale: var(--mobile-scale);
     height: calc(935px * var(--mobile-scale));
@@ -439,18 +451,108 @@
   }
   .fragrances-con4__intro { left: calc(16 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); gap: calc(14px * var(--mobile-scale)); }
   .fragrances-con4__subtitle {
-    width: calc(400px * var(--mobile-scale));
+    width: 100%;
     font-size: calc(var(--text-mobile-body-r1-eb-size) * var(--mobile-scale));
   }
+  .fragrances-con4__intro > .fragrances-con4__text { width: calc(183px * var(--mobile-scale)); }
   .fragrances-con4__text { font-size: calc(var(--text-mobile-body-r2-do-size) * var(--mobile-scale)); }
   .fragrances-con4__text--body1 { left: calc(223 / 430 * 100%); top: calc(402px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
   .fragrances-con4__text--body2 { left: calc(16 / 430 * 100%); top: calc(526px * var(--mobile-flow-scale)); width: calc(191 / 430 * 100%); }
-  .fragrances-con4__man { left: 0; top: calc(589px * var(--mobile-flow-scale)); bottom: auto; width: 100%; height: calc(346px * var(--mobile-scale)); }
-  .fragrances-con4__cabinet { left: 0; top: calc(597px * var(--mobile-flow-scale)); width: calc(192 / 430 * 100%); height: calc(303px * var(--mobile-scale)); }
-  .fragrances-con4__clock { left: calc(267 / 430 * 100%); top: calc(284px * var(--mobile-flow-scale)); width: calc(143 / 430 * 100%); height: calc(218px * var(--mobile-scale)); }
+  .fragrances-con4__man { left: calc(49 / 430 * 100%); top: calc(540px * var(--mobile-flow-scale)); bottom: auto; width: calc(376 / 430 * 100%); height: calc(411px * var(--mobile-scale)); z-index: 0; }
+  .fragrances-con4__scene .fragrances-con4__table {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: calc(720px * var(--mobile-flow-scale));
+    width: 100%;
+    height: calc(215px * var(--mobile-scale));
+    object-fit: cover;
+    z-index: 1;
+  }
+  .fragrances-con4__cabinet { left: calc(-77 / 430 * 100%); top: calc(468px * var(--mobile-flow-scale)); width: calc(293 / 430 * 100%); height: calc(464px * var(--mobile-scale)); z-index: -1; }
+  .fragrances-con4__clock { left: calc(267 / 430 * 100%); top: calc(258px * var(--mobile-flow-scale)); width: calc(143 / 430 * 100%); height: calc(218px * var(--mobile-scale)); z-index: -1; }
   .fragrances-con4__clock-image { left: calc(17px * var(--mobile-scale)); }
-  .fragrances-con4__drawing--second { left: calc(283 / 430 * 100%); top: calc(560px * var(--mobile-flow-scale)); width: calc(45 / 430 * 100%); height: calc(59px * var(--mobile-scale)); }
+  .fragrances-con4__drawing--second { display: none; }
   .fragrances-con4__drawing--first { left: calc(223 / 430 * 100%); top: calc(580px * var(--mobile-flow-scale)); width: calc(44 / 430 * 100%); height: calc(55px * var(--mobile-scale)); }
+  /* BG_Drawing1 is empty in this Figma frame. */
+  .fragrances-con4__drawing--first img { display: none; }
+  .fragrances-con4__petal--first,
+  .fragrances-con4__petal--second {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    z-index: 2;
+  }
+  .fragrances-con4__petal--first { left: calc(72 / 430 * 100%); top: calc(425px * var(--mobile-flow-scale)); width: calc(32px * var(--mobile-scale)); height: calc(32px * var(--mobile-scale)); }
+  .fragrances-con4__petal--second { left: calc(383.5 / 430 * 100%); top: calc(117px * var(--mobile-flow-scale)); width: calc(33.434px * var(--mobile-scale)); height: calc(33.434px * var(--mobile-scale)); }
+  /* Decorative image replacement keeps the desktop SVG-filtered img nodes intact. */
+  .fragrances-con4__petal--first img { content: url('./assets/mobile-con4-petal.png'); width: 100%; height: 100%; }
+  .fragrances-con4__petal--second img { content: url('./assets/mobile-con4-upper-petal.png'); width: calc(27.299px * var(--mobile-scale)); height: calc(27.299px * var(--mobile-scale)); transform: rotate(-75deg); }
+  @media (prefers-reduced-motion: no-preference) {
+    /* Travel is relative to each Figma slot on the 935px artboard. Both ends
+       clear the clipped section, so looping never resets a visible petal.
+       A complete fall occupies 80% of each cycle; the remaining 20% rests
+       below the section. Separate broad drift and slow tilt from vertical drag. */
+    .fragrances-con4__petal--first,
+    .fragrances-con4__petal--second {
+      transform: translate(
+        calc(var(--con4-petal-x) * 1px * var(--mobile-scale)),
+        calc(var(--con4-petal-y) * 1px * var(--mobile-scale))
+      ) rotate(var(--con4-petal-angle));
+      animation:
+        fragrances-con4-mobile-petal-fall var(--con4-mobile-duration) linear var(--con4-mobile-delay) infinite,
+        fragrances-con4-mobile-petal-drift var(--con4-mobile-duration) cubic-bezier(.37, 0, .63, 1) var(--con4-mobile-delay) infinite,
+        fragrances-con4-mobile-petal-turn var(--con4-mobile-duration) ease-in-out var(--con4-mobile-delay) infinite;
+      animation-play-state: paused;
+    }
+    .fragrances-con4__petal--first {
+      --con4-mobile-origin-y: 425;
+      --con4-mobile-duration: 20s;
+      --con4-mobile-delay: -2.8s;
+      /* A sixteen-second fall: broad right/left/right arcs, with the left turn
+         beside the lower copy and the final drift over the foreground. */
+      --con4-mobile-x0: -40;
+      --con4-mobile-x1: 50;
+      --con4-mobile-x2: -64;
+      --con4-mobile-x3: 70;
+      --con4-mobile-turn: 12deg;
+    }
+    .fragrances-con4__petal--second {
+      --con4-mobile-origin-y: 117;
+      --con4-mobile-duration: 22.5s;
+      --con4-mobile-delay: -8.1s;
+      /* An eighteen-second fall with a narrower mirrored tilt. Stay at the right
+         copy's edge before sweeping inward over the man's lower silhouette. */
+      --con4-mobile-x0: -38;
+      --con4-mobile-x1: 12;
+      --con4-mobile-x2: -72;
+      --con4-mobile-x3: -12;
+      --con4-mobile-turn: -10deg;
+    }
+    .fragrances-con4__scene--visible .fragrances-con4__petal--first,
+    .fragrances-con4__scene--visible .fragrances-con4__petal--second {
+      animation-play-state: running;
+    }
+  }
+  @keyframes fragrances-con4-mobile-petal-fall {
+    0% { --con4-petal-y: calc(-56 - var(--con4-mobile-origin-y)); }
+    /* Gentle changes in descent rate suggest drag without stopping or bouncing. */
+    22% { --con4-petal-y: calc(225 - var(--con4-mobile-origin-y)); }
+    52% { --con4-petal-y: calc(610 - var(--con4-mobile-origin-y)); }
+    80%, 100% { --con4-petal-y: calc(935 + 56 - var(--con4-mobile-origin-y)); }
+  }
+  @keyframes fragrances-con4-mobile-petal-drift {
+    0% { --con4-petal-x: var(--con4-mobile-x0); }
+    22% { --con4-petal-x: var(--con4-mobile-x1); }
+    52% { --con4-petal-x: var(--con4-mobile-x2); }
+    80%, 100% { --con4-petal-x: var(--con4-mobile-x3); }
+  }
+  @keyframes fragrances-con4-mobile-petal-turn {
+    0% { --con4-petal-angle: 0deg; }
+    24% { --con4-petal-angle: var(--con4-mobile-turn); }
+    54% { --con4-petal-angle: calc(var(--con4-mobile-turn) * -.65); }
+    80%, 100% { --con4-petal-angle: calc(var(--con4-mobile-turn) * .4); }
+  }
   /* Mobile Con7 2817:5015: scale the complete 430 × 935 frame together.
      The chair/table slot extends to y=954 and is cropped at the frame bottom. */
   .fragrances-story > .fragrances-con7 > .fragrances-con7__scene {

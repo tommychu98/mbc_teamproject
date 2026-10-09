@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import useCon1TypographyMotion from './useCon1TypographyMotion';
 import useCon1CoupleEntrance from './useCon1CoupleEntrance';
 import StoryImage from './StoryImage';
-import mobilecouple from './assets/mobile-couple.png';
+import mobilecouple from './assets/mobile-con1-couple.png';
 import mobilepillar from './assets/mobile-con1-pillar.png';
 import cloud from './assets/con1-cloud.png';
 import pillar from './assets/con1-pillar.png';

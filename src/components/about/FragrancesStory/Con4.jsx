@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import useStoryTypographyMotion from './useStoryTypographyMotion';
 import useCon4ManEntrance from './useCon4ManEntrance';
 import StoryImage from './StoryImage';
-import man from './assets/con4-man.png';
+import man from './assets/mobile-con4-man.png';
+import mobileTable from './assets/mobile-con4-table.png';
 import desktopMan from './assets/con4-desktop-man.png';
 import desktopTable from './assets/con4-desktop-table.png';
 import petal1 from './assets/con4-desktop-petal-1.png';
@@ -67,7 +68,7 @@ export default function Con4() {
         <StoryImage mobileSrc={man} className="fragrances-con4__man" src={desktopMan} alt="직물을 살펴보는 남성 콜라주" width="1415" height="1548" draggable="false" />
         {/* Image_Calendar is an empty, transparent frame in the final Figma. */}
         <div className="fragrances-con4__calendar" aria-hidden="true" />
-        <img className="fragrances-con4__table" src={desktopTable} alt="꽃무늬 직물, 촛대, 상자와 편지가 놓인 나무 테이블" width="1920" height="960" draggable="false" />
+        <StoryImage mobileSrc={mobileTable} className="fragrances-con4__table" src={desktopTable} alt="꽃무늬 직물, 촛대, 상자와 편지가 놓인 나무 테이블" width="1920" height="960" draggable="false" />
         {/* Reuse only the candle pixels from the table; keep the wax and brass still. */}
         <div className="fragrances-con4__candle" aria-hidden="true">
           {/* One filled plume: its base stays connected and the curl travels upward. */}
