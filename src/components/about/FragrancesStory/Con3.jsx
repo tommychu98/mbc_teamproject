@@ -1,4 +1,5 @@
-import { useRef } from 'react';
+import { useRef, useSyncExternalStore } from 'react';
+import Con3Mobile from './Con3Mobile';
 import useCon3NoteInteraction from './useCon3NoteInteraction';
 import useCon3BottleEntrance from './useCon3BottleEntrance';
 import StoryImage from './StoryImage';
@@ -17,7 +18,7 @@ const notes = [
   { id: 'ambrettes', label: 'BASE NOTE', name: 'AMBRETTES' },
 ];
 
-export default function Con3() {
+function Con3Desktop() {
   const sceneRef = useRef(null);
   useCon3NoteInteraction(sceneRef);
   useCon3BottleEntrance(sceneRef);
@@ -52,4 +53,17 @@ export default function Con3() {
       </div>
     </section>
   );
+}
+
+// Keep the existing desktop scene and its hooks isolated from mobile note navigation.
+function subscribeMobile(callback) {
+  const media = window.matchMedia('(width < 768px)');
+  media.addEventListener('change', callback);
+  return () => media.removeEventListener('change', callback);
+}
+const isMobile = () => window.matchMedia('(width < 768px)').matches;
+
+export default function Con3() {
+  const mobile = useSyncExternalStore(subscribeMobile, isMobile, () => false);
+  return mobile ? <Con3Mobile /> : <Con3Desktop />;
 }
