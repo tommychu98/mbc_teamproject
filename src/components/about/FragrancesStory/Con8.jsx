@@ -1,9 +1,14 @@
 import StoryImage from './StoryImage';
-import mobileCard0 from './assets/mobile-jazz-night.png';
-import mobileCard1 from './assets/mobile-essence.png';
-import mobileCard2 from './assets/mobile-night-echo.png';
+import mobileCard0 from './assets/mobile-con8-jazz-night.png';
+import mobileCard1 from './assets/mobile-con8-essence.png';
+import mobileCard2 from './assets/mobile-con8-night-echo.png';
 const mobileCards = [mobileCard0, mobileCard1, mobileCard2];
 import useMobileCards from './useMobileCards';
+import useCon2Swipe from './useCon2Swipe';
+import useCon5Typography from './useCon5Typography';
+import activeDot from './assets/mobile-con8-dot-active.svg';
+import inactiveDot from './assets/mobile-con8-dot-inactive.svg';
+import mobileBackground from './assets/mobile-con8-background.png';
 import { useRef } from 'react';
 import useCon8Pin from './useCon8Pin';
 import background from './assets/con8-paper-bg.png';
@@ -37,23 +42,16 @@ const cards = [
 ];
 
 export default function Con8() {
-  const { railRef, active } = useMobileCards();
-  const nextCard = () => {
-    const rail = railRef.current;
-    if (!rail || !window.matchMedia('(width < 768px)').matches) return;
-    const step = rail.children[1].offsetLeft - rail.children[0].offsetLeft;
-    rail.scrollTo({
-      left: (active % cards.length) * step,
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-    });
-  };
+  const { railRef } = useMobileCards();
+  const { copyRef, active } = useCon5Typography(railRef, cards);
+  const nextCard = useCon2Swipe(railRef);
   const sectionRef = useRef(null);
   useCon8Pin(sectionRef);
   return (
     <section ref={sectionRef} className="fragrances-con8" aria-labelledby="fragrances-con8-title">
       <div className="fragrances-con8__scene">
-        <StoryImage mobileSrc={background} className="fragrances-con8__background" src={background} alt="" width="2048" height="1152" draggable="false" />
-        <h2 className="fragrances-con8__title" id="fragrances-con8-title">A MEMORY OF PARIS AFTER DARK</h2>
+        <StoryImage mobileSrc={mobileBackground} className="fragrances-con8__background" src={background} alt="" width="2048" height="1152" draggable="false" />
+        <h2 className="fragrances-con8__title" id="fragrances-con8-title"><span className="fragrances-story__desktop-copy">A MEMORY OF PARIS AFTER DARK</span><span className="fragrances-story__mobile-copy">A MEMORY OF PARIS<br />AFTER DARK</span></h2>
         <div ref={railRef} className="fragrances-con8__cards">
           {cards.map(({ number, title, image, alt, lines }, index) => (
             <article className="fragrances-con8__card" key={number}>
@@ -72,6 +70,27 @@ export default function Con8() {
                 </p>
               </div>
             </article>
+          ))}
+        </div>
+        <div ref={copyRef} className="fragrances-con8__mobile-typography fragrances-con8__card-content" aria-live="polite" aria-atomic="true">
+          <h3 className="fragrances-con8__card-heading">
+            <span data-copy-part>{cards[0].number}</span>
+            <span data-copy-part>{cards[0].title}</span>
+          </h3>
+          <p className="fragrances-con8__card-description" data-copy-part>
+            {cards[0].lines.map((line) => <span key={line}>{line}</span>)}
+          </p>
+        </div>
+        <div className="fragrances-con8__dots" role="group" aria-label="향 이야기 카드 선택">
+          {cards.map((card, index) => (
+            <button key={card.number} type="button" aria-label={`${index + 1}번 카드: ${card.title}`} aria-pressed={active === index + 1} onClick={() => {
+              const rail = railRef.current;
+              if (!rail || !window.matchMedia('(width < 768px)').matches) return;
+              const step = rail.children[1].offsetLeft - rail.children[0].offsetLeft;
+              rail.scrollTo({ left: index * step, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+            }}>
+              <img src={active === index + 1 ? activeDot : inactiveDot} alt="" width="10" height="10" />
+            </button>
           ))}
         </div>
         <button type="button" className="fragrances-story__pagination fragrances-con8__pagination" onClick={nextCard} aria-label={`향 이야기 ${active}/3. 다음 카드 보기`} aria-live="polite" aria-atomic="true">{active}/3</button>
