@@ -75,11 +75,11 @@ const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 const range = (value, start, end) => clamp((value - start) / (end - start));
 const ease = (value) => 1 - Math.pow(1 - clamp(value), 3);
 
-function AcornBurst() {
+function AcornBurst({ count = 1, extraFallTime = 0, bounceScale = 1, maxBounces = 5 }) {
   const layerRef = useRef(null);
   const acornRefs = useRef([]);
   useEffect(() => {
-    const models = Array.from({ length: 1 }, () => ({
+    const models = Array.from({ length: count }, () => ({
     delay: Math.random() * 0.08,
     xRatio: 0.035 + Math.random() * 0.91,
     yOffset: Math.random() * 150,
@@ -87,7 +87,7 @@ function AcornBurst() {
     vxRatio: (Math.random() - 0.5) * 0.085,
     rotation: Math.random() * 360,
     angularVelocity: (Math.random() - 0.5) * 560,
-    restitution: 0.3 + Math.random() * 0.15,
+    restitution: (0.3 + Math.random() * 0.15) * bounceScale,
     bounces: 0,
     active: false,
     settled: false,
@@ -97,6 +97,8 @@ function AcornBurst() {
     let frame = 0;
     let previous = performance.now();
     const started = previous;
+    // Preserve desktop gravity; mobile takes an extra half-second to fall.
+    const gravityRatio = 2 / (Math.sqrt(2 / 1.7) + extraFallTime) ** 2;
     let drag = null;
     const resume = () => {
       if (!frame) {
@@ -136,7 +138,7 @@ function AcornBurst() {
         }
         if (!model.settled && drag?.model !== model) {
           const floor = height - size * 0.78;
-          model.vy += height * 1.7 * dt;
+          model.vy += height * gravityRatio * dt;
           model.x += model.vx * dt;
           model.y += model.vy * dt;
           model.rotation += model.angularVelocity * dt;
@@ -149,7 +151,7 @@ function AcornBurst() {
           if (model.y >= floor) {
             model.y = floor;
             model.bounces += 1;
-            if (Math.abs(model.vy) > height * 0.075 && model.bounces < 5) {
+            if (Math.abs(model.vy) > height * 0.075 && model.bounces < maxBounces) {
               model.vy = -model.vy * model.restitution;
               model.vx *= 0.72;
               model.angularVelocity *= 0.68;
@@ -199,7 +201,7 @@ function AcornBurst() {
         model.settled = false;
         model.bounces = 0;
         model.vx = direction * 120 / scaleX;
-        model.vy = -Math.sqrt(2 * layer.clientHeight * 1.7 * 50 / scaleY);
+        model.vy = -Math.sqrt(2 * layer.clientHeight * gravityRatio * 50 / scaleY);
         model.angularVelocity = direction * 180;
         disturbed = true;
       });
@@ -254,11 +256,11 @@ function AcornBurst() {
       window.removeEventListener('pointercancel', onPointerUp);
       window.removeEventListener('pointermove', onPointerMove);
     };
-  }, []);
+  }, [count, extraFallTime, bounceScale, maxBounces]);
 
   return (
     <div className="ftp-acorn-physics" ref={layerRef} aria-hidden="true">
-      {[0].map((index) => (
+      {Array.from({ length: count }, (_, index) => (
         <img
           key={index}
           ref={(element) => { acornRefs.current[index] = element; }}
@@ -332,6 +334,7 @@ const canvasPosition = (x, y, width, height) => ({
 function ArchScene({ variant, first = false }) {
   const [ref, rawProgress] = useScrollProgress(first, true);
   const [acorns, setAcorns] = useState([]);
+  const [mobileAcornBursts, setMobileAcornBursts] = useState([]);
   const nextAcornId = useRef(0);
   const progress = ease(rawProgress);
   const isCoast = variant === "coast";
@@ -391,9 +394,20 @@ function ArchScene({ variant, first = false }) {
   });
 
   useEffect(() => {
-    const resetAcorns = () => setAcorns([]);
+    const resetAcorns = () => {
+      setAcorns([]);
+      setMobileAcornBursts([]);
+    };
+    const mobile = window.matchMedia('(max-width: 899px)');
+    const resetMobileAcorns = () => {
+      if (!mobile.matches) setMobileAcornBursts([]);
+    };
     window.addEventListener("ftp-reset-interactions", resetAcorns);
-    return () => window.removeEventListener("ftp-reset-interactions", resetAcorns);
+    mobile.addEventListener('change', resetMobileAcorns);
+    return () => {
+      window.removeEventListener("ftp-reset-interactions", resetAcorns);
+      mobile.removeEventListener('change', resetMobileAcorns);
+    };
   }, []);
 
   return (
@@ -475,11 +489,26 @@ function ArchScene({ variant, first = false }) {
                 src={mobileForestExpanded}
                 alt=""
               />
-              <img
-                className="ftp-mobile-intro__hamster"
-                src={squirrel}
-                alt=""
-              />
+              <button
+                className="ftp-mobile-intro__hamster ftp-hamster-trigger"
+                type="button"
+                aria-label="다람쥐를 터치해 도토리 쏟아뜨리기"
+                disabled={rawProgress < 0.18}
+                onClick={() => {
+                  const id = nextAcornId.current;
+                  nextAcornId.current += 1;
+                  setMobileAcornBursts((bursts) => [...bursts, id]);
+                }}
+              >
+                <img src={squirrel} alt="" draggable="false" />
+                <span className="ftp-hamster-trigger__hint" aria-hidden="true">
+                  <svg className="ftp-hamster-trigger__arrow" viewBox="0 0 30 24" fill="none" focusable="false">
+                    <path d="M25 22 Q26 7 5 5" strokeDasharray="2 3" />
+                    <path d="M9 1 L4 5 L8 10" />
+                  </svg>
+                  touch
+                </span>
+              </button>
               <img
                 className="ftp-mobile-intro__perfume-expanded"
                 src={forestPerfume}
@@ -487,6 +516,7 @@ function ArchScene({ variant, first = false }) {
               />
             </div>
           </div>
+          {mobileAcornBursts.map((id) => <AcornBurst key={id} count={3} extraFallTime={0.5} bounceScale={0.7} maxBounces={3} />)}
         </div>
       )}
       <div className="ftp-sticky-stage">

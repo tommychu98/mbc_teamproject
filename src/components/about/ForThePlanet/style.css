@@ -512,6 +512,18 @@ body.ftp-route.ftp-header-hidden .header:not(.header--mobile) {
     height: 76px;
     opacity: .9;
     object-fit: cover;
+    touch-action: manipulation;
+  }
+  .ftp-mobile-intro__hamster .ftp-hamster-trigger__hint {
+    top: 74%;
+    left: calc(100% + 3px);
+    padding-left: 0;
+    font-size: 10px;
+  }
+  .ftp-mobile-intro__hamster .ftp-hamster-trigger__arrow {
+    left: -3px;
+    width: 18px;
+    height: 15px;
   }
   .ftp-mobile-intro__perfume-expanded {
     position: absolute;
