@@ -63,7 +63,7 @@
   position: absolute;
   height: calc(52 / 158.58349609375 * 100%);
   margin: 0;
-  color: var(--color-text-primary);
+  color: var(--story-text-body);
   font-family: var(--font-family-display);
   font-size: calc(var(--text-web-body-m1-do-size) * var(--con11-scale));
   font-weight: var(--font-weight-regular);

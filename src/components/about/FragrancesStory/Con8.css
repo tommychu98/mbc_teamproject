@@ -46,6 +46,7 @@
 
 /* Figma heading (634, 224), 651 × 52; card row (230, 321). */
 .fragrances-con8__title {
+  color: var(--story-text-primary);
   position: absolute;
   left: calc(634 / 1920 * 100%);
   top: calc(224 / 1080 * 100%);
@@ -94,6 +95,7 @@
 }
 
 .fragrances-con8__card-heading {
+  color: var(--story-text-primary);
   display: flex;
   flex-direction: column;
   gap: calc(var(--space-2) * 1.25 * var(--con8-scale));
@@ -106,6 +108,7 @@
 }
 
 .fragrances-con8__card-description {
+  color: var(--story-text-body);
   width: 100%;
   font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
   font-size: calc(var(--text-web-body-l2-do-size) * var(--con8-scale));

@@ -50,6 +50,7 @@
 .fragrances-con4__cabinet-artwork { display: contents; }
 
 .fragrances-con4__text {
+  color: var(--story-text-body);
   font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
   font-size: calc(var(--text-web-body-m1-do-size) * var(--con4-scale));
   font-weight: var(--text-web-body-m1-do-weight);
@@ -82,6 +83,7 @@
 }
 
 .fragrances-con4__subtitle {
+  color: var(--story-text-primary);
   height: calc(36px * var(--con4-scale));
   font-family: var(--font-family-display);
   font-size: calc(var(--text-web-body-m1-eb-size) * var(--con4-scale));
@@ -92,7 +94,7 @@
 }
 
 .fragrances-con4__title {
-  color: var(--color-title-black);
+  color: var(--story-text-primary);
   font-family: var(--font-family-display);
   font-size: calc(var(--text-web-title-m1-size) * var(--con4-scale));
   font-weight: var(--text-web-title-m1-weight);
@@ -117,6 +119,7 @@
 }
 
 .fragrances-con4__chapter {
+  color: var(--story-text-primary);
   position: absolute;
   left: calc(377 / 1920 * 100%);
   top: calc(286 / 2050 * 100%);

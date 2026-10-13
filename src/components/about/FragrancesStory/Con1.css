@@ -30,7 +30,7 @@
 }
 /* Cloud/pillar alpha and the original mobile butterfly alpha are baked in. */
 .fragrances-con1__title {
-  color: var(--color-title-black);
+  color: var(--story-text-primary);
   font-family: var(--font-family-display);
   font-size: calc(var(--text-web-title-m1-size) * var(--con1-scale));
   font-weight: var(--text-web-title-m1-weight);
@@ -39,6 +39,7 @@
 }
 .fragrances-con1__title span { white-space: pre; }
 .fragrances-con1__chapter {
+  color: var(--story-text-primary);
   font-family: var(--font-family-display);
   font-size: calc(var(--text-point-title-m1-size) * var(--con1-scale));
   font-weight: var(--text-point-title-m1-weight);
@@ -48,6 +49,7 @@
   white-space: nowrap;
 }
 .fragrances-con1__subtitle {
+  color: var(--story-text-primary);
   font-family: var(--font-family-display);
   font-size: calc(var(--text-web-body-m1-eb-size) * var(--con1-scale));
   font-weight: var(--text-web-body-m1-eb-weight);
@@ -55,6 +57,7 @@
   letter-spacing: var(--text-web-body-m1-eb-letter-spacing);
 }
 .fragrances-con1__text {
+  color: var(--story-text-body);
   font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
   font-size: calc(var(--text-web-body-m1-do-size) * var(--con1-scale));
   font-weight: var(--text-web-body-m1-do-weight);

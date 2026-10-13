@@ -1,8 +1,12 @@
 /* The artboard scales as one composition; object geometry comes from Figma. */
 .fragrances-story {
+  --story-text-primary: #2B2B2B;
+  --story-text-body: #4B4B4B;
   overflow: hidden;
   background: var(--color-bg-secondary);
 }
+
+.fragrances-story > #fragrances-story-title { color: var(--story-text-primary); }
 
 .fragrances-story__scene {
   position: relative;

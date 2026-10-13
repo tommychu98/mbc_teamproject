@@ -26,6 +26,7 @@
 .fragrances-con2__content { position: absolute; inset: 0; overflow: hidden; }
 .fragrances-con2__scene img { display: block; max-width: none; pointer-events: none; user-select: none; }
 .fragrances-con2__title {
+  color: var(--story-text-primary);
   position: absolute;
   left: 50%;
   top: calc(228 / 1080 * 100%);
@@ -66,6 +67,7 @@
   text-align: center;
 }
 .fragrances-con2__card-heading {
+  color: var(--story-text-primary);
   display: flex;
   flex-direction: column;
   gap: calc(var(--space-2) * 1.25 * var(--con2-scale));
@@ -78,6 +80,7 @@
 }
 .fragrances-con2__card--encounter .fragrances-con2__card-title { font-weight: var(--font-weight-semibold); }
 .fragrances-con2__card-description {
+  color: var(--story-text-body);
   width: 100%;
   font-family: 'Fragrances Con1 Dotum', var(--font-family-sans);
   font-size: calc(var(--text-web-body-l2-do-size) * var(--con2-scale));
