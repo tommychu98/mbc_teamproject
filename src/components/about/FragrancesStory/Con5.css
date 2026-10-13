@@ -1,7 +1,7 @@
 /* Figma Con5 2778:1747 — 1920 × 1080, below Con4 in the layer stack.
    Contain the negative Con5 layer within this page, above its background.
    Con4's existing cloth remains untouched and extends 460px over Con5. */
-.fragrances-story:has(> .fragrances-con5, > .pin-spacer > .fragrances-con5) {
+.fragrances-story:has(> .fragrances-con5) {
   isolation: isolate;
 }
 
@@ -21,12 +21,7 @@
   background-repeat: no-repeat;
 }
 
-/* Match Con2's correction for the pin spacer's rounded section height. */
-.pin-spacer:has(> .fragrances-con5) {
-  margin-bottom: var(--con5-spacer-correction, 0px) !important;
-}
-
-/* Keep mobile scene geometry independent of the desktop pin. */
+/* Keep mobile scene geometry independent of the desktop layout. */
 @media (width < 768px) {
   .fragrances-con5 .fragrances-con5__scene {
     --mobile-scale: calc(100cqw / 430px);

@@ -9,8 +9,6 @@ import useCon5Typography from './useCon5Typography';
 import activeDot from './assets/mobile-con8-dot-active.svg';
 import inactiveDot from './assets/mobile-con8-dot-inactive.svg';
 import mobileBackground from './assets/mobile-con8-background.png';
-import { useRef } from 'react';
-import useCon8Pin from './useCon8Pin';
 import background from './assets/con8-paper-bg.png';
 import jazzNight from './assets/con8-jazz-night.png';
 import essence from './assets/con8-essence.png';
@@ -45,10 +43,8 @@ export default function Con8() {
   const { railRef } = useMobileCards();
   const { copyRef, active } = useCon5Typography(railRef, cards);
   const nextCard = useCon2Swipe(railRef);
-  const sectionRef = useRef(null);
-  useCon8Pin(sectionRef);
   return (
-    <section ref={sectionRef} className="fragrances-con8" aria-labelledby="fragrances-con8-title">
+    <section className="fragrances-con8" aria-labelledby="fragrances-con8-title">
       <div className="fragrances-con8__scene">
         <StoryImage mobileSrc={mobileBackground} className="fragrances-con8__background" src={background} alt="" width="2048" height="1152" draggable="false" />
         <h2 className="fragrances-con8__title" id="fragrances-con8-title"><span className="fragrances-story__desktop-copy">A MEMORY OF PARIS AFTER DARK</span><span className="fragrances-story__mobile-copy">A MEMORY OF PARIS<br />AFTER DARK</span></h2>

@@ -8,8 +8,6 @@ import useCon2Swipe from './useCon2Swipe';
 import useCon5Typography from './useCon5Typography';
 import activeDot from './assets/mobile-con5-dot-active.svg';
 import inactiveDot from './assets/mobile-con5-dot-inactive.svg';
-import { useRef } from 'react';
-import useCon5Pin from './useCon5Pin';
 import boutique from './assets/con5-boutique.png';
 import velvetWoods from './assets/con5-velvet-woods.png';
 import afterglow from './assets/con5-afterglow.png';
@@ -40,13 +38,11 @@ const cards = [
 ];
 
 export default function Con5() {
-  const sectionRef = useRef(null);
-  useCon5Pin(sectionRef);
   const { railRef } = useMobileCards();
   const { copyRef, active } = useCon5Typography(railRef, cards);
   const nextCard = useCon2Swipe(railRef);
   return (
-    <section ref={sectionRef} className="fragrances-con5" aria-labelledby="fragrances-con5-title">
+    <section className="fragrances-con5" aria-labelledby="fragrances-con5-title">
       <div className="fragrances-con5__scene">
         <h2 className="fragrances-con5__title" id="fragrances-con5-title"><span className="fragrances-story__desktop-copy">A BOUTIQUE CAPTURED IN SCENT</span><span className="fragrances-story__mobile-copy">A BOUTIQUE<br />CAPTURED IN SCENT</span></h2>
         <div ref={railRef} className="fragrances-con5__cards">

@@ -1,8 +1,6 @@
 import useMobileCards from './useMobileCards';
 import useCon2Swipe from './useCon2Swipe';
-import useCon2Pin from './useCon2Pin';
 import useCon2Typography from './useCon2Typography';
-import { useRef } from 'react';
 import MythCard from './MythCard';
 import { mythCards } from './con2Data';
 import activeDot from './assets/mobile-con2-dot-active.svg';
@@ -13,11 +11,9 @@ export default function Con2() {
   const { railRef } = useMobileCards();
   const { copyRef, active } = useCon2Typography(railRef);
   const nextCard = useCon2Swipe(railRef);
-  const sectionRef = useRef(null);
-  useCon2Pin(sectionRef);
 
   return (
-    <section ref={sectionRef} className="fragrances-con2" aria-labelledby="fragrances-con2-title">
+    <section className="fragrances-con2" aria-labelledby="fragrances-con2-title">
       <div className="fragrances-con2__scene">
         <div className="fragrances-con2__content">
           <h2 className="fragrances-con2__title" id="fragrances-con2-title">A SCENT BORN FROM A MYTH</h2>

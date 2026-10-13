@@ -6,12 +6,7 @@
   color: var(--color-black);
 }
 
-/* Match Con5's correction for the pin spacer's rounded section height. */
-.pin-spacer:has(> .fragrances-con8) {
-  margin-bottom: var(--con8-spacer-correction, 0px) !important;
-}
-
-/* Keep mobile scene geometry independent of the desktop pin. */
+/* Keep mobile scene geometry independent of the desktop layout. */
 @media (width < 768px) {
   .fragrances-con8 .fragrances-con8__scene {
     --mobile-scale: calc(100cqw / 430px);
