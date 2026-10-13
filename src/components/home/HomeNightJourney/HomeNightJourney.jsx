@@ -195,10 +195,14 @@ export default function HomeNightJourney() {
 
             const top = root.getBoundingClientRect().top;
             const target = clamp(-top, 0, travel) / width;
-            const shift = camera.update(target, now, false) * width;
+            // This first panel continues the artwork from the preceding Night
+            // section. Snap the camera to its origin at that shared boundary so
+            // reverse scrolling cannot leave the two halves briefly misaligned.
+            const atEntryBoundary = target === 0;
+            const shift = camera.update(target, now, atEntryBoundary) * width;
             track.style.transform = `translate3d(${-shift}px, 0, 0)`;
 
-            const panelProgress = foreground.update(target, now, false);
+            const panelProgress = foreground.update(target, now, atEntryBoundary);
             const entry = entryMotion.update(clamp((viewportHeight - top) / viewportHeight, 0, 1), now, false);
 
             particles.forEach(({ element, panel, baseOpacity, phase, depth, driftX, driftY, spin, stagger }) => {
