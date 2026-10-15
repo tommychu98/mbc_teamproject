@@ -34,6 +34,7 @@ export default function MobileIntroStory({ mediaReady = false }) {
         const context = gsap.context(() => {
             gsap.set('[data-mobile-story-house]', { autoAlpha: 0, y: 24 });
             gsap.set('[data-story-plant]', { autoAlpha: 0, y: 42, rotate: -2.8 });
+            gsap.set('.home-mobile-story__leaf', { y: 18, rotate: 0 });
             gsap.set('[data-story-paper]', { autoAlpha: 0, x: -34, y: 34, rotate: -24.5 });
             gsap.set('[data-story-copy]', { autoAlpha: 0, y: 16 });
             gsap.set('[data-story-title-line]', { clipPath: 'inset(0 100% 0 0)', y: 10 });
@@ -43,6 +44,9 @@ export default function MobileIntroStory({ mediaReady = false }) {
                 .to('[data-story-plant]', {
                     autoAlpha: 1, y: 0, rotate: 0, duration: 1.15, stagger: .16,
                 }, .05)
+                .to('.home-mobile-story__leaf', { rotate: 2, duration: .5, ease: 'sine.inOut' }, 1.36)
+                .to('.home-mobile-story__leaf', { rotate: -1, duration: .7, ease: 'sine.inOut' }, 1.86)
+                .to('.home-mobile-story__leaf', { rotate: 0, duration: .6, ease: 'sine.inOut' }, 2.56)
                 .to('[data-story-paper]', { autoAlpha: 1, x: 0, y: 0, rotate: 0, duration: .95 }, .38)
                 .to('[data-story-copy]', { autoAlpha: 1, y: 0, duration: .7, stagger: .14 }, .62)
                 .to('[data-story-title-line]', {

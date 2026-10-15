@@ -57,6 +57,8 @@ export default function HomeIntro() {
         const context = gsap.context(() => {
             gsap.set(storyRef.current, { autoAlpha: 0 });
             gsap.set('[data-story-plant]', { autoAlpha: 0, y: 42, rotate: -2.8 });
+            // Keep the leaf in its resting orientation throughout the reveal.
+            gsap.set('.home-intro__story-leaf', { y: 18, rotate: -176.95 });
             gsap.set('[data-story-paper]', { autoAlpha: 0, x: -34, y: 34, rotate: -7.5 });
             gsap.set('[data-story-copy]', { autoAlpha: 0, y: 16 });
             gsap.set('[data-story-title-line]', {
@@ -84,6 +86,15 @@ export default function HomeIntro() {
                     },
                     0
                 )
+                .to('.home-intro__story-leaf', {
+                    rotate: -174.95, duration: 0.5, ease: 'sine.inOut',
+                }, 1.31)
+                .to('.home-intro__story-leaf', {
+                    rotate: -177.95, duration: 0.7, ease: 'sine.inOut',
+                }, 1.81)
+                .to('.home-intro__story-leaf', {
+                    rotate: -176.95, duration: 0.6, ease: 'sine.inOut',
+                }, 2.51)
                 .to(
                     '[data-story-paper]',
                     {
