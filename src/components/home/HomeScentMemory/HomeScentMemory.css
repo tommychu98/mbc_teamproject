@@ -67,8 +67,10 @@
     }
     .home-scent-memory__lemon {
         /* Keep the same image size and cut line as Day's 1920px canvas. */
-        top: calc(100% - 16.145833cqw);
-        height: 48.75cqw;
+        top: calc(100% - 10.416667cqw);
+        left: -12.34375%;
+        width: 63.958333%;
+        height: 42.65625cqw;
     }
 }
 

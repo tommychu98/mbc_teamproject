@@ -69,10 +69,10 @@
 }
 
 .home-night-ritual__man {
-    left: calc(627 * var(--night-unit));
-    top: calc(1445 * var(--night-unit));
-    width: calc(1312 * var(--night-unit));
-    height: calc(1199 * var(--night-unit));
+    left: calc(906 * var(--night-unit));
+    top: calc(1566 * var(--night-unit));
+    width: calc(1033 * var(--night-unit));
+    height: calc(944 * var(--night-unit));
     object-fit: cover;
     opacity: .9;
 }
@@ -143,19 +143,19 @@
 .home-night-ritual__sensorial .home-night-ritual__body p + p { margin-top: calc(30 * var(--night-unit)); }
 
 .home-night-ritual__rose {
-    left: calc(1410 * var(--night-unit));
+    left: calc(1444 * var(--night-unit));
     /* The current composition starts 1119 design pixels below this Figma frame. */
-    top: calc(251 * var(--night-unit));
-    width: calc(682.73 * var(--night-unit));
-    height: calc(555.304 * var(--night-unit));
+    top: calc(263 * var(--night-unit));
+    width: calc(600.761 * var(--night-unit));
+    height: calc(488.634 * var(--night-unit));
     display: grid;
     place-items: center;
     opacity: .5;
 }
 
 .home-night-ritual__rose img {
-    width: calc(393.818 * var(--night-unit));
-    height: calc(590.727 * var(--night-unit));
+    width: calc(346.536 * var(--night-unit));
+    height: calc(519.804 * var(--night-unit));
     object-fit: cover;
     transform: rotate(-107.77deg);
     animation: home-night-rose-sway 6.5s ease-in-out infinite;
@@ -167,19 +167,19 @@
 }
 
 .home-night-ritual__columns {
-    left: calc(-437 * var(--night-unit));
-    top: calc(1404 * var(--night-unit));
-    width: calc(1396.883 * var(--night-unit));
-    height: calc(1753.62 * var(--night-unit));
+    left: calc(-306 * var(--night-unit));
+    top: calc(1772 * var(--night-unit));
+    width: calc(950.719 * var(--night-unit));
+    height: calc(1258.944 * var(--night-unit));
     display: grid;
     place-items: center;
 }
 
 .home-night-ritual__columns img {
-    width: calc(1024 * var(--night-unit));
-    height: calc(1536 * var(--night-unit));
+    width: calc(761.98 * var(--night-unit));
+    height: calc(1142.97 * var(--night-unit));
     object-fit: cover;
-    transform: rotate(164.52deg);
+    transform: rotate(169.89deg);
     opacity: .2;
 }
 
@@ -201,10 +201,10 @@
 
 .home-night-ritual__right-leaves {
     transform-origin: 90% 8%;
-    left: calc(977 * var(--night-unit));
-    top: calc(1183 * var(--night-unit));
-    width: calc(1465.601 * var(--night-unit));
-    height: calc(1505.933 * var(--night-unit));
+    left: calc(1047 * var(--night-unit));
+    top: calc(1342 * var(--night-unit));
+    width: calc(1157.473 * var(--night-unit));
+    height: calc(1189.325 * var(--night-unit));
     display: grid;
     place-items: center;
 }
@@ -212,8 +212,8 @@
 .home-night-ritual__right-leaves img,
 .home-night-ritual__right-leaves canvas {
     grid-area: 1 / 1;
-    width: calc(1329.683 * var(--night-unit));
-    height: calc(1374.976 * var(--night-unit));
+    width: calc(1050.13 * var(--night-unit));
+    height: calc(1085.901 * var(--night-unit));
     object-fit: cover;
     transform: rotate(174.02deg) scaleY(-1);
     opacity: .9;

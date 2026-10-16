@@ -2,14 +2,14 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    height: calc(var(--film-stage-height, max(56.25vw, 100dvh)) + 100dvh);
+    height: calc(var(--film-stage-height, 100dvh) + 60dvh);
     margin-top: var(--film-day-lead, 0px);
     margin-bottom: var(--film-night-lead, 0px);
     background: #222;
     pointer-events: none;
 }
 
-/* Figma 4259:21915: extend the connection without resizing Day or Night. */
+/* Match adjoining colors without extending the empty scroll interval. */
 .home-main-film::before,
 .home-main-film::after {
     content: '';
@@ -20,20 +20,20 @@
 }
 .home-main-film::before {
     bottom: 100%;
-    height: var(--film-day-lead, 0px);
+    height: max(0px, var(--film-day-lead, 0px));
     background: #f7f6f4;
 }
 .home-main-film::after {
     top: 100%;
-    height: var(--film-night-lead, 0px);
+    height: max(0px, var(--film-night-lead, 0px));
     background: #222;
 }
 
 .home-main-film__stage {
     position: sticky;
-    top: calc((100dvh - var(--film-stage-height, max(56.25vw, 100dvh))) / 2);
+    top: 0;
     width: 100%;
-    height: var(--film-stage-height, max(56.25vw, 100dvh));
+    height: var(--film-stage-height, 100dvh);
     overflow: hidden;
 }
 
@@ -42,55 +42,30 @@
     inset: 0;
 }
 
-.home-main-film__frame::before,
+.home-main-film__frame {
+    background: #222;
+}
+
 .home-main-film__frame::after {
     content: '';
     position: absolute;
-    left: 0;
-    width: 100%;
-    z-index: 1;
+    inset: auto 0 0;
+    height: clamp(80px, 12vh, 140px);
+    z-index: 2;
     pointer-events: none;
-}
-.home-main-film__frame::before {
-    top: 0;
-    height: calc(30% * var(--film-day-fade, 1));
-    /* Slow initial reveal; broad offset feathers soften the shared horizontal onset. */
-    background:
-        radial-gradient(ellipse 85% 95% at 78% 0%,
-            rgb(247 246 244 / 0.2) 0%,
-            rgb(247 246 244 / 0.12) 38%,
-            rgb(247 246 244 / 0.04) 65%,
-            rgb(247 246 244 / 0) 100%),
-        radial-gradient(ellipse 65% 80% at 12% 8%,
-            rgb(247 246 244 / 0.12) 0%,
-            rgb(247 246 244 / 0.06) 42%,
-            rgb(247 246 244 / 0) 100%),
-        linear-gradient(to bottom,
-            #f7f6f4 0%,
-            rgb(247 246 244 / 0.995) 8%,
-            rgb(247 246 244 / 0.98) 18%,
-            rgb(247 246 244 / 0.95) 28%,
-            rgb(247 246 244 / 0.88) 40%,
-            rgb(247 246 244 / 0.75) 52%,
-            rgb(247 246 244 / 0.54) 65%,
-            rgb(247 246 244 / 0.3) 78%,
-            rgb(247 246 244 / 0.1) 90%,
-            rgb(247 246 244 / 0) 100%);
-}
-.home-main-film__frame::after {
-    bottom: 0;
-    height: calc(55% * var(--film-night-fade, 0));
-    background: linear-gradient(to top,
-        #222 0%,
-        rgb(34 34 34 / 98%) 12%,
-        rgb(34 34 34 / 85%) 30%,
-        rgb(34 34 34 / 55%) 55%,
-        rgb(34 34 34 / 20%) 80%,
-        rgb(34 34 34 / 0%) 100%);
+    background: linear-gradient(to top, #222, rgb(34 34 34 / 80%) 25%, rgb(34 34 34 / 25%) 70%, transparent);
+    opacity: var(--film-exit-edge, 0);
 }
 
-.home-main-film__frame {
-    background: #17120d;
+.home-main-film__frame::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: clamp(80px, 12vh, 140px);
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(to bottom, #f7f6f4, rgb(247 246 244 / 65%) 25%, rgb(247 246 244 / 15%) 70%, transparent);
+    opacity: var(--film-entry-edge, 1);
 }
 
 .home-main-film__video,
@@ -112,20 +87,25 @@
     pointer-events: none;
 }
 
+/* A broad feather moves through the color instead of fading the whole frame. */
 .home-main-film__reveal {
-    background: linear-gradient(to bottom,
-        #f7f6f4 0%,
-        rgb(247 246 244 / 96%) 10%,
-        rgb(247 246 244 / 78%) 23%,
-        rgb(247 246 244 / 48%) 37%,
-        rgb(247 246 244 / 18%) 54%,
-        rgb(247 246 244 / 0%) 72%);
-    opacity: var(--film-day-fade, 1);
+    background: #f7f6f4;
+    -webkit-mask-image: linear-gradient(to bottom,
+        #000 calc(var(--film-day-fade, 1) * 165% - 65%),
+        transparent calc(var(--film-day-fade, 1) * 165%));
+    mask-image: linear-gradient(to bottom,
+        #000 calc(var(--film-day-fade, 1) * 165% - 65%),
+        transparent calc(var(--film-day-fade, 1) * 165%));
 }
 
 .home-main-film__night-fade {
-    background: linear-gradient(to top, #222 0%, rgb(34 34 34 / 98%) 35%, rgb(34 34 34 / 75%) 70%, rgb(34 34 34 / 35%) 100%);
-    opacity: var(--film-night-fade, 0);
+    background: #222;
+    -webkit-mask-image: linear-gradient(to top,
+        #000 calc(var(--film-night-fade, 0) * 150% - 50%),
+        transparent calc(var(--film-night-fade, 0) * 150%));
+    mask-image: linear-gradient(to top,
+        #000 calc(var(--film-night-fade, 0) * 150% - 50%),
+        transparent calc(var(--film-night-fade, 0) * 150%));
 }
 
 @media (prefers-reduced-motion: reduce) {
