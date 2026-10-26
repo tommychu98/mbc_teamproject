@@ -3,7 +3,6 @@ import background from './assets/background.png';
 import woman from './assets/woman.png';
 import floralOverlay from './assets/floral-overlay.png';
 import leftFloral from './assets/left-floral.png';
-import rightFloral from './assets/right-floral.png';
 import foregroundLeaf from './assets/leaf-flight.png';
 import topLemon from './assets/top-lemon.png';
 import bird from './assets/bird.png';
@@ -64,7 +63,6 @@ export default function HomeDayRitual({ collectionHref = '/shop/new-season/les-r
 
                 <div className="home-day-ritual__floral-overlay"><img loading="lazy" decoding="async" fetchPriority="low" src={floralOverlay} alt="" draggable="false" /></div>
                 <div className="home-day-ritual__left-floral"><img loading="lazy" decoding="async" fetchPriority="low" src={leftFloral} alt="" draggable="false" /></div>
-                <div className="home-day-ritual__right-floral"><img loading="lazy" decoding="async" fetchPriority="low" src={rightFloral} alt="" draggable="false" /></div>
                 <div className="home-day-ritual__foreground-leaf" ref={leafRef} data-node-id="2863:8288" data-name="leaf"><img loading="lazy" decoding="async" fetchPriority="low" src={foregroundLeaf} alt="" draggable="false" /></div>
 
                 <img loading="lazy" decoding="async" fetchPriority="low" className="home-day-ritual__top-lemon" ref={lemonRef} src={topLemon} alt="" draggable="false" />

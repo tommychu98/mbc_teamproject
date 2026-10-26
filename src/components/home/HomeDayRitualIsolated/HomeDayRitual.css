@@ -62,8 +62,6 @@
 .home-day-ritual__floral-overlay img { width: 338px; height: 507px; object-fit: cover; opacity: .4; transform: rotate(-105.94deg); }
 .home-day-ritual__left-floral { position: absolute; left: -503px; top: 1276.36px; width: 1187.024px; height: 1162.577px; display: grid; place-items: center; }
 .home-day-ritual__left-floral img { width: 998.199px; height: 665.466px; object-fit: cover; opacity: .4; transform: rotate(42.02deg); }
-.home-day-ritual__right-floral { position: absolute; left: 1346px; top: 1505px; width: 848.937px; height: 1047.94px; display: grid; place-items: center; }
-.home-day-ritual__right-floral img { width: 908.776px; height: 605.851px; object-fit: cover; opacity: .6; transform: rotate(-72.68deg); }
 .home-day-ritual__foreground-leaf { position: absolute; left: -237px; top: 1482px; width: 975.332px; height: 662.845px; display: grid; place-items: center; transform-origin: 30% 85%; transform: translate3d(var(--leaf-exit-x, 0px), var(--leaf-exit-y, 0px), 0) rotate(var(--leaf-exit-rotation, 0deg)); }
 .home-day-ritual__foreground-leaf img { width: 960.453px; height: 640.302px; object-fit: cover; opacity: calc(.9 * var(--leaf-exit-opacity, 1)); transform: rotate(-1.36deg); }
 .home-day-ritual__top-lemon {
@@ -310,6 +308,4 @@
     .home-day-ritual__floral-overlay img { width: 90px; height: auto; opacity: .2; }
     .home-day-ritual__left-floral { left: -130px; top: auto; bottom: 80px; width: 250px; height: 300px; }
     .home-day-ritual__left-floral img { width: 230px; height: auto; opacity: .25; }
-    .home-day-ritual__right-floral { left: 90%; top: 600px; width: 250px; height: 300px; }
-    .home-day-ritual__right-floral img { width: 230px; height: auto; opacity: .2; }
 }
